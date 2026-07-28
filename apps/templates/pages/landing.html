@@ -5,12 +5,12 @@
 {% block body_attribute %}class="bg-light text-dark"{% endblock body_attribute %}
 
 {% block content %}
-<!-- Custom Glassmorphism & Full-Width Background Banner Styles -->
+<!-- Custom Glassmorphism & Hero Styles -->
 <style>
     .hero-full-bg {
         position: relative;
         background: url('{{ config.ASSETS_ROOT }}/images/rastrek_hero_vehicle.png') no-repeat center left / cover;
-        min-height: 84vh;
+        min-height: 82vh;
         display: flex;
         align-items: center;
     }
@@ -38,6 +38,38 @@
         transform: translateY(-3px);
         box-shadow: 0 14px 32px rgba(15, 23, 42, 0.15) !important;
     }
+    /* Rich Dark Footer Styles (Inspirado no Modelo Rastro System) */
+    .rich-footer {
+        background-color: #222222;
+        color: #e2e8f0;
+    }
+    .rich-footer h5, .rich-footer h6 {
+        color: #ffffff;
+        font-weight: 700;
+    }
+    .rich-footer a {
+        color: #cbd5e1;
+        transition: color 0.2s ease;
+    }
+    .rich-footer a:hover {
+        color: #38bdf8;
+    }
+    .social-btn-round {
+        width: 40px;
+        height: 40px;
+        background-color: #dc2626;
+        color: #ffffff;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+    .social-btn-round:hover {
+        transform: translateY(-3px);
+        background-color: #ef4444;
+        color: #ffffff;
+    }
 </style>
 
 <!-- Floating WhatsApp Button -->
@@ -50,7 +82,7 @@
     <i class="ri-whatsapp-fill fs-30 text-white"></i>
 </a>
 
-<!-- Header Navigation (Navbar Organizado) -->
+<!-- Header Navigation (Navbar Enxuto) -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 sticky-top border-bottom border-light-subtle shadow-sm z-3">
     <div class="container">
         <!-- Logo Image Compact -->
@@ -66,10 +98,9 @@
             <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0 fw-semibold text-secondary fs-15">
                 <li class="nav-item"><a class="nav-link active text-primary" href="#inicio">Início</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#planos">Planos</a></li>
-                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#aplicativo">Aplicativo</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#quemsomos">Quem Somos</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#faq">Dúvidas</a></li>
-                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#contato">Contato</a></li>
+                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#rodape">Contato</a></li>
             </ul>
 
             <!-- Header Right: Social Icons Only & Login Button -->
@@ -130,7 +161,7 @@
                     Rastreamento GPS 24h, bloqueio remoto instantâneo via app, reboque 200km e assistência completa sem consulta ao SPC/Serasa.
                 </p>
 
-                <!-- Information Badges & Feature Cards sobrepostos -->
+                <!-- Information Badges sobrepostos -->
                 <div class="row g-2 mb-4" style="max-width: 560px;">
                     <div class="col-6">
                         <div class="p-2-5 px-3 glass-badge rounded-3 d-flex align-items-center gap-2 shadow-sm">
@@ -145,11 +176,9 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="col-12">
-                            <div class="p-2-5 px-3 glass-badge rounded-3 d-flex align-items-center gap-2 shadow-sm">
-                                <i class="ri-headphone-fill text-warning fs-18"></i>
-                                <span class="fw-bold text-dark fs-14">Central 0800 24 Horas</span>
-                            </div>
+                        <div class="p-2-5 px-3 glass-badge rounded-3 d-flex align-items-center gap-2 shadow-sm">
+                            <i class="ri-headphone-fill text-warning fs-18"></i>
+                            <span class="fw-bold text-dark fs-14">Central 0800 24 Horas</span>
                         </div>
                     </div>
                     <div class="col-6">
@@ -314,7 +343,7 @@
                     <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Quero%20contratar%20o%20Plano%20Carro%20R%24%20120%20da%20Rastrek."
                        target="_blank"
                        rel="noopener noreferrer"
-                       class="btn btn-primary rounded-pill fw-bold py-2 mt-auto">
+                       class="btn btn-outline-primary rounded-pill fw-bold py-2 mt-auto">
                         <i class="ri-whatsapp-line me-1"></i> Contratar este Plano
                     </a>
                 </div>
@@ -352,102 +381,8 @@
     </div>
 </section>
 
-<!-- Seção: Aplicativo Mobile Lion Rastreamento -->
-<section id="aplicativo" class="py-5 bg-light border-top border-light-subtle">
-    <div class="container py-lg-4">
-        <div class="row align-items-center gy-5">
-            <div class="col-lg-5 text-center">
-                <img src="{{ config.ASSETS_ROOT }}/images/rastrek_app_mockup.png"
-                     alt="Rastrek Mobile App"
-                     class="img-fluid rounded-4 shadow-lg border border-light-subtle"
-                     style="max-height: 480px;">
-            </div>
-
-            <div class="col-lg-7">
-                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">Aplicativo Lion Rastreamento</span>
-                <h2 class="display-6 fw-bold text-dark mb-3">Seu Veículo sob Controle Total na Palma da Sua Mão</h2>
-                <p class="text-secondary fs-16 mb-4">
-                    Baixe gratuitamente o aplicativo oficial da Rastrek. Acompanhe a movimentação ao vivo, receba alertas em tempo real e acione o bloqueio de emergência com um único toque.
-                </p>
-
-                <!-- Download Badges for App Store & Google Play -->
-                <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
-                    <!-- Apple App Store -->
-                    <a href="https://apps.apple.com/br/app/lion-rastreamento/id6745529989"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-dark rounded-3 px-4 py-2 d-inline-flex align-items-center gap-3 shadow-sm hover-top"
-                       style="background-color: #000000; border: none;">
-                        <i class="ri-apple-fill fs-28"></i>
-                        <div class="text-start" style="line-height: 1.2;">
-                            <small class="d-block text-white-50 fs-11">Baixar na</small>
-                            <span class="fw-bold text-white fs-15">App Store</span>
-                        </div>
-                    </a>
-
-                    <!-- Google Play Store -->
-                    <a href="https://play.google.com/store/apps/details?id=br.com.rs.lionras"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-dark rounded-3 px-4 py-2 d-inline-flex align-items-center gap-3 shadow-sm hover-top"
-                       style="background-color: #000000; border: none;">
-                        <i class="ri-google-play-fill fs-28 text-warning"></i>
-                        <div class="text-start" style="line-height: 1.2;">
-                            <small class="d-block text-white-50 fs-11">Disponível no</small>
-                            <span class="fw-bold text-white fs-15">Google Play</span>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Features Grid -->
-                <div class="row g-3">
-                    <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
-                            <div class="text-primary fs-24"><i class="ri-map-pin-2-fill"></i></div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-1">Localização em Tempo Real</h6>
-                                <p class="small text-secondary mb-0">Visualização em mapa interativo com atualização contínua.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
-                            <div class="text-danger fs-24"><i class="ri-lock-2-fill"></i></div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-1">Bloqueio Instantâneo</h6>
-                                <p class="small text-secondary mb-0">Corte de combustível emergencial acionado via app.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
-                            <div class="text-warning fs-24"><i class="ri-notification-badge-fill"></i></div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-1">Alertas Push</h6>
-                                <p class="small text-secondary mb-0">Notificação de ignição ligada, excesso de velocidade e cercas.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
-                            <div class="text-success fs-24"><i class="ri-history-fill"></i></div>
-                            <div>
-                                <h6 class="fw-bold text-dark mb-1">Histórico de Trajetos</h6>
-                                <p class="small text-secondary mb-0">Relatórios completos de rotas, paradas e velocidades.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- Seção: Quem Somos, Missão, Visão e Valores -->
-<section id="quemsomos" class="py-5 bg-white border-top border-light-subtle">
+<section id="quemsomos" class="py-5 bg-light border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="row align-items-center gy-4 mb-5">
             <div class="col-lg-6">
@@ -461,7 +396,7 @@
                 </p>
             </div>
             <div class="col-lg-6">
-                <div class="card border-0 shadow-sm bg-light p-4 rounded-4 border-start border-warning border-5">
+                <div class="card border-0 shadow-sm bg-white p-4 rounded-4 border-start border-warning border-5">
                     <h5 class="fw-bold text-dark mb-3"><i class="ri-shield-user-fill text-warning me-2"></i>Por que escolher a Rastrek Paraíba?</h5>
                     <ul class="list-unstyled mb-0 d-grid gap-2 text-secondary fs-15">
                         <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Central 0800 dedicada 24 horas por dia</li>
@@ -477,7 +412,7 @@
         <!-- Missão, Visão e Valores -->
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light">
+                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white">
                     <div class="avatar-lg bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
                         <i class="ri-target-line fs-28"></i>
                     </div>
@@ -489,7 +424,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light">
+                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white">
                     <div class="avatar-lg bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
                         <i class="ri-eye-line fs-28"></i>
                     </div>
@@ -501,7 +436,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light">
+                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white">
                     <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
                         <i class="ri-heart-pulse-line fs-28"></i>
                     </div>
@@ -520,7 +455,7 @@
 </section>
 
 <!-- Seção: Perguntas Frequentes (FAQ Accordion) -->
-<section id="faq" class="py-5 bg-light border-top border-light-subtle">
+<section id="faq" class="py-5 bg-white border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="text-center max-w-700 mx-auto mb-5">
             <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase">Dúvidas Frequentes</span>
@@ -535,12 +470,12 @@
                     <!-- FAQ Item 1 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <button class="accordion-button fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Preciso passar por análise de perfil ou consulta ao SPC/Serasa?
                             </button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15 bg-white">
+                            <div class="accordion-body text-secondary fs-15 bg-light">
                                 Não! Na Rastrek a aprovação é imediata. Não realizamos análise de perfil por idade, condutor ou consulta nos órgãos de proteção ao crédito (SPC/Serasa).
                             </div>
                         </div>
@@ -549,12 +484,12 @@
                     <!-- FAQ Item 2 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Como funciona o bloqueio remoto em caso de roubo ou furto?
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15 bg-white">
+                            <div class="accordion-body text-secondary fs-15 bg-light">
                                 Em situação de emergência, você pode acionar o bloqueio instantâneo do combustível ou ignição direto pelo seu aplicativo no celular ou ligando para a nossa Central 0800 com atendimento 24h.
                             </div>
                         </div>
@@ -563,12 +498,12 @@
                     <!-- FAQ Item 3 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> O rastreador descarrega a bateria do meu carro ou moto?
                             </button>
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15 bg-white">
+                            <div class="accordion-body text-secondary fs-15 bg-light">
                                 Não. Os equipamentos da Rastrek possuem tecnologia de consumo ultrabaixo com modo de repouso automático (sleep mode) quando o veículo está desligado. Além disso, para motos, oferecemos planos com reposição de bateria nova sem custo adicional!
                             </div>
                         </div>
@@ -577,12 +512,12 @@
                     <!-- FAQ Item 4 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingFour">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Como funciona a assistência de Reboque 200km?
                             </button>
                         </h2>
                         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15 bg-white">
+                            <div class="accordion-body text-secondary fs-15 bg-light">
                                 Em caso de colisão, pane mecânica ou elétrica, basta acionar a central para solicitar o guincho com limite de até 200km de percurso em qualquer rodovia do Brasil.
                             </div>
                         </div>
@@ -591,12 +526,12 @@
                     <!-- FAQ Item 5 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingFive">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Onde é realizada a instalação do rastreador?
                             </button>
                         </h2>
                         <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15 bg-white">
+                            <div class="accordion-body text-secondary fs-15 bg-light">
                                 A instalação é rápida e pode ser agendada em nossa unidade física em Cajazeiras-PB ou através do nosso serviço de atendimento técnico móvel em toda a região.
                             </div>
                         </div>
@@ -608,104 +543,115 @@
     </div>
 </section>
 
-<!-- Seção: Canais de Atendimento & Unidade Física -->
-<section id="contato" class="py-5 bg-white border-top border-light-subtle">
-    <div class="container py-lg-4">
-        <div class="text-center max-w-700 mx-auto mb-5">
-            <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold text-uppercase">Canais Oficiais & Endereço</span>
-            <h2 class="display-6 fw-bold text-dark mt-2">Atendimento Direto Rastrek Paraíba</h2>
-            <p class="text-secondary fs-16">Fale com nossa equipe ou visite nossa unidade física em Cajazeiras.</p>
+<!-- NOVO RODAPÉ COMPLETO & ELEGANTE (Inspirado no Modelo Rastro System) -->
+<footer id="rodape" class="rich-footer pt-5 pb-4 border-top border-secondary border-opacity-25">
+    <div class="container py-lg-2">
+        <div class="row g-4 justify-content-between mb-4">
+            
+            <!-- Coluna 1: Baixe o App Lion Rastreamento -->
+            <div class="col-lg-4 col-md-6">
+                <h5 class="mb-3">Baixe o app Lion Rastreamento</h5>
+                <p class="small text-slate-300 mb-3" style="color: #cbd5e1;">
+                    Tenha o controle total do seu veículo em tempo real na palma da mão. Baixe nosso aplicativo oficial para iOS e Android.
+                </p>
+                <div class="d-flex flex-column gap-2.5" style="max-width: 180px;">
+                    <!-- App Store Button -->
+                    <a href="https://apps.apple.com/br/app/lion-rastreamento/id6745529989"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-light rounded-3 py-2 px-3 d-inline-flex align-items-center gap-2.5 shadow-sm text-dark fw-bold hover-lift"
+                       style="font-size: 13px;">
+                        <i class="ri-apple-fill fs-22"></i>
+                        <div class="text-start leading-tight">
+                            <small class="d-block text-muted text-uppercase" style="font-size: 9px; line-height: 1;">Disponível na</small>
+                            <span class="fs-13">App Store</span>
+                        </div>
+                    </a>
+
+                    <!-- Google Play Button -->
+                    <a href="https://play.google.com/store/apps/details?id=br.com.rs.lionras"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-light rounded-3 py-2 px-3 d-inline-flex align-items-center gap-2.5 shadow-sm text-dark fw-bold hover-lift"
+                       style="font-size: 13px;">
+                        <i class="ri-google-play-fill fs-22 text-warning"></i>
+                        <div class="text-start leading-tight">
+                            <small class="d-block text-muted text-uppercase" style="font-size: 9px; line-height: 1;">Disponível no</small>
+                            <span class="fs-13">Google Play</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Coluna 2: Contato & Acesso Restrito -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="mb-3">Contato & Atendimento</h5>
+                <ul class="list-unstyled d-grid gap-2 mb-0 fs-14">
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="ri-whatsapp-line text-success fs-18"></i>
+                        <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rastrek." target="_blank" rel="noopener noreferrer" class="fw-semibold">
+                            (83) 99138-6279
+                        </a>
+                    </li>
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="ri-mail-line text-info fs-18"></i>
+                        <span>contato@rastrekparaiba.com.br</span>
+                    </li>
+                    <li class="pt-2">
+                        <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-outline-light btn-sm rounded-pill px-3 py-1-5 fw-semibold d-inline-flex align-items-center gap-1">
+                            <i class="ri-user-shared-line me-1"></i> Acesso Restrito (Portal Rastrek)
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Coluna 3: Conecte-se & Onde Estamos -->
+            <div class="col-lg-4 col-md-12">
+                <div class="row g-3">
+                    <div class="col-12">
+                        <h5 class="mb-2">Conecte-se</h5>
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <a href="https://www.instagram.com/rastrekparaiba/" target="_blank" rel="noopener noreferrer" class="social-btn-round" title="Instagram Official">
+                                <i class="ri-instagram-line fs-20"></i>
+                            </a>
+                            <a href="https://api.whatsapp.com/send?phone=5583991386279" target="_blank" rel="noopener noreferrer" class="social-btn-round" style="background-color: #25d366;" title="WhatsApp Direct">
+                                <i class="ri-whatsapp-line fs-20"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-12 pt-1">
+                        <h5 class="mb-1">Onde Estamos</h5>
+                        <p class="small mb-1 text-slate-300" style="color: #cbd5e1;">
+                            <i class="ri-map-pin-line text-danger me-1"></i> Terminal rodoviário Clóvis Rolim centro (Rodoviária nova)
+                        </p>
+                        <p class="small mb-2 text-slate-300" style="color: #cbd5e1;">
+                            Cajazeiras, Paraíba, Brasil
+                        </p>
+                        <a href="https://www.google.com/maps/place/RASTREK+CAJAZEIRAS+PB+RASTREAMENTO+E+ATENDIMENTO+24+HORAS/@-6.8874271,-38.5567211,17z/data=!3m1!4b1!4m6!3m5!1s0x7a4755904b3b897:0xa6647834e5d3682c!8m2!3d-6.8874324!4d-38.5541462!16s%2Fg%2F11k517zg4s?entry=ttu&g_ep=EgoyMDI2MDcyNy4wIKXMDSoASAFQAw%3D%3D"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="text-info small fw-bold text-decoration-underline d-inline-flex align-items-center gap-1">
+                            <i class="ri-external-link-line"></i> Ver no Google Maps
+                        </a>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <div class="row g-4 justify-content-center">
-            <!-- WhatsApp Direct Card -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-success border-4">
-                    <div class="mx-auto mb-3 bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px; background-color: #25d366 !important;">
-                        <i class="ri-whatsapp-fill fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-1">WhatsApp Oficial</h5>
-                    <p class="text-secondary small mb-2">Cotação rápida e suporte.</p>
-                    <h5 class="fw-bold text-success mb-3">(83) 99138-6279</h5>
-                    <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rastrek%20Para%C3%ADba."
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-success rounded-pill fw-bold py-2 px-3 shadow-sm w-100 mt-auto"
-                       style="background-color: #25d366; border: none; font-size: 14px;">
-                        <i class="ri-whatsapp-line me-1"></i> Abrir WhatsApp
-                    </a>
-                </div>
-            </div>
-
-            <!-- Instagram Direct Card -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-danger border-4">
-                    <div class="mx-auto mb-3 bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
-                        <i class="ri-instagram-fill fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-1">Instagram Oficial</h5>
-                    <p class="text-secondary small mb-2">Dicas, instalações e novidades.</p>
-                    <h5 class="fw-bold text-danger mb-3">@rastrekparaiba</h5>
-                    <a href="https://www.instagram.com/rastrekparaiba/"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-outline-danger rounded-pill fw-bold py-2 px-3 w-100 mt-auto" style="font-size: 14px;">
-                        <i class="ri-instagram-line me-1"></i> Seguir Instagram
-                    </a>
-                </div>
-            </div>
-
-            <!-- Physical Address Card (Cajazeiras - PB) -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-warning border-4">
-                    <div class="mx-auto mb-3 bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
-                        <i class="ri-map-pin-2-fill fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-1">Unidade Física</h5>
-                    <p class="text-secondary small mb-2">Terminal rodoviário Clóvis Rolim centro (Rodoviária nova)</p>
-                    <h6 class="fw-bold text-dark mb-3">Cajazeiras - Paraíba</h6>
-                    <a href="https://www.google.com/maps/place/RASTREK+CAJAZEIRAS+PB+RASTREAMENTO+E+ATENDIMENTO+24+HORAS/@-6.8874271,-38.5567211,17z/data=!3m1!4b1!4m6!3m5!1s0x7a4755904b3b897:0xa6647834e5d3682c!8m2!3d-6.8874324!4d-38.5541462!16s%2Fg%2F11k517zg4s?entry=ttu&g_ep=EgoyMDI2MDcyNy4wIKXMDSoASAFQAw%3D%3D"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-outline-dark rounded-pill fw-bold py-2 px-3 w-100 mt-auto" style="font-size: 14px;">
-                        <i class="ri-map-pin-line me-1"></i> Ver no Mapa
-                    </a>
-                </div>
-            </div>
-
-            <!-- External System Login Portal Card -->
-            <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-primary border-4">
-                    <div class="mx-auto mb-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
-                        <i class="ri-user-shared-line fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark mb-1">Acesso Restrito</h5>
-                    <p class="text-secondary small mb-2">Painel de monitoramento no sistema.</p>
-                    <h5 class="fw-bold text-primary mb-3">Portal Rastrek</h5>
-                    <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-primary rounded-pill fw-bold py-2 px-3 shadow-sm w-100 mt-auto" style="font-size: 14px;">
-                        <i class="ri-external-link-line me-1"></i> Acessar Sistema
-                    </a>
-                </div>
-            </div>
+        <!-- Linha de Direitos e CNPJ -->
+        <div class="pt-3 border-top border-secondary border-opacity-30 text-center text-md-between d-md-flex align-items-center justify-content-between">
+            <p class="small mb-2 mb-md-0 text-slate-400" style="color: #94a3b8;">
+                <b>CNPJ: 47.279.670/0001-52</b> &bull; Rastrek Paraíba - Segurança e Rastreamento Veicular
+            </p>
+            <p class="small mb-0 text-slate-400" style="color: #94a3b8;">
+                &copy; <script>document.write(new Date().getFullYear())</script> <b>Rastrek Paraíba</b>. Todos os direitos reservados.
+            </p>
         </div>
-    </div>
-</section>
-
-<!-- Rodapé com CNPJ e Informações Oficiais -->
-<footer class="bg-white py-4 border-top border-light-subtle">
-    <div class="container text-center">
-        <p class="mb-1 text-dark fw-semibold fs-14">
-            <b>CNPJ: 47.279.670/0001-52</b> &bull; Rastrek Paraíba - Rastreamento Veicular & Telemetria
-        </p>
-        <p class="mb-2 text-secondary fs-13">
-            <i class="ri-map-pin-line text-danger me-1"></i> Terminal rodoviário Clóvis Rolim centro (Rodoviária nova) &bull; Cajazeiras - Paraíba
-        </p>
-        <p class="mb-0 text-muted fs-12">
-            &copy; <script>document.write(new Date().getFullYear())</script> <b>Rastrek Paraíba</b>. Todos os direitos reservados.
-        </p>
     </div>
 </footer>
 
