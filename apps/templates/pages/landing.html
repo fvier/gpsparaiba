@@ -1,0 +1,266 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Rastrek Paraíba | Rastreamento Veicular, Telemetria & Frotas{% endblock title %}
+
+{% block body_attribute %}class="bg-light"{% endblock body_attribute %}
+
+{% block content %}
+<!-- Floating WhatsApp Button -->
+<a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20rastreamento%20veicular%20da%20Rastrek."
+   target="_blank"
+   rel="noopener noreferrer"
+   class="position-fixed bottom-0 end-0 m-4 z-3 btn btn-success rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center"
+   style="width: 60px; height: 60px;"
+   title="Falar no WhatsApp">
+    <i class="ri-whatsapp-fill fs-32"></i>
+</a>
+
+<!-- Header Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 sticky-top shadow-sm">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <span class="bg-primary text-white p-2 rounded-3 d-flex align-items-center justify-content-center">
+                <i class="ri-shield-keyhole-line fs-20"></i>
+            </span>
+            <span class="fs-20 fw-bold text-white tracking-wide">RASTREK <span class="badge bg-primary fs-10 align-middle">PARAÍBA</span></span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0 fw-medium">
+                <li class="nav-item"><a class="nav-link active text-white" href="#inicio">Início</a></li>
+                <li class="nav-item"><a class="nav-link text-white-50" href="#recursos">Recursos</a></li>
+                <li class="nav-item"><a class="nav-link text-white-50" href="#frotas">Gestão de Frotas</a></li>
+                <li class="nav-item"><a class="nav-link text-white-50" href="#sobre">Sobre Nós</a></li>
+                <li class="nav-item"><a class="nav-link text-white-50" href="#contato">Contato</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <a href="https://www.instagram.com/rastrekparaiba/" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light rounded-pill px-3 py-2 btn-sm d-flex align-items-center gap-1">
+                    <i class="ri-instagram-line fs-18"></i>
+                    <span>@rastrekparaiba</span>
+                </a>
+                <a href="/auth-signin" class="btn btn-primary rounded-pill px-4 py-2 fw-semibold d-flex align-items-center gap-2">
+                    <i class="ri-user-shared-line"></i>
+                    <span>Área do Cliente</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section id="inicio" class="py-5 bg-dark text-white position-relative overflow-hidden" style="background: linear-gradient(135deg, #111827 0%, #1f2937 100%);">
+    <div class="container py-lg-5">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-7">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-primary bg-opacity-20 text-primary border border-primary border-opacity-30 mb-3">
+                    <span class="badge bg-primary rounded-pill">PB</span>
+                    <small class="fw-semibold">Rastrek Paraíba - Atuando desde 2012</small>
+                </div>
+                <h1 class="display-4 fw-bold text-white mb-3">
+                    A Maior Empresa de <span class="text-primary">Rastreamento Veicular</span> do Brasil
+                </h1>
+                <p class="lead text-white-50 mb-4 fs-18">
+                    Proteja seu carro, moto, caminhão ou frota empresarial com tecnologia de ponta, telemetria em tempo real, bloqueio remoto e suporte emergencial 24 horas por dia.
+                </p>
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                    <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20rastreamento%20veicular%20da%20Rastrek."
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-success btn-lg rounded-pill px-4 py-3 fw-bold d-flex align-items-center gap-2 shadow">
+                        <i class="ri-whatsapp-line fs-22"></i>
+                        <span>Falar no WhatsApp: (83) 99138-6279</span>
+                    </a>
+                    <a href="/auth-signin" class="btn btn-outline-light btn-lg rounded-pill px-4 py-3 fw-semibold">
+                        Acessar Painel
+                    </a>
+                </div>
+
+                <!-- Fast Specs -->
+                <div class="row mt-5 pt-3 border-top border-secondary border-opacity-25">
+                    <div class="col-4">
+                        <h3 class="fw-bold text-primary mb-0">+140k</h3>
+                        <small class="text-white-50">Veículos Monitorados</small>
+                    </div>
+                    <div class="col-4">
+                        <h3 class="fw-bold text-success mb-0">99.9%</h3>
+                        <small class="text-white-50">Disponibilidade GPS</small>
+                    </div>
+                    <div class="col-4">
+                        <h3 class="fw-bold text-warning mb-0">24/7</h3>
+                        <small class="text-white-50">Central Emergência</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5 text-center position-relative">
+                <div class="card bg-dark bg-opacity-50 border border-secondary border-opacity-25 rounded-4 shadow-lg p-4 backdrop-blur">
+                    <div class="text-start mb-3">
+                        <span class="badge bg-danger rounded-pill px-3 py-1">AO VIVO</span>
+                        <h5 class="text-white mt-2 mb-0 fw-bold"><i class="ri-radar-line text-primary me-2"></i>Telemetria em Tempo Real</h5>
+                    </div>
+                    <div class="p-3 bg-secondary bg-opacity-10 rounded-3 text-start mb-3 border border-secondary border-opacity-10">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-white fw-semibold"><i class="ri-car-line text-success me-1"></i> Veículo: Hilux SW4 - Placa QFA-8399</span>
+                            <span class="badge bg-success-subtle text-success">Online</span>
+                        </div>
+                        <div class="small text-white-50 mb-1"><i class="ri-map-pin-2-line text-danger me-1"></i> Local: João Pessoa - PB</div>
+                        <div class="small text-white-50"><i class="ri-dashboard-3-line text-info me-1"></i> Velocidade: 64 km/h | Ignição: Ligada</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Quero%20solicitar%20uma%20cota%C3%A7%C3%A3o%20de%20rastreamento."
+                           target="_blank"
+                           class="btn btn-primary py-3 fw-bold rounded-3">
+                            <i class="ri-shield-check-line me-1"></i> Solicitar Cotação Agora
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="recursos" class="py-5 bg-white">
+    <div class="container py-lg-4">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase">Recursos Exclusivos</span>
+            <h2 class="display-6 fw-bold text-dark mt-2">Tecnologia Avançada para Sua Segurança e Frota</h2>
+            <p class="text-muted fs-16">A Rastrek disponibiliza soluções completas para proprietários individuais e gestores de frotas comerciais.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-top transition">
+                    <div class="avatar-lg bg-primary bg-opacity-10 text-primary rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="ri-map-pin-user-line fs-28"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">Localização GPS 24/7</h5>
+                    <p class="text-muted fs-14 mb-0">Acompanhe a posição exata do seu veículo em tempo real pelo aplicativo no celular ou computador com atualização contínua.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-top transition">
+                    <div class="avatar-lg bg-danger bg-opacity-10 text-danger rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="ri-lock-password-line fs-28"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">Bloqueio Remoto do Veículo</h5>
+                    <p class="text-muted fs-14 mb-0">Em caso de furto ou roubo, efetue o bloqueio da ignição ou combustível com apenas um clique pelo aplicativo ou central 24h.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-top transition">
+                    <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="ri-compass-3-line fs-28"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">Cercas Virtuais</h5>
+                    <p class="text-muted fs-14 mb-0">Crie áreas de circulação permitidas. Receba alertas instantâneos no celular caso o veículo entre ou saia do perímetro definido.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-top transition">
+                    <div class="avatar-lg bg-info bg-opacity-10 text-info rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="ri-line-chart-line fs-28"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">Gestão & Telemetria de Frota</h5>
+                    <p class="text-muted fs-14 mb-0">Reduza custos com combustível e manutenção controlando odômetro, horários de uso, velocidade e tempo com motor ocioso.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-top transition">
+                    <div class="avatar-lg bg-success bg-opacity-10 text-success rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="ri-notification-3-line fs-28"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">Alertas Inteligentes</h5>
+                    <p class="text-muted fs-14 mb-0">Receba notificações de ignição ligada/desligada, excesso de velocidade, bateria desconectada e botão de pânico.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 hover-top transition">
+                    <div class="avatar-lg bg-purple bg-opacity-10 text-purple rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; background-color: rgba(147, 51, 234, 0.1); color: #9333ea;">
+                        <i class="ri-history-line fs-28"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark">Histórico de Rotas</h5>
+                    <p class="text-muted fs-14 mb-0">Acesse o histórico completo de trajetos percorridos com parada, tempo de permanência e dados de velocidade armazenados por meses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact & Social Section -->
+<section id="contato" class="py-5 bg-dark text-white position-relative">
+    <div class="container py-lg-4">
+        <div class="row align-items-center gy-4">
+            <div class="col-lg-7">
+                <span class="badge bg-success px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">Atendimento Imediato</span>
+                <h2 class="display-6 fw-bold text-white mb-3">Fale Conosco na Rastrek Paraíba</h2>
+                <p class="text-white-50 fs-16 mb-4">
+                    Ficou com dúvidas ou quer proteger seu veículo agora mesmo? Atendemos toda a Paraíba com agilidade, instalação rápida e suporte dedicado.
+                </p>
+
+                <div class="d-flex flex-column gap-3 mb-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="avatar-md bg-success bg-opacity-20 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="ri-whatsapp-fill fs-24"></i>
+                        </div>
+                        <div>
+                            <span class="text-white-50 small d-block">WhatsApp Oficial / Telefone:</span>
+                            <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Vim%20pelo%20site%20e%20gostaria%20de%20informa%C3%A7%C3%B5es."
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-white fw-bold fs-18 text-decoration-none hover-underline">
+                                (83) 99138-6279
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="avatar-md bg-danger bg-opacity-20 text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="ri-instagram-fill fs-24"></i>
+                        </div>
+                        <div>
+                            <span class="text-white-50 small d-block">Siga-nos no Instagram:</span>
+                            <a href="https://www.instagram.com/rastrekparaiba/"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="text-white fw-bold fs-18 text-decoration-none hover-underline">
+                                @rastrekparaiba
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="card bg-white text-dark rounded-4 p-4 shadow-lg border-0">
+                    <h4 class="fw-bold mb-2">Já é Nosso Cliente?</h4>
+                    <p class="text-muted fs-14 mb-4">Acesse o portal administrativo para visualizar seus veículos e gerenciar sua frota.</p>
+                    <a href="/auth-signin" class="btn btn-primary btn-lg rounded-pill fw-bold w-100 py-3 d-flex align-items-center justify-content-center gap-2">
+                        <i class="ri-user-shared-line"></i>
+                        <span>Entrar na Área do Cliente</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-black text-white-50 py-4 border-top border-secondary border-opacity-25">
+    <div class="container text-center">
+        <p class="mb-0 text-white-50 fs-14">
+            &copy; <script>document.write(new Date().getFullYear())</script> <b>Rastrek Paraíba</b>. A Maior Empresa de Rastreamento Veicular do Brasil.
+        </p>
+    </div>
+</footer>
+
+{% endblock content %}
