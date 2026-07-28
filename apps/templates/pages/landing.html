@@ -18,7 +18,7 @@
 <!-- Header Navigation (Organized & Compact Logo height: 32px) -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 sticky-top border-bottom border-light-subtle shadow-sm">
     <div class="container">
-        <!-- Compact Logo Image (Height 32px for perfect header organization) -->
+        <!-- Compact Logo Image -->
         <a class="navbar-brand d-flex align-items-center py-0" href="/">
             <img src="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" alt="Rastrek Logo" style="height: 32px; width: auto;" class="rounded-2 shadow-sm">
         </a>
@@ -36,7 +36,7 @@
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#contato">Contato</a></li>
             </ul>
 
-            <!-- Header Right: Social Icons Only & Login Button -->
+            <!-- Header Right: Social Icons Only & External System Login Button -->
             <div class="d-flex align-items-center gap-2">
                 <!-- Instagram Icon Only -->
                 <a href="https://www.instagram.com/rastrekparaiba/"
@@ -58,8 +58,11 @@
                     <i class="ri-whatsapp-line fs-18"></i>
                 </a>
 
-                <!-- Login Button -->
-                <a href="/auth-signin" class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-1 ms-1" style="font-size: 14px;">
+                <!-- External System Login Button -->
+                <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-1 ms-1" style="font-size: 14px;">
                     <i class="ri-user-shared-line fs-16"></i>
                     <span>Login</span>
                 </a>
@@ -68,7 +71,7 @@
     </div>
 </nav>
 
-<!-- Hero Section with Generated Photography -->
+<!-- Hero Section -->
 <section id="inicio" class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);">
     <div class="container py-lg-4">
         <div class="row align-items-center gy-5">
@@ -93,8 +96,11 @@
                         <i class="ri-whatsapp-line fs-22"></i>
                         <span>Solicitar Cotação no WhatsApp</span>
                     </a>
-                    <a href="/auth-signin" class="btn btn-outline-primary btn-lg rounded-pill px-4 py-3 fw-semibold">
-                        Acessar Login
+                    <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-outline-primary btn-lg rounded-pill px-4 py-3 fw-semibold">
+                        Acessar Portal
                     </a>
                 </div>
 
@@ -118,7 +124,6 @@
             <!-- Hero Image with Telemetry Overlay -->
             <div class="col-lg-6 position-relative text-center">
                 <div class="position-relative d-inline-block">
-                    <!-- Photography Image -->
                     <img src="{{ config.ASSETS_ROOT }}/images/rastrek_hero_vehicle.png"
                          alt="Rastrek Vehicle Tracking"
                          class="img-fluid rounded-4 shadow-lg border border-white"
@@ -139,7 +144,7 @@
     </div>
 </section>
 
-<!-- Mobile App Section Showcase with Generated Mockup Image -->
+<!-- Mobile App Section Showcase with App Store and Google Play Download Links -->
 <section id="aplicativo" class="py-5 bg-white border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="row align-items-center gy-5">
@@ -151,12 +156,42 @@
             </div>
 
             <div class="col-lg-7">
-                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">Aplicativo Mobile & Web</span>
-                <h2 class="display-6 fw-bold text-dark mb-3">Seu Veículo na Palma da Sua Mão</h2>
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">Aplicativo Lion Rastreamento</span>
+                <h2 class="display-6 fw-bold text-dark mb-3">Baixe Nosso Aplicativo Oficial</h2>
                 <p class="text-secondary fs-16 mb-4">
-                    Com o aplicativo da Rastrek Paraíba, você tem controle total sobre seus veículos onde quer que esteja. Receba alertas em tempo real e execute ações de bloqueio emergencial instantaneamente.
+                    Com o aplicativo Lion Rastreamento, você tem o controle do seu veículo na palma da mão. Acompanhe a localização ao vivo, efetue bloqueios remotos e receba notificações instantâneas no seu smartphone Android ou iPhone.
                 </p>
 
+                <!-- Official App Store & Google Play Download Buttons -->
+                <div class="d-flex flex-wrap align-items-center gap-3 mb-4">
+                    <!-- Apple App Store -->
+                    <a href="https://apps.apple.com/br/app/lion-rastreamento/id6745529989"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-dark rounded-3 px-4 py-2 d-inline-flex align-items-center gap-3 shadow-sm hover-top"
+                       style="background-color: #000000; border: none;">
+                        <i class="ri-apple-fill fs-28"></i>
+                        <div class="text-start" style="line-height: 1.2;">
+                            <small class="d-block text-white-50 fs-11">Baixar na</small>
+                            <span class="fw-bold text-white fs-15">App Store</span>
+                        </div>
+                    </a>
+
+                    <!-- Google Play Store -->
+                    <a href="https://play.google.com/store/apps/details?id=br.com.rs.lionras"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-dark rounded-3 px-4 py-2 d-inline-flex align-items-center gap-3 shadow-sm hover-top"
+                       style="background-color: #000000; border: none;">
+                        <i class="ri-google-play-fill fs-28 text-warning"></i>
+                        <div class="text-start" style="line-height: 1.2;">
+                            <small class="d-block text-white-50 fs-11">Disponível no</small>
+                            <span class="fw-bold text-white fs-15">Google Play</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Features Grid -->
                 <div class="row g-3">
                     <div class="col-sm-6">
                         <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
@@ -293,17 +328,20 @@
                 </div>
             </div>
 
-            <!-- Login Portal Card -->
+            <!-- External System Login Portal Card -->
             <div class="col-md-6 col-lg-4">
                 <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-primary border-4">
                     <div class="mx-auto mb-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
                         <i class="ri-user-shared-line fs-30"></i>
                     </div>
                     <h5 class="fw-bold text-dark mb-1">Acesso Restrito</h5>
-                    <p class="text-secondary small mb-3">Acesse o painel de monitoramento.</p>
+                    <p class="text-secondary small mb-3">Acesse o painel de monitoramento no sistema.</p>
                     <h4 class="fw-bold text-primary mb-3">Portal Rastrek</h4>
-                    <a href="/auth-signin" class="btn btn-primary rounded-pill fw-bold py-2 px-4 shadow-sm w-100">
-                        <i class="ri-login-box-line me-1"></i> Login
+                    <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-primary rounded-pill fw-bold py-2 px-4 shadow-sm w-100">
+                        <i class="ri-external-link-line me-1"></i> Acessar Sistema
                     </a>
                 </div>
             </div>
@@ -311,10 +349,13 @@
     </div>
 </section>
 
-<!-- Footer -->
+<!-- Footer with CNPJ 47.279.670/0001-52 -->
 <footer class="bg-white py-4 border-top border-light-subtle">
     <div class="container text-center">
-        <p class="mb-0 text-secondary fs-14">
+        <p class="mb-1 text-dark fw-semibold fs-14">
+            <b>CNPJ: 47.279.670/0001-52</b> &bull; Rastrek Paraíba - Segurança e Rastreamento Veicular
+        </p>
+        <p class="mb-0 text-secondary fs-13">
             &copy; <script>document.write(new Date().getFullYear())</script> <b>Rastrek Paraíba</b>. Todos os direitos reservados.
         </p>
     </div>
