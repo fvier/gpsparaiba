@@ -1,0 +1,93 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Apex Mixed Chart{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Mixed' %}
+{% set title='Charts' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-1" id="overview">
+                    Overview
+                </h5>
+                <p class="mb-0"><span class="fw-medium">Find the JS file for the following chart
+                                        at:</span> <code> ../static/js/components/apexchart-mixed.js</code></p>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="line-column">Line &amp; Column Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="line-column-mixed"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="multiple-yaxis">Multiple Y-Axis Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="multiple-yaxis-mixed"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="line-area">Line &amp; Area Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="line-area-mixed"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="all">Line, Column &amp; Area Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="all-mixed"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#line-column">Line &amp; Column Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#multiple-yaxis">Multiple Y-Axis Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#line-area">Line &amp; Area Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#all">Line, Column &amp; Area Chart</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/js/components/apexchart-mixed.js"></script>
+{% endblock extra_javascript %}

@@ -1,0 +1,151 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Apex Bar Chart{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Bar' %}
+{% set title='Charts' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-1" id="overview">
+                    Overview
+                </h5>
+                <p class="mb-0"><span class="fw-medium">Find the JS file for the following chart
+                                        at:</span> <code> ../static/js/components/apexchart-bar.js</code></p>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="basic">
+                    Basic Bar Chart<a class="anchor-link" href="#basic">#</a>
+                </h5>
+                <div class="apex-charts" id="basic-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="grouped">
+                    Grouped Bar Chart<a class="anchor-link" href="#grouped">#</a>
+                </h5>
+                <div class="apex-charts text-white" id="grouped-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="stacked">
+                    Stacked Bar Chart<a class="anchor-link" href="#stacked">#</a>
+                </h5>
+                <div class="apex-charts" dir="ltr" id="stacked-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="full-stacked">
+                    100% Stacked Bar Chart<a class="anchor-link" href="#full-stacked">#</a>
+                </h5>
+                <div class="apex-charts" id="full-stacked-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="negative">
+                    Bar with Negative Values<a class="anchor-link" href="#negative">#</a>
+                </h5>
+                <div class="apex-charts" id="negative-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="reversed">
+                    Reversed Bar Chart<a class="anchor-link" href="#reversed">#</a>
+                </h5>
+                <div class="apex-charts" id="reversed-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="image-fill">
+                    Bar with Image Fill<a class="anchor-link" href="#image-fill">#</a>
+                </h5>
+                <div class="apex-charts" id="image-fill-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="datalables">
+                    Custom DataLabels Bar<a class="anchor-link" href="#datalables">#</a>
+                </h5>
+                <div class="apex-charts" id="datalables-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="pattern">
+                    Patterned Bar Chart<a class="anchor-link" href="#pattern">#</a>
+                </h5>
+                <div class="apex-charts" id="pattern-bar"></div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor" id="markers">
+                    Bar with Markers<a class="anchor-link" href="#pattern">#</a>
+                </h5>
+                <div class="apex-charts" id="bar-markers"></div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#basic">Basic Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#grouped">Grouped Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#stacked">Stacked Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#full-stacked">100% Stacked Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#negative">Bar with Negative Values</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#reversed">Reversed Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#image-fill">Bar with Image Fill</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#datalables">Custom DataLabels Bar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#pattern">Patterned Bar Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#markers">Bar with Markers</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/js/components/apexchart-bar.js"></script>
+{% endblock extra_javascript %}

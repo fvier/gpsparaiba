@@ -1,0 +1,1017 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Wizard{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Wizard' %}
+{% set title='Form' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title anchor" id="basic-wizard">Horizontal Wizard<a class="anchor-link"
+                                                                                    href="#horizontal-wizard">#</a></h5>
+            </div><!-- end card-header -->
+            <div class="card-body">
+                <div class="mb-5">
+                    <form>
+                        <div id="horizontalwizard">
+                            <ul class="nav nav-pills nav-justified icon-wizard form-wizard-header bg-light p-1"
+                                role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <a aria-selected="true" class="nav-link rounded-0 py-2 active" data-bs-toggle="tab"
+                                       data-toggle="tab" href="#basictab1" role="tab">
+                                        <iconify-icon class="fs-26"
+                                                      icon="iconamoon:profile-circle-duotone"></iconify-icon>
+                                        Account
+                                    </a><!-- end nav-link -->
+                                </li><!-- end nav-item -->
+                                <li class="nav-item" role="presentation">
+                                    <a aria-selected="false" class="nav-link rounded-0 py-2" data-bs-toggle="tab"
+                                       data-toggle="tab" href="#basictab2" role="tab" tabindex="-1">
+                                        <iconify-icon class="fs-26" icon="iconamoon:profile-duotone"></iconify-icon>
+                                        Profile
+                                    </a><!-- end nav-link -->
+                                </li><!-- end nav-item -->
+                                <li class="nav-item" role="presentation">
+                                    <a aria-selected="false" class="nav-link rounded-0 py-2" data-bs-toggle="tab"
+                                       data-toggle="tab" href="#basictab3" role="tab" tabindex="-1">
+                                        <iconify-icon class="fs-26" icon="iconamoon:link-fill"></iconify-icon>
+                                        Social Links
+                                    </a><!-- end nav-link -->
+                                </li><!-- end nav-item -->
+                                <li class="nav-item" role="presentation">
+                                    <a aria-selected="false" class="nav-link rounded-0 py-2" data-bs-toggle="tab"
+                                       data-toggle="tab" href="#basictab4" role="tab" tabindex="-1">
+                                        <iconify-icon class="fs-26"
+                                                      icon="iconamoon:check-circle-1-duotone"></iconify-icon>
+                                        Finish
+                                    </a><!-- end nav-link -->
+                                </li><!-- end nav-item -->
+                            </ul>
+                            <div class="tab-content mb-0">
+                                <div class="tab-pane active show" id="basictab1" role="tabpanel">
+                                    <h4 class="fs-16 fw-semibold mb-1">Account Information</h4>
+                                    <p class="text-muted">Setup your account information</p>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicUser">User
+                                                    Name</label>
+                                                <input class="form-control" id="basicUser" placeholder="Enter User Name"
+                                                       type="text"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicEmail">Email</label>
+                                                <input class="form-control" id="basicEmail"
+                                                       placeholder="Enter your email" type="email"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicPassworda">Password</label>
+                                                <input class="form-control" id="basicPassworda"
+                                                       placeholder="Enter Password" type="text"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicConfirmPassword">Confirm
+                                                    Password</label>
+                                                <input class="form-control" id="basicConfirmPassword"
+                                                       placeholder="Confirm a Password" type="text"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                    </div> <!-- end row -->
+                                </div><!-- end tab-pane -->
+                                <div class="tab-pane" id="basictab2" role="tabpanel">
+                                    <h4 class="fs-16 fw-semibold mb-1">Profile Information</h4>
+                                    <p class="text-muted">Setup your profile information</p>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="avatar-lg mb-3">
+                                                <div class="avatar-title bg-body rounded-circle border border-3 border-dashed-light position-relative">
+                                                    <label class="position-absolute end-0 bottom-0" for="imageInput">
+                                                        <div class="avatar-xs cursor-pointer">
+                                                            <span class="avatar-title bg-light text-dark rounded-circle"><i
+                                                                    class="bx bx-camera"></i></span>
+                                                        </div>
+                                                    </label>
+                                                    <input accept="image/*" class="hidden" id="imageInput"
+                                                           onchange="previewImage(event)" type="file"/>
+                                                    <img alt="Preview Image" class="rounded-circle img-fluid"
+                                                         id="preview"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/dummy-avatar.jpg"/>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="basicFname">First
+                                                            Name</label>
+                                                        <input class="form-control" id="basicFname" placeholder="Chris"
+                                                               type="text"/>
+                                                    </div>
+                                                </div><!-- end col -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="basicLname">Last
+                                                            Name</label>
+                                                        <input class="form-control" id="basicLname" placeholder="Keller"
+                                                               type="text"/>
+                                                    </div>
+                                                </div><!-- end col -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="basicMnumber">Number</label>
+                                                        <input class="form-control" id="basicMnumber"
+                                                               placeholder="Mobile Number" type="number"/>
+                                                    </div>
+                                                </div><!-- end col -->
+                                                <div class="col-md-6">
+                                                    <div class="mb-3">
+                                                        <label class="form-label" for="basicCountry">Country</label>
+                                                        <select class="form-select" id="basicCountry">
+                                                            <option value="United States">United States
+                                                            </option>
+                                                            <option value="Canada">Canada</option>
+                                                            <option value="Australia">Australia</option>
+                                                            <option value="Germany">Germany</option>
+                                                            <option value="Bangladesh">Bangladesh
+                                                            </option>
+                                                            <option value="China">China</option>
+                                                            <option value="Argentina">Argentina</option>
+                                                            <option value="Bharat">Bharat</option>
+                                                            <option value="Afghanistan">Afghanistan
+                                                            </option>
+                                                            <option value="France">France</option>
+                                                            <option value="Brazil">Brazil</option>
+                                                            <option value="Belgium">Belgium</option>
+                                                            <option value="Colombia">Colombia</option>
+                                                            <option value="Albania">Albania</option>
+                                                        </select>
+                                                    </div>
+                                                </div><!-- end col -->
+                                            </div><!-- end row -->
+                                        </div> <!-- end col -->
+                                    </div> <!-- end row -->
+                                </div><!-- end tab-pane -->
+                                <div class="tab-pane" id="basictab3" role="tabpanel">
+                                    <h4 class="fs-16 fw-semibold mb-1">Social Media Links</h4>
+                                    <p class="text-muted">Fill your social media links</p>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicGitLink">GitHub</label>
+                                                <input class="form-control" id="basicGitLink" placeholder="GitHub Link"
+                                                       type="text"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicGoogleLink">Google</label>
+                                                <input class="form-control" id="basicGoogleLink"
+                                                       placeholder="Google Link" type="text"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicInstagramLink">Instagram</label>
+                                                <input class="form-control" id="basicInstagramLink"
+                                                       placeholder="Instagram Link" type="text"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label class="form-label" for="basicSkypeLink">Skype</label>
+                                                <input class="form-control" id="basicSkypeLink" placeholder="Skype Link"
+                                                       type="text"/>
+                                            </div>
+                                        </div> <!-- end col -->
+                                    </div><!-- end row -->
+                                </div><!-- end tab-pane -->
+                                <div class="tab-pane" id="basictab4" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="text-center">
+                                                <div class="avatar-md mx-auto mb-3">
+                                                    <div class="avatar-title bg-primary bg-opacity-10 text-primary rounded-circle">
+                                                        <iconify-icon class="fs-36"
+                                                                      icon="iconamoon:like-duotone"></iconify-icon>
+                                                    </div>
+                                                </div>
+                                                <h3 class="mt-0">Finished !</h3>
+                                                <p class="w-75 mb-2 mx-auto">Filled Data Successfully.
+                                                </p>
+                                                <div class="mb-3">
+                                                    <div class="form-check d-inline-block">
+                                                        <input class="form-check-input" id="customCheck1"
+                                                               type="checkbox"/>
+                                                        <label class="form-check-label" for="customCheck1">I agree with
+                                                            the Terms
+                                                            and Conditions</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> <!-- end col -->
+                                    </div> <!-- end row -->
+                                </div><!-- end tab-pane -->
+                                <div class="d-flex flex-wrap align-items-center wizard justify-content-between gap-3 mt-3">
+                                    <div class="first">
+                                        <a class="btn btn-soft-primary" href="javascript:void(0);">
+                                            First
+                                        </a>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <div class="previous">
+                                            <a class="btn btn-primary disabled" href="javascript:void(0);">
+                                                <i class="bx bx-left-arrow-alt me-2"></i>Back To
+                                                Previous
+                                            </a>
+                                        </div>
+                                        <div class="next">
+                                            <a class="btn btn-primary" href="javascript:void(0);">
+                                                Next Step<i class="ri-arrow-right-line ms-2"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="last">
+                                        <a class="btn btn-soft-primary" href="javascript:void(0);">
+                                            Finish
+                                        </a>
+                                    </div>
+                                </div>
+                            </div> <!-- tab-content -->
+                        </div> <!-- end #horizontal wizard-->
+                    </form>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <ul class="nav nav-pills bg-transparent">
+                            <li class="nav-item">
+                                <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab"
+                                   href="#horizontal-wiazrd-html">
+                                    <span class="fs-12 text-uppercase">html</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-expanded="true" class="nav-link" data-bs-toggle="tab"
+                                   href="#horizontal-wiazrd-javascript">
+                                    <span class="fs-12 text-uppercase">javascript</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="horizontal-wiazrd-html">
+                            <div class="code">
+<pre class="language-html">
+                                                    <code>
+                                                        &lt;form&gt;
+                                                        &lt;div id="horizontalwizard"&gt;
+                                                            &lt;ul class="nav nav-pills nav-justified icon-wizard form-wizard-header bg-light p-1" role="tablist"&gt;
+                                                                &lt;li class="nav-item" role="presentation"&gt;
+                                                                    &lt;a href="#basictab1" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2 active" aria-selected="true" role="tab"&gt;
+                                                                        &lt;iconify-icon icon="iconamoon:profile-circle-duotone" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                        Account
+                                                                    &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                                &lt;li class="nav-item" role="presentation"&gt;
+                                                                    &lt;a href="#basictab2" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2" aria-selected="false" role="tab" tabindex="-1"&gt;
+                                                                        &lt;iconify-icon icon="iconamoon:profile-duotone" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                        Profile
+                                                                    &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                                &lt;li class="nav-item" role="presentation"&gt;
+                                                                    &lt;a href="#basictab3" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2" aria-selected="false" tabindex="-1" role="tab"&gt;
+                                                                        &lt;iconify-icon icon="iconamoon:link-fill" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                        Social Links
+                                                                    &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                                &lt;li class="nav-item" role="presentation"&gt;
+                                                                    &lt;a href="#basictab4" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2" aria-selected="false" tabindex="-1" role="tab"&gt;
+                                                                        &lt;iconify-icon icon="iconamoon:check-circle-1-duotone" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                        Finish
+                                                                    &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                            &lt;/ul&gt;
+                
+                                                            &lt;div class="tab-content mb-0"&gt;
+                                                                &lt;div class="tab-pane active show" id="basictab1" role="tabpanel"&gt;
+                                                                    &lt;h4 class="fs-16 fw-semibold mb-1"&gt;Account Information&lt;/h4&gt;
+                                                                    &lt;p class="text-muted"&gt;Setup your account information&lt;/p&gt;
+                
+                                                                    &lt;div class="row"&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicUser" class="form-label"&gt;User Name&lt;/label&gt;
+                                                                                &lt;input id="basicUser" type="text" class="form-control" placeholder="Enter User Name"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicEmail" class="form-label"&gt;Email&lt;/label&gt;
+                                                                                &lt;input id="basicEmail" type="email" class="form-control" placeholder="Enter your email"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicPassworda" class="form-label"&gt;Password&lt;/label&gt;
+                                                                                &lt;input id="basicPassworda" type="text" class="form-control" placeholder="Enter Password"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicConfirmPassword" class="form-label"&gt;Confirm Password&lt;/label&gt;
+                                                                                &lt;input id="basicConfirmPassword" type="text" class="form-control" placeholder="Confirm a Password"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                    &lt;/div&gt; &lt;!-- end row --&gt;
+                                                                &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                &lt;div class="tab-pane" id="basictab2" role="tabpanel"&gt;
+                                                                    &lt;h4 class="fs-16 fw-semibold mb-1"&gt;Profile Information&lt;/h4&gt;
+                                                                    &lt;p class="text-muted"&gt;Setup your profile information&lt;/p&gt;
+                
+                                                                    &lt;div class="row"&gt;
+                                                                        &lt;div class="col-12"&gt;
+                                                                            &lt;div class="avatar-lg mb-3"&gt;
+                                                                                &lt;div class="avatar-title bg-body rounded-circle border border-3 border-dashed-light position-relative"&gt;
+                                                                                    &lt;label for="imageInput" class="position-absolute end-0 bottom-0"&gt;
+                                                                                        &lt;div class="avatar-xs cursor-pointer"&gt;
+                                                                                            &lt;span class="avatar-title bg-light text-dark rounded-circle"&gt;&lt;i class="bx bx-camera"&gt;&lt;/i&gt;&lt;/span&gt;
+                                                                                        &lt;/div&gt;
+                                                                                    &lt;/label&gt;
+                                                                                    &lt;input class="hidden" type="file" id="imageInput" accept="image/*" onchange="previewImage(event)"&gt;
+                
+                                                                                    &lt;img id="preview" src="/static/images/users/dummy-avatar.jpg" alt="Preview Image" class="rounded-circle img-fluid"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt;
+                
+                                                                            &lt;div class="row"&gt;
+                                                                                &lt;div class="col-md-6"&gt;
+                                                                                    &lt;div class="mb-3"&gt;
+                                                                                        &lt;label class="form-label" for="basicFname"&gt;First Name&lt;/label&gt;
+                                                                                        &lt;input type="text" id="basicFname" class="form-control" placeholder="Chris"&gt;
+                                                                                    &lt;/div&gt;
+                                                                                &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                                &lt;div class="col-md-6"&gt;
+                                                                                    &lt;div class="mb-3"&gt;
+                                                                                        &lt;label class="form-label" for="basicLname"&gt;Last Name&lt;/label&gt;
+                                                                                        &lt;input type="text" id="basicLname" class="form-control" placeholder="Keller"&gt;
+                                                                                    &lt;/div&gt;
+                                                                                &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                                &lt;div class="col-md-6"&gt;
+                                                                                    &lt;div class="mb-3"&gt;
+                                                                                        &lt;label class="form-label" for="basicMnumber"&gt;Number&lt;/label&gt;
+                                                                                        &lt;input type="number" id="basicMnumber" class="form-control" placeholder="Mobile Number"&gt;
+                                                                                    &lt;/div&gt;
+                                                                                &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                                &lt;div class="col-md-6"&gt;
+                                                                                    &lt;div class="mb-3"&gt;
+                                                                                        &lt;label class="form-label" for="basicCountry"&gt;Country&lt;/label&gt;
+                                                                                        &lt;select id="basicCountry" class="form-select"&gt;
+                                                                                            &lt;option value="United States"&gt;United States&lt;/option&gt;
+                                                                                            &lt;option value="Canada"&gt;Canada&lt;/option&gt;
+                                                                                            &lt;option value="Australia"&gt;Australia&lt;/option&gt;
+                                                                                            &lt;option value="Germany"&gt;Germany&lt;/option&gt;
+                                                                                            &lt;option value="Bangladesh"&gt;Bangladesh&lt;/option&gt;
+                                                                                            &lt;option value="China"&gt;China&lt;/option&gt;
+                                                                                            &lt;option value="Argentina"&gt;Argentina&lt;/option&gt;
+                                                                                            &lt;option value="Bharat"&gt;Bharat&lt;/option&gt;
+                                                                                            &lt;option value="Afghanistan"&gt;Afghanistan&lt;/option&gt;
+                                                                                            &lt;option value="France"&gt;France&lt;/option&gt;
+                                                                                            &lt;option value="Brazil"&gt;Brazil&lt;/option&gt;
+                                                                                            &lt;option value="Belgium"&gt;Belgium&lt;/option&gt;
+                                                                                            &lt;option value="Colombia"&gt;Colombia&lt;/option&gt;
+                                                                                            &lt;option value="Albania"&gt;Albania&lt;/option&gt;
+                                                                                        &lt;/select&gt;
+                                                                                    &lt;/div&gt;
+                                                                                &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                            &lt;/div&gt;&lt;!-- end row --&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                    &lt;/div&gt; &lt;!-- end row --&gt;
+                                                                &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                &lt;div class="tab-pane" id="basictab3" role="tabpanel"&gt;
+                                                                    &lt;h4 class="fs-16 fw-semibold mb-1"&gt;Social Media Links&lt;/h4&gt;
+                                                                    &lt;p class="text-muted"&gt;Fill your social media links&lt;/p&gt;
+                
+                                                                    &lt;div class="row"&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicGitLink" class="form-label"&gt;GitHub&lt;/label&gt;
+                                                                                &lt;input id="basicGitLink" type="text" class="form-control" placeholder="GitHub Link"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicGoogleLink" class="form-label"&gt;Google&lt;/label&gt;
+                                                                                &lt;input id="basicGoogleLink" type="text" class="form-control" placeholder="Google Link"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicInstagramLink" class="form-label"&gt;Instagram&lt;/label&gt;
+                                                                                &lt;input id="basicInstagramLink" type="text" class="form-control" placeholder="Instagram Link"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;div class="col-lg-6"&gt;
+                                                                            &lt;div class="mb-3"&gt;
+                                                                                &lt;label for="basicSkypeLink" class="form-label"&gt;Skype&lt;/label&gt;
+                                                                                &lt;input id="basicSkypeLink" type="text" class="form-control" placeholder="Skype Link"&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                    &lt;/div&gt;&lt;!-- end row --&gt;
+                                                                &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                &lt;div class="tab-pane" id="basictab4" role="tabpanel"&gt;
+                                                                    &lt;div class="row"&gt;
+                                                                        &lt;div class="col-12"&gt;
+                                                                            &lt;div class="text-center"&gt;
+                                                                                &lt;div class="avatar-md mx-auto mb-3"&gt;
+                                                                                    &lt;div class="avatar-title bg-primary bg-opacity-10 text-primary rounded-circle"&gt;&lt;iconify-icon icon="iconamoon:like-duotone" class="fs-36"&gt;&lt;/iconify-icon&gt;&lt;/div&gt;
+                                                                                &lt;/div&gt;
+                                                                                &lt;h3 class="mt-0"&gt;Finished !&lt;/h3&gt;
+                
+                                                                                &lt;p class="w-75 mb-2 mx-auto"&gt;Filled Data Successfully.&lt;/p&gt;
+                
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;div class="form-check d-inline-block"&gt;
+                                                                                        &lt;input type="checkbox" class="form-check-input" id="customCheck1"&gt;
+                                                                                        &lt;label class="form-check-label" for="customCheck1"&gt;I agree with the Terms and Conditions&lt;/label&gt;
+                                                                                    &lt;/div&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                    &lt;/div&gt; &lt;!-- end row --&gt;
+                                                                &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                &lt;div class="d-flex flex-wrap align-items-center wizard justify-content-between gap-3 mt-3"&gt;
+                                                                    &lt;div class="first"&gt;
+                                                                        &lt;a href="javascript:void(0);" class="btn btn-soft-primary"&gt;
+                                                                            First
+                                                                        &lt;/a&gt;
+                                                                    &lt;/div&gt;
+                                                                    &lt;div class="d-flex gap-2"&gt;
+                                                                        &lt;div class="previous"&gt;
+                                                                            &lt;a href="javascript:void(0);" class="btn btn-primary disabled"&gt;
+                                                                                &lt;i class="bx bx-left-arrow-alt me-2"&gt;&lt;/i&gt;Back To Previous
+                                                                            &lt;/a&gt;
+                                                                        &lt;/div&gt;
+                                                                        &lt;div class="next"&gt;
+                                                                            &lt;a href="javascript:void(0);" class="btn btn-primary"&gt;
+                                                                                Next Step&lt;i class="ri-arrow-right-line ms-2"&gt;&lt;/i&gt;
+                                                                            &lt;/a&gt;
+                                                                        &lt;/div&gt;
+                                                                    &lt;/div&gt;
+                                                                    &lt;div class="last"&gt;
+                                                                        &lt;a href="javascript:void(0);" class="btn btn-soft-primary"&gt;
+                                                                            Finish
+                                                                        &lt;/a&gt;
+                                                                    &lt;/div&gt;
+                                                                &lt;/div&gt;
+                                                            &lt;/div&gt; &lt;!-- tab-content --&gt;
+                                                        &lt;/div&gt; &lt;!-- end #horizontal wizard--&gt;
+                                                    &lt;/form&gt;
+                                                    </code>
+                                                </pre>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="horizontal-wiazrd-javascript">
+                            <div class="code">
+<pre class="language-javascript">
+                                                    <code>
+                                                        new Wizard('#horizontalwizard');
+                                                    </code>
+                                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title anchor" id="basic-wizard">Vertical Wizard<a class="anchor-link"
+                                                                                  href="#vertical-wizard">#</a></h5>
+            </div><!-- end card-header -->
+            <div class="card-body">
+                <div class="mb-5">
+                    <form id="verticalwizard">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <ul class="nav nav-pills nav-justified flex-column icon-wizard form-wizard-header bg-light p-1"
+                                    role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <a aria-selected="true" class="nav-link rounded-0 py-2 active"
+                                           data-bs-toggle="tab" data-toggle="tab" href="#basictabHorizontal1"
+                                           role="tab">
+                                            <iconify-icon class="fs-26"
+                                                          icon="iconamoon:profile-circle-duotone"></iconify-icon>
+                                            Account
+                                        </a><!-- end nav-link -->
+                                    </li><!-- end nav-item -->
+                                    <li class="nav-item" role="presentation">
+                                        <a aria-selected="false" class="nav-link rounded-0 py-2" data-bs-toggle="tab"
+                                           data-toggle="tab" href="#basictabHorizontal2" role="tab" tabindex="-1">
+                                            <iconify-icon class="fs-26" icon="iconamoon:profile-duotone"></iconify-icon>
+                                            Profile
+                                        </a><!-- end nav-link -->
+                                    </li><!-- end nav-item -->
+                                    <li class="nav-item" role="presentation">
+                                        <a aria-selected="false" class="nav-link rounded-0 py-2" data-bs-toggle="tab"
+                                           data-toggle="tab" href="#basictabHorizontal3" role="tab" tabindex="-1">
+                                            <iconify-icon class="fs-26" icon="iconamoon:link-fill"></iconify-icon>
+                                            Social Links
+                                        </a><!-- end nav-link -->
+                                    </li><!-- end nav-item -->
+                                    <li class="nav-item" role="presentation">
+                                        <a aria-selected="false" class="nav-link rounded-0 py-2" data-bs-toggle="tab"
+                                           data-toggle="tab" href="#basictabHorizontal4" role="tab" tabindex="-1">
+                                            <iconify-icon class="fs-26"
+                                                          icon="iconamoon:check-circle-1-duotone"></iconify-icon>
+                                            Finish
+                                        </a><!-- end nav-link -->
+                                    </li><!-- end nav-item -->
+                                </ul>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="tab-content mb-0">
+                                    <div class="tab-pane active show" id="basictabHorizontal1" role="tabpanel">
+                                        <h4 class="fs-16 fw-semibold mb-1">Account Information</h4>
+                                        <p class="text-muted">Setup your account information</p>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="basicUser2">User
+                                                        Name</label>
+                                                    <input class="form-control" id="basicUser2"
+                                                           placeholder="Enter User Name" type="text"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="basicEmail2">Email</label>
+                                                    <input class="form-control" id="basicEmail2"
+                                                           placeholder="Enter your email" type="email"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="basicPassworda2">Password</label>
+                                                    <input class="form-control" id="basicPassworda2"
+                                                           placeholder="Enter Password" type="text"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="basicConfirmPassword2">Confirm
+                                                        Password</label>
+                                                    <input class="form-control" id="basicConfirmPassword2"
+                                                           placeholder="Confirm a Password" type="text"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div> <!-- end row -->
+                                    </div><!-- end tab-pane -->
+                                    <div class="tab-pane" id="basictabHorizontal2" role="tabpanel">
+                                        <h4 class="fs-16 fw-semibold mb-1">Profile Information</h4>
+                                        <p class="text-muted">Setup your profile information</p>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="avatar-lg mb-3">
+                                                    <div class="avatar-title bg-body rounded-circle border border-3 border-dashed-light position-relative">
+                                                        <label class="position-absolute end-0 bottom-0"
+                                                               for="imageInput">
+                                                            <div class="avatar-xs cursor-pointer">
+                                                                <span class="avatar-title bg-light text-dark rounded-circle"><i
+                                                                        class="bx bx-camera"></i></span>
+                                                            </div>
+                                                        </label>
+                                                        <input accept="image/*" class="hidden" id="imageInput"
+                                                               onchange="previewImage(event)" type="file"/>
+                                                        <img alt="Preview Image" class="rounded-circle img-fluid"
+                                                             id="preview"
+                                                             src="{{ config.ASSETS_ROOT }}/images/users/dummy-avatar.jpg"/>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="basicFname2">First
+                                                                Name</label>
+                                                            <input class="form-control" id="basicFname2"
+                                                                   placeholder="Chris" type="text"/>
+                                                        </div>
+                                                    </div><!-- end col -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="basicLname2">Last
+                                                                Name</label>
+                                                            <input class="form-control" id="basicLname2"
+                                                                   placeholder="Keller" type="text"/>
+                                                        </div>
+                                                    </div><!-- end col -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="basicMnumber2">Number</label>
+                                                            <input class="form-control" id="basicMnumber2"
+                                                                   placeholder="Mobile Number" type="number"/>
+                                                        </div>
+                                                    </div><!-- end col -->
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label class="form-label"
+                                                                   for="basicCountry2">Country</label>
+                                                            <select class="form-select" id="basicCountry2">
+                                                                <option value="United States">United
+                                                                    States
+                                                                </option>
+                                                                <option value="Canada">Canada</option>
+                                                                <option value="Australia">Australia
+                                                                </option>
+                                                                <option value="Germany">Germany</option>
+                                                                <option value="Bangladesh">Bangladesh
+                                                                </option>
+                                                                <option value="China">China</option>
+                                                                <option value="Argentina">Argentina
+                                                                </option>
+                                                                <option value="Bharat">Bharat</option>
+                                                                <option value="Afghanistan">Afghanistan
+                                                                </option>
+                                                                <option value="France">France</option>
+                                                                <option value="Brazil">Brazil</option>
+                                                                <option value="Belgium">Belgium</option>
+                                                                <option value="Colombia">Colombia
+                                                                </option>
+                                                                <option value="Albania">Albania</option>
+                                                            </select>
+                                                        </div>
+                                                    </div><!-- end col -->
+                                                </div><!-- end row -->
+                                            </div> <!-- end col -->
+                                        </div> <!-- end row -->
+                                    </div><!-- end tab-pane -->
+                                    <div class="tab-pane" id="basictabHorizontal3" role="tabpanel">
+                                        <h4 class="fs-16 fw-semibold mb-1">Social Media Links</h4>
+                                        <p class="text-muted">Fill your social media links</p>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="basicGitLink2">GitHub</label>
+                                                    <input class="form-control" id="basicGitLink2"
+                                                           placeholder="GitHub Link" type="text"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="basicGoogleLink2">Google</label>
+                                                    <input class="form-control" id="basicGoogleLink2"
+                                                           placeholder="Google Link" type="text"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label"
+                                                           for="basicInstagramLink3">Instagram</label>
+                                                    <input class="form-control" id="basicInstagramLink3"
+                                                           placeholder="Instagram Link" type="text"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                            <div class="col-lg-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="basicSkypeLink4">Skype</label>
+                                                    <input class="form-control" id="basicSkypeLink4"
+                                                           placeholder="Skype Link" type="text"/>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div><!-- end row -->
+                                    </div><!-- end tab-pane -->
+                                    <div class="tab-pane" id="basictabHorizontal4" role="tabpanel">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="text-center">
+                                                    <div class="avatar-md mx-auto mb-3">
+                                                        <div class="avatar-title bg-primary bg-opacity-10 text-primary rounded-circle">
+                                                            <iconify-icon class="fs-36"
+                                                                          icon="iconamoon:like-duotone"></iconify-icon>
+                                                        </div>
+                                                    </div>
+                                                    <h3 class="mt-0">Finished !</h3>
+                                                    <p class="w-75 mb-2 mx-auto">Filled Data
+                                                        Successfully.</p>
+                                                    <div class="mb-3">
+                                                        <div class="form-check d-inline-block">
+                                                            <input class="form-check-input" id="customCheck2"
+                                                                   type="checkbox"/>
+                                                            <label class="form-check-label" for="customCheck2">I agree
+                                                                with the
+                                                                Terms and Conditions</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> <!-- end col -->
+                                        </div> <!-- end row -->
+                                    </div><!-- end tab-pane -->
+                                    <div class="d-flex flex-wrap align-items-center wizard justify-content-between gap-3 mt-3">
+                                        <div class="first">
+                                            <a class="btn btn-soft-primary" href="javascript:void(0);">
+                                                First
+                                            </a>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <div class="previous">
+                                                <a class="btn btn-primary disabled" href="javascript:void(0);">
+                                                    <i class="bx bx-left-arrow-alt me-2"></i>Back To
+                                                    Previous
+                                                </a>
+                                            </div>
+                                            <div class="next">
+                                                <a class="btn btn-primary" href="javascript:void(0);">
+                                                    Next Step<i class="ri-arrow-right-line ms-2"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="last">
+                                            <a class="btn btn-soft-primary" href="javascript:void(0);">
+                                                Finish
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div> <!-- tab-content -->
+                            </div>
+                        </div> <!-- end #horizontalwizard-->
+                    </form>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <ul class="nav nav-pills bg-transparent">
+                            <li class="nav-item">
+                                <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab"
+                                   href="#vertical-wiazrd-html">
+                                    <span class="fs-12 text-uppercase">html</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a aria-expanded="true" class="nav-link" data-bs-toggle="tab"
+                                   href="#vertical-wiazrd-javascript">
+                                    <span class="fs-12 text-uppercase">javascript</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="vertical-wiazrd-html">
+                            <div class="code">
+<pre class="language-html">
+                                                    <code>
+                                                        &lt;form id="verticalwizard"&gt;
+                                                        &lt;div class="row"&gt;
+                                                            &lt;div class="col-lg-3"&gt;
+                                                                &lt;ul class="nav nav-pills nav-justified flex-column icon-wizard form-wizard-header bg-light p-1" role="tablist"&gt;
+                                                                    &lt;li class="nav-item" role="presentation"&gt;
+                                                                        &lt;a href="#basictabHorizontal1" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2 active" aria-selected="true" role="tab"&gt;
+                                                                            &lt;iconify-icon icon="iconamoon:profile-circle-duotone" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                            Account
+                                                                        &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                    &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                                    &lt;li class="nav-item" role="presentation"&gt;
+                                                                        &lt;a href="#basictabHorizontal2" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2" aria-selected="false" role="tab" tabindex="-1"&gt;
+                                                                            &lt;iconify-icon icon="iconamoon:profile-duotone" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                            Profile
+                                                                        &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                    &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                                    &lt;li class="nav-item" role="presentation"&gt;
+                                                                        &lt;a href="#basictabHorizontal3" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2" aria-selected="false" tabindex="-1" role="tab"&gt;
+                                                                            &lt;iconify-icon icon="iconamoon:link-fill" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                            Social Links
+                                                                        &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                    &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                                    &lt;li class="nav-item" role="presentation"&gt;
+                                                                        &lt;a href="#basictabHorizontal4" data-bs-toggle="tab" data-toggle="tab" class="nav-link rounded-0 py-2" aria-selected="false" tabindex="-1" role="tab"&gt;
+                                                                            &lt;iconify-icon icon="iconamoon:check-circle-1-duotone" class="fs-26"&gt;&lt;/iconify-icon&gt;
+                                                                            Finish
+                                                                        &lt;/a&gt;&lt;!-- end nav-link --&gt;
+                                                                    &lt;/li&gt;&lt;!-- end nav-item --&gt;
+                                                                &lt;/ul&gt;
+                                                            &lt;/div&gt;
+                
+                                                            &lt;div class="col-lg-9"&gt;
+                                                                &lt;div class="tab-content mb-0"&gt;
+                                                                    &lt;div class="tab-pane active show" id="basictabHorizontal1" role="tabpanel"&gt;
+                                                                        &lt;h4 class="fs-16 fw-semibold mb-1"&gt;Account Information&lt;/h4&gt;
+                                                                        &lt;p class="text-muted"&gt;Setup your account information&lt;/p&gt;
+                
+                                                                        &lt;div class="row"&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicUser2" class="form-label"&gt;User Name&lt;/label&gt;
+                                                                                    &lt;input id="basicUser2" type="text" class="form-control" placeholder="Enter User Name"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicEmail2" class="form-label"&gt;Email&lt;/label&gt;
+                                                                                    &lt;input id="basicEmail2" type="email" class="form-control" placeholder="Enter your email"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicPassworda2" class="form-label"&gt;Password&lt;/label&gt;
+                                                                                    &lt;input id="basicPassworda2" type="text" class="form-control" placeholder="Enter Password"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicConfirmPassword2" class="form-label"&gt;Confirm Password&lt;/label&gt;
+                                                                                    &lt;input id="basicConfirmPassword2" type="text" class="form-control" placeholder="Confirm a Password"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;/div&gt; &lt;!-- end row --&gt;
+                                                                    &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                    &lt;div class="tab-pane" id="basictabHorizontal2" role="tabpanel"&gt;
+                                                                        &lt;h4 class="fs-16 fw-semibold mb-1"&gt;Profile Information&lt;/h4&gt;
+                                                                        &lt;p class="text-muted"&gt;Setup your profile information&lt;/p&gt;
+                
+                                                                        &lt;div class="row"&gt;
+                                                                            &lt;div class="col-12"&gt;
+                                                                                &lt;div class="avatar-lg mb-3"&gt;
+                                                                                    &lt;div class="avatar-title bg-body rounded-circle border border-3 border-dashed-light position-relative"&gt;
+                                                                                        &lt;label for="imageInput" class="position-absolute end-0 bottom-0"&gt;
+                                                                                            &lt;div class="avatar-xs cursor-pointer"&gt;
+                                                                                                &lt;span class="avatar-title bg-light text-dark rounded-circle"&gt;&lt;i class="bx bx-camera"&gt;&lt;/i&gt;&lt;/span&gt;
+                                                                                            &lt;/div&gt;
+                                                                                        &lt;/label&gt;
+                                                                                        &lt;input class="hidden" type="file" id="imageInput" accept="image/*" onchange="previewImage(event)"&gt;
+                
+                                                                                        &lt;img id="preview" src="/static/images/users/dummy-avatar.jpg" alt="Preview Image" class="rounded-circle img-fluid"&gt;
+                                                                                    &lt;/div&gt;
+                                                                                &lt;/div&gt;
+                
+                                                                                &lt;div class="row"&gt;
+                                                                                    &lt;div class="col-md-6"&gt;
+                                                                                        &lt;div class="mb-3"&gt;
+                                                                                            &lt;label class="form-label" for="basicFname2"&gt;First Name&lt;/label&gt;
+                                                                                            &lt;input type="text" id="basicFname2" class="form-control" placeholder="Chris"&gt;
+                                                                                        &lt;/div&gt;
+                                                                                    &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                                    &lt;div class="col-md-6"&gt;
+                                                                                        &lt;div class="mb-3"&gt;
+                                                                                            &lt;label class="form-label" for="basicLname2"&gt;Last Name&lt;/label&gt;
+                                                                                            &lt;input type="text" id="basicLname2" class="form-control" placeholder="Keller"&gt;
+                                                                                        &lt;/div&gt;
+                                                                                    &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                                    &lt;div class="col-md-6"&gt;
+                                                                                        &lt;div class="mb-3"&gt;
+                                                                                            &lt;label class="form-label" for="basicMnumber2"&gt;Number&lt;/label&gt;
+                                                                                            &lt;input type="number" id="basicMnumber2" class="form-control" placeholder="Mobile Number"&gt;
+                                                                                        &lt;/div&gt;
+                                                                                    &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                                    &lt;div class="col-md-6"&gt;
+                                                                                        &lt;div class="mb-3"&gt;
+                                                                                            &lt;label class="form-label" for="basicCountry2"&gt;Country&lt;/label&gt;
+                                                                                            &lt;select id="basicCountry2" class="form-select"&gt;
+                                                                                                &lt;option value="United States"&gt;United States&lt;/option&gt;
+                                                                                                &lt;option value="Canada"&gt;Canada&lt;/option&gt;
+                                                                                                &lt;option value="Australia"&gt;Australia&lt;/option&gt;
+                                                                                                &lt;option value="Germany"&gt;Germany&lt;/option&gt;
+                                                                                                &lt;option value="Bangladesh"&gt;Bangladesh&lt;/option&gt;
+                                                                                                &lt;option value="China"&gt;China&lt;/option&gt;
+                                                                                                &lt;option value="Argentina"&gt;Argentina&lt;/option&gt;
+                                                                                                &lt;option value="Bharat"&gt;Bharat&lt;/option&gt;
+                                                                                                &lt;option value="Afghanistan"&gt;Afghanistan&lt;/option&gt;
+                                                                                                &lt;option value="France"&gt;France&lt;/option&gt;
+                                                                                                &lt;option value="Brazil"&gt;Brazil&lt;/option&gt;
+                                                                                                &lt;option value="Belgium"&gt;Belgium&lt;/option&gt;
+                                                                                                &lt;option value="Colombia"&gt;Colombia&lt;/option&gt;
+                                                                                                &lt;option value="Albania"&gt;Albania&lt;/option&gt;
+                                                                                            &lt;/select&gt;
+                                                                                        &lt;/div&gt;
+                                                                                    &lt;/div&gt;&lt;!-- end col --&gt;
+                                                                                &lt;/div&gt;&lt;!-- end row --&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;/div&gt; &lt;!-- end row --&gt;
+                                                                    &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                    &lt;div class="tab-pane" id="basictabHorizontal3" role="tabpanel"&gt;
+                                                                        &lt;h4 class="fs-16 fw-semibold mb-1"&gt;Social Media Links&lt;/h4&gt;
+                                                                        &lt;p class="text-muted"&gt;Fill your social media links&lt;/p&gt;
+                
+                                                                        &lt;div class="row"&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicGitLink2" class="form-label"&gt;GitHub&lt;/label&gt;
+                                                                                    &lt;input id="basicGitLink2" type="text" class="form-control" placeholder="GitHub Link"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicGoogleLink2" class="form-label"&gt;Google&lt;/label&gt;
+                                                                                    &lt;input id="basicGoogleLink2" type="text" class="form-control" placeholder="Google Link"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicInstagramLink3" class="form-label"&gt;Instagram&lt;/label&gt;
+                                                                                    &lt;input id="basicInstagramLink3" type="text" class="form-control" placeholder="Instagram Link"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                            &lt;div class="col-lg-6"&gt;
+                                                                                &lt;div class="mb-3"&gt;
+                                                                                    &lt;label for="basicSkypeLink4" class="form-label"&gt;Skype&lt;/label&gt;
+                                                                                    &lt;input id="basicSkypeLink4" type="text" class="form-control" placeholder="Skype Link"&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;/div&gt;&lt;!-- end row --&gt;
+                                                                    &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                    &lt;div class="tab-pane" id="basictabHorizontal4" role="tabpanel"&gt;
+                                                                        &lt;div class="row"&gt;
+                                                                            &lt;div class="col-12"&gt;
+                                                                                &lt;div class="text-center"&gt;
+                                                                                    &lt;div class="avatar-md mx-auto mb-3"&gt;
+                                                                                        &lt;div class="avatar-title bg-primary bg-opacity-10 text-primary rounded-circle"&gt;&lt;iconify-icon icon="iconamoon:like-duotone" class="fs-36"&gt;&lt;/iconify-icon&gt;&lt;/div&gt;
+                                                                                    &lt;/div&gt;
+                                                                                    &lt;h3 class="mt-0"&gt;Finished !&lt;/h3&gt;
+                
+                                                                                    &lt;p class="w-75 mb-2 mx-auto"&gt;Filled Data Successfully.&lt;/p&gt;
+                
+                                                                                    &lt;div class="mb-3"&gt;
+                                                                                        &lt;div class="form-check d-inline-block"&gt;
+                                                                                            &lt;input type="checkbox" class="form-check-input" id="customCheck2"&gt;
+                                                                                            &lt;label class="form-check-label" for="customCheck2"&gt;I agree with the Terms and Conditions&lt;/label&gt;
+                                                                                        &lt;/div&gt;
+                                                                                    &lt;/div&gt;
+                                                                                &lt;/div&gt;
+                                                                            &lt;/div&gt; &lt;!-- end col --&gt;
+                                                                        &lt;/div&gt; &lt;!-- end row --&gt;
+                                                                    &lt;/div&gt;&lt;!-- end tab-pane --&gt;
+                
+                                                                    &lt;div class="d-flex flex-wrap align-items-center wizard justify-content-between gap-3 mt-3"&gt;
+                                                                        &lt;div class="first"&gt;
+                                                                            &lt;a href="javascript:void(0);" class="btn btn-soft-primary"&gt;
+                                                                                First
+                                                                            &lt;/a&gt;
+                                                                        &lt;/div&gt;
+                                                                        &lt;div class="d-flex gap-2"&gt;
+                                                                            &lt;div class="previous"&gt;
+                                                                                &lt;a href="javascript:void(0);" class="btn btn-primary disabled"&gt;
+                                                                                    &lt;i class="bx bx-left-arrow-alt me-2"&gt;&lt;/i&gt;Back To Previous
+                                                                                &lt;/a&gt;
+                                                                            &lt;/div&gt;
+                                                                            &lt;div class="next"&gt;
+                                                                                &lt;a href="javascript:void(0);" class="btn btn-primary"&gt;
+                                                                                    Next Step&lt;i class="ri-arrow-right-line ms-2"&gt;&lt;/i&gt;
+                                                                                &lt;/a&gt;
+                                                                            &lt;/div&gt;
+                                                                        &lt;/div&gt;
+                                                                        &lt;div class="last"&gt;
+                                                                            &lt;a href="javascript:void(0);" class="btn btn-soft-primary"&gt;
+                                                                                Finish
+                                                                            &lt;/a&gt;
+                                                                        &lt;/div&gt;
+                                                                    &lt;/div&gt;
+                                                                &lt;/div&gt; &lt;!-- tab-content --&gt;
+                                                            &lt;/div&gt;
+                                                        &lt;/div&gt; &lt;!-- end #verticalwizard--&gt;
+                                                    &lt;/form&gt;
+                                                    </code>
+                                                </pre>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="vertical-wiazrd-javascript">
+                            <div class="code">
+<pre class="language-javascript">
+                                                    <code>
+                                                        new Wizard('#verticalwizard');
+                                                    </code>
+                                                </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div><!-- end col -->
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/js/components/form-wizard.js"></script>
+{% endblock extra_javascript %}

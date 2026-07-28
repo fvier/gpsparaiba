@@ -1,0 +1,207 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Blog Create{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Blog Create' %}
+{% set title='Blog' %}
+{% include 'partials/page-title.html' %}
+
+<!-- Start here.... -->
+<div class="row">
+    <div class="col-xl-3 col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="position-relative">
+                    <img alt="" class="img-fluid rounded bg-light" src="{{ config.ASSETS_ROOT }}/images/blog/blog.jpg"/>
+                    <span class="position-absolute top-0 end-0 p-1">
+<span class="badge bg-danger text-light fs-13">Blog</span>
+</span>
+                </div>
+                <div class="mt-3">
+                    <h4 class="lh-base">Essential Home Staging Tips: How to Showcase Your
+                        Property for Maximum Buyer Appeal</h4>
+                    <p class="mb-0">Home staging is a crucial step in the selling process that
+                        involves preparing your home to appeal to a wide range of potential
+                        buyers.</p>
+                </div>
+                <div class="d-flex align-items-center gap-1 mt-3">
+                    <div class="position-relative">
+                        <img alt="" class="avatar rounded-circle flex-shrink-0"
+                             src="{{ config.ASSETS_ROOT }}/images/users/avatar-6.jpg"/>
+                    </div>
+                    <div class="d-block ms-2 flex-grow-1">
+<span class="">
+<a class="text-dark fw-medium" href="#!">Danial D. Mitzel</a>
+</span>
+                        <p class="text-muted mb-0"><i class="ti ti-calendar-due"></i> Jun 6,
+                            2023</p>
+                    </div>
+                    <div class="ms-auto">
+<span class="">
+<button class="btn btn-soft-danger avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded-circle"
+        type="button"><iconify-icon icon="solar:heart-broken"></iconify-icon></button>
+</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-light-subtle">
+                <div class="row g-2">
+                    <div class="col-lg-6">
+                        <a class="btn btn-outline-primary w-100" href="#!">Create Blog</a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a class="btn btn-danger w-100" href="#!">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-9 col-lg-8">
+        <div class="card">
+            <!-- <div class="card-header">
+                                                    <h4 class="card-title">Add Property Photo</h4>
+                                               </div> -->
+            <div class="card-body">
+                <form action="/" class="dropzone bg-light-subtle py-5" data-plugin="dropzone"
+                      data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate"
+                      id="myAwesomeDropzone" method="post">
+                    <div class="fallback">
+                        <input multiple="multiple" name="file" type="file"/>
+                    </div>
+                    <div class="dz-message needsclick">
+                        <i class="ri-upload-cloud-2-line fs-48 text-primary"></i>
+                        <h3 class="mt-4">Drop your images here, or <span class="text-primary">click to browse</span>
+                        </h3>
+                        <span class="text-muted fs-13">
+                                                       1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed
+                                                  </span>
+                    </div>
+                </form>
+                <ul class="list-unstyled mb-0" id="dropzone-preview">
+                    <li class="mt-2" id="dropzone-preview-list">
+                        <!-- This is used as the file preview template -->
+                        <div class="border rounded">
+                            <div class="d-flex p-2">
+                                <div class="flex-shrink-0 me-3">
+                                    <div class="avatar-sm bg-light rounded">
+                                        <img alt="Dropzone-Image" class="img-fluid rounded d-block" data-dz-thumbnail=""
+                                             src="#">
+                                        </img></div>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="pt-1">
+                                        <h5 class="fs-14 mb-1" data-dz-name="">&amp;</h5>
+                                        <p class="fs-13 text-muted mb-0" data-dz-size=""></p>
+                                        <strong class="error text-danger" data-dz-errormessage=""></strong>
+                                    </div>
+                                </div>
+                                <div class="flex-shrink-0 ms-3">
+                                    <button class="btn btn-sm btn-danger" data-dz-remove="">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <!-- end dropzon-preview -->
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Blog Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="blog-title">Blog
+                                    Title</label>
+                                <input class="form-control" id="blog-title" placeholder="Name" type="text"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="form-label" for="blog-tag">Blog Tag</label>
+                        <select class="form-control" data-choices="" data-choices-removeitem=""
+                                id="choices-multiple-remove-button" multiple="" name="choices-multiple-remove-button">
+                            <option selected="" value="Blog">Blog</option>
+                            <option value="Business">Business</option>
+                            <option value="Health">Health</option>
+                            <option value="Computer Software">Computer Software</option>
+                            <option value="Lifestyle blogs">Lifestyle blogs</option>
+                            <option value="Fashion">Fashion</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-12">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="blog-detail">Add
+                                    Description</label>
+                                <textarea class="form-control" id="blog-detail" placeholder="Description"
+                                          rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Blog User Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="blog-user-name">User
+                                    Name</label>
+                                <input class="form-control" id="blog-user-name" placeholder="Name" type="text"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="create-date">Date</label>
+                                <input class="form-control flatpickr-input" id="create-date" placeholder="dd-mm-yyyy"
+                                       readonly="readonly" type="text"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-12">
+                        <form>
+                            <div class="">
+                                <label class="form-label" for="user-detail">User
+                                    Detail</label>
+                                <textarea class="form-control" id="user-detail" placeholder="Description"
+                                          rows="4"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 rounded">
+            <div class="row justify-content-end g-2">
+                <div class="col-lg-2">
+                    <a class="btn btn-outline-primary w-100" href="#!">Create Blog</a>
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-danger w-100" href="#!">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/js/pages/app-blog-create.js"></script>
+{% endblock extra_javascript %}

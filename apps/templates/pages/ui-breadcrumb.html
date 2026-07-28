@@ -1,0 +1,169 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Breadcrumb{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Breadcrumb' %}
+{% set title='UI' %}
+{% include 'partials/page-title.html' %}
+
+<!-- start breadcrumbs -->
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="default">
+                    Default Example<a class="anchor-link" href="#default">#</a>
+                </h5>
+                <p class="text-muted">
+                    Use an ordered or unordered list with linked list items to create a minimally styled
+                    breadcrumb.
+                    Use our utilities to add additional styles as desired.
+                </p>
+                <div class="mb-3">
+                    <!-- Default Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb py-0">
+                            <li aria-current="page" class="breadcrumb-item active">Home</li>
+                        </ol>
+                    </nav>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb py-0">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Library</li>
+                        </ol>
+                    </nav>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0 py-0">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Library</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code id="defaultBreadcrumb">
+                                                    &lt;!-- Default Breadcrumb --&gt;
+                                                    &lt;nav aria-label="breadcrumb"&gt;
+                                                        &lt;ol class="breadcrumb py-0"&gt;
+                                                            &lt;li class="breadcrumb-item active" aria-current="page"&gt;Home&lt;/li&gt;
+                                                        &lt;/ol&gt;
+                                                    &lt;/nav&gt;
+            
+                                                    &lt;nav aria-label="breadcrumb"&gt;
+                                                        &lt;ol class="breadcrumb py-0"&gt;
+                                                            &lt;li class="breadcrumb-item"&gt;&lt;a href="javascript:void(0);"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li class="breadcrumb-item active" aria-current="page"&gt;Library&lt;/li&gt;
+                                                        &lt;/ol&gt;
+                                                    &lt;/nav&gt;
+            
+                                                    &lt;nav aria-label="breadcrumb"&gt;
+                                                        &lt;ol class="breadcrumb mb-0 py-0"&gt;
+                                                            &lt;li class="breadcrumb-item"&gt;&lt;a href="javascript:void(0);"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li class="breadcrumb-item"&gt;&lt;a href="javascript:void(0);"&gt;Library&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li class="breadcrumb-item active" aria-current="page"&gt;Data&lt;/li&gt;
+                                                        &lt;/ol&gt;
+                                                    &lt;/nav&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="dividers_breadcrumb">
+                    Dividers Breadcrumb <a class="anchor-link" href="#dividers_breadcrumb">#</a>
+                </h5>
+                <p class="text-muted">
+                    Optionally you can also specify the icon with your breadcrumb item.
+                </p>
+                <div class="mb-3">
+                    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '&gt;';">
+                        <ol class="breadcrumb py-0">
+                            <li aria-current="page" class="breadcrumb-item active">Home</li>
+                        </ol>
+                    </nav>
+                    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '&gt;';">
+                        <ol class="breadcrumb py-0">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Library</li>
+                        </ol>
+                    </nav>
+                    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '&gt;';">
+                        <ol class="breadcrumb mb-0 py-0">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Library</a></li>
+                            <li aria-current="page" class="breadcrumb-item active">Data</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code id="dividerBreadcrumb">
+                                                    &lt;nav style="--bs-breadcrumb-divider: '&gt;';" aria-label="breadcrumb"&gt;
+                                                        &lt;ol class="breadcrumb py-0"&gt;
+                                                            &lt;li class="breadcrumb-item active" aria-current="page"&gt;Home&lt;/li&gt;
+                                                        &lt;/ol&gt;
+                                                    &lt;/nav&gt;
+
+                                                    &lt;nav style="--bs-breadcrumb-divider: '&gt;';" aria-label="breadcrumb"&gt;
+                                                        &lt;ol class="breadcrumb py-0"&gt;
+                                                            &lt;li class="breadcrumb-item"&gt;&lt;a href="javascript:void(0);"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li class="breadcrumb-item active" aria-current="page"&gt;Library&lt;/li&gt;
+                                                        &lt;/ol&gt;
+                                                    &lt;/nav&gt;
+                                                    
+                                                    &lt;nav style="--bs-breadcrumb-divider: '&gt;';" aria-label="breadcrumb"&gt;
+                                                        &lt;ol class="breadcrumb mb-0 py-0"&gt;
+                                                            &lt;li class="breadcrumb-item"&gt;&lt;a href="javascript:void(0);"&gt;Home&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li class="breadcrumb-item"&gt;&lt;a href="javascript:void(0);"&gt;Library&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li class="breadcrumb-item active" aria-current="page"&gt;Data&lt;/li&gt;
+                                                        &lt;/ol&gt;
+                                                    &lt;/nav&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end card body -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#default">Default Example</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#dividers_breadcrumb">Dividers Breadcrumb</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+<!-- end breadcrumbs -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

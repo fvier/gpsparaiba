@@ -1,0 +1,140 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Apex Pie Chart{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Pie' %}
+{% set title='Charts' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-1" id="overview">
+                    Overview
+                </h5>
+                <p>Apexcharts's CSS and Javascript files are bundled in the <code>vendors.min.css</code>
+                    and <code>vendors.js</code> and globally included in all pages.</p>
+                <p class="mb-0"><span class="fw-medium">Find the JS file for the following chart
+                                        at:</span> <code> ../static/js/components/apexchart-pie.js</code></p>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="simple_pie">Simple Pie Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="simple-pie"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="simple_donut">Simple Donut Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="simple-donut"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="monochrome">Monochrome Pie Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="monochrome-pie"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="gradient">Gradient Donut Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="gradient-donut"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="patterned">Patterned Donut Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="patterned-donut"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="image">Pie Chart with Image fill</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="image-pie"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="update">Donut Update</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="update-donut"></div>
+                </div>
+                <div class="text-center mt-2">
+                    <button class="btn btn-sm btn-primary" id="randomize">RANDOMIZE</button>
+                    <button class="btn btn-sm btn-primary" id="add">ADD</button>
+                    <button class="btn btn-sm btn-primary" id="remove">REMOVE</button>
+                    <button class="btn btn-sm btn-primary" id="reset">RESET</button>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#simple_pie">Simple Pie Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#simple_donut">Simple Donut Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#monochrome">Monochrome Pie Area</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#gradient">Gradient Donut Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#patterned">Patterned Donut Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#image">Pie Chart with Image fill</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#update">Donut Update</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/js/components/apexchart-pie.js"></script>
+{% endblock extra_javascript %}

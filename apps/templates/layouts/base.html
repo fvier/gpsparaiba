@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" {% block html_attribute %}{% endblock html_attribute %}>
+<head>
+    <!-- Title Meta -->
+    <meta charset="utf-8"/>
+    <title> {% block title %}{% endblock title %} | Lahomes - Real Estate Management Admin Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+          content="A fully responsive premium admin dashboard template, Real Estate Management Admin Template"/>
+    <meta name="author" content="Techzaa"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link rel="shortcut icon" href="{{ config.ASSETS_ROOT }}/images/favicon.ico">
+
+    {% block css %}
+
+    {% block extra_css %} {% endblock extra_css %}
+
+    {% include 'partials/head-css.html' %}
+
+    {% endblock css %}
+
+</head>
+<body {% block body_attribute %}{% endblock body_attribute %}>
+
+{% block preloader %}{% endblock %}
+
+{% block content %}{% endblock content %}
+
+{% block javascript %}
+
+{% include 'partials/vendor-scripts.html' %}
+
+{% block extra_javascript %} {% endblock extra_javascript %}
+
+{% endblock javascript %}
+
+</body>
+</html>

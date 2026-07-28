@@ -1,0 +1,271 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Apex Area Chart{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Area' %}
+{% set title='Charts' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-1" id="overview">
+                    Overview <a class="btn btn-sm btn-outline-success rounded-2 float-end"
+                                href="https://apexcharts.com/javascript-chart-demos/" target="_blank"> Official
+                    Website </a>
+                </h5>
+                <p class="text-muted mb-3">ApexCharts is loaded with powerful features to fulfill your
+                    data-visualization needs.</p>
+                <h5 class="mt-2">Usage</h5>
+                <p>Apexcharts's CSS and Javascript files are bundled in the <code>vendors.min.css</code>
+                    and <code>vendors.js</code> and globally included in all pages.</p>
+                <p class="mb-0"><span class="fw-medium">Find the JS file for the following chart
+                                        at:</span> <code> ../static/js/components/apexchart-area.js</code></p>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-3" id="basic">Basic Area Chart<a class="anchor-link" href="#basic">#</a>
+                </h5>
+                <div class="mb-3" dir="ltr">
+                    <div class="apex-charts" id="basic-area"></div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div dir="ltr" class="mb-3"&gt;
+                                                        &lt;div id="basic-area" class="apex-charts"&gt;&lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-3" id="spline">Spline Area<a class="anchor-link" href="#spline">#</a>
+                </h5>
+                <div class="mb-3" dir="ltr">
+                    <div class="apex-charts" id="spline-area"></div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div dir="ltr"&gt;
+                                                        &lt;div id="spline-area" class="apex-charts"&gt;&lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+                    <h5 class="card-title anchor" id="datetime">
+                        Area Chart - Datetime X-axis<a class="anchor-link" href="#datetime">#</a>
+                    </h5>
+                    <div class="toolbar apex-toolbar">
+                        <button class="btn btn-sm btn-soft-secondary" id="one_month">1M</button>
+                        <button class="btn btn-sm btn-soft-secondary" id="six_months">6M</button>
+                        <button class="btn btn-sm btn-soft-secondary active" id="one_year">1Y</button>
+                        <button class="btn btn-sm btn-soft-secondary" id="ytd">YTD</button>
+                        <button class="btn btn-sm btn-soft-secondary" id="all">ALL</button>
+                    </div>
+                </div>
+                <div dir="ltr">
+                    <div class="apex-charts" id="area-chart-datetime"></div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div class="mb-3"&gt;
+                                                        &lt;div class="toolbar apex-toolbar"&gt;
+                                                            &lt;button id="one_month" class="btn btn-sm btn-light"&gt;1M&lt;/button&gt;
+                                                            &lt;button id="six_months" class="btn btn-sm btn-light"&gt;6M&lt;/button&gt;
+                                                            &lt;button id="one_year" class="btn btn-sm btn-light active"&gt;1Y&lt;/button&gt;
+                                                            &lt;button id="ytd" class="btn btn-sm btn-light"&gt;YTD&lt;/button&gt;
+                                                            &lt;button id="all" class="btn btn-sm btn-light"&gt;ALL&lt;/button&gt;
+                                                        &lt;/div&gt;
+                                                        &lt;div dir="ltr"&gt;
+                                                            &lt;div id="area-chart-datetime" class="apex-charts"&gt;&lt;/div&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-3" id="negative">
+                    Area with Negative Values<a class="anchor-link" href="#negative">#</a>
+                </h5>
+                <div class="mb-3" dir="ltr">
+                    <div class="apex-charts" id="area-chart-negative"></div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div dir="ltr" class="mb-3"&gt;
+                                                        &lt;div id="area-chart-negative" class="apex-charts"&gt;&lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-3" id="github">
+                    Selection - Github Style<a class="anchor-link" href="#github">#</a>
+                </h5>
+                <div class="mb-3">
+                    <div class="apex-charts" id="area-chart-github"></div>
+                    <div class="pt-2 pb-2">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <img alt="file-image" class="avatar-xs rounded"
+                                     src="{{ config.ASSETS_ROOT }}/images/users/avatar-2.jpg"/>
+                            </div>
+                            <div class="col ps-0">
+                                <a class="text-muted fw-bold" href="javascript:void(0);">Techzaa</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="apex-charts" id="area-chart-github2"></div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div class="mb-3"&gt;
+                                                        &lt;div id="area-chart-github" class="apex-charts"&gt;&lt;/div&gt;
+                                                        &lt;div class="pt-2 pb-2"&gt;
+                                                            &lt;div class="row align-items-center"&gt;
+                                                                &lt;div class="col-auto"&gt;
+                                                                    &lt;img src="/static/images/users/avatar-2.jpg" class="avatar-xs rounded" alt="file-image"&gt;
+                                                                &lt;/div&gt;
+                                                                &lt;div class="col ps-0"&gt;
+                                                                    &lt;a href="javascript:void(0);" class="text-muted fw-bold"&gt;Techzaa&lt;/a&gt;
+                                                                &lt;/div&gt;
+                                                            &lt;/div&gt;
+                                                        &lt;/div&gt;
+                                                        &lt;div id="area-chart-github2" class="apex-charts"&gt;&lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-3" id="timeSeries">
+                    Irregular TimeSeries<a class="anchor-link" href="#timeSeries">#</a>
+                </h5>
+                <div class="mb-3" dir="ltr">
+                    <div class="apex-charts" id="area-timeSeries"></div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div dir="ltr"&gt;
+                                                        &lt;div id="area-timeSeries" class="apex-charts"&gt;&lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#basic">Basic Area Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#spline">Spline Area</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#datetime">Area Chart - Datetime X-axis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#negative">Area with Negative Values</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#github">Selection - Github Style</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#timeSeries">Irregular TimeSeries</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="https://apexcharts.com/samples/assets/stock-prices.js"></script>
+<script src="https://apexcharts.com/samples/assets/series1000.js"></script>
+<script src="https://apexcharts.com/samples/assets/github-data.js"></script>
+<script src="https://apexcharts.com/samples/assets/irregular-data-series.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/js/components/apexchart-area.js"></script>
+{% endblock extra_javascript %}

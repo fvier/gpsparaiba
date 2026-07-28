@@ -1,0 +1,854 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Cards{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Cards' %}
+{% set title='UI' %}
+{% include 'partials/page-title.html' %}
+
+<!-- start cards -->
+<div class="row">
+    <div class="col-xl-3 col-md-6">
+        <div class="card mb-3 mb-xl-0">
+            <img alt="img-1" class="card-img-top img-fluid" src="{{ config.ASSETS_ROOT }}/images/small/img-1.jpg"/>
+            <div class="card-body">
+                <h5 class="card-title mb-2">Card title</h5>
+                <p class="card-text text-muted">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content. With supporting text below as
+                    a natural lead-in to additional content.
+                </p>
+                <a class="btn btn-primary" href="javascript:void(0);">Button</a>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card mb-3">
+            <img alt="img-2" class="card-img-top img-fluid" src="{{ config.ASSETS_ROOT }}/images/small/img-2.jpg"/>
+            <div class="card-body">
+                <h5 class="card-title mb-2">Card title</h5>
+                <p class="card-text text-muted">Some quick example text to build on the card title.</p>
+            </div> <!-- end card body -->
+            <ul class="list-group list-group-flush text-muted">
+                <li class="list-group-item text-muted">Dapibus ac facilisis in</li>
+            </ul>
+            <div class="card-body">
+                <a class="card-link text-primary" href="javascript:void(0);">Card link</a>
+                <a class="card-link text-primary" href="javascript:void(0);">Another link</a>
+            </div>
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card mb-3 mb-xl-0">
+            <img alt="img-4" class="card-img-top img-fluid" src="{{ config.ASSETS_ROOT }}/images/small/img-4.jpg"/>
+            <div class="card-body">
+                <p class="card-text text-muted">
+                    Some quick example text to build on the card title and make
+                    up the bulk of the card's content. With supporting text below as
+                    a natural lead-in to additional content.
+                </p>
+                <a class="btn btn-primary" href="javascript:void(0);">Button</a>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card mb-3 mb-xl-0">
+            <div class="card-body">
+                <h5 class="card-title mb-0">Card title</h5>
+            </div>
+            <img alt="img-5" class="img-fluid" src="{{ config.ASSETS_ROOT }}/images/small/img-5.jpg"/>
+            <div class="card-body">
+                <p class="card-text text-muted">Some quick example text to build on the card title.</p>
+                <a class="card-link text-primary" href="javascript:void(0);">Card link</a>
+                <a class="card-link text-primary" href="javascript:void(0);">Another link</a>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card mb-3 mb-xl-0"&gt;
+                                    &lt;img class="card-img-top img-fluid" src="/static/images/small/img-1.jpg" alt="img-1"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                        &lt;p class="card-text text-muted"&gt;
+                                            Some quick example text to build on the card title and make
+                                            up the bulk of the card's content. With supporting text below as
+                                            a natural lead-in to additional content.
+                                        &lt;/p&gt;
+                                        &lt;a href="javascript:void(0);" class="btn btn-primary"&gt;Button&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card body --&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;
+
+                                &lt;div class="card mb-3"&gt;
+                                    &lt;img class="card-img-top img-fluid" src="/static/images/small/img-2.jpg" alt="img-2"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                        &lt;p class="card-text text-muted"&gt;Some quick example text to build on the card title.&lt;/p&gt;
+                                    &lt;/div&gt; &lt;!-- end card body --&gt;
+                                    &lt;ul class="list-group list-group-flush text-muted"&gt;
+                                        &lt;li class="list-group-item text-muted"&gt;Dapibus ac facilisis in&lt;/li&gt;
+                                    &lt;/ul&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;a href="javascript:void(0);" class="card-link text-primary"&gt;Card link&lt;/a&gt;
+                                        &lt;a href="javascript:void(0);" class="card-link text-primary"&gt;Another link&lt;/a&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;
+                                &lt;div class="card mb-3 mb-xl-0"&gt;
+                                    &lt;img class="card-img-top img-fluid" src="/static/images/small/img-4.jpg" alt="img-4"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;p class="card-text text-muted"&gt;
+                                            Some quick example text to build on the card title and make
+                                            up the bulk of the card's content. With supporting text below as
+                                            a natural lead-in to additional content.
+                                        &lt;/p&gt;
+                                        &lt;a href="javascript:void(0);" class="btn btn-primary"&gt;Button&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card body --&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;
+
+                                &lt;div class="card mb-3 mb-xl-0"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-0"&gt;Card title&lt;/h5&gt;
+                                    &lt;/div&gt;
+                                    &lt;img class="img-fluid" src="/static/images/small/img-5.jpg" alt="img-5"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;p class="card-text text-muted"&gt;Some quick example text to build on the card title.&lt;/p&gt;
+                                        &lt;a href="javascript:void(0);" class="card-link text-primary"&gt;Card link&lt;/a&gt;
+                                        &lt;a href="javascript:void(0);" class="card-link text-primary"&gt;Another link&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card body --&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;
+                            </code>
+                        </pre>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card card-body">
+            <h5 class="card-title mb-1">Special title treatment</h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a class="btn btn-primary" href="javascript: void(0);">Go somewhere</a>
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-sm-6">
+        <div class="card card-body">
+            <h5 class="card-title mb-1">Special title treatment</h5>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <a class="btn btn-primary" href="javascript: void(0);">Go somewhere</a>
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card card-body"&gt;
+                                    &lt;h5 class="card-title mb-1"&gt;Special title treatment&lt;/h5&gt;
+                                    &lt;p class="card-text"&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
+                                    &lt;a href="javascript: void(0);" class="btn btn-primary"&gt;Go somewhere&lt;/a&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+
+                                &lt;div class="card card-body"&gt;
+                                    &lt;h5 class="card-title mb-1"&gt;Special title treatment&lt;/h5&gt;
+                                    &lt;p class="card-text"&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
+                                    &lt;a href="javascript: void(0);" class="btn btn-primary"&gt;Go somewhere&lt;/a&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;                                                      
+                            </code>
+                        </pre>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Featured</div>
+            <div class="card-body">
+                <h5 class="card-title mb-1">Special title treatment</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <a class="btn btn-primary" href="javascript: void(0);">Go somewhere</a>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Quote</div>
+            <div class="card-body">
+                <blockquote>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.</p>
+                    <footer>Someone famous in <cite>Source Title</cite></footer>
+                </blockquote>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">Featured</div>
+            <div class="card-body">
+                <a class="btn btn-primary" href="javascript: void(0);">Go somewhere</a>
+            </div>
+            <div class="card-footer text-muted">2 days ago</div>
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card"&gt;
+                                    &lt;div class="card-header"&gt;Featured&lt;/div&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-1"&gt;Special title treatment&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
+                                        &lt;a href="javascript: void(0);" class="btn btn-primary"&gt;Go somewhere&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                &lt;div class="card"&gt;
+                                    &lt;div class="card-header"&gt;Quote&lt;/div&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;blockquote&gt;
+                                            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
+                                            &lt;footer&gt;Someone famous in &lt;cite&gt;Source Title&lt;/cite&gt;&lt;/footer&gt;
+                                        &lt;/blockquote&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                &lt;div class="card"&gt;
+                                    &lt;div class="card-header"&gt;Featured&lt;/div&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;a href="javascript: void(0);" class="btn btn-primary"&gt;Go somewhere&lt;/a&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class="card-footer text-muted"&gt;2 days ago&lt;/div&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;                                                          
+                            </code>
+                        </pre>
+    </div>
+</div>
+<!-- Color Card Start -->
+<div class="row">
+    <div class="col-12">
+        <h5 class="card-title mb-3">Card Colored</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card text-bg-primary">
+            <div class="card-body">
+                <h5 class="card-title text-white mb-2">Special title treatment</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                <a class="btn btn-light btn-sm" href="javascript: void(0);">Button</a>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card bg-secondary text-white">
+            <div class="card-body">
+                <blockquote>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.</p>
+                    <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                </blockquote>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card text-bg-success">
+            <div class="card-body">
+                <blockquote>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.</p>
+                    <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                </blockquote>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card text-bg-info">
+            <div class="card-body">
+                <blockquote>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.</p>
+                    <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                </blockquote>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card text-bg-warning">
+            <div class="card-body">
+                <blockquote>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.</p>
+                    <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                </blockquote>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card text-bg-danger">
+            <div class="card-body">
+                <blockquote>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a
+                        ante.</p>
+                    <footer>Someone famous in <cite title="Source Title">Source Title</cite></footer>
+                </blockquote>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card text-bg-primary"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title text-white  mb-2"&gt;Special title treatment&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&lt;/p&gt;
+                                        &lt;a href="javascript: void(0);" class="btn btn-light btn-sm"&gt;Button&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                
+                                &lt;div class="card bg-secondary text-white"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;blockquote&gt;
+                                            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
+                                            &lt;footer&gt;Someone famous in &lt;cite title="Source Title"&gt;Source Title&lt;/cite&gt;&lt;/footer&gt;
+                                        &lt;/blockquote&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                
+                                &lt;div class="card text-bg-success"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;blockquote&gt;
+                                            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
+                                            &lt;footer&gt;Someone famous in &lt;cite title="Source Title"&gt;Source Title&lt;/cite&gt;&lt;/footer&gt;
+                                        &lt;/blockquote&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                
+                                &lt;div class="card text-bg-info"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;blockquote&gt;
+                                            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
+                                            &lt;footer&gt;Someone famous in &lt;cite title="Source Title"&gt;Source Title&lt;/cite&gt;&lt;/footer&gt;
+                                        &lt;/blockquote&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                
+                                &lt;div class="card text-bg-warning"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;blockquote&gt;
+                                            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
+                                            &lt;footer&gt;Someone famous in &lt;cite title="Source Title"&gt;Source Title&lt;/cite&gt;&lt;/footer&gt;
+                                        &lt;/blockquote&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                
+                                &lt;div class="card text-bg-danger"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;blockquote&gt;
+                                            &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
+                                            &lt;footer&gt;Someone famous in &lt;cite title="Source Title"&gt;Source Title&lt;/cite&gt;&lt;/footer&gt;
+                                        &lt;/blockquote&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;                                                    
+                            </code>
+                        </pre>
+    </div>
+</div>
+<!-- Color Card End -->
+<!-- Card Border Start -->
+<div class="row">
+    <div class="col-12">
+        <h5 class="card-title mb-3">Card Bordered</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card border-primary border">
+            <div class="card-body">
+                <h5 class="card-title text-primary mb-2">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to
+                    additional content.</p>
+                <a class="btn btn-primary btn-sm" href="javascript: void(0);">Button</a>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card border-secondary border">
+            <div class="card-body">
+                <h5 class="card-title mb-2">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to
+                    additional content.</p>
+                <a class="btn btn-secondary btn-sm" href="javascript: void(0);">Button</a>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-md-4">
+        <div class="card border-success border">
+            <div class="card-body">
+                <h5 class="card-title mb-2 text-success">Special title treatment</h5>
+                <p class="card-text">With supporting text below as a natural lead-in to
+                    additional content.</p>
+                <a class="btn btn-success btn-sm" href="javascript: void(0);">Button</a>
+            </div> <!-- end card-body-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card border-primary border"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title text-primary mb-2"&gt;Special title treatment&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;With supporting text below as a natural lead-in to
+                                            additional content.&lt;/p&gt;
+                                        &lt;a href="javascript: void(0);" class="btn btn-primary btn-sm"&gt;Button&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                
+                                &lt;div class="card border-secondary border"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Special title treatment&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;With supporting text below as a natural lead-in to
+                                            additional content.&lt;/p&gt;
+                                        &lt;a href="javascript: void(0);" class="btn btn-secondary btn-sm"&gt;Button&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+                                
+                                &lt;div class="card border-success border"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2 text-success"&gt;Special title treatment&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;With supporting text below as a natural lead-in to
+                                            additional content.&lt;/p&gt;
+                                        &lt;a href="javascript: void(0);" class="btn btn-success btn-sm"&gt;Button&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;                                                 
+                            </code>
+                        </pre>
+    </div>
+</div>
+<!-- Card Border End -->
+<!-- Horizontal Card Start -->
+<div class="row">
+    <div class="col-12">
+        <h5 class="card-title mb-3">Horizontal Card</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img alt="img-1" class="img-fluid rounded-start h-100"
+                         src="{{ config.ASSETS_ROOT }}/images/small/img-1.jpg"/>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a
+                            natural lead-in to additional content. This content is a little bit longer.
+                        </p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>
+                        </p>
+                    </div> <!-- end card-body-->
+                </div> <!-- end col -->
+            </div> <!-- end row-->
+        </div> <!-- end card-->
+    </div> <!-- end col-->
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">Card title</h5>
+                        <p class="card-text">This is a wider card with supporting text below as a
+                            natural lead-in to additional content. This content is a little bit longer.
+                        </p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small>
+                        </p>
+                    </div> <!-- end card-body -->
+                </div> <!-- end col -->
+                <div class="col-md-4">
+                    <img alt="img-2" class="img-fluid rounded-end h-100"
+                         src="{{ config.ASSETS_ROOT }}/images/small/img-2.jpg"/>
+                </div> <!-- end col -->
+            </div> <!-- end row-->
+        </div> <!-- end card -->
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card"&gt;
+                                    &lt;div class="row g-0"&gt;
+                                        &lt;div class="col-md-4"&gt;
+                                            &lt;img src="/static/images/small/img-1.jpg" class="img-fluid rounded-start h-100" alt="img-1"&gt;
+                                        &lt;/div&gt;
+                                        &lt;div class="col-md-8"&gt;
+                                            &lt;div class="card-body"&gt;
+                                                &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                                &lt;p class="card-text"&gt;This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.&lt;/p&gt;
+                                                &lt;p class="card-text"&gt;&lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;&lt;/p&gt;
+                                            &lt;/div&gt; &lt;!-- end card-body--&gt;
+                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                    &lt;/div&gt; &lt;!-- end row--&gt;
+                                &lt;/div&gt; &lt;!-- end card--&gt;
+
+                                &lt;div class="card"&gt;
+                                    &lt;div class="row g-0"&gt;
+                                        &lt;div class="col-md-8"&gt;
+                                            &lt;div class="card-body"&gt;
+                                                &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                                &lt;p class="card-text"&gt;This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.&lt;/p&gt;
+                                                &lt;p class="card-text"&gt;&lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;&lt;/p&gt;
+                                            &lt;/div&gt; &lt;!-- end card-body --&gt;
+                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                        &lt;div class="col-md-4"&gt;
+                                            &lt;img src="/static/images/small/img-2.jpg" class="img-fluid rounded-end h-100" alt="img-2"&gt;
+                                        &lt;/div&gt; &lt;!-- end col --&gt;
+                                    &lt;/div&gt; &lt;!-- end row--&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;                                                          
+                            </code>
+                        </pre>
+    </div>
+</div>
+<!-- Horizontal Card End  -->
+<!-- Stretched Link Start -->
+<div class="row">
+    <div class="col-12">
+        <h5 class="card-title mb-3">Stretched link</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 col-lg-3">
+        <div class="card">
+            <img alt="img-1" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-1.jpg"/>
+            <div class="card-body">
+                <h5 class="card-title mb-2">Card with stretched link</h5>
+                <a class="btn btn-primary mt-2 stretched-link" href="javascript:void(0);">Go
+                    somewhere</a>
+            </div> <!-- end card-body -->
+        </div> <!-- end card -->
+    </div> <!-- end col-->
+    <div class="col-md-6 col-lg-3">
+        <div class="card">
+            <img alt="img-2" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-2.jpg"/>
+            <div class="card-body">
+                <h5 class="card-title mb-2"><a class="text-primary stretched-link" href="javascript:void(0);">Card with
+                    stretched link</a></h5>
+                <p class="card-text">
+                    Some quick example text to build on the card up the bulk of the card's content.
+                </p>
+            </div> <!-- end card-body -->
+        </div> <!-- end card -->
+    </div> <!-- end col-->
+    <div class="col-md-6 col-lg-3">
+        <div class="card">
+            <img alt="img-3" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-3.jpg"/>
+            <div class="card-body">
+                <h5 class="card-title mb-2">Card with stretched link</h5>
+                <a class="btn btn-primary mt-2 stretched-link" href="javascript:void(0);">Go
+                    somewhere</a>
+            </div> <!-- end card-body -->
+        </div> <!-- end card -->
+    </div> <!-- end col-->
+    <div class="col-md-6 col-lg-3">
+        <div class="card">
+            <img alt="img-4" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-4.jpg"/>
+            <div class="card-body">
+                <h5 class="card-title mb-2"><a class="stretched-link" href="javascript:void(0);">Card
+                    with stretched link</a></h5>
+                <p class="card-text">
+                    Some quick example text to build on the card up the bulk of the card's content.
+                </p>
+            </div> <!-- end card-body -->
+        </div> <!-- end card -->
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card"&gt;
+                                    &lt;img src="/static/images/small/img-1.jpg" class="card-img-top" alt="img-1"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Card with stretched link&lt;/h5&gt;
+                                        &lt;a href="javascript:void(0);" class="btn btn-primary mt-2 stretched-link"&gt;Go somewhere&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body --&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;
+                                
+                                &lt;div class="card"&gt;
+                                    &lt;img src="/static/images/small/img-2.jpg" class="card-img-top" alt="img-2"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;&lt;a href="javascript:void(0);" class="text-primary stretched-link"&gt;Card with stretched link&lt;/a&gt;&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;
+                                            Some quick example text to build on the card up the bulk of the card's content.
+                                        &lt;/p&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body --&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;
+                                
+                                &lt;div class="card"&gt;
+                                    &lt;img src="/static/images/small/img-3.jpg" class="card-img-top" alt="img-3"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Card with stretched link&lt;/h5&gt;
+                                        &lt;a href="javascript:void(0);" class="btn btn-primary mt-2 stretched-link"&gt;Go somewhere&lt;/a&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body --&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;
+                                
+                                &lt;div class="card"&gt;
+                                    &lt;img src="/static/images/small/img-4.jpg" class="card-img-top" alt="img-4"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;&lt;a href="javascript:void(0);" class="stretched-link"&gt;Card with stretched link&lt;/a&gt;&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;
+                                            Some quick example text to build on the card up the bulk of the card's content.
+                                        &lt;/p&gt;
+                                    &lt;/div&gt; &lt;!-- end card-body --&gt;
+                                &lt;/div&gt; &lt;!-- end card --&gt;                                                             
+                            </code>
+                        </pre>
+    </div>
+</div>
+<!-- Stretched Link End -->
+<!-- Card Group Start -->
+<div class="row">
+    <div class="col-12">
+        <h5 class="card-title mb-3">Card Group</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card-group mb-3">
+            <div class="card d-block">
+                <img alt="img-1" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-1.jpg"/>
+                <div class="card-body">
+                    <h5 class="card-title mb-2">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a
+                        natural lead-in to additional content. This content is a little bit
+                        longer.</p>
+                    <p class="card-text">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                </div>
+            </div>
+            <div class="card d-block">
+                <img alt="img-2" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-2.jpg"/>
+                <div class="card-body">
+                    <h5 class="card-title mb-2">Card title</h5>
+                    <p class="card-text">This card has supporting text below as a natural
+                        lead-in to additional content.</p>
+                    <p class="card-text">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                </div>
+            </div>
+            <div class="card d-block">
+                <img alt="img-3" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-3.jpg"/>
+                <div class="card-body">
+                    <h5 class="card-title mb-2">Card title</h5>
+                    <p class="card-text">This is a wider card with supporting text below as a
+                        natural lead-in to additional content. This card has even longer content
+                        than the first to show that equal height action.</p>
+                    <p class="card-text">
+                        <small class="text-muted">Last updated 3 mins ago</small>
+                    </p>
+                </div>
+            </div>
+        </div> <!-- end card-group-->
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card-group"&gt;
+                                    &lt;div class="card d-block"&gt;
+                                        &lt;img class="card-img-top" src="/static/images/small/img-1.jpg" alt="img-1"&gt;
+                                        &lt;div class="card-body"&gt;
+                                            &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                            &lt;p class="card-text"&gt;This is a wider card with supporting text below as a
+                                                natural lead-in to additional content. This content is a little bit
+                                                longer.&lt;/p&gt;
+                                            &lt;p class="card-text"&gt;
+                                                &lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class="card d-block"&gt;
+                                        &lt;img class="card-img-top" src="/static/images/small/img-2.jpg" alt="img-2"&gt;
+                                        &lt;div class="card-body"&gt;
+                                            &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                            &lt;p class="card-text"&gt;This card has supporting text below as a natural
+                                                lead-in to additional content.&lt;/p&gt;
+                                            &lt;p class="card-text"&gt;
+                                                &lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                    &lt;div class="card d-block"&gt;
+                                        &lt;img class="card-img-top" src="/static/images/small/img-3.jpg" alt="img-3"&gt;
+                                        &lt;div class="card-body"&gt;
+                                            &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                            &lt;p class="card-text"&gt;This is a wider card with supporting text below as a
+                                                natural lead-in to additional content. This card has even longer content
+                                                than the first to show that equal height action.&lt;/p&gt;
+                                            &lt;p class="card-text"&gt;
+                                                &lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;
+                                            &lt;/p&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+                                &lt;/div&gt; &lt;!-- end card-group--&gt;
+                            </code>
+                        </pre>
+    </div>
+</div>
+<!-- Card Group End -->
+<!-- Card Decks Start -->
+<div class="row">
+    <div class="col-12">
+        <h5 class="card-title mb-3">Card Decks</h5>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="row row-cols-1 row-cols-md-3 g-3">
+            <div class="col">
+                <div class="card">
+                    <img alt="img-4" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-4.jpg"/>
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as
+                            a natural lead-in to additional content. This content is a little
+                            bit longer.</p>
+                        <p class="card-text">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </p>
+                    </div><!-- end card-body -->
+                </div><!-- end card -->
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img alt="img-3" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-3.jpg"/>
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as
+                            a natural lead-in to additional content. This content is a little
+                            bit longer.</p>
+                        <p class="card-text">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </p>
+                    </div><!-- end card-body -->
+                </div><!-- end card -->
+            </div>
+            <div class="col">
+                <div class="card">
+                    <img alt="img-2" class="card-img-top" src="{{ config.ASSETS_ROOT }}/images/small/img-2.jpg"/>
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">Card title</h5>
+                        <p class="card-text">This is a longer card with supporting text below as
+                            a natural lead-in to additional content. This content is a little
+                            bit longer.</p>
+                        <p class="card-text">
+                            <small class="text-muted">Last updated 3 mins ago</small>
+                        </p>
+                    </div><!-- end card-body -->
+                </div><!-- end card -->
+            </div>
+        </div>
+    </div> <!-- end col-->
+</div> <!-- end row -->
+<div class="card highlight">
+    <div class="highlight-toolbar">
+        <small class="text-uppercase">html</small>
+        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">Copy</button>
+    </div>
+    <div class="code">
+<pre class="language-html">
+                            <code id="defaultButtons">
+                                &lt;div class="card"&gt;
+                                    &lt;img src="/static/images/small/img-4.jpg" class="card-img-top" alt="img-4"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;This is a longer card with supporting text below as
+                                            a natural lead-in to additional content. This content is a little
+                                            bit longer.&lt;/p&gt;
+                                        &lt;p class="card-text"&gt;
+                                            &lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;
+                                        &lt;/p&gt;
+                                    &lt;/div&gt;&lt;!-- end card-body --&gt;
+                                &lt;/div&gt;&lt;!-- end card --&gt;
+
+                                &lt;div class="card"&gt;
+                                    &lt;img src="/static/images/small/img-3.jpg" class="card-img-top" alt="img-3"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;This is a longer card with supporting text below as
+                                            a natural lead-in to additional content. This content is a little
+                                            bit longer.&lt;/p&gt;
+                                        &lt;p class="card-text"&gt;
+                                            &lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;
+                                        &lt;/p&gt;
+                                    &lt;/div&gt;&lt;!-- end card-body --&gt;
+                                &lt;/div&gt;&lt;!-- end card --&gt;
+
+                                &lt;div class="card"&gt;
+                                    &lt;img src="/static/images/small/img-2.jpg" class="card-img-top" alt="img-2"&gt;
+                                    &lt;div class="card-body"&gt;
+                                        &lt;h5 class="card-title mb-2"&gt;Card title&lt;/h5&gt;
+                                        &lt;p class="card-text"&gt;This is a longer card with supporting text below as
+                                            a natural lead-in to additional content. This content is a little
+                                            bit longer.&lt;/p&gt;
+                                        &lt;p class="card-text"&gt;
+                                            &lt;small class="text-muted"&gt;Last updated 3 mins ago&lt;/small&gt;
+                                        &lt;/p&gt;
+                                    &lt;/div&gt;&lt;!-- end card-body --&gt;
+                                &lt;/div&gt;&lt;!-- end card --&gt;
+                            </code>
+                        </pre>
+    </div>
+</div>
+<!-- Card Decks End -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

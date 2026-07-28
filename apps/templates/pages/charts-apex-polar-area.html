@@ -1,0 +1,67 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Apex Polar Area Charts{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Polar' %}
+{% set title='Charts' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title anchor mb-1" id="overview">
+                    Overview
+                </h5>
+                <p class="mb-0"><span class="fw-medium">Find the JS file for the following chart
+                                        at:</span> <code> ../static/js/components/apexchart-polar-area.js</code></p>
+            </div><!-- end card-body -->
+        </div><!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="basic">Basic Polar Area Chart</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="basic-polar-area"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-3 anchor" id="monochrome">Monochrome Polar Area</h4>
+                <div dir="ltr">
+                    <div class="apex-charts" id="monochrome-polar-area"></div>
+                </div>
+            </div>
+            <!-- end card body-->
+        </div>
+        <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#overview">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#basic">Basic Polar Area Chart</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#monochrome">Monochrome Polar Area</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/js/components/apexchart-polar-area.js"></script>
+{% endblock extra_javascript %}

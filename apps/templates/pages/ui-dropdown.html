@@ -1,0 +1,1047 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Dropdowns{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Dropdowns' %}
+{% set title='UI' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="single-button">
+                    Single Button Dropdowns<a class="anchor-link" href="#single-button">#</a>
+                </h5>
+                <p class="text-muted">
+                    Any single <code>.btn</code> can be turned into a dropdown toggle with some markup
+                    changes.
+                    Here's how you can put them to work with either <code>&lt;button&gt;</code>
+                    elements.
+                </p>
+                <div class="mb-3">
+                    <div class="d-flex flex-wrap gap-3">
+                        <!-- Button Dropdown -->
+                        <div class="dropdown">
+                            <button aria-expanded="false" class="btn btn-secondary dropdown-toggle"
+                                    data-bs-toggle="dropdown" id="dropdownMenuButton1" type="button">
+                                Dropdown button
+                            </button>
+                            <div aria-labelledby="dropdownMenuButton1" class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                        <!-- Link Dropdown -->
+                        <div class="dropdown">
+                            <a aria-expanded="false" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown"
+                               href="#">
+                                Dropdown link
+                            </a>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code id="slidesOnly">
+                                                    &lt;!-- Button Dropdown --&gt;
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"&gt;
+                                                            Dropdown button
+                                                        &lt;/button&gt;
+                                                        &lt;div class="dropdown-menu" aria-labelledby="dropdownMenuButton1"&gt;
+                                                            &lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;
+                                                            &lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;
+                                                            &lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;!-- Link Dropdown --&gt;
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;a href="#" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"&gt;
+                                                            Dropdown link
+                                                        &lt;/a&gt;
+
+                                                        &lt;div class="dropdown-menu"&gt;
+                                                            &lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;
+                                                            &lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;
+                                                            &lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="single-button-variant">
+                    Single Button Variant Dropdowns <a class="anchor-link" href="#single-button-variant">#</a>
+                </h5>
+                <p class="text-muted">
+                    Any single <code>.btn</code> can be turned into a dropdown toggle with some markup
+                    changes.
+                    Here's how you can put them to work with either <code>&lt;button&gt;</code>
+                    elements.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Primary
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Secondary
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-success dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Success
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-info dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Info
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code id="singleButtonDropdowns">
+                                                    &lt;!-- Single Button Dropdown --&gt;
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Primary
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                    
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Secondary
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Success
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Info
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="split-button">
+                    Split Button Dropdowns <a class="anchor-link" href="#split-button">#</a>
+                </h5>
+                <p class="text-muted">
+                    Similarly, create split button dropdowns with virtually the same markup as single
+                    button dropdowns,
+                    but with the addition of <code>.dropdown-toggle-split</code> for proper spacing
+                    around the dropdown caret.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div class="btn-group">
+                        <button class="btn btn-primary" type="button">Primary</button>
+                        <button aria-expanded="false" class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+                                data-bs-toggle="dropdown" type="button"></button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" type="button">Secondary</button>
+                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                data-bs-toggle="dropdown" type="button"></button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" type="button">Success</button>
+                        <button aria-expanded="false" class="btn btn-success dropdown-toggle dropdown-toggle-split"
+                                data-bs-toggle="dropdown" type="button"></button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-info" type="button">Info</button>
+                        <button aria-expanded="false" class="btn btn-info dropdown-toggle dropdown-toggle-split"
+                                data-bs-toggle="dropdown" type="button"></button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code id="splitButtonDropdowns">
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button type="button" class="btn btn-primary"&gt;Primary&lt;/button&gt;
+                                                        &lt;button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"&gt;&lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                    
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button type="button" class="btn btn-secondary"&gt;Secondary&lt;/button&gt;
+                                                        &lt;button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"&gt;&lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                    
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button type="button" class="btn btn-success"&gt;Success&lt;/button&gt;
+                                                        &lt;button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"&gt;&lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                    
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button type="button" class="btn btn-info"&gt;Info&lt;/button&gt;
+                                                        &lt;button type="button" class="btn btn-info dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false"&gt;&lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="dark-dropdown">
+                    Dark Dropdowns <a class="anchor-link" href="#dark-dropdown">#</a>
+                </h5>
+                <p class="text-muted">Opt into darker dropdowns to match a dark navbar or custom style
+                    by adding <code>.dropdown-menu-dark</code> onto an existing
+                    <code>.dropdown-menu</code>. No changes are required to the dropdown items.</p>
+                <div class="mb-3">
+                    <div class="dropdown">
+                        <button aria-expanded="false" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                type="button">Dark Dropdown
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code id="splitButtonDropdowns">
+                                                    &lt;!-- Dark Dropdown --&gt;
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"&gt;Dark Dropdown&lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu dropdown-menu-dark"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;hr class="dropdown-divider"&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="direction">
+                    Dropdown Direction <a class="anchor-link" href="#direction">#</a>
+                </h5>
+                <p class="text-muted">
+                    Trigger dropdown menus above elements by adding <code>.dropup</code>, dropdown menus
+                    at the left of the
+                    elements by adding <code>.dropstart</code> or dropdown menus at the right of the
+                    elements by adding
+                    <code>.dropend</code>.
+                </p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div class="btn-group">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Drop Down
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group dropup">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Drop Up
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group dropend">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-success dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Drop Right
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="btn-group dropstart">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-info dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Drop Left
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Something else
+                                here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Separated link</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;!-- Dropdown Direction --&gt;
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Drop Down
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                    
+                                                    &lt;div class="btn-group dropup"&gt;
+                                                        &lt;button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Drop Up
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                    
+                                                    &lt;div class="btn-group dropend"&gt;
+                                                        &lt;button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Drop Right
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="btn-group dropstart"&gt;
+                                                        &lt;button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Drop Left
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="menu-items">
+                    Dropdown Menu Items <a class="anchor-link" href="#menu-items">#</a>
+                </h5>
+                <p class="text-muted">Add <code>.active</code> to items in the dropdown to <strong>style
+                    them as active</strong>. To convey the active state to assistive technologies,
+                    use the <code>aria-current</code> attribute — using the <code>page</code> value for
+                    the current page, or <code>true</code> for the current item in a set.</p>
+                <p class="text-muted">Add <code>.disabled</code> to items in the dropdown to
+                    <strong>style them as disabled</strong>.</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <ul class="dropdown-menu show block position-static">
+                        <li><a class="dropdown-item" href="#">Regular link</a></li>
+                        <li><a aria-current="true" class="dropdown-item active" href="#">Active link</a>
+                        </li>
+                        <li><a class="dropdown-item" href="#">Another link</a></li>
+                    </ul>
+                    <ul class="dropdown-menu show block position-static">
+                        <li><a class="dropdown-item" href="#">Regular link</a></li>
+                        <li><a aria-current="true" class="dropdown-item disabled" href="#">Active
+                            link</a></li>
+                        <li><a class="dropdown-item" href="#">Another link</a></li>
+                    </ul>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;ul class="dropdown-menu show block position-static"&gt;
+                                                        &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Regular link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;li&gt;&lt;a class="dropdown-item active" href="#" aria-current="true"&gt;Active link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another link&lt;/a&gt;&lt;/li&gt;
+                                                    &lt;/ul&gt;
+
+                                                    &lt;ul class="dropdown-menu show block position-static"&gt;
+                                                        &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Regular link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;li&gt;&lt;a class="dropdown-item disabled" href="#" aria-current="true"&gt;Active link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another link&lt;/a&gt;&lt;/li&gt;
+                                                    &lt;/ul&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="dropdown-options">
+                    Dropdown options <a class="anchor-link" href="#dropdown-options">#</a>
+                </h5>
+                <p class="text-muted">Use <code>data-bs-offset</code> or <code>data-bs-reference</code>
+                    to change the location of the dropdown.</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div class="dropdown">
+                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle" data-bs-offset="10,20"
+                                data-bs-toggle="dropdown" type="button">
+                            Offset
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-secondary" type="button">Reference</button>
+                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle dropdown-toggle-split"
+                                data-bs-reference="parent" data-bs-toggle="dropdown" type="button">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="10,20"&gt;
+                                                            Offset
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button type="button" class="btn btn-secondary"&gt;Reference&lt;/button&gt;
+                                                        &lt;button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" data-bs-reference="parent"&gt;
+                                                            &lt;span class="visually-hidden"&gt;Toggle Dropdown&lt;/span&gt;
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;
+                                                                &lt;hr class="dropdown-divider"&gt;
+                                                            &lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="auto-close-behavior">
+                    Auto close behavior <a class="anchor-link" href="#auto-close-behavior">#</a>
+                </h5>
+                <p class="text-muted">By default, the dropdown menu is closed when clicking inside or
+                    outside the dropdown menu. You can use the <code>autoClose</code> option to change
+                    this behavior of the dropdown.</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div class="btn-group">
+                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle"
+                                data-bs-auto-close="true" data-bs-toggle="dropdown" type="button">
+                            Default dropdown
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle"
+                                data-bs-auto-close="inside" data-bs-toggle="dropdown" type="button">
+                            Clickable outside
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle"
+                                data-bs-auto-close="outside" data-bs-toggle="dropdown" type="button">
+                            Clickable inside
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                        </ul>
+                    </div>
+                    <div class="btn-group">
+                        <button aria-expanded="false" class="btn btn-secondary dropdown-toggle"
+                                data-bs-auto-close="false" data-bs-toggle="dropdown" type="button">
+                            Manual close
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                            <li><a class="dropdown-item" href="#">Menu item</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code>
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false"&gt;
+                                                            Default dropdown
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="inside" aria-expanded="false"&gt;
+                                                            Clickable outside
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"&gt;
+                                                            Clickable inside
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="btn-group"&gt;
+                                                        &lt;button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false"&gt;
+                                                            Manual close
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Menu item&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="menu-content">
+                    Menu Content <a class="anchor-link" href="#menu-content">#</a>
+                </h5>
+                <p>Add a header to label sections of actions in any dropdown menu.</p>
+                <p>Separate groups of related menu items with a divider.</p>
+                <p>Place any freeform text within a dropdown menu with text and use spacing utilities.
+                    Note that you’ll likely need additional sizing styles to constrain the menu width.
+                </p>
+                <p>Put a form within a dropdown menu, or make it into a dropdown menu, and use margin or
+                    padding utilities to give it the negative space you require.</p>
+                <div class="d-flex flex-wrap gap-2 mb-3">
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-primary dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Dropdown Header
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-header">Dropdown header</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Action</a></li>
+                            <li><a class="dropdown-item" href="javascript:void(0);">Another action</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-info dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Dropdown Divider
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" href="#">Separated link</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-secondary dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Dropdown Text
+                        </button>
+                        <div class="dropdown-menu dropdown-lg p-3">
+                            <p>Some example text that's free-flowing within the dropdown menu.</p>
+                            <p class="mb-0">And this is more example text.</p>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button aria-expanded="false" aria-haspopup="true" class="btn btn-success dropdown-toggle"
+                                data-bs-toggle="dropdown" type="button">
+                            Dropdown Menu Forms
+                        </button>
+                        <form class="dropdown-menu dropdown-lg p-3">
+                            <div class="mb-3">
+                                <label class="form-label" for="exampleDropdownFormEmail">Email
+                                    address</label>
+                                <input class="form-control" id="exampleDropdownFormEmail"
+                                       placeholder="email@example.com" type="email"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="exampleDropdownFormPassword">Password</label>
+                                <input class="form-control" id="exampleDropdownFormPassword" placeholder="Password"
+                                       type="password"/>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" id="dropdownCheck" type="checkbox"/>
+                                    <label class="form-check-label" for="dropdownCheck">Remember
+                                        me</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" type="submit">Sign in</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                                <code id="otherExample">
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Dropdown Header
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-header"&gt;Dropdown header&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button class="btn btn-info dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Dropdown Divider
+                                                        &lt;/button&gt;
+                                                        &lt;ul class="dropdown-menu"&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;hr class="dropdown-divider"&gt;&lt;/li&gt;
+                                                            &lt;li&gt;&lt;a class="dropdown-item" href="#"&gt;Separated link&lt;/a&gt;&lt;/li&gt;
+                                                        &lt;/ul&gt;
+                                                    &lt;/div&gt;
+
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Dropdown Text
+                                                        &lt;/button&gt;
+                                                        &lt;div class="dropdown-menu dropdown-lg p-3"&gt;
+                                                            &lt;p&gt;Some example text that's free-flowing within the dropdown menu.&lt;/p&gt;
+                                                            &lt;p class="mb-0"&gt;And this is more example text.&lt;/p&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                    
+                                                    &lt;div class="dropdown"&gt;
+                                                        &lt;button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"&gt;
+                                                            Dropdown Menu Forms
+                                                        &lt;/button&gt;
+                                                        &lt;form class="dropdown-menu dropdown-lg p-3"&gt;
+                                                            &lt;div class="mb-3"&gt;
+                                                                &lt;label class="form-label" for="exampleDropdownFormEmail"&gt;Email address&lt;/label&gt;
+                                                                &lt;input type="email" class="form-control" id="exampleDropdownFormEmail" placeholder="email@example.com"&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="mb-3"&gt;
+                                                                &lt;label class="form-label" for="exampleDropdownFormPassword"&gt;Password&lt;/label&gt;
+                                                                &lt;input type="password" class="form-control" id="exampleDropdownFormPassword" placeholder="Password"&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="mb-3"&gt;
+                                                                &lt;div class="form-check"&gt;
+                                                                    &lt;input type="checkbox" class="form-check-input" id="dropdownCheck"&gt;
+                                                                    &lt;label class="form-check-label" for="dropdownCheck"&gt;Remember me&lt;/label&gt;
+                                                                &lt;/div&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;button type="submit" class="btn btn-primary"&gt;Sign in&lt;/button&gt;
+                                                        &lt;/form&gt;
+                                                    &lt;/div&gt;
+                                                </code>
+                                            </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#single-button">Single Button Dropdowns</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#single-button-variant">Single Button Variant Dropdowns
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#split-button">Split Button Dropdowns </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#dark-dropdown">Dark Dropdown</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#direction">Dropdown Direction </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#menu-items">Dropdown Menu Items </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#dropdown-options">Dropdown Options </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#auto-close-behavior">Auto Close Behavior </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#menu-content">Menu content </a>
+                </li>
+            </ul>
+        </div> <!-- end card -->
+    </div>
+</div> <!-- end row -->
+<!-- end dropdown -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

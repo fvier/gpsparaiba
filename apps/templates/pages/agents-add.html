@@ -1,0 +1,282 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Add Agent{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Add Agent' %}
+{% set title='Real Estate' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-3 col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center gap-2 border-bottom pb-3">
+                    <img alt="" class="avatar-lg rounded-3 border border-light border-3"
+                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-2.jpg"/>
+                    <div class="d-block">
+                        <a class="text-dark fw-medium fs-16" href="#!">Michael A. Miner</a>
+                        <p class="mb-0">michaelminer@dayrep.com</p>
+                        <p class="mb-0 text-primary"># 1</p>
+                    </div>
+                </div>
+                <p class="mt-3 d-flex align-items-center gap-2 mb-2">
+                    <iconify-icon class="fs-18 text-primary" icon="solar:home-bold-duotone"></iconify-icon>
+                    243 Properties
+                </p>
+                <p class="d-flex align-items-center gap-2 mt-2">
+                    <iconify-icon class="fs-18 text-primary" icon="solar:map-point-wave-bold-duotone"></iconify-icon>
+                    Lincoln Drive Harrisburg, PA
+                    17101 U.S.A
+                </p>
+                <h5 class="my-3">Social Media :</h5>
+                <ul class="list-inline d-flex gap-1 mb-0 align-items-center">
+                    <li class="list-inline-item">
+                        <a class="btn btn-soft-primary avatar-sm d-flex align-items-center justify-content-center fs-20"
+                           href="javascript: void(0);">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="btn btn-soft-danger avatar-sm d-flex align-items-center justify-content-center fs-20"
+                           href="javascript: void(0);">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="btn btn-soft-info avatar-sm d-flex align-items-center justify-content-center fs-20"
+                           href="javascript: void(0);">
+                            <i class="ri-twitter-line"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="btn btn-soft-success avatar-sm d-flex align-items-center justify-content-center fs-20"
+                           href="javascript: void(0);">
+                            <i class="ri-whatsapp-line"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="btn btn-soft-warning avatar-sm d-flex align-items-center justify-content-center fs-20"
+                           href="javascript: void(0);">
+                            <i class="ri-mail-line"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-footer bg-light-subtle">
+                <div class="row g-2">
+                    <div class="col-lg-6">
+                        <a class="btn btn-outline-primary w-100" href="#!">Add Agent</a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a class="btn btn-danger w-100" href="#!">Cancel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-9 col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Add Agent Photo</h4>
+            </div>
+            <div class="card-body">
+                <form action="/" class="dropzone bg-light-subtle py-5" data-plugin="dropzone"
+                      data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate"
+                      id="myAwesomeDropzone" method="post">
+                    <div class="fallback">
+                        <input multiple="multiple" name="file" type="file"/>
+                    </div>
+                    <div class="dz-message needsclick">
+                        <i class="ri-upload-cloud-2-line fs-48 text-primary"></i>
+                        <h3 class="mt-4">Drop your images here, or <span class="text-primary">click to browse</span>
+                        </h3>
+                        <span class="text-muted fs-13">
+                                                       1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed
+                                                  </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Agent Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="agent-name">Agent
+                                    Name</label>
+                                <input class="form-control" id="agent-name" placeholder="Full Name" type="text"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="agent-email">Agent
+                                    Email</label>
+                                <input class="form-control" id="agent-email" placeholder="Enter Email" type="email"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="agent-number">Agent
+                                    Number</label>
+                                <input class="form-control" id="agent-number" placeholder="Enter Number" type="number"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-6">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="properties-number">Properties
+                                    Number</label>
+                                <input class="form-control" id="properties-number" placeholder="Enter Properties Number"
+                                       type="number"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-12">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="agent-address">Agent
+                                    Address</label>
+                                <textarea class="form-control" id="agent-address" placeholder="Enter address"
+                                          rows="3"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="agent-zipcode">Zip-Code</label>
+                                <input class="form-control" id="agent-zipcode" placeholder="zip-code" type="number"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <form>
+                                <label class="form-label" for="choices-city">City</label>
+                                <select class="form-control" data-choices="" data-choices-groups=""
+                                        data-placeholder="Select City" id="choices-city" name="choices-city">
+                                    <option value="">Choose a city</option>
+                                    <optgroup label="UK">
+                                        <option value="London">London</option>
+                                        <option value="Manchester">Manchester</option>
+                                        <option value="Liverpool">Liverpool</option>
+                                    </optgroup>
+                                    <optgroup label="FR">
+                                        <option value="Paris">Paris</option>
+                                        <option value="Lyon">Lyon</option>
+                                        <option value="Marseille">Marseille</option>
+                                    </optgroup>
+                                    <optgroup disabled="" label="DE">
+                                        <option value="Hamburg">Hamburg</option>
+                                        <option value="Munich">Munich</option>
+                                        <option value="Berlin">Berlin</option>
+                                    </optgroup>
+                                    <optgroup label="US">
+                                        <option value="New York">New York</option>
+                                        <option disabled="" value="Washington">
+                                            Washington
+                                        </option>
+                                        <option value="Michigan">Michigan</option>
+                                    </optgroup>
+                                    <optgroup label="SP">
+                                        <option value="Madrid">Madrid</option>
+                                        <option value="Barcelona">Barcelona</option>
+                                        <option value="Malaga">Malaga</option>
+                                    </optgroup>
+                                    <optgroup label="CA">
+                                        <option value="Montreal">Montreal</option>
+                                        <option value="Toronto">Toronto</option>
+                                        <option value="Vancouver">Vancouver</option>
+                                    </optgroup>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="mb-3">
+                            <form>
+                                <label class="form-label" for="choices-country">Country</label>
+                                <select class="form-control" data-choices="" data-choices-groups=""
+                                        data-placeholder="Select Country" id="choices-country" name="choices-country">
+                                    <option value="">Choose a country</option>
+                                    <optgroup label="">
+                                        <option value="">United Kingdom</option>
+                                        <option value="Fran">France</option>
+                                        <option value="Netherlands">Netherlands</option>
+                                        <option value="U.S.A">U.S.A</option>
+                                        <option value="Denmark">Denmark</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="India">India</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="Spain">Spain</option>
+                                        <option value="United Arab Emirates">United Arab
+                                            Emirates
+                                        </option>
+                                    </optgroup>
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="facebook-url">Facebook
+                                    URL</label>
+                                <input class="form-control" id="facebook-url" placeholder="Enter URL" type="url"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="instagram-url">Instagram
+                                    URL</label>
+                                <input class="form-control" id="instagram-url" placeholder="Enter URL" type="url"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-lg-4">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label" for="twitter-url">Twitter
+                                    URL</label>
+                                <input class="form-control" id="twitter-url" placeholder="Enter URL" type="url"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3 rounded">
+            <div class="row justify-content-end g-2">
+                <div class="col-lg-2">
+                    <a class="btn btn-outline-primary w-100" href="#!">Create Agent</a>
+                </div>
+                <div class="col-lg-2">
+                    <a class="btn btn-danger w-100" href="#!">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

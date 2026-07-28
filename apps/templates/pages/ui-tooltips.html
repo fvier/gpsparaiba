@@ -1,0 +1,153 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Tooltips{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Tooltips' %}
+{% set title='UI' %}
+{% include 'partials/page-title.html' %}
+
+<!-- start tooltips-->
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="direction">
+                    Tooltip Direction<a class="anchor-link" href="#direction">#</a>
+                </h5>
+                <p class="text-muted">
+                    Four options are available: top, right, bottom, and left aligned.
+                </p>
+                <div class="mb-3">
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-primary" data-bs-placement="top" data-bs-title="Tooltip on top"
+                                data-bs-toggle="tooltip" type="button">
+                            Tooltip on top
+                        </button>
+                        <button class="btn btn-primary" data-bs-placement="right" data-bs-title="Tooltip on right"
+                                data-bs-toggle="tooltip" type="button">
+                            Tooltip on right
+                        </button>
+                        <button class="btn btn-primary" data-bs-placement="bottom" data-bs-title="Tooltip on bottom"
+                                data-bs-toggle="tooltip" type="button">
+                            Tooltip on bottom
+                        </button>
+                        <button class="btn btn-primary" data-bs-placement="left" data-bs-title="Tooltip on left"
+                                data-bs-toggle="tooltip" type="button">
+                            Tooltip on left
+                        </button>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                            <code>
+                                                &lt;button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"&gt;
+                                                    Tooltip on top
+                                                &lt;/button&gt;
+                                                &lt;button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Tooltip on right"&gt;
+                                                    Tooltip on right
+                                                &lt;/button&gt;
+                                                &lt;button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tooltip on bottom"&gt;
+                                                    Tooltip on bottom
+                                                &lt;/button&gt;
+                                                &lt;button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Tooltip on left"&gt;
+                                                    Tooltip on left
+                                                &lt;/button&gt;
+                                            </code>
+                                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="color_tooltip">
+                    Color Tooltip <a class="anchor-link" href="#color_tooltip">#</a>
+                </h5>
+                <p class="text-muted">We set a custom class with ex.
+                    <code>data-bs-custom-class="primary-tooltip"</code> to scope our background-color
+                    primary appearance and use it to override a local CSS variable.</p>
+                <div class="mb-3">
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-primary" data-bs-custom-class="primary-tooltip" data-bs-placement="top"
+                                data-bs-title="This top tooltip is themed via CSS variables." data-bs-toggle="tooltip"
+                                type="button">
+                            Primary tooltip
+                        </button>
+                        <button class="btn btn-danger" data-bs-custom-class="danger-tooltip" data-bs-placement="top"
+                                data-bs-title="This top tooltip is themed via CSS variables." data-bs-toggle="tooltip"
+                                type="button">
+                            Danger tooltip
+                        </button>
+                        <button class="btn btn-info" data-bs-custom-class="info-tooltip" data-bs-placement="top"
+                                data-bs-title="This top tooltip is themed via CSS variables." data-bs-toggle="tooltip"
+                                type="button">
+                            Info tooltip
+                        </button>
+                        <button class="btn btn-success" data-bs-custom-class="success-tooltip" data-bs-placement="top"
+                                data-bs-title="This top tooltip is themed via CSS variables." data-bs-toggle="tooltip"
+                                type="button">
+                            Success tooltip
+                        </button>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                            <code>
+                                                &lt;button type="button" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="primary-tooltip" data-bs-title="This top tooltip is themed via CSS variables."&gt;
+                                                    Primary tooltip
+                                                &lt;/button&gt;
+                                                &lt;button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="danger-tooltip" data-bs-title="This top tooltip is themed via CSS variables."&gt;
+                                                    Danger tooltip
+                                                &lt;/button&gt;
+                                                &lt;button type="button" class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="info-tooltip" data-bs-title="This top tooltip is themed via CSS variables."&gt;
+                                                    Info tooltip
+                                                &lt;/button&gt;
+                                                &lt;button type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="success-tooltip" data-bs-title="This top tooltip is themed via CSS variables."&gt;
+                                                    Success tooltip
+                                                &lt;/button&gt;
+                                            </code>
+                                        </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#direction">Direction</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#color_tooltip">Color Tooltip</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+<!-- start tooltips-->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

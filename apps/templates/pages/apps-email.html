@@ -1,0 +1,721 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Inbox{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+<div class="card">
+    <div class="row g-0">
+        <div class="col-xl-2">
+            <div aria-labelledby="offcanvasExampleLabel" class="offcanvas-xl offcanvas-start" data-bs-backdrop="false"
+                 data-bs-scroll="true" id="offcanvasExample" tabindex="-1">
+                <div data-simplebar="" style="height: calc(100vh - 180px)">
+                    <div class="bg-body-secondary sticky-top card-body d-flex justify-content-between gap-1">
+                        <button class="btn btn-success w-100 d-flex align-items-center justify-content-center"
+                                data-bs-target="#compose-modal" data-bs-toggle="modal" type="button">
+                            <span class="fw-semibold"><iconify-icon class="align-middle me-1 fs-16"
+                                                                    icon="solar:pen-new-square-broken"></iconify-icon>Compose</span>
+                        </button>
+                        <button aria-label="Close" class="btn btn-icon btn-soft-danger d-xl-none"
+                                data-bs-dismiss="offcanvas" data-bs-target="#offcanvasExample" type="button">
+                            <i class="bx bx-x fs-22"></i>
+                        </button>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="email-menu-list d-flex flex-column gap-2">
+                            <a class="active" href="javascript: void(0);">
+                                <iconify-icon class="me-2 fs-18 text-muted" icon="solar:inbox-broken"></iconify-icon>
+                                <span>Your Inbox</span>
+                                <span class="fs-12 text-primary ms-auto">5</span>
+                            </a>
+                            <a href="javascript: void(0);">
+                                <iconify-icon class="me-2 fs-18 text-muted" icon="solar:bookmark-broken"></iconify-icon>
+                                <span>Important</span>
+                            </a>
+                            <a href="javascript: void(0);">
+                                <iconify-icon class="me-2 fs-18 text-muted"
+                                              icon="solar:stopwatch-play-broken"></iconify-icon>
+                                <span>Snoozed</span>
+                            </a>
+                            <a href="javascript: void(0);">
+                                <iconify-icon class="me-2 fs-18 text-muted" icon="solar:pen-2-broken"></iconify-icon>
+                                <span>Draft</span>
+                                <span class="fs-12 text-muted ms-auto">8</span>
+                            </a>
+                            <a href="javascript: void(0);">
+                                <iconify-icon class="me-2 fs-18 text-muted"
+                                              icon="solar:file-send-broken"></iconify-icon>
+                                <span>Sent</span>
+                            </a>
+                            <a href="javascript: void(0);">
+                                <iconify-icon class="me-2 fs-18 text-muted" icon="solar:bag-3-broken"></iconify-icon>
+                                <span>Promotions</span>
+                                <span class="fs-12 text-muted ms-auto">3</span>
+                            </a>
+                            <a href="javascript: void(0);">
+                                <iconify-icon class="me-2 fs-18 text-muted"
+                                              icon="solar:bell-bing-broken"></iconify-icon>
+                                <span>Update</span>
+                                <span class="fs-12 text-muted ms-auto">14</span>
+                            </a>
+                            <a href="javascript: void(0);">
+                                <span><i class="bx bx-chevron-down fs-18"></i> More</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body border-top border-light">
+                        <a aria-controls="labels" aria-expanded="false"
+                           class="btn-link d-flex align-items-center text-dark fw-semibold mb-0"
+                           data-bs-target="#labels" data-bs-toggle="collapse" href="#">Labels <i
+                                class="bx bx-chevron-down ms-auto"></i></a>
+                        <div class="collapse show" id="labels">
+                            <div class="email-menu-list d-flex flex-column gap-2 mt-2">
+                                <a href="javascript: void(0);">
+                                    <iconify-icon class="me-2 fs-18 text-success"
+                                                  icon="solar:camera-square-bold"></iconify-icon>
+                                    <span>Collaboration</span>
+                                </a>
+                                <a href="javascript: void(0);">
+                                    <iconify-icon class="me-2 fs-18 text-warning"
+                                                  icon="solar:camera-square-bold"></iconify-icon>
+                                    <span>New Client</span>
+                                </a>
+                                <a href="javascript: void(0);">
+                                    <iconify-icon class="me-2 fs-18 text-info"
+                                                  icon="solar:camera-square-bold"></iconify-icon>
+                                    <span>Wedding</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border-top border-light">
+                        <a aria-controls="contacts" aria-expanded="false"
+                           class="btn-link d-flex align-items-center text-dark fw-semibold mb-0"
+                           data-bs-target="#contacts" data-bs-toggle="collapse" href="#">Contacts <i
+                                class="bx bx-chevron-down ms-auto"></i></a>
+                        <div class="collapse show" id="contacts">
+                            <div class="email-menu-list d-flex flex-column gap-1 mt-2">
+                                <a href="javascript: void(0);">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img alt="" class="avatar-sm rounded-circle"
+                                             src="{{ config.ASSETS_ROOT }}/images/users/avatar-12.jpg"/>
+                                        <p class="mb-0">Alberto Milano</p>
+                                    </div>
+                                </a>
+                                <a href="javascript: void(0);">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img alt="" class="avatar-sm rounded-circle"
+                                             src="{{ config.ASSETS_ROOT }}/images/users/avatar-11.jpg"/>
+                                        <p class="mb-0">Alda Barese</p>
+                                    </div>
+                                </a>
+                                <a href="javascript: void(0);">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img alt="" class="avatar-sm rounded-circle"
+                                             src="{{ config.ASSETS_ROOT }}/images/users/avatar-10.jpg"/>
+                                        <p class="mb-0">Giovanna Dellucci</p>
+                                    </div>
+                                </a>
+                                <a href="javascript: void(0);">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img alt="" class="avatar-sm rounded-circle"
+                                             src="{{ config.ASSETS_ROOT }}/images/users/avatar-8.jpg"/>
+                                        <p class="mb-0">Fidenzio Lo Duca</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3">
+            <div aria-labelledby="offcanvasTwoExampleLabel" class="offcanvas-xl offcanvas-start"
+                 data-bs-backdrop="false" data-bs-scroll="true" id="offcanvasTwoExample" tabindex="-1">
+                <div class="border-start border-light border-end h-100">
+                    <div class="card-body">
+                        <button aria-label="Close" class="btn p-0 d-lg-none d-flex ms-auto mb-2"
+                                data-bs-dismiss="offcanvas" data-bs-target="#offcanvasTwoExample" type="button">
+                            <i class="ri-arrow-right-line fs-22"></i>
+                        </button>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 text-dark d-flex align-items-center gap-1">
+                                <iconify-icon class="align-middle" icon="solar:inbox-bold-duotone"></iconify-icon>
+                                Inbox Mail
+                            </h5>
+                            <div class="dropdown">
+                                <a aria-expanded="false" class="dropdown-toggle arrow-none text-dark"
+                                   data-bs-toggle="dropdown" href="javascript: void(0);">
+                                    <i class="ri-more-2-fill fs-18"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-user-circle me-2"></i>View
+                                        Profile</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-music me-2"></i>Media, Links and
+                                        Docs</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-search me-2"></i>Search</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-image me-2"></i>Wallpaper</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-right-arrow-circle me-2"></i>More</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <form class="app-search d-none d-md-block w-100">
+                                <div class="position-relative">
+                                    <input autocomplete="off" class="form-control" placeholder="Search" type="search"
+                                           value=""/>
+                                    <iconify-icon class="search-widget-icon"
+                                                  icon="solar:magnifer-broken"></iconify-icon>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="border-top border-light overflow-hidden">
+                        <div data-simplebar="" style="max-height: calc(100vh - 301px)">
+                            <ul class="list-unstyled email-list-group mb-0">
+                                <li class="">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-2.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0">Oberto Onio
+                                                        </h5>
+                                                        <div>
+                                                            <p class="text-muted fs-13 mb-0">
+                                                                09:24 AM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                            Thank you all for your
+                                                            hard ...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="email-read-done">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 selected m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-3.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0 text-white">
+                                                            Dianna Blair</h5>
+                                                        <div>
+                                                            <p class="text-white fs-13 mb-0">
+                                                                10:50 AM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-white d-flex align-items-center gap-1">
+                                                            In recognition of your
+                                                            achieve...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-4.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0">Dirk Kuhn
+                                                        </h5>
+                                                        <div>
+                                                            <p class="text-muted fs-13 mb-0">
+                                                                09:45 AM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                            Additionally, I would
+                                                            like to remind eve...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-5.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0">Sandra
+                                                            Fischer</h5>
+                                                        <div>
+                                                            <p class="text-muted fs-13 mb-0">
+                                                                08:10 AM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                            After reviewing the
+                                                            current progress and...
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-6.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0">Marina
+                                                            Eberhardt</h5>
+                                                        <div>
+                                                            <p class="text-muted fs-13 mb-0">
+                                                                Wednesday</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                            we have decided to adjust
+                                                            the deadlin...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="email-read-done">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-7.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0">Erik Holzman
+                                                        </h5>
+                                                        <div>
+                                                            <p class="text-muted fs-13 mb-0">
+                                                                Thursday</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                            We'd like to thank you
+                                                            for being su...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="email-read-done">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-8.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0">Sven Hirsch
+                                                        </h5>
+                                                        <div>
+                                                            <p class="text-muted fs-13 mb-0">
+                                                                10:50 AM</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                            February, you will be
+                                                            paid to your nomina...
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class="email-read-done">
+                                    <div class="d-flex flex-column h-100 border-bottom">
+                                        <a class="d-block" href="#!">
+                                            <div class="mail-select d-flex align-items-center p-3 m-1 rounded">
+                                                <div class="position-relative">
+                                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-9.jpg"/>
+                                                </div>
+                                                <div class="d-block ms-3 flex-grow-1">
+                                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                                        <h5 class="mb-0">Katrin
+                                                            Naumann</h5>
+                                                        <div>
+                                                            <p class="text-muted fs-13 mb-0">
+                                                                3 Day Ago</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                            $250 cash reward. This
+                                                            will be paid out...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="d-flex justify-content-center my-2">
+                                        <div class="spinner-border" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-7">
+            <div class="position-relative">
+                <div class="card-header border-bottom bg-light-subtle d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-1">
+                        <button aria-controls="offcanvasExample"
+                                class="btn btn-sm btn-icon btn-soft-primary d-xl-none d-flex align-items-center px-2 me-2"
+                                data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" type="button">
+                            <i class="bx bx-menu fs-18"></i>
+                        </button>
+                        <button aria-controls="offcanvasTwoExample"
+                                class="btn btn-sm btn-icon btn-soft-primary d-xl-none d-flex align-items-center px-2 me-2"
+                                data-bs-target="#offcanvasTwoExample" data-bs-toggle="offcanvas" type="button">
+                            <i class="bx bx-menu-alt-right fs-18"></i>
+                        </button>
+                    </div>
+                    <form class="app-search d-none d-md-block w-50 me-auto">
+                        <div class="position-relative">
+                            <input autocomplete="off" class="form-control" placeholder="Search In Mails" type="search"
+                                   value=""/>
+                            <iconify-icon class="search-widget-icon" icon="solar:magnifer-broken"></iconify-icon>
+                        </div>
+                    </form>
+                    <div>
+                        <ul class="list-inline d-flex gap-1 mb-0 align-items-center">
+                            <li class="list-inline-item">
+                                <a class="btn btn-light avatar-sm d-flex align-items-center justify-content-center text-warning fs-20"
+                                   data-bs-toggle="offcanvas" href="#user-profile">
+                                    <iconify-icon icon="solar:star-bold-duotone"></iconify-icon>
+                                </a>
+                            </li>
+                            <li class="list-inline-item dropdown d-none d-md-flex">
+                                <a aria-expanded="false"
+                                   class="dropdown-toggle btn btn-light avatar-sm d-flex align-items-center justify-content-center fs-20 arrow-none text-dark fs-20"
+                                   data-bs-toggle="dropdown" href="javascript: void(0);">
+                                    <i class="ri-more-2-fill"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-user-circle me-2"></i>View
+                                        Profile</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-music me-2"></i>Media, Links and
+                                        Docs</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-search me-2"></i>Search</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-image me-2"></i>Wallpaper</a>
+                                    <a class="dropdown-item" href="javascript: void(0);"><i
+                                            class="bx bx-right-arrow-circle me-2"></i>More</a>
+                                </div>
+                            </li>
+                            <li class="list-inline-item">
+                                <a class="btn btn-primary d-flex align-items-center gap-1" href="javascript: void(0);">
+                                    <iconify-icon class="fs-18" icon="solar:stopwatch-play-broken"></iconify-icon>
+                                    Snoozed</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body" data-simplebar="" style="height: calc(100vh - 442px)">
+                    <div class="d-flex flex-column h-100">
+                        <div class="d-block">
+                            <div class="d-flex rounded gap-2">
+                                <div class="position-relative">
+                                    <img alt="" class="avatar rounded-circle flex-shrink-0"
+                                         src="{{ config.ASSETS_ROOT }}/images/users/avatar-3.jpg"/>
+                                </div>
+                                <div class="d-block flex-grow-1">
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                        <div>
+                                            <a class="text-dark fw-medium fs-15"
+                                               href="#!">diannablair46skl@dayrep.com</a>
+                                            <p class="mb-0 text-muted d-flex align-items-center gap-1">
+                                                to hello@dundermuffilin.com</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-muted fs-13 mb-0">Mon , 1 Apr
+                                                , 23.12</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <h4>
+                                            Documentation of last meeting
+                                        </h4>
+                                        <p class="text-dark mt-3">Hey : <span
+                                                class="badge bg-primary-subtle fs-13 text-primary p-1">@Gaston
+                                                                                Lapierre</span></p>
+                                        <p>Thank you all for your hard work and dedication
+                                            to this project. Your contributions are
+                                            invaluable, and I am confident that together
+                                            we will achieve our goals successfully. After
+                                            reviewing the current progress and
+                                            considering various factors, I would like to
+                                            share some observations and next steps.</p>
+                                        <p>Additionally, I would like to remind everyone
+                                            of our upcoming team meeting scheduled for
+                                            this week. During this meeting, we will
+                                            discuss the revised timeline in detail and
+                                            address any concerns or questions you may
+                                            have ...</p>
+                                        <div class="my-4 bg-light rounded p-2">
+                                            <div class="row g-2">
+                                                <div class="col-lg-3">
+                                                    <a href="#!">
+                                                        <img alt="" class="img-fluid rounded"
+                                                             src="{{ config.ASSETS_ROOT }}/images/small/img-1.jpg"/>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <a href="#!">
+                                                        <img alt="" class="img-fluid rounded"
+                                                             src="{{ config.ASSETS_ROOT }}/images/small/img-2.jpg"/>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <a href="#!">
+                                                        <img alt="" class="img-fluid rounded"
+                                                             src="{{ config.ASSETS_ROOT }}/images/small/img-3.jpg"/>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <a href="#!">
+                                                        <img alt="" class="img-fluid rounded"
+                                                             src="{{ config.ASSETS_ROOT }}/images/small/img-4.jpg"/>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center gap-2 mt-3">
+                                                <img alt="" class="avatar-sm rounded-circle"
+                                                     src="{{ config.ASSETS_ROOT }}/images/users/avatar-3.jpg"/>
+                                                <a class="text-dark fw-medium" href="#!">Dianna
+                                                    Blair</a>
+                                                <p class="mb-0">attached 4 photos</p>
+                                                <div class="ms-auto">
+                                                    <a class="text-muted d-flex align-items-center gap-1" href="#!">See
+                                                        Photo
+                                                        <iconify-icon class="align-middle"
+                                                                      icon="solar:eye-bold"></iconify-icon>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="my-4">
+                                            <div class="row align-items-center text-center g-2">
+                                                <div class="col-lg-2">
+                                                    <div class="border p-2 rounded bg-light-subtle">
+                                                        <iconify-icon class="fs-28 text-primary"
+                                                                      icon="solar:file-download-bold"></iconify-icon>
+                                                        <p class="mb-0">
+                                                            <a class="text-dark fw-medium" href="#!">Project
+                                                                About..</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <div class="border p-2 rounded bg-light-subtle">
+                                                        <iconify-icon class="fs-28 text-success"
+                                                                      icon="solar:figma-file-bold"></iconify-icon>
+                                                        <p class="mb-0">
+                                                            <a class="text-dark fw-medium" href="#!">Photo
+                                                                Psd...</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <div class="border p-2 rounded bg-light-subtle">
+                                                        <iconify-icon class="fs-28 text-danger"
+                                                                      icon="solar:checklist-minimalistic-bold"></iconify-icon>
+                                                        <p class="mb-0">
+                                                            <a class="text-dark fw-medium" href="#!">Price
+                                                                List...</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <a class="link-primary fw-medium d-flex align-items-center gap-1"
+                                                       href="#!">Download
+                                                        All File
+                                                        <iconify-icon icon="solar:download-bold"></iconify-icon>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4">
+                                            <p>We'd like to thank you for being an
+                                                exceptional author and encourage you to
+                                                continue creating great work!</p>
+                                            <p class="mb-1 mt-3">Best Regards ,</p>
+                                            <p class="mb-0 text-dark fw-medium">Dianna
+                                                Blair</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-light-subtle border-top position-absolute w-100">
+                    <div class="d-flex gap-2">
+                        <img alt="" class="avatar rounded-circle"
+                             src="{{ config.ASSETS_ROOT }}/images/users/avatar-1.jpg"/>
+                        <div class="w-100">
+                            <p class="mb-2"><span class="text-dark fw-medium">To :
+                                                            </span>diannablair46skl@dayrep.com</p>
+                            <textarea class="form-control" id="property-address" placeholder="Type Message...."
+                                      rows="3"></textarea>
+                            <div class="d-flex flex-wrap justify-content-between mt-2 align-items-center">
+                                <div class="d-flex gap-3">
+                                    <form>
+                                        <label class="text-dark fs-18 fw-medium" for="file">
+                                            <iconify-icon icon="solar:folder-with-files-broken"></iconify-icon>
+                                        </label>
+                                        <input class="d-none" id="file" type="file"/>
+                                    </form>
+                                    <form>
+                                        <label class="text-dark fs-18 fw-medium" for="photo">
+                                            <iconify-icon icon="solar:album-broken"></iconify-icon>
+                                        </label>
+                                        <input class="d-none" id="photo" type="file"/>
+                                    </form>
+                                    <a class="text-dark fs-18 fw-medium" href="#!">
+                                        <iconify-icon icon="solar:pen-broken"></iconify-icon>
+                                    </a>
+                                    <a class="text-dark fs-18 fw-medium" href="#!">
+                                        <iconify-icon icon="solar:link-broken"></iconify-icon>
+                                    </a>
+                                    <a class="text-dark fs-18 fw-medium" href="#!">
+                                        <iconify-icon icon="solar:trash-bin-2-broken"></iconify-icon>
+                                    </a>
+                                </div>
+                                <div>
+                                    <a class="btn btn-primary" href="#!">Send</a>
+                                    <a class="btn btn-outline-secondary" href="javascript: void(0);">Forward</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block modal %}
+<!-- Modal -->
+<div class="modal fade compose-mail" id="compose-modal" tabindex="-1"
+     aria-labelledby="compose-modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header overflow-hidden bg-primary p-2">
+                <h5 class="modal-title text-white" id="compose-modalLabel">New Message</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="overflow-hidden">
+
+                    <div class="mb-2">
+                        <input type="email" class="form-control" id="toEmail" placeholder="To: ">
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="form-control" id="subject"
+                               placeholder="Subject ">
+                    </div>
+
+                    <div class="my-2">
+                        <div id="snow-editor2" style="height: 200px;"></div>
+                    </div>
+
+                    <div class="d-flex float-end">
+                        <div class="dropdown me-1">
+                            <a href="javascript:void(0);"
+                               class="dropdown-toggle arrow-none btn btn-light"
+                               data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="ri-more-2-fill fs-18"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-up">
+                                <a href="javascript:void(0);" class="dropdown-item">Default to
+                                    full screen</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="javascript:void(0);" class="dropdown-item">Label</a>
+                                <a href="javascript:void(0);" class="dropdown-item">Palin text
+                                    mode</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="javascript:void(0);" class="dropdown-item">Smart Compose
+                                    Feedback</a>
+                            </div>
+                        </div>
+                        <a href="javascript: void(0);" class="btn btn-light compose-close"><i
+                                class="bx bxs-trash fs-18"></i></a>
+                    </div>
+                    <div>
+                        <a href="javascript: void(0);" class="btn btn-primary">Send</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- data-bs-scroll="true" data-bs-backdrop="false" -->
+{% endblock modal %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/js/pages/app-email.js"></script>
+{% endblock extra_javascript %}

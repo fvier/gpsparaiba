@@ -1,0 +1,572 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Checkbox &amp; Radio{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Checkbox &amp; Radio' %}
+{% set title='Form' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="checkbox-basic">
+                    Checkbox<a class="anchor-link" href="#checkbox-basic">#</a>
+                </h5>
+                <p class="text-muted">
+                    Each checkbox and radio <code>&lt;input&gt;</code> and
+                    <code>&lt;label&gt;</code> pairing is wrapped in a <code>&lt;div&gt;</code>
+                    to create our custom control. Structurally, this is the same approach as
+                    our default <code>.form-check</code>.
+                </p>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" id="customCheck1" type="checkbox"/>
+                        <label class="form-check-label" for="customCheck1">Check this custom
+                            checkbox</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="customCheck2" type="checkbox"/>
+                        <label class="form-check-label" for="customCheck2">Check this custom
+                            checkbox</label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheck1"&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck1"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheck2"&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck2"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor mb-3" id="inline-checkbox">
+                    Inline Checkbox<a class="anchor-link" href="#inline-checkbox">#</a>
+                </h5>
+                <div class="mb-3">
+                    <div class="mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" id="customCheck3" type="checkbox"/>
+                            <label class="form-check-label" for="customCheck3">Check this
+                                custom checkbox</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" id="customCheck4" type="checkbox"/>
+                            <label class="form-check-label" for="customCheck4">Check this
+                                custom checkbox</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheck3"&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck3"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheck4"&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck4"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor mb-3" id="disabled-checkbox">
+                    Disabled Checkbox<a class="anchor-link" href="#disabled-checkbox">#</a>
+                </h5>
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input checked="" class="form-check-input" disabled="" id="customCheck5" type="checkbox"/>
+                        <label class="form-check-label" for="customCheck5">Check this custom
+                            checkbox</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" disabled="" id="customCheck6" type="checkbox"/>
+                        <label class="form-check-label" for="customCheck6">Check this custom
+                            checkbox</label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <h6 class="text-muted text-uppercase">html</h6>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheck5" checked disabled&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck5"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheck6" disabled&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck6"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor mb-3" id="colors-checkbox">
+                    Colors Checkbox<a class="anchor-link" href="#colors-checkbox">#</a>
+                </h5>
+                <div class="mb-3">
+                    <!-- Colors-->
+                    <div class="form-check mb-2">
+                        <input checked="" class="form-check-input" id="customCheckcolor1" type="checkbox"/>
+                        <label class="form-check-label" for="customCheckcolor1">Default
+                            Checkbox</label>
+                    </div>
+                    <div class="form-check form-checkbox-success mb-2">
+                        <input checked="" class="form-check-input" id="customCheckcolor2" type="checkbox"/>
+                        <label class="form-check-label" for="customCheckcolor2">Success
+                            Checkbox</label>
+                    </div>
+                    <div class="form-check form-checkbox-info mb-2">
+                        <input checked="" class="form-check-input" id="customCheckcolor3" type="checkbox"/>
+                        <label class="form-check-label" for="customCheckcolor3">Info
+                            Checkbox</label>
+                    </div>
+                    <div class="form-check form-checkbox-secondary mb-2">
+                        <input checked="" class="form-check-input" id="customCheckcolor6" type="checkbox"/>
+                        <label class="form-check-label" for="customCheckcolor6">Secondary
+                            Checkbox</label>
+                    </div>
+                    <div class="form-check form-checkbox-warning mb-2">
+                        <input checked="" class="form-check-input" id="customCheckcolor4" type="checkbox"/>
+                        <label class="form-check-label" for="customCheckcolor4">Warning
+                            Checkbox</label>
+                    </div>
+                    <div class="form-check form-checkbox-danger mb-2">
+                        <input checked="" class="form-check-input" id="customCheckcolor5" type="checkbox"/>
+                        <label class="form-check-label" for="customCheckcolor5">Danger
+                            Checkbox</label>
+                    </div>
+                    <div class="form-check form-checkbox-dark">
+                        <input checked="" class="form-check-input" id="customCheckcolor7" type="checkbox"/>
+                        <label class="form-check-label" for="customCheckcolor7">Dark
+                            Checkbox</label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check mb-2"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheckcolor1" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customCheckcolor1"&gt;Default Checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-checkbox-success mb-2"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheckcolor2" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customCheckcolor2"&gt;Success Checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-checkbox-info mb-2"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheckcolor3" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customCheckcolor3"&gt;Info Checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-checkbox-secondary mb-2"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheckcolor6" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customCheckcolor6"&gt;Secondary Checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-checkbox-warning mb-2"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheckcolor4" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customCheckcolor4"&gt;Warning Checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-checkbox-danger mb-2"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheckcolor5" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customCheckcolor5"&gt;Danger Checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-checkbox-dark"&gt;
+                                                                 &lt;input type="checkbox" class="form-check-input" id="customCheckcolor7" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customCheckcolor7"&gt;Dark Checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="radio-basic">
+                    Radio<a class="anchor-link" href="#radio-basic">#</a>
+                </h5>
+                <p class="text-muted font-14">
+                    Each Radio <code>&lt;input&gt;</code> and <code>&lt;label&gt;</code>
+                    pairing is wrapped in a <code>&lt;div&gt;</code> to create our custom
+                    control. Structurally, this is the same approach as our default
+                    <code>.form-check</code>.
+                </p>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" id="flexRadioDefault1" name="flexRadioDefault" type="radio"/>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            Default radio
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input checked="" class="form-check-input" id="flexRadioDefault2" name="flexRadioDefault"
+                               type="radio"/>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Default checked radio
+                        </label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check"&gt;
+                                                                 &lt;input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"&gt;
+                                                                 &lt;label class="form-check-label" for="flexRadioDefault1"&gt;
+                                                                      Default radio
+                                                                 &lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check"&gt;
+                                                                 &lt;input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked&gt;
+                                                                 &lt;label class="form-check-label" for="flexRadioDefault2"&gt;
+                                                                      Default checked radio
+                                                                 &lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor mb-3" id="inline-radio">
+                    Inline Radio<a class="anchor-link" href="#inline-radio">#</a>
+                </h5>
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="inlineRadio1" name="inlineRadioOptions" type="radio"
+                               value="option1"/>
+                        <label class="form-check-label" for="inlineRadio1">Check this custom
+                            checkbox</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" id="inlineRadio2" name="inlineRadioOptions" type="radio"
+                               value="option2"/>
+                        <label class="form-check-label" for="inlineRadio2">Check this custom
+                            checkbox</label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"&gt;
+                                                                 &lt;label class="form-check-label" for="inlineRadio1"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"&gt;
+                                                                 &lt;label class="form-check-label" for="inlineRadio2"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor mb-3" id="disabled-radio">
+                    Disabled Radio<a class="anchor-link" href="#disabled-radio">#</a>
+                </h5>
+                <div class="mb-3">
+                    <div class="form-check form-check-inline">
+                        <input checked="" class="form-check-input" disabled="" id="customCheck5" type="radio"/>
+                        <label class="form-check-label" for="customCheck5">Check this custom
+                            checkbox</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" disabled="" id="customCheck6" type="radio"/>
+                        <label class="form-check-label" for="customCheck6">Check this custom
+                            checkbox</label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input type="radio" class="form-check-input" id="customCheck5" checked disabled&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck5"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-check-inline"&gt;
+                                                                 &lt;input type="radio" class="form-check-input" id="customCheck6" disabled&gt;
+                                                                 &lt;label class="form-check-label" for="customCheck6"&gt;Check this custom checkbox&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor mb-3" id="colors-radio">
+                    Colors Radio<a class="anchor-link" href="#colors-radio">#</a>
+                </h5>
+                <div class="mb-3">
+                    <div class="form-check mb-2">
+                        <input checked="" class="form-check-input" id="customRadiocolor1" name="customRadiocolor1"
+                               type="radio"/>
+                        <label class="form-check-label" for="customRadiocolor1">Default
+                            Radio</label>
+                    </div>
+                    <div class="form-check form-radio-success mb-2">
+                        <input checked="" class="form-check-input" id="customRadiocolor2" name="customRadiocolor2"
+                               type="radio"/>
+                        <label class="form-check-label" for="customRadiocolor2">Success
+                            Radio</label>
+                    </div>
+                    <div class="form-check form-radio-info mb-2">
+                        <input checked="" class="form-check-input" id="customRadiocolor3" name="customRadiocolor3"
+                               type="radio"/>
+                        <label class="form-check-label" for="customRadiocolor3">Info
+                            Radio</label>
+                    </div>
+                    <div class="form-check form-radio-secondary mb-2">
+                        <input checked="" class="form-check-input" id="customRadiocolor6" name="customRadiocolor6"
+                               type="radio"/>
+                        <label class="form-check-label" for="customRadiocolor6">Secondary
+                            Radio</label>
+                    </div>
+                    <div class="form-check form-radio-warning mb-2">
+                        <input checked="" class="form-check-input" id="customRadiocolor4" name="customRadiocolor4"
+                               type="radio"/>
+                        <label class="form-check-label" for="customRadiocolor4">Warning
+                            Radio</label>
+                    </div>
+                    <div class="form-check form-radio-danger mb-2">
+                        <input checked="" class="form-check-input" id="customRadiocolor5" name="customRadiocolor5"
+                               type="radio"/>
+                        <label class="form-check-label" for="customRadiocolor5">Danger
+                            Radio</label>
+                    </div>
+                    <div class="form-check form-radio-dark">
+                        <input checked="" class="form-check-input" id="customRadiocolor7" name="customRadiocolor7"
+                               type="radio"/>
+                        <label class="form-check-label" for="customRadiocolor7">Dark
+                            Radio</label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check mb-2"&gt;
+                                                                 &lt;input type="radio" id="customRadiocolor1" name="customRadiocolor1" class="form-check-input" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customRadiocolor1"&gt;Default Radio&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-radio-success mb-2"&gt;
+                                                                 &lt;input type="radio" id="customRadiocolor2" name="customRadiocolor2" class="form-check-input" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customRadiocolor2"&gt;Success Radio&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-radio-info mb-2"&gt;
+                                                                 &lt;input type="radio" id="customRadiocolor3" name="customRadiocolor3" class="form-check-input" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customRadiocolor3"&gt;Info Radio&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-radio-secondary mb-2"&gt;
+                                                                 &lt;input type="radio" id="customRadiocolor6" name="customRadiocolor6" class="form-check-input" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customRadiocolor6"&gt;Secondary Radio&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-radio-warning mb-2"&gt;
+                                                                 &lt;input type="radio" id="customRadiocolor4" name="customRadiocolor4" class="form-check-input" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customRadiocolor4"&gt;Warning Radio&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-radio-danger mb-2"&gt;
+                                                                 &lt;input type="radio" id="customRadiocolor5" name="customRadiocolor5" class="form-check-input" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customRadiocolor5"&gt;Danger Radio&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-radio-dark"&gt;
+                                                                 &lt;input type="radio" id="customRadiocolor7" name="customRadiocolor7" class="form-check-input" checked&gt;
+                                                                 &lt;label class="form-check-label" for="customRadiocolor7"&gt;Dark Radio&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="switch-basic">
+                    Switch<a class="anchor-link" href="#switch-basic">#</a>
+                </h5>
+                <p class="text-muted">
+                    A switch has the markup of a custom checkbox but uses the
+                    <code>.form-switch</code> class to render a toggle switch. Switches also
+                    support the <code>disabled</code> attribute.
+                </p>
+                <div class="mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" id="flexSwitchCheckDefault" role="switch" type="checkbox"/>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Default
+                            switch checkbox input</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input checked="" class="form-check-input" id="flexSwitchCheckChecked" role="switch"
+                               type="checkbox"/>
+                        <label class="form-check-label" for="flexSwitchCheckChecked">Checked
+                            switch checkbox input</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" disabled="" id="flexSwitchCheckDisabled" role="switch"
+                               type="checkbox"/>
+                        <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled
+                            switch checkbox input</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        <input checked="" class="form-check-input" disabled="" id="flexSwitchCheckCheckedDisabled"
+                               role="switch" type="checkbox"/>
+                        <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked switch
+                            checkbox input</label>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;div class="form-check form-switch"&gt;
+                                                                 &lt;input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"&gt;
+                                                                 &lt;label class="form-check-label" for="flexSwitchCheckDefault"&gt;Default switch checkbox input&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-switch"&gt;
+                                                                 &lt;input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked&gt;
+                                                                 &lt;label class="form-check-label" for="flexSwitchCheckChecked"&gt;Checked switch checkbox input&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-switch"&gt;
+                                                                 &lt;input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDisabled" disabled&gt;
+                                                                 &lt;label class="form-check-label" for="flexSwitchCheckDisabled"&gt;Disabled switch checkbox input&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                            &lt;div class="form-check form-switch"&gt;
+                                                                 &lt;input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckCheckedDisabled" checked disabled&gt;
+                                                                 &lt;label class="form-check-label" for="flexSwitchCheckCheckedDisabled"&gt;Disabled checked switch checkbox input&lt;/label&gt;
+                                                            &lt;/div&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#checkbox-basic">Checkbox</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inline-checkbox">Inline Checkbox</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#disabled-checkbox">Disabled Checkbox</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#colors-checkbox">Colors Checkbox</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#radio-basic">Radio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#inline-radio">Inline Radio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#disabled-radio">Disabled Radio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#colors-radio">Colors Radio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#switch-basic">Switch</a>
+                </li>
+            </ul>
+        </div><!-- end card -->
+    </div><!-- end col -->
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

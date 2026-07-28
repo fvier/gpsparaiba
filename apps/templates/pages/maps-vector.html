@@ -1,0 +1,412 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Vector Maps{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Vector Maps' %}
+{% set title='Maps' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="maps-world_vector_map">
+                    World Vector Map<a class="anchor-link" href="#world_vector_map">#</a>
+                </h5>
+                <p class="text-muted">Give textual form controls like
+                    <code>&lt;input&gt;</code>s and <code>&lt;textarea&gt;</code>s an upgrade
+                    with custom styles, sizing, focus states, and more.</p>
+                <div class="">
+                    <div class="mb-3">
+                        <div id="world-map-markers" style="height: 360px"></div>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab"
+                                       href="#homePill">
+                                        <span class="fs-12 text-uppercase">html</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a aria-expanded="true" class="nav-link" data-bs-toggle="tab" href="#profilePill">
+                                        <span class="fs-12 text-uppercase">javascript</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="homePill">
+                                <div class="code">
+<pre class="language-html">
+                                                                      <code>
+                                                                           &lt;div class="mb-3"&gt;
+                                                                                &lt;div id="world-map-markers" style="height: 360px"&gt;&lt;/div&gt;
+                                                                           &lt;/div&gt;
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="profilePill">
+                                <div class="code">
+<pre class="language-javascript">
+                                                                      <code>
+                                                                           initWorldMapMarker() {
+                                                                                const map = new jsVectorMap({
+                                                                                    map: 'world',
+                                                                                    selector: '#world-map-markers',
+                                                                                    zoomOnScroll: false, 
+                                                                                    zoomButtons: true,
+                                                                                    markersSelectable: true,
+                                                                                    markers: [
+                                                                                        { name: "Greenland", coords: [72, -42] },
+                                                                                        { name: "Canada", coords: [56.1304, -106.3468] },
+                                                                                        { name: "Brazil", coords: [-14.2350, -51.9253] },
+                                                                                        { name: "Egypt", coords: [26.8206, 30.8025] },
+                                                                                        { name: "Russia", coords: [61, 105] },
+                                                                                        { name: "China", coords: [35.8617, 104.1954] },
+                                                                                        { name: "United States", coords: [37.0902, -95.7129] },
+                                                                                        { name: "Norway", coords: [60.472024, 8.468946] },
+                                                                                        { name: "Ukraine", coords: [48.379433, 31.16558] },
+                                                                                    ],
+                                                                                    markerStyle: {
+                                                                                        initial: { fill: "#5B8DEC" },
+                                                                                        selected: { fill: "#ed5565" }
+                                                                                    },
+                                                                                    labels: {
+                                                                                        markers: {
+                                                                                            render: marker =&gt; marker.name
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="maps-canada_vector_map">
+                    Canada Vector Map<a class="anchor-link" href="#canada_vector_map">#</a>
+                </h5>
+                <p class="text-muted">Give textual form controls like
+                    <code>&lt;input&gt;</code>s and <code>&lt;textarea&gt;</code>s an upgrade
+                    with custom styles, sizing, focus states, and more.</p>
+                <div class="">
+                    <div class="mb-3">
+                        <div id="canada-vector-map" style="height: 360px"></div>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab"
+                                       href="#canada-vector-map-html">
+                                        <span class="fs-12 text-uppercase">html</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a aria-expanded="true" class="nav-link" data-bs-toggle="tab"
+                                       href="#canada-vector-map-js">
+                                        <span class="fs-12 text-uppercase">javascript</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="canada-vector-map-html">
+                                <div class="code">
+<pre class="language-html">
+                                                                      <code>
+                                                                           &lt;div class="mb-3"&gt;
+                                                                                &lt;div id="canada-vector-map" style="height: 360px"&gt;&lt;/div&gt;
+                                                                           &lt;/div&gt;
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="canada-vector-map-js">
+                                <div class="code">
+<pre class="language-javascript">
+                                                                      <code>
+                                                                           initCanadaVectorMap() {
+                                                                                const map = new jsVectorMap({
+                                                                                    map: 'canada',
+                                                                                    selector: '#canada-vector-map',
+                                                                                    zoomOnScroll: false,
+                                                                                    regionStyle: {
+                                                                                        initial: {
+                                                                                            fill: '#5B8DEC'
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="maps-russia-vector-map">
+                    Russia Vector Map<a class="anchor-link" href="#russia-vector-map">#</a>
+                </h5>
+                <p class="text-muted">Give textual form controls like
+                    <code>&lt;input&gt;</code>s and <code>&lt;textarea&gt;</code>s an upgrade
+                    with custom styles, sizing, focus states, and more.</p>
+                <div class="">
+                    <div class="mb-3">
+                        <div id="russia-vector-map" style="height: 360px"></div>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab"
+                                       href="#russia-vector-map-html">
+                                        <span class="fs-12 text-uppercase">html</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a aria-expanded="true" class="nav-link" data-bs-toggle="tab"
+                                       href="#russia-vector-map-js">
+                                        <span class="fs-12 text-uppercase">javascript</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="russia-vector-map-html">
+                                <div class="code">
+<pre class="language-html">
+                                                                      <code>
+                                                                           &lt;div class="mb-3"&gt;
+                                                                                &lt;div id="russia-vector-map" style="height: 360px"&gt;&lt;/div&gt;
+                                                                           &lt;/div&gt;
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="russia-vector-map-js">
+                                <div class="code">
+<pre class="language-javascript">
+                                                                      <code>
+                                                                           initRussiaVectorMap() {
+                                                                                const map = new jsVectorMap({
+                                                                                    map: 'russia',
+                                                                                    selector: '#russia-vector-map',
+                                                                                    zoomOnScroll: false,
+                                                                                    regionStyle: {
+                                                                                        initial: {
+                                                                                            fill: '#5d7186'
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="maps-iraq-vector-map">
+                    Iraq Vector Map<a class="anchor-link" href="#iraq-vector-map">#</a>
+                </h5>
+                <p class="text-muted">Give textual form controls like
+                    <code>&lt;input&gt;</code>s and <code>&lt;textarea&gt;</code>s an upgrade
+                    with custom styles, sizing, focus states, and more.</p>
+                <div class="">
+                    <div class="mb-3">
+                        <div id="iraq-vector-map" style="height: 360px"></div>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab"
+                                       href="#iraq-vector-map-html">
+                                        <span class="fs-12 text-uppercase">html</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a aria-expanded="true" class="nav-link" data-bs-toggle="tab"
+                                       href="#iraq-vector-map-js">
+                                        <span class="fs-12 text-uppercase">javascript</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="iraq-vector-map-html">
+                                <div class="code">
+<pre class="language-html">
+                                                                      <code>
+                                                                           &lt;div class="mb-3"&gt;
+                                                                                &lt;div id="iraq-vector-map" style="height: 360px"&gt;&lt;/div&gt;
+                                                                           &lt;/div&gt;
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="iraq-vector-map-js">
+                                <div class="code">
+<pre class="language-javascript">
+                                                                      <code>
+                                                                           initIraqVectorMap() {
+                                                                                const map = new jsVectorMap({
+                                                                                    map: 'iraq',
+                                                                                    selector: '#iraq-vector-map',
+                                                                                    zoomOnScroll: false,
+                                                                                    regionStyle: {
+                                                                                        initial: {
+                                                                                            fill: '#20c8e9'
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="maps-spain-vector-map">
+                    Spain Vector Map<a class="anchor-link" href="#spain-vector-map">#</a>
+                </h5>
+                <p class="text-muted">Give textual form controls like
+                    <code>&lt;input&gt;</code>s and <code>&lt;textarea&gt;</code>s an upgrade
+                    with custom styles, sizing, focus states, and more.</p>
+                <div class="">
+                    <div class="mb-3">
+                        <div id="spain-vector-map" style="height: 360px"></div>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a aria-expanded="false" class="nav-link active" data-bs-toggle="tab"
+                                       href="#spain-vector-map-html">
+                                        <span class="fs-12 text-uppercase">html</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a aria-expanded="true" class="nav-link" data-bs-toggle="tab"
+                                       href="#spain-vector-map-js">
+                                        <span class="fs-12 text-uppercase">javascript</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane show active" id="spain-vector-map-html">
+                                <div class="code">
+<pre class="language-html">
+                                                                      <code>
+                                                                           &lt;div class="mb-3"&gt;
+                                                                                &lt;div id="spain-vector-map" style="height: 360px"&gt;&lt;/div&gt;
+                                                                           &lt;/div&gt;
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="spain-vector-map-js">
+                                <div class="code">
+<pre class="language-javascript">
+                                                                      <code>
+                                                                           initSpainVectorMap() {
+                                                                                const map = new jsVectorMap({
+                                                                                    map: 'spain',
+                                                                                    selector: '#spain-vector-map',
+                                                                                    zoomOnScroll: false,
+                                                                                    regionStyle: {
+                                                                                        initial: {
+                                                                                            fill: '#ffe381'
+                                                                                        }
+                                                                                    }
+                                                                                });
+                                                                            }
+                                                                      </code>
+                                                                 </pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end card body -->
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#world_vector_map">World Vector Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#canada_vector_map">Canada Vector Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#russia-vector-map">Russia Vector Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#iraq-vector-map">Iraq Vector Map</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#spain-vector-map">Spain Vector Map</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+<script src="{{ config.ASSETS_ROOT }}/vendor/jsvectormap/jsvectormap.min.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/vendor/jsvectormap/maps/world-merc.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/vendor/jsvectormap/maps/world.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/js/components/maps-canada.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/js/components/maps-iraq.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/js/components/maps-russia.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/js/components/maps-spain.js"></script>
+<script src="{{ config.ASSETS_ROOT }}/js/components/maps-vector.js"></script>
+{% endblock extra_javascript %}

@@ -1,0 +1,132 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Scrollspy{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Scrollspy' %}
+{% set title='UI' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card p-3">
+            <div class="mb-3">
+                <nav class="navbar bg-light px-3 mb-3" id="navbar-example2">
+                    <a class="navbar-brand" href="#">Navbar</a>
+                    <ul class="nav nav-pills">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#scrollspyHeading1">First</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#scrollspyHeading2">Second</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                               role="button">Dropdown</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#scrollspyHeading3">Third</a></li>
+                                <li><a class="dropdown-item" href="#scrollspyHeading4">Fourth</a></li>
+                                <li>
+                                    <hr class="dropdown-divider"/>
+                                </li>
+                                <li><a class="dropdown-item" href="#scrollspyHeading5">Fifth</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="scrollspy-example bg-light bg-opacity-50 p-3 rounded-2" data-bs-root-margin="0px 0px -40%"
+                     data-bs-smooth-scroll="true" data-bs-spy="scroll" data-bs-target="#navbar-example2" tabindex="0">
+                    <h4 id="scrollspyHeading1">First heading</h4>
+                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll
+                        down the page, the
+                        appropriate navigation link is highlighted. It's repeated throughout the
+                        component example. We keep adding
+                        some more example copy here to emphasize the scrolling and highlighting.</p>
+                    <h4 id="scrollspyHeading2">Second heading</h4>
+                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll
+                        down the page, the
+                        appropriate navigation link is highlighted. It's repeated throughout the
+                        component example. We keep adding
+                        some more example copy here to emphasize the scrolling and highlighting.</p>
+                    <h4 id="scrollspyHeading3">Third heading</h4>
+                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll
+                        down the page, the
+                        appropriate navigation link is highlighted. It's repeated throughout the
+                        component example. We keep adding
+                        some more example copy here to emphasize the scrolling and highlighting.</p>
+                    <h4 id="scrollspyHeading4">Fourth heading</h4>
+                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll
+                        down the page, the
+                        appropriate navigation link is highlighted. It's repeated throughout the
+                        component example. We keep adding
+                        some more example copy here to emphasize the scrolling and highlighting.</p>
+                    <h4 id="scrollspyHeading5">Fifth heading</h4>
+                    <p>This is some placeholder content for the scrollspy page. Note that as you scroll
+                        down the page, the
+                        appropriate navigation link is highlighted. It's repeated throughout the
+                        component example. We keep adding
+                        some more example copy here to emphasize the scrolling and highlighting.</p>
+                </div>
+            </div>
+            <div class="highlight">
+                <div class="highlight-toolbar">
+                    <small class="text-uppercase">html</small>
+                    <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                        Copy
+                    </button>
+                </div>
+                <div class="code">
+<pre class="language-html">
+                                            <code id="heightProgress">
+                                                &lt;nav id="navbar-example2" class="navbar bg-light px-3 mb-3"&gt;
+                                                    &lt;a class="navbar-brand" href="#"&gt;Navbar&lt;/a&gt;
+                                                    &lt;ul class="nav nav-pills"&gt;
+                                                        &lt;li class="nav-item"&gt;
+                                                            &lt;a class="nav-link" href="#scrollspyHeading1"&gt;First&lt;/a&gt;
+                                                        &lt;/li&gt;
+                                                        &lt;li class="nav-item"&gt;
+                                                            &lt;a class="nav-link" href="#scrollspyHeading2"&gt;Second&lt;/a&gt;
+                                                        &lt;/li&gt;
+                                                        &lt;li class="nav-item dropdown"&gt;
+                                                            &lt;a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false"&gt;Dropdown&lt;/a&gt;
+                                                            &lt;ul class="dropdown-menu"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="#scrollspyHeading3"&gt;Third&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="#scrollspyHeading4"&gt;Fourth&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;
+                                                                    &lt;hr class="dropdown-divider"&gt;
+                                                                &lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="#scrollspyHeading5"&gt;Fifth&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/li&gt;
+                                                    &lt;/ul&gt;
+                                                &lt;/nav&gt;
+                                                &lt;div class="scrollspy-example bg-light p-3 rounded-2" data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" tabindex="0"&gt;
+                                                    &lt;h4 id="scrollspyHeading1"&gt;First heading&lt;/h4&gt;
+                                                    &lt;p&gt;...&lt;/p&gt;
+                                                    &lt;h4 id="scrollspyHeading2"&gt;Second heading&lt;/h4&gt;
+                                                    &lt;p&gt;...&lt;/p&gt;
+                                                    &lt;h4 id="scrollspyHeading3"&gt;Third heading&lt;/h4&gt;
+                                                    &lt;p&gt;...&lt;/p&gt;
+                                                    &lt;h4 id="scrollspyHeading4"&gt;Fourth heading&lt;/h4&gt;
+                                                    &lt;p&gt;...&lt;/p&gt;
+                                                    &lt;h4 id="scrollspyHeading5"&gt;Fifth heading&lt;/h4&gt;
+                                                    &lt;p&gt;...&lt;/p&gt;
+                                                &lt;/div&gt;
+                                            </code>
+                                        </pre>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+</div> <!-- end row -->
+<!-- end spinners-->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

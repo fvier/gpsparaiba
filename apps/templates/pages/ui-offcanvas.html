@@ -1,0 +1,612 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Offcanvas{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Offcanvas' %}
+{% set title='UI' %}
+{% include 'partials/page-title.html' %}
+
+<!-- start offcanvas -->
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="default">
+                    Default Buttons<a class="anchor-link" href="#default">#</a>
+                </h5>
+                <p class="text-muted">
+                    You can use a link with the href attribute, or a button with the
+                    <code>data-bs-target</code> attribute.
+                    In both cases, the <code>data-bs-toggle="offcanvas"</code> is required.
+                </p>
+                <div class="mb-3">
+                    <div class="button-list">
+                        <a aria-controls="offcanvasExample" class="btn btn-primary" data-bs-toggle="offcanvas"
+                           href="#offcanvasExample" role="button">
+                            Link with href
+                        </a>
+                        <button aria-controls="offcanvasExample" class="btn btn-secondary"
+                                data-bs-target="#offcanvasExample" data-bs-toggle="offcanvas" type="button">
+                            Button with data-bs-target
+                        </button>
+                    </div>
+                    <!-- default offcanvas -->
+                    <div aria-labelledby="offcanvasExampleLabel" class="offcanvas offcanvas-start" id="offcanvasExample"
+                         tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="offcanvasExampleLabel">Offcanvas</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="defaultDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="defaultDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                            <code id="defaultButtons">
+                                                &lt;div class="button-list"&gt;
+                                                    &lt;a class="btn btn-primary" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample"&gt;
+                                                        Link with href
+                                                    &lt;/a&gt;
+                                                    &lt;button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample"&gt; 
+                                                        Button with data-bs-target
+                                                    &lt;/button&gt;
+                                                &lt;/div&gt;
+
+
+                                                &lt;!-- default offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="offcanvasExampleLabel"&gt;Offcanvas&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="defaultDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="defaultDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;                                                         
+                                            </code>
+                                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="static-backdrop">
+                    Static Backdrop <a class="anchor-link" href="#static-backdrop">#</a>
+                </h5>
+                <p class="text-muted">
+                    Scrolling the <code>&lt;body&gt;</code> element is disabled when an offcanvas and
+                    its backdrop are visible.
+                    Use the <code>data-bs-scroll</code> attribute to toggle <code>&lt;body&gt;</code>
+                    scrolling and
+                    <code>data-bs-backdrop</code> to toggle the backdrop.
+                </p>
+                <div class="mb-3">
+                    <div class="button-list">
+                        <button aria-controls="offcanvasScrolling" class="btn btn-primary"
+                                data-bs-target="#offcanvasScrolling" data-bs-toggle="offcanvas" type="button">Enable
+                            Body Scrolling
+                        </button>
+                        <button aria-controls="offcanvasWithBackdrop" class="btn btn-secondary"
+                                data-bs-target="#offcanvasWithBackdrop" data-bs-toggle="offcanvas" type="button">Enable
+                            Backdrop (Default)
+                        </button>
+                        <button aria-controls="offcanvasWithBothOptions" class="btn btn-success"
+                                data-bs-target="#offcanvasWithBothOptions" data-bs-toggle="offcanvas" type="button">
+                            Enable Both Scrolling &amp;
+                            Backdrop
+                        </button>
+                    </div>
+                    <!-- scrolling offcanvas -->
+                    <div aria-labelledby="offcanvasScrollingLabel" class="offcanvas offcanvas-start"
+                         data-bs-backdrop="false" data-bs-scroll="true" id="offcanvasScrolling" tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="offcanvasScrollingLabel">Colored with
+                                scrolling</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="scrollingDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="scrollingDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- backdrop offcanvas -->
+                    <div aria-labelledby="offcanvasWithBackdropLabel" class="offcanvas offcanvas-start"
+                         id="offcanvasWithBackdrop" tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="offcanvasWithBackdropLabel">Offcanvas
+                                with backdrop</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="backdropDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="backdropDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- both scrolling & backdrop offcanvas -->
+                    <div aria-labelledby="offcanvasWithBothOptionsLabel" class="offcanvas offcanvas-start"
+                         data-bs-scroll="true" id="offcanvasWithBothOptions" tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="offcanvasWithBothOptionsLabel">
+                                Backdroped with scrolling</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="scrollingBackdropDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="scrollingBackdropDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                            <code id="roundedButtons">
+                                                &lt;div class="button-list"&gt;
+                                                    &lt;button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"&gt;Enable Body Scrolling&lt;/button&gt;
+                                                    &lt;button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop"&gt;Enable Backdrop (Default)&lt;/button&gt;
+                                                    &lt;button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions"&gt;Enable Both Scrolling &amp; Backdrop&lt;/button&gt;
+                                                &lt;/div&gt;
+
+                                                &lt;!-- scrolling offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="offcanvasScrollingLabel"&gt;Colored with scrolling&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="scrollingDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="scrollingDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;
+
+                                                &lt;!-- backdrop offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="offcanvasWithBackdropLabel"&gt;Offcanvas with backdrop&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="backdropDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="backdropDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;
+
+                                                &lt;!-- both scrolling &amp; backdrop offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="offcanvasWithBothOptionsLabel"&gt;Backdroped with scrolling&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="scrollingBackdropDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="scrollingBackdropDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;
+                                            </code>
+                                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="offcanvas-position">
+                    Offcanvas Position <a class="anchor-link" href="#offcanvas-position">#</a>
+                </h5>
+                <p class="text-muted">
+                    Try the top, right, bottom and left examples out below.
+                </p>
+                <ul>
+                    <li><code>.offcanvas-top</code> places offcanvas on the top of the viewport</li>
+                    <li><code>.offcanvas-end</code> places offcanvas on the right of the viewport</li>
+                    <li><code>.offcanvas-bottom</code> places offcanvas on the bottom of the viewport
+                    </li>
+                    <li><code>.offcanvas-start</code> places offcanvas on the left of the viewport</li>
+                </ul>
+                <div class="mb-3">
+                    <div class="button-list">
+                        <button aria-controls="leftOffcanvas" class="btn btn-primary" data-bs-target="#leftOffcanvas"
+                                data-bs-toggle="offcanvas" type="button">Left
+                            Offcanvas
+                        </button>
+                        <button aria-controls="rightOffcanvas" class="btn btn-secondary"
+                                data-bs-target="#rightOffcanvas" data-bs-toggle="offcanvas" type="button">Right
+                            Offcanvas
+                        </button>
+                        <button aria-controls="topOffcanvas" class="btn btn-success" data-bs-target="#topOffcanvas"
+                                data-bs-toggle="offcanvas" type="button">Top
+                            Offcanvas
+                        </button>
+                        <button aria-controls="bottomOffcanvas" class="btn btn-info" data-bs-target="#bottomOffcanvas"
+                                data-bs-toggle="offcanvas" type="button">Bottom
+                            Offcanvas
+                        </button>
+                    </div>
+                    <!-- left offcanvas -->
+                    <div aria-labelledby="leftOffcanvasLabel" class="offcanvas offcanvas-start" id="leftOffcanvas"
+                         tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="leftOffcanvasLabel">Offcanvas</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="leftDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="leftDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- right offcanvas -->
+                    <div aria-labelledby="rightOffcanvasLabel" class="offcanvas offcanvas-end" id="rightOffcanvas"
+                         tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="rightOffcanvasLabel">Offcanvas</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="rightDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="rightDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- top offcanvas -->
+                    <div aria-labelledby="topOffcanvasLabel" class="offcanvas offcanvas-top" id="topOffcanvas"
+                         tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="topOffcanvasLabel">Offcanvas</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="topDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="topDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- bottom offcanvas -->
+                    <div aria-labelledby="bottomOffcanvasLabel" class="offcanvas offcanvas-bottom" id="bottomOffcanvas"
+                         tabindex="-1">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title mt-0" id="bottomOffcanvasLabel">Offcanvas</h5>
+                            <button aria-label="Close" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    type="button"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <p>
+                                Some text as placeholder. In real life you can have the elements you
+                                have chosen. Like, text, images, lists, etc.
+                            </p>
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                                        id="bottomDropdownMenuButton" type="button">
+                                    Dropdown button
+                                </button>
+                                <ul aria-labelledby="bottomDropdownMenuButton" class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Action</a>
+                                    </li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Another
+                                        action</a></li>
+                                    <li><a class="dropdown-item" href="javascript:void(0);">Something
+                                        else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code">
+<pre class="language-html">
+                                            <code id="outlinetButtons">
+                                                &lt;div class="button-list"&gt;
+                                                    &lt;button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#leftOffcanvas" aria-controls="leftOffcanvas"&gt;Left Offcanvas&lt;/button&gt;
+                                                    &lt;button class="btn btn-secondary" type="button" data-bs-toggle="offcanvas" data-bs-target="#rightOffcanvas" aria-controls="rightOffcanvas"&gt;Right Offcanvas&lt;/button&gt;
+                                                    &lt;button class="btn btn-success" type="button" data-bs-toggle="offcanvas" data-bs-target="#topOffcanvas" aria-controls="topOffcanvas"&gt;Top Offcanvas&lt;/button&gt;
+                                                    &lt;button class="btn btn-info" type="button" data-bs-toggle="offcanvas" data-bs-target="#bottomOffcanvas" aria-controls="bottomOffcanvas"&gt;Bottom Offcanvas&lt;/button&gt;
+                                                &lt;/div&gt;
+
+                                                &lt;!-- left offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-start" tabindex="-1" id="leftOffcanvas" aria-labelledby="leftOffcanvasLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="leftOffcanvasLabel"&gt;Offcanvas&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="leftDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="leftDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;
+
+                                                &lt;!-- right offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-end" tabindex="-1" id="rightOffcanvas" aria-labelledby="rightOffcanvasLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="rightOffcanvasLabel"&gt;Offcanvas&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="rightDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="rightDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;
+
+                                                &lt;!-- top offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-top" tabindex="-1" id="topOffcanvas" aria-labelledby="topOffcanvasLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="topOffcanvasLabel"&gt;Offcanvas&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="topDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="topDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;
+
+                                                &lt;!-- bottom offcanvas --&gt;
+                                                &lt;div class="offcanvas offcanvas-bottom" tabindex="-1" id="bottomOffcanvas" aria-labelledby="bottomOffcanvasLabel"&gt;
+                                                    &lt;div class="offcanvas-header"&gt;
+                                                        &lt;h5 class="offcanvas-title mt-0" id="bottomOffcanvasLabel"&gt;Offcanvas&lt;/h5&gt;
+                                                        &lt;button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"&gt;&lt;/button&gt;
+                                                    &lt;/div&gt;
+                                                    &lt;div class="offcanvas-body"&gt;
+                                                        &lt;p&gt;
+                                                            Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+                                                        &lt;/p&gt;
+                                                        &lt;div class="dropdown mt-3"&gt;
+                                                            &lt;button class="btn btn-primary dropdown-toggle" type="button" id="bottomDropdownMenuButton" data-bs-toggle="dropdown"&gt;
+                                                                Dropdown button
+                                                            &lt;/button&gt;
+                                                            &lt;ul class="dropdown-menu" aria-labelledby="bottomDropdownMenuButton"&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Another action&lt;/a&gt;&lt;/li&gt;
+                                                                &lt;li&gt;&lt;a class="dropdown-item" href="javascript:void(0);"&gt;Something else here&lt;/a&gt;&lt;/li&gt;
+                                                            &lt;/ul&gt;
+                                                        &lt;/div&gt;
+                                                    &lt;/div&gt;
+                                                &lt;/div&gt;                                                  
+                                            </code>
+                                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#default">Default Buttons</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#static-backdrop">Static Backdrop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#offcanvas-position">Offcanvas Position</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

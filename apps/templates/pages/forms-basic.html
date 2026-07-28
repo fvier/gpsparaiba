@@ -1,0 +1,383 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Basic Form{% endblock title %}
+
+{% block extra_css %}
+
+{% endblock extra_css %}
+
+{% block page_content %}
+
+{% set subTitle= 'Basic Form' %}
+{% set title='Form' %}
+{% include 'partials/page-title.html' %}
+
+<div class="row">
+    <div class="col-xl-9">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="basic">
+                    Basic Example<a class="anchor-link" href="#basic">#</a>
+                </h5>
+                <p class="text-muted">Give textual form controls like
+                    <code>&lt;input&gt;</code>s and <code>&lt;textarea&gt;</code>s an upgrade
+                    with custom styles, sizing, focus states, and more.</p>
+                <div class="">
+                    <div>
+                        <div class="mb-3">
+                            <label class="form-label" for="simpleinput">Text</label>
+                            <input class="form-control" id="simpleinput" type="text"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="example-email">Email</label>
+                            <input class="form-control" id="example-email" name="example-email" placeholder="Email"
+                                   type="email"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="example-password">Password</label>
+                            <input class="form-control" id="example-password" type="password" value="password"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="example-palaceholder">Placeholder</label>
+                            <input class="form-control" id="example-palaceholder" placeholder="placeholder"
+                                   type="text"/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="example-textarea">Text
+                                area</label>
+                            <textarea class="form-control" id="example-textarea" rows="5"></textarea>
+                        </div>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <small class="text-uppercase">html</small>
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                                 <code>
+                                                                      &lt;div class="mb-3"&gt;
+                                                                           &lt;label for="simpleinput" class="form-label"&gt;Text&lt;/label&gt;
+                                                                           &lt;input type="text" id="simpleinput" class="form-control"&gt;
+                                                                      &lt;/div&gt;
+
+                                                                      &lt;div class="mb-3"&gt;
+                                                                           &lt;label for="example-email" class="form-label"&gt;Email&lt;/label&gt;
+                                                                           &lt;input type="email" id="example-email" name="example-email" class="form-control" placeholder="Email"&gt;
+                                                                      &lt;/div&gt;
+
+                                                                      &lt;div class="mb-3"&gt;
+                                                                           &lt;label for="example-password" class="form-label"&gt;Password&lt;/label&gt;
+                                                                           &lt;input type="password" id="example-password" class="form-control" value="password"&gt;
+                                                                      &lt;/div&gt;
+
+                                                                      &lt;div class="mb-3"&gt;
+                                                                           &lt;label for="example-palaceholder" class="form-label"&gt;Placeholder&lt;/label&gt;
+                                                                           &lt;input type="text" id="example-palaceholder" class="form-control" placeholder="placeholder"&gt;
+                                                                      &lt;/div&gt;
+
+                                                                      &lt;div class="mb-3"&gt;
+                                                                           &lt;label for="example-textarea" class="form-label"&gt;Text area&lt;/label&gt;
+                                                                           &lt;textarea class="form-control" id="example-textarea" rows="5"&gt;&lt;/textarea&gt;
+                                                                      &lt;/div&gt;
+                                                                 </code>
+                                                            </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="size">
+                    Input Sizing<a class="anchor-link" href="#size">#</a>
+                </h5>
+                <p class="text-muted">Set heights using classes like
+                    <code>.form-control-lg</code> and <code>.form-control-sm</code>.</p>
+                <div>
+                    <div class="d-flex flex-column gap-2 mb-3 w-50">
+                        <input aria-label=".form-control-lg example" class="form-control form-control-lg"
+                               placeholder=".form-control-lg" type="text"/>
+                        <input aria-label="default input example" class="form-control" placeholder="Default input"
+                               type="text"/>
+                        <input aria-label=".form-control-sm example" class="form-control form-control-sm"
+                               placeholder=".form-control-sm" type="text"/>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <small class="text-uppercase">html</small>
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                                 <code>
+                                                                      &lt;div class="d-flex flex-column gap-2 mb-3 w-50"&gt;
+                                                                           &lt;input class="form-control form-control-lg" type="text" placeholder=".form-control-lg" aria-label=".form-control-lg example"&gt;
+                                                                           &lt;input class="form-control" type="text" placeholder="Default input" aria-label="default input example"&gt;
+                                                                           &lt;input class="form-control form-control-sm" type="text" placeholder=".form-control-sm" aria-label=".form-control-sm example"&gt;
+                                                                      &lt;/div&gt;
+                                                                 </code>
+                                                            </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="disabled">
+                    Disabled Input<a class="anchor-link" href="#disabled">#</a>
+                </h5>
+                <p class="text-muted">Add the <code>disabled</code> boolean attribute on an
+                    input to give it a grayed out appearance, remove pointer events, and
+                    prevent focusing.</p>
+                <div>
+                    <div class="d-flex flex-column gap-2 mb-3 w-50">
+                        <input aria-label="Disabled input example" class="form-control" disabled=""
+                               placeholder="Disabled input" type="text"/>
+                        <input aria-label="Disabled input example" class="form-control" disabled="" readonly=""
+                               type="text" value="Disabled readonly input"/>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <small class="text-uppercase">html</small>
+
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                                 <code>
+                                                                      &lt;input class="form-control" type="text" placeholder="Disabled input" aria-label="Disabled input example" disabled&gt;
+                                                                      &lt;input class="form-control" type="text" value="Disabled readonly input" aria-label="Disabled input example" disabled readonly&gt;
+                                                                 </code>
+                                                            </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="readonly">
+                    Readonly Input<a class="anchor-link" href="#readonly">#</a>
+                </h5>
+                <p class="text-muted">Add the <code>readonly</code> boolean attribute on an
+                    input to prevent modification of the input’s value. <code>readonly</code>
+                    inputs can still be focused and selected, while <code>disabled</code>
+                    inputs cannot.</p>
+                <p class="text-muted">If you want to have <code>&lt;input readonly&gt;</code>
+                    elements in your form styled as plain text, replace
+                    <code>.form-control</code> with <code>.form-control-plaintext</code> to
+                    remove the default form field styling and preserve the correct
+                    <code>margin</code> and <code>padding</code>.</p>
+                <div>
+                    <div class="d-flex flex-column gap-2 mb-3 w-50">
+                        <input aria-label="readonly input example" class="form-control" readonly="" type="text"
+                               value="Readonly input here..."/>
+                        <input class="form-control-plaintext" id="staticEmail" readonly="" type="text"
+                               value="email@example.com"/>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <small class="text-uppercase">html</small>
+
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                                 <code>
+                                                                      &lt;input class="form-control" type="text" value="Readonly input here..." aria-label="readonly input example" readonly&gt;
+                                                                      &lt;input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com"&gt;
+                                                                 </code>
+                                                            </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="datalists">
+                    Datalists input<a class="anchor-link" href="#datalists">#</a>
+                </h5>
+                <p class="text-muted">If you want to have <code>&lt;input readonly&gt;</code>
+                    elements in your form styled as plain text, replace
+                    <code>.form-control</code> with <code>.form-control-plaintext</code> to
+                    remove the default form field styling and preserve the correct
+                    <code>margin</code> and <code>padding</code>.</p>
+                <div>
+                    <div class="mb-3 w-50">
+                        <label class="form-label" for="exampleDataList">Datalist
+                            example</label>
+                        <input class="form-control" id="exampleDataList" list="datalistOptions"
+                               placeholder="Type to search..."/>
+                        <datalist id="datalistOptions">
+                            <option value="San Francisco">
+                            <option value="New York">
+                            <option value="Seattle">
+                            <option value="Los Angeles">
+                            <option value="Chicago">
+                            </option>
+                            </option></option></option></option></datalist>
+                    </div>
+                    <div class="highlight border rounded">
+                        <div class="highlight-toolbar border-top-0">
+                            <small class="text-uppercase">html</small>
+
+                            <button class="btn btn-sm btn-outline-success btn-copy-clipboard"
+                                    data-clipboard-action="copy">Copy
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                                 <code>
+                                                                      &lt;label for="exampleDataList" class="form-label"&gt;Datalist example&lt;/label&gt;
+                                                                      &lt;input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search..."&gt;
+                                                                      &lt;datalist id="datalistOptions"&gt;
+                                                                           &lt;option value="San Francisco"&gt;
+                                                                           &lt;option value="New York"&gt;
+                                                                           &lt;option value="Seattle"&gt;
+                                                                           &lt;option value="Los Angeles"&gt;
+                                                                           &lt;option value="Chicago"&gt;
+                                                                      &lt;/datalist&gt; 
+                                                                 </code>
+                                                            </pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title mb-1 anchor" id="select">
+                    Select<a class="anchor-link" href="#select">#</a>
+                </h5>
+                <p class="text-muted">Custom <code>&lt;select&gt;</code> menus need only a
+                    custom class, <code>.form-select</code> to trigger the custom styles.
+                    Custom styles are limited to the <code>&lt;select&gt;</code>’s initial
+                    appearance and cannot modify the <code>&lt;option&gt;</code>s due to
+                    browser limitations.</p>
+                <div class="mb-3 w-50">
+                    <div class="mb-3">
+                        <label class="form-label" for="example-select">Default Input
+                            Select</label>
+                        <select class="form-select" id="example-select">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <p class="text-muted">The <code>multiple</code> attribute is also
+                        supported:</p>
+                    <div class="mb-3">
+                        <label class="form-label" for="example-multiselect">Multiple
+                            Select</label>
+                        <select class="form-control" id="example-multiselect" multiple="">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                            <option>5</option>
+                        </select>
+                    </div>
+                    <p class="text-muted">As is the <code>size</code> attribute:</p>
+                    <label class="form-label" for="example-multiselectsize">Multiple Select
+                        Size</label>
+                    <select aria-label="size 3 select example" class="form-select" id="example-multiselectsize"
+                            size="3">
+                        <option selected="">Open this select menu</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="highlight">
+                    <div class="highlight-toolbar">
+                        <small class="text-uppercase">html</small>
+                        <button class="btn btn-sm btn-outline-success btn-copy-clipboard" data-clipboard-action="copy">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code" data-simplebar="">
+<pre class="language-html">
+                                                       <code>
+                                                            &lt;label for="example-select" class="form-label"&gt;Default Input Select&lt;/label&gt;
+                                                            &lt;select class="form-select" id="example-select"&gt;
+                                                                 &lt;option&gt;1&lt;/option&gt;
+                                                                 &lt;option&gt;2&lt;/option&gt;
+                                                                 &lt;option&gt;3&lt;/option&gt;
+                                                                 &lt;option&gt;4&lt;/option&gt;
+                                                                 &lt;option&gt;5&lt;/option&gt;
+                                                            &lt;/select&gt;
+                                                            &lt;label for="example-multiselect" class="form-label"&gt;Multiple Select&lt;/label&gt;
+                                                            &lt;select id="example-multiselect" multiple="" class="form-control"&gt;
+                                                                 &lt;option&gt;1&lt;/option&gt;
+                                                                 &lt;option&gt;2&lt;/option&gt;
+                                                                 &lt;option&gt;3&lt;/option&gt;
+                                                                 &lt;option&gt;4&lt;/option&gt;
+                                                                 &lt;option&gt;5&lt;/option&gt;
+                                                            &lt;/select&gt;
+                                                            &lt;label for="example-multiselectsize" class="form-label"&gt;Multiple Select Size&lt;/label&gt;
+                                                            &lt;select id="example-multiselectsize" class="form-select" size="3" aria-label="size 3 select example"&gt;
+                                                                 &lt;option selected&gt;Open this select menu&lt;/option&gt;
+                                                                 &lt;option value="1"&gt;One&lt;/option&gt;
+                                                                 &lt;option value="2"&gt;Two&lt;/option&gt;
+                                                                 &lt;option value="3"&gt;Three&lt;/option&gt;
+                                                            &lt;/select&gt;
+                                                       </code>
+                                                  </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end col -->
+    <div class="col-xl-3">
+        <div class="card docs-nav">
+            <ul class="nav bg-transparent flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="#basic"> Basic Example</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#size"> Input Sizing</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#disabled"> Disabled Input</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#readonly"> Readonly Input</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#datalists"> Datalists input</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#select"> Select input</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> <!-- end row -->
+{% endblock page_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}
