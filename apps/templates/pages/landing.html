@@ -5,17 +5,40 @@
 {% block body_attribute %}class="bg-light text-dark"{% endblock body_attribute %}
 
 {% block content %}
+<!-- Custom Glassmorphism Styles for Hero -->
+<style>
+    .glass-card {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+    }
+    .hero-badge-pill {
+        background: rgba(37, 99, 235, 0.08);
+        border: 1px solid rgba(37, 99, 235, 0.18);
+        color: #1e40af;
+    }
+    .hover-lift {
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    }
+    .hover-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12) !important;
+    }
+</style>
+
 <!-- Floating WhatsApp Button -->
 <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rastrek%20e%20gostaria%20de%20solicitar%20uma%20cota%C3%A7%C3%A3o."
    target="_blank"
    rel="noopener noreferrer"
-   class="position-fixed bottom-0 end-0 m-4 z-3 btn btn-success rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center border-0"
+   class="position-fixed bottom-0 end-0 m-4 z-3 btn btn-success rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center border-0 hover-lift"
    style="width: 60px; height: 60px; background-color: #25d366;"
    title="Falar no WhatsApp">
     <i class="ri-whatsapp-fill fs-30 text-white"></i>
 </a>
 
-<!-- Header Navigation (Navbar Enxuto) -->
+<!-- Header Navigation (Navbar Minimalista) -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 sticky-top border-bottom border-light-subtle shadow-sm">
     <div class="container">
         <!-- Logo Image Compact -->
@@ -72,187 +95,105 @@
     </div>
 </nav>
 
-<!-- Seção Unificada: Hero + Coberturas de Proteção Veicular -->
-<section id="inicio" class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);">
-    <div class="container py-lg-4">
-        <!-- Parte Superior: Apresentação & Imagem -->
-        <div class="row align-items-center gy-5 mb-5">
-            <div class="col-lg-6">
-                <!-- Badge Hashtag -->
-                <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-warning bg-opacity-15 text-dark border border-warning border-opacity-30 mb-3 shadow-sm">
-                    <span class="badge bg-warning text-dark rounded-pill fw-bold">#vaiderastrek</span>
-                    <small class="fw-bold">Rastrek Paraíba &bull; Rastreamento & Assistência 24h</small>
-                </div>
-
-                <h1 class="display-5 fw-extrabold text-dark mb-3 lh-sm">
-                    Proteja seu Veículo com Rastreamento 24h a partir de <span class="text-primary">R$ 62/mês</span>
-                </h1>
-
-                <p class="text-secondary mb-4 fs-17">
-                    Solução completa contra Roubo e Furto, com Bloqueio Remoto por aplicativo, Reboque Guincho 200km, Assistência 24h e Garantia FIPE de até R$ 60 mil.
-                </p>
-
-                <!-- Key Advantage Checkmarks -->
-                <div class="row g-2 mb-4">
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center gap-2 text-dark font-medium fs-15">
-                            <i class="ri-checkbox-circle-fill text-success fs-18"></i>
-                            <span>Sem consulta SPC / Serasa</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center gap-2 text-dark font-medium fs-15">
-                            <i class="ri-checkbox-circle-fill text-success fs-18"></i>
-                            <span>Sem análise de perfil</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center gap-2 text-dark font-medium fs-15">
-                            <i class="ri-checkbox-circle-fill text-success fs-18"></i>
-                            <span>Central 0800 Emergência 24h</span>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center gap-2 text-dark font-medium fs-15">
-                            <i class="ri-checkbox-circle-fill text-success fs-18"></i>
-                            <span>Instalação rápida e garantida</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Simulation WhatsApp CTA Card -->
-                <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-success border-4 mb-4">
-                    <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
-                        <div>
-                            <h6 class="fw-bold text-dark mb-1"><i class="ri-flashlight-line text-warning me-1"></i> Simule sua Cotação em 1 minuto</h6>
-                            <p class="small text-secondary mb-0">Fale direto com nosso atendente no WhatsApp</p>
-                        </div>
-                        <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Gostaria%20de%20fazer%20uma%20cota%C3%A7%C3%A3o%20r%C3%A1pida%20de%20rastreamento%20para%20meu%20ve%C3%ADculo."
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="btn btn-success rounded-pill px-4 py-2-5 fw-bold d-inline-flex align-items-center justify-content-center gap-2 shadow-sm border-0 text-nowrap"
-                           style="background-color: #25d366;">
-                            <i class="ri-whatsapp-line fs-20"></i>
-                            <span>Cotar no WhatsApp</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Stats Bar -->
-                <div class="row pt-3 border-top border-light-subtle text-center text-sm-start">
-                    <div class="col-4">
-                        <h4 class="fw-extrabold text-primary mb-0">+700.000</h4>
-                        <small class="text-secondary font-medium fs-12">Veículos Rastreados</small>
-                    </div>
-                    <div class="col-4">
-                        <h4 class="fw-extrabold text-warning mb-0">+1.500</h4>
-                        <small class="text-secondary font-medium fs-12">Franquias no Brasil</small>
-                    </div>
-                    <div class="col-4">
-                        <h4 class="fw-extrabold text-success mb-0">24/7</h4>
-                        <small class="text-secondary font-medium fs-12">Central 0800</small>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Hero Image with Telemetry Badge Overlay -->
-            <div class="col-lg-6 position-relative text-center">
-                <div class="position-relative d-inline-block">
-                    <img src="{{ config.ASSETS_ROOT }}/images/rastrek_hero_vehicle.png"
-                         alt="Rastrek Vehicle Tracking"
-                         class="img-fluid rounded-4 shadow-lg border border-white"
-                         style="max-height: 440px; object-fit: cover;">
-
-                    <!-- Live Telemetry Badge Overlay -->
-                    <div class="position-absolute bottom-0 start-0 m-3 p-3 bg-white bg-opacity-95 rounded-3 shadow-lg text-start border border-light-subtle d-none d-sm-block" style="max-width: 290px; backdrop-filter: blur(8px);">
-                        <div class="d-flex align-items-center justify-content-between mb-1">
-                            <span class="badge bg-success-subtle text-success px-2 py-1 fs-11"><i class="ri-radio-button-line me-1"></i>Sinal GPS Ativo</span>
-                            <small class="text-muted fw-bold">Cajazeiras - PB</small>
-                        </div>
-                        <div class="fw-bold text-dark fs-14"><i class="ri-car-fill text-primary me-1"></i> Toyota Hilux SW4</div>
-                        <div class="small text-secondary mt-1"><i class="ri-dashboard-3-line text-info me-1"></i> Velocidade: <b>68 km/h</b> | Ignição: <b class="text-success">ON</b></div>
-                    </div>
-                </div>
+<!-- HERO SECTION: Estilo Banner Premium Minimalista (Glassmorphism & High-End Visual) -->
+<section id="inicio" class="py-5 position-relative overflow-hidden" style="background: radial-gradient(circle at 50% 0%, #ffffff 0%, #f1f5f9 100%);">
+    <div class="container py-lg-5">
+        <!-- Top Tag Pill -->
+        <div class="text-center mb-4">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill hero-badge-pill shadow-sm">
+                <span class="badge bg-primary rounded-pill px-2">Rastrek</span>
+                <span class="fw-semibold fs-14">A maior empresa de rastreamento do Brasil desde 2012</span>
             </div>
         </div>
 
-        <!-- Coberturas Integradas Diretamente na Seção (Cards de Proteção) -->
-        <div class="pt-4 border-top border-light-subtle">
-            <div class="text-center max-w-700 mx-auto mb-4">
-                <h3 class="fw-bold text-dark fs-24">O que está incluso na sua Proteção Rastrek:</h3>
+        <!-- Main Headline -->
+        <div class="text-center max-w-850 mx-auto mb-4">
+            <h1 class="display-4 fw-extrabold text-dark tracking-tight lh-sm mb-3">
+                Segurança Inteligente e Rastreamento 24h para <span class="text-primary position-relative">Seu Veículo</span>
+            </h1>
+            <p class="text-secondary fs-18 max-w-700 mx-auto">
+                Tecnologia GPS em tempo real, bloqueio remoto instantâneo, reboque guincho 200km e suporte emergencial completo a partir de <b>R$ 62,00/mês</b>.
+            </p>
+        </div>
+
+        <!-- Call To Actions -->
+        <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 mb-5">
+            <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Gostaria%20de%20solicitar%20uma%20cota%C3%A7%C3%A3o%20de%20rastreamento%20para%20meu%20ve%C3%ADculo."
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-success btn-lg rounded-pill px-4 py-3 fw-bold d-inline-flex align-items-center gap-2 shadow border-0 hover-lift"
+               style="background-color: #25d366;">
+                <i class="ri-whatsapp-line fs-22"></i>
+                <span>Cotar via WhatsApp em 1 minuto</span>
+            </a>
+            <a href="#planos" class="btn btn-outline-dark btn-lg rounded-pill px-4 py-3 fw-semibold">
+                Ver Todos os Planos
+            </a>
+        </div>
+
+        <!-- Hero Feature Visual with Glassmorphism Badges -->
+        <div class="position-relative text-center max-w-900 mx-auto pt-2">
+            <!-- Central Vehicle Photo -->
+            <img src="{{ config.ASSETS_ROOT }}/images/rastrek_hero_vehicle.png"
+                 alt="Rastrek Rastreamento Veicular Premium"
+                 class="img-fluid rounded-4 shadow-2xl border border-white"
+                 style="max-height: 480px; width: 100%; object-fit: cover;">
+
+            <!-- Floating Glassmorphism Badge Left Top -->
+            <div class="position-absolute top-0 start-0 m-4 p-3 glass-card rounded-4 shadow-lg text-start d-none d-md-block hover-lift" style="max-width: 240px;">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <div class="avatar-xs bg-success bg-opacity-15 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <i class="ri-shield-check-fill fs-18"></i>
+                    </div>
+                    <span class="fw-bold text-dark fs-14">Garantia FIPE</span>
+                </div>
+                <small class="text-secondary d-block">Planos com indenização FIPE de até R$ 60.000,00.</small>
             </div>
-            <div class="row g-3">
-                <div class="col-md-4 col-sm-6">
-                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
-                        <div class="avatar-sm bg-danger bg-opacity-10 text-danger rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
-                            <i class="ri-shield-keyhole-line fs-22"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-0 fs-15">Roubo & Furto + Bloqueio</h6>
-                            <small class="text-secondary fs-13">Rastreamento e corte remoto 24h.</small>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-4 col-sm-6">
-                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
-                        <div class="avatar-sm bg-primary bg-opacity-10 text-primary rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
-                            <i class="ri-truck-line fs-22"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-0 fs-15">Reboque até 200km</h6>
-                            <small class="text-secondary fs-13">Guincho em todo o território nacional.</small>
-                        </div>
+            <!-- Floating Glassmorphism Badge Right Bottom -->
+            <div class="position-absolute bottom-0 end-0 m-4 p-3 glass-card rounded-4 shadow-lg text-start d-none d-md-block hover-lift" style="max-width: 260px;">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                    <div class="avatar-xs bg-primary bg-opacity-15 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                        <i class="ri-truck-fill fs-18"></i>
                     </div>
+                    <span class="fw-bold text-dark fs-14">Reboque Guincho 200km</span>
                 </div>
+                <small class="text-secondary d-block">Cobertura de socorro mecânico em todo o Brasil.</small>
+            </div>
 
-                <div class="col-md-4 col-sm-6">
-                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
-                        <div class="avatar-sm bg-warning bg-opacity-10 text-warning rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
-                            <i class="ri-key-2-line fs-22"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-0 fs-15">Socorro Chaveiro</h6>
-                            <small class="text-secondary fs-13">Abertura e chave de emergência.</small>
-                        </div>
-                    </div>
-                </div>
+            <!-- Floating Glassmorphism Badge Center Bottom -->
+            <div class="position-absolute bottom-0 start-50 translate-middle-x mb-n3 p-2 px-4 glass-card rounded-pill shadow-lg d-inline-flex align-items-center gap-3 border border-white">
+                <span class="d-flex align-items-center gap-1 text-success fw-bold fs-13">
+                    <i class="ri-checkbox-circle-fill"></i> Sem SPC / Serasa
+                </span>
+                <span class="text-secondary opacity-50">|</span>
+                <span class="d-flex align-items-center gap-1 text-primary fw-bold fs-13">
+                    <i class="ri-headphone-fill"></i> Central 0800 24h
+                </span>
+                <span class="text-secondary opacity-50">|</span>
+                <span class="d-flex align-items-center gap-1 text-dark fw-bold fs-13">
+                    <i class="ri-car-fill"></i> Carros & Motos
+                </span>
+            </div>
+        </div>
 
-                <div class="col-md-4 col-sm-6">
-                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
-                        <div class="avatar-sm bg-info bg-opacity-10 text-info rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
-                            <i class="ri-gas-station-line fs-22"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-0 fs-15">Socorro Pane Seca</h6>
-                            <small class="text-secondary fs-13">Envio de combustível emergencial.</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
-                        <div class="avatar-sm bg-success bg-opacity-10 text-success rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
-                            <i class="ri-battery-charge-line fs-22"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-0 fs-15">Bateria Nova para Motos</h6>
-                            <small class="text-secondary fs-13">Troca de bateria sem custo nos planos moto.</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
-                        <div class="avatar-sm bg-purple bg-opacity-10 text-purple rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background-color: #f3e8ff; color: #9333ea;">
-                            <i class="ri-file-shield-2-line fs-22"></i>
-                        </div>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-0 fs-15">Garantia FIPE até R$ 60k</h6>
-                            <small class="text-secondary fs-13">Proteção veicular com indenização FIPE.</small>
-                        </div>
-                    </div>
-                </div>
+        <!-- Trust Stats Counter Row -->
+        <div class="row g-4 mt-5 pt-4 text-center border-top border-light-subtle">
+            <div class="col-6 col-md-3">
+                <h3 class="display-6 fw-extrabold text-primary mb-0">+700k</h3>
+                <span class="text-secondary fs-14 font-medium">Veículos Rastreados</span>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="display-6 fw-extrabold text-warning mb-0">+1.500</h3>
+                <span class="text-secondary fs-14 font-medium">Franquias no Brasil</span>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="display-6 fw-extrabold text-success mb-0">99.9%</h3>
+                <span class="text-secondary fs-14 font-medium">Precisão GPS ao Vivo</span>
+            </div>
+            <div class="col-6 col-md-3">
+                <h3 class="display-6 fw-extrabold text-dark mb-0">24/7</h3>
+                <span class="text-secondary fs-14 font-medium">Central Emergencial</span>
             </div>
         </div>
     </div>
