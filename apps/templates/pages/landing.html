@@ -15,7 +15,7 @@
     <i class="ri-whatsapp-fill fs-30 text-white"></i>
 </a>
 
-<!-- Header Navigation (Navbar Fixo e Organizado) -->
+<!-- Header Navigation (Navbar Enxuto) -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 sticky-top border-bottom border-light-subtle shadow-sm">
     <div class="container">
         <!-- Logo Image Compact -->
@@ -30,7 +30,6 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0 fw-semibold text-secondary fs-15">
                 <li class="nav-item"><a class="nav-link active text-primary" href="#inicio">Início</a></li>
-                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#coberturas">Proteção</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#planos">Planos</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#aplicativo">Aplicativo</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#quemsomos">Quem Somos</a></li>
@@ -73,10 +72,11 @@
     </div>
 </nav>
 
-<!-- Hero Section (Acima da Dobra - Estilo Sputnik Proteção) -->
+<!-- Seção Unificada: Hero + Coberturas de Proteção Veicular -->
 <section id="inicio" class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);">
     <div class="container py-lg-4">
-        <div class="row align-items-center gy-5">
+        <!-- Parte Superior: Apresentação & Imagem -->
+        <div class="row align-items-center gy-5 mb-5">
             <div class="col-lg-6">
                 <!-- Badge Hashtag -->
                 <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-warning bg-opacity-15 text-dark border border-warning border-opacity-30 mb-3 shadow-sm">
@@ -89,10 +89,10 @@
                 </h1>
 
                 <p class="text-secondary mb-4 fs-17">
-                    Cobertura contra Roubo e Furto, Bloqueio Remoto por aplicativo, Reboque Guincho até 200km, Assistência 24h e Garantia FIPE de até R$ 60 mil reais.
+                    Solução completa contra Roubo e Furto, com Bloqueio Remoto por aplicativo, Reboque Guincho 200km, Assistência 24h e Garantia FIPE de até R$ 60 mil.
                 </p>
 
-                <!-- Checkmarks list -->
+                <!-- Key Advantage Checkmarks -->
                 <div class="row g-2 mb-4">
                     <div class="col-sm-6">
                         <div class="d-flex align-items-center gap-2 text-dark font-medium fs-15">
@@ -155,13 +155,13 @@
                 </div>
             </div>
 
-            <!-- Hero Image with Live Telemetry Overlay -->
+            <!-- Hero Image with Telemetry Badge Overlay -->
             <div class="col-lg-6 position-relative text-center">
                 <div class="position-relative d-inline-block">
                     <img src="{{ config.ASSETS_ROOT }}/images/rastrek_hero_vehicle.png"
                          alt="Rastrek Vehicle Tracking"
                          class="img-fluid rounded-4 shadow-lg border border-white"
-                         style="max-height: 460px; object-fit: cover;">
+                         style="max-height: 440px; object-fit: cover;">
 
                     <!-- Live Telemetry Badge Overlay -->
                     <div class="position-absolute bottom-0 start-0 m-3 p-3 bg-white bg-opacity-95 rounded-3 shadow-lg text-start border border-light-subtle d-none d-sm-block" style="max-width: 290px; backdrop-filter: blur(8px);">
@@ -175,82 +175,83 @@
                 </div>
             </div>
         </div>
-    </div>
-</section>
 
-<!-- Seção: Proteções Cobertas (Cards de Proteção) -->
-<section id="coberturas" class="py-5 bg-white border-top border-light-subtle">
-    <div class="container py-lg-4">
-        <div class="text-center max-w-700 mx-auto mb-5">
-            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase">Sua Proteção Completa</span>
-            <h2 class="display-6 fw-bold text-dark mt-2">Tudo o que Seu Veículo Precisa para Rodar Tranquilo</h2>
-            <p class="text-secondary fs-16">Tecnologia de rastreamento veicular integrada com assistência emergencial 24 horas.</p>
-        </div>
-
-        <div class="row g-4">
-            <!-- Cobertura 1: Roubo e Furto -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light hover-top transition">
-                    <div class="avatar-lg bg-danger bg-opacity-10 text-danger rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-shield-keyhole-line fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark">Proteção Roubo e Furto</h5>
-                    <p class="text-secondary fs-14 mb-0">Rastreamento em tempo real com precisão de GPS e botão de bloqueio remoto imediato acionado direto pelo app ou pela Central 0800.</p>
-                </div>
+        <!-- Coberturas Integradas Diretamente na Seção (Cards de Proteção) -->
+        <div class="pt-4 border-top border-light-subtle">
+            <div class="text-center max-w-700 mx-auto mb-4">
+                <h3 class="fw-bold text-dark fs-24">O que está incluso na sua Proteção Rastrek:</h3>
             </div>
-
-            <!-- Cobertura 2: Reboque 200km -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light hover-top transition">
-                    <div class="avatar-lg bg-primary bg-opacity-10 text-primary rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-truck-line fs-28"></i>
+            <div class="row g-3">
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
+                        <div class="avatar-sm bg-danger bg-opacity-10 text-danger rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="ri-shield-keyhole-line fs-22"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0 fs-15">Roubo & Furto + Bloqueio</h6>
+                            <small class="text-secondary fs-13">Rastreamento e corte remoto 24h.</small>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-dark">Reboque até 200km</h5>
-                    <p class="text-secondary fs-14 mb-0">Serviço de guincho com percurso de até 200km disponível em todo o território nacional para imprevistos e panes.</p>
                 </div>
-            </div>
 
-            <!-- Cobertura 3: Socorro Chaveiro -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light hover-top transition">
-                    <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-key-2-line fs-28"></i>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
+                        <div class="avatar-sm bg-primary bg-opacity-10 text-primary rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="ri-truck-line fs-22"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0 fs-15">Reboque até 200km</h6>
+                            <small class="text-secondary fs-13">Guincho em todo o território nacional.</small>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-dark">Socorro Chaveiro</h5>
-                    <p class="text-secondary fs-14 mb-0">Atendimento emergencial para perdas de chave ou retirada de chave quebrada na ignição do seu veículo.</p>
                 </div>
-            </div>
 
-            <!-- Cobertura 4: Falta de Gasolina -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light hover-top transition">
-                    <div class="avatar-lg bg-info bg-opacity-10 text-info rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-gas-station-line fs-28"></i>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
+                        <div class="avatar-sm bg-warning bg-opacity-10 text-warning rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="ri-key-2-line fs-22"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0 fs-15">Socorro Chaveiro</h6>
+                            <small class="text-secondary fs-13">Abertura e chave de emergência.</small>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-dark">Socorro Pane Seca</h5>
-                    <p class="text-secondary fs-14 mb-0">Envio de combustível emergencial em situações de pane seca para você continuar sua viagem sem sufoco.</p>
                 </div>
-            </div>
 
-            <!-- Cobertura 5: Troca de Bateria para Moto -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light hover-top transition">
-                    <div class="avatar-lg bg-success bg-opacity-10 text-success rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-battery-charge-line fs-28"></i>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
+                        <div class="avatar-sm bg-info bg-opacity-10 text-info rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="ri-gas-station-line fs-22"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0 fs-15">Socorro Pane Seca</h6>
+                            <small class="text-secondary fs-13">Envio de combustível emergencial.</small>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-dark">Bateria Nova para Motos</h5>
-                    <p class="text-secondary fs-14 mb-0">Troca de bateria nova por nossa conta inclusa nos planos especiais para motocicletas.</p>
                 </div>
-            </div>
 
-            <!-- Cobertura 6: Cobertura FIPE até R$ 60 Mil -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light hover-top transition">
-                    <div class="avatar-lg bg-purple bg-opacity-10 text-purple rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px; background-color: #f3e8ff; color: #9333ea;">
-                        <i class="ri-file-shield-2-line fs-28"></i>
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
+                        <div class="avatar-sm bg-success bg-opacity-10 text-success rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                            <i class="ri-battery-charge-line fs-22"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0 fs-15">Bateria Nova para Motos</h6>
+                            <small class="text-secondary fs-13">Troca de bateria sem custo nos planos moto.</small>
+                        </div>
                     </div>
-                    <h5 class="fw-bold text-dark">Garantia FIPE</h5>
-                    <p class="text-secondary fs-14 mb-0">Planos com garantia veicular de até R$ 60 mil reais baseados na tabela FIPE do veículo.</p>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="p-3 bg-white rounded-3 shadow-sm border border-light-subtle d-flex align-items-center gap-3">
+                        <div class="avatar-sm bg-purple bg-opacity-10 text-purple rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background-color: #f3e8ff; color: #9333ea;">
+                            <i class="ri-file-shield-2-line fs-22"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0 fs-15">Garantia FIPE até R$ 60k</h6>
+                            <small class="text-secondary fs-13">Proteção veicular com indenização FIPE.</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -258,7 +259,7 @@
 </section>
 
 <!-- Seção: Planos e Preços (#vaiderastrek) -->
-<section id="planos" class="py-5 bg-light border-top border-light-subtle">
+<section id="planos" class="py-5 bg-white border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="text-center max-w-700 mx-auto mb-5">
             <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">#vaiderastrek</span>
@@ -269,7 +270,7 @@
         <div class="row g-4 justify-content-center">
             <!-- Plano 1: Qualquer Veículo - R$ 62,00 -->
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-white hover-top transition d-flex flex-column">
+                <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light hover-top transition d-flex flex-column">
                     <div class="badge bg-secondary-subtle text-dark align-self-start px-3 py-1 rounded-pill fw-bold fs-12 mb-2">QUALQUER VEÍCULO</div>
                     <h5 class="fw-bold text-dark mb-1">Rastreamento + Assistência</h5>
                     <p class="small text-secondary mb-2">Para qualquer automóvel ou moto</p>
@@ -297,7 +298,7 @@
 
             <!-- Plano 2: Moto Garantida - R$ 78,00 -->
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-info border-opacity-30 shadow-sm rounded-4 p-4 bg-white hover-top transition d-flex flex-column">
+                <div class="card h-100 border border-info border-opacity-30 shadow-sm rounded-4 p-4 bg-light hover-top transition d-flex flex-column">
                     <div class="badge bg-info-subtle text-info align-self-start px-3 py-1 rounded-pill fw-bold fs-12 mb-2">MOTO</div>
                     <h5 class="fw-bold text-dark mb-1">Moto Garantida + Assistência</h5>
                     <p class="small text-secondary mb-2">Para motocicletas de até R$ 15 mil FIPE</p>
@@ -326,7 +327,7 @@
 
             <!-- Plano 3: Moto Top - R$ 100,00 -->
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-success border-opacity-40 shadow-sm rounded-4 p-4 bg-white hover-top transition d-flex flex-column">
+                <div class="card h-100 border border-success border-opacity-40 shadow-sm rounded-4 p-4 bg-light hover-top transition d-flex flex-column">
                     <div class="badge bg-success text-white align-self-start px-3 py-1 rounded-pill fw-bold fs-12 mb-2">MOTO TOP</div>
                     <h5 class="fw-bold text-dark mb-1">Moto Garantida + Assistência</h5>
                     <p class="small text-secondary mb-2">Para motocicletas de até R$ 30 mil FIPE</p>
@@ -355,7 +356,7 @@
 
             <!-- Plano 4: Carro Proteção - R$ 120,00 -->
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-primary border-opacity-30 shadow-sm rounded-4 p-4 bg-white hover-top transition d-flex flex-column">
+                <div class="card h-100 border border-primary border-opacity-30 shadow-sm rounded-4 p-4 bg-light hover-top transition d-flex flex-column">
                     <div class="badge bg-primary text-white align-self-start px-3 py-1 rounded-pill fw-bold fs-12 mb-2">CARRO</div>
                     <h5 class="fw-bold text-dark mb-1">Carro Garantido + Assistência</h5>
                     <p class="small text-secondary mb-2">Para veículos de passeio de até R$ 30 mil FIPE</p>
@@ -414,7 +415,7 @@
 </section>
 
 <!-- Seção: Aplicativo Mobile Lion Rastreamento -->
-<section id="aplicativo" class="py-5 bg-white border-top border-light-subtle">
+<section id="aplicativo" class="py-5 bg-light border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="row align-items-center gy-5">
             <div class="col-lg-5 text-center">
@@ -463,7 +464,7 @@
                 <!-- Features Grid -->
                 <div class="row g-3">
                     <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
                             <div class="text-primary fs-24"><i class="ri-map-pin-2-fill"></i></div>
                             <div>
                                 <h6 class="fw-bold text-dark mb-1">Localização em Tempo Real</h6>
@@ -473,7 +474,7 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
                             <div class="text-danger fs-24"><i class="ri-lock-2-fill"></i></div>
                             <div>
                                 <h6 class="fw-bold text-dark mb-1">Bloqueio Instantâneo</h6>
@@ -483,7 +484,7 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
                             <div class="text-warning fs-24"><i class="ri-notification-badge-fill"></i></div>
                             <div>
                                 <h6 class="fw-bold text-dark mb-1">Alertas Push</h6>
@@ -493,7 +494,7 @@
                     </div>
 
                     <div class="col-sm-6">
-                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                        <div class="d-flex gap-3 p-3 bg-white rounded-3 border border-light-subtle">
                             <div class="text-success fs-24"><i class="ri-history-fill"></i></div>
                             <div>
                                 <h6 class="fw-bold text-dark mb-1">Histórico de Trajetos</h6>
@@ -508,7 +509,7 @@
 </section>
 
 <!-- Seção: Quem Somos, Missão, Visão e Valores -->
-<section id="quemsomos" class="py-5 bg-light border-top border-light-subtle">
+<section id="quemsomos" class="py-5 bg-white border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="row align-items-center gy-4 mb-5">
             <div class="col-lg-6">
@@ -522,7 +523,7 @@
                 </p>
             </div>
             <div class="col-lg-6">
-                <div class="card border-0 shadow-sm bg-white p-4 rounded-4 border-start border-warning border-5">
+                <div class="card border-0 shadow-sm bg-light p-4 rounded-4 border-start border-warning border-5">
                     <h5 class="fw-bold text-dark mb-3"><i class="ri-shield-user-fill text-warning me-2"></i>Por que escolher a Rastrek Paraíba?</h5>
                     <ul class="list-unstyled mb-0 d-grid gap-2 text-secondary fs-15">
                         <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Central 0800 dedicada 24 horas por dia</li>
@@ -538,7 +539,7 @@
         <!-- Missão, Visão e Valores -->
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white">
+                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light">
                     <div class="avatar-lg bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
                         <i class="ri-target-line fs-28"></i>
                     </div>
@@ -550,7 +551,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white">
+                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light">
                     <div class="avatar-lg bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
                         <i class="ri-eye-line fs-28"></i>
                     </div>
@@ -562,7 +563,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white">
+                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-light">
                     <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
                         <i class="ri-heart-pulse-line fs-28"></i>
                     </div>
@@ -581,7 +582,7 @@
 </section>
 
 <!-- Seção: Perguntas Frequentes (FAQ Accordion) -->
-<section id="faq" class="py-5 bg-white border-top border-light-subtle">
+<section id="faq" class="py-5 bg-light border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="text-center max-w-700 mx-auto mb-5">
             <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold text-uppercase">Dúvidas Frequentes</span>
@@ -596,12 +597,12 @@
                     <!-- FAQ Item 1 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <button class="accordion-button fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Preciso passar por análise de perfil ou consulta ao SPC/Serasa?
                             </button>
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15">
+                            <div class="accordion-body text-secondary fs-15 bg-white">
                                 Não! Na Rastrek a aprovação é imediata. Não realizamos análise de perfil por idade, condutor ou consulta nos órgãos de proteção ao crédito (SPC/Serasa).
                             </div>
                         </div>
@@ -610,12 +611,12 @@
                     <!-- FAQ Item 2 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingTwo">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Como funciona o bloqueio remoto em caso de roubo ou furto?
                             </button>
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15">
+                            <div class="accordion-body text-secondary fs-15 bg-white">
                                 Em situação de emergência, você pode acionar o bloqueio instantâneo do combustível ou ignição direto pelo seu aplicativo no celular ou ligando para a nossa Central 0800 com atendimento 24h.
                             </div>
                         </div>
@@ -624,12 +625,12 @@
                     <!-- FAQ Item 3 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingThree">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> O rastreador descarrega a bateria do meu carro ou moto?
                             </button>
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15">
+                            <div class="accordion-body text-secondary fs-15 bg-white">
                                 Não. Os equipamentos da Rastrek possuem tecnologia de consumo ultrabaixo com modo de repouso automático (sleep mode) quando o veículo está desligado. Além disso, para motos, oferecemos planos com reposição de bateria nova sem custo adicional!
                             </div>
                         </div>
@@ -638,12 +639,12 @@
                     <!-- FAQ Item 4 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingFour">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Como funciona a assistência de Reboque 200km?
                             </button>
                         </h2>
                         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15">
+                            <div class="accordion-body text-secondary fs-15 bg-white">
                                 Em caso de colisão, pane mecânica ou elétrica, basta acionar a central para solicitar o guincho com limite de até 200km de percurso em qualquer rodovia do Brasil.
                             </div>
                         </div>
@@ -652,12 +653,12 @@
                     <!-- FAQ Item 5 -->
                     <div class="accordion-item border border-light-subtle rounded-3 overflow-hidden shadow-sm">
                         <h2 class="accordion-header" id="headingFive">
-                            <button class="accordion-button collapsed fw-bold text-dark bg-light shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                            <button class="accordion-button collapsed fw-bold text-dark bg-white shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
                                 <i class="ri-question-line text-primary me-2 fs-18"></i> Onde é realizada a instalação do rastreador?
                             </button>
                         </h2>
                         <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body text-secondary fs-15">
+                            <div class="accordion-body text-secondary fs-15 bg-white">
                                 A instalação é rápida e pode ser agendada em nossa unidade física em Cajazeiras-PB ou através do nosso serviço de atendimento técnico móvel em toda a região.
                             </div>
                         </div>
@@ -670,7 +671,7 @@
 </section>
 
 <!-- Seção: Canais de Atendimento & Unidade Física -->
-<section id="contato" class="py-5 bg-light border-top border-light-subtle">
+<section id="contato" class="py-5 bg-white border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="text-center max-w-700 mx-auto mb-5">
             <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold text-uppercase">Canais Oficiais & Endereço</span>
@@ -681,7 +682,7 @@
         <div class="row g-4 justify-content-center">
             <!-- WhatsApp Direct Card -->
             <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center h-100 border-top border-success border-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-success border-4">
                     <div class="mx-auto mb-3 bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px; background-color: #25d366 !important;">
                         <i class="ri-whatsapp-fill fs-28"></i>
                     </div>
@@ -700,7 +701,7 @@
 
             <!-- Instagram Direct Card -->
             <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center h-100 border-top border-danger border-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-danger border-4">
                     <div class="mx-auto mb-3 bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
                         <i class="ri-instagram-fill fs-28"></i>
                     </div>
@@ -718,7 +719,7 @@
 
             <!-- Physical Address Card (Cajazeiras - PB) -->
             <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center h-100 border-top border-warning border-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-warning border-4">
                     <div class="mx-auto mb-3 bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
                         <i class="ri-map-pin-2-fill fs-28"></i>
                     </div>
@@ -736,7 +737,7 @@
 
             <!-- External System Login Portal Card -->
             <div class="col-md-6 col-lg-3">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center h-100 border-top border-primary border-4">
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-primary border-4">
                     <div class="mx-auto mb-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
                         <i class="ri-user-shared-line fs-28"></i>
                     </div>
