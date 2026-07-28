@@ -12,14 +12,11 @@
                 <div class="card auth-card shadow-lg border-0 rounded-4">
                     <div class="card-body px-4 py-5">
                         <div class="mx-auto mb-4 text-center auth-logo">
-                            <a href="/" class="d-inline-flex align-items-center gap-2 text-decoration-none">
-                                <span class="bg-primary text-white p-2 rounded-3">
-                                    <i class="ri-shield-keyhole-line fs-24"></i>
-                                </span>
-                                <span class="fs-22 fw-bold text-dark tracking-wide">RASTREK</span>
+                            <a href="/" class="d-inline-flex align-items-center justify-content-center text-decoration-none">
+                                <img src="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" alt="Rastrek Logo" height="48" class="img-fluid rounded-2 shadow-sm">
                             </a>
                         </div>
-                        <h2 class="fw-bold text-center fs-20 text-primary">Área do Cliente & Frotista</h2>
+                        <h2 class="fw-bold text-center fs-20 text-primary">Login - Rastrek Paraíba</h2>
                         <p class="text-muted text-center mt-1 mb-4">Informe seu e-mail e senha para acessar o painel de monitoramento veicular.</p>
 
                         {% if request.args.get('msg') == 'login_required' %}

@@ -1,6 +1,6 @@
 {% extends 'layouts/base.html' %}
 
-{% block title %}Rastrek Paraíba | Rastreamento Veicular, Telemetria & Frotas{% endblock title %}
+{% block title %}Rastrek Paraíba | Rastreamento Veicular & Telemetria{% endblock title %}
 
 {% block body_attribute %}class="bg-light text-dark"{% endblock body_attribute %}
 
@@ -9,23 +9,18 @@
 <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20rastreamento%20veicular%20da%20Rastrek."
    target="_blank"
    rel="noopener noreferrer"
-   class="position-fixed bottom-0 end-0 m-4 z-3 btn btn-success rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center border-0 hover-scale"
-   style="width: 62px; height: 62px; background-color: #25d366;"
+   class="position-fixed bottom-0 end-0 m-4 z-3 btn btn-success rounded-circle shadow-lg p-3 d-flex align-items-center justify-content-center border-0"
+   style="width: 60px; height: 60px; background-color: #25d366;"
    title="Falar no WhatsApp">
-    <i class="ri-whatsapp-fill fs-32 text-white"></i>
+    <i class="ri-whatsapp-fill fs-30 text-white"></i>
 </a>
 
-<!-- Header Navigation (Light Theme) -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 sticky-top border-bottom border-light-subtle shadow-sm">
+<!-- Header Navigation (Organized & Compact Logo height: 32px) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white py-2 sticky-top border-bottom border-light-subtle shadow-sm">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
-            <span class="bg-primary text-white p-2 rounded-3 d-flex align-items-center justify-content-center shadow-sm">
-                <i class="ri-shield-keyhole-line fs-22"></i>
-            </span>
-            <div class="d-flex flex-column">
-                <span class="fs-20 fw-bold text-dark tracking-wide lh-1">RASTREK</span>
-                <small class="text-primary fw-semibold fs-11 tracking-wider">PARAÍBA</small>
-            </div>
+        <!-- Compact Logo Image (Height 32px for perfect header organization) -->
+        <a class="navbar-brand d-flex align-items-center py-0" href="/">
+            <img src="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" alt="Rastrek Logo" style="height: 32px; width: auto;" class="rounded-2 shadow-sm">
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,59 +28,60 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0 fw-semibold text-secondary">
+            <ul class="navbar-nav me-auto ms-lg-4 mb-2 mb-lg-0 fw-semibold text-secondary fs-15">
                 <li class="nav-item"><a class="nav-link active text-primary" href="#inicio">Início</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#recursos">Recursos</a></li>
-                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#frotas">Gestão de Frotas</a></li>
-                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#sobre">Sobre Nós</a></li>
+                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#aplicativo">Aplicativo</a></li>
+                <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#frotas">Frotas</a></li>
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#contato">Contato</a></li>
             </ul>
 
-            <!-- Social Buttons & Login in Top Menu -->
-            <div class="d-flex align-items-center flex-wrap gap-2">
-                <!-- Instagram Top Button -->
+            <!-- Header Right: Social Icons Only & Login Button -->
+            <div class="d-flex align-items-center gap-2">
+                <!-- Instagram Icon Only -->
                 <a href="https://www.instagram.com/rastrekparaiba/"
                    target="_blank"
                    rel="noopener noreferrer"
-                   class="btn btn-outline-danger btn-sm rounded-pill px-3 py-2 d-inline-flex align-items-center gap-1 border-opacity-50">
+                   class="btn btn-light btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center text-danger border shadow-sm"
+                   style="width: 36px; height: 36px;"
+                   title="Instagram @rastrekparaiba">
                     <i class="ri-instagram-line fs-18"></i>
-                    <span class="fw-semibold">@rastrekparaiba</span>
                 </a>
 
-                <!-- WhatsApp Top Button -->
+                <!-- WhatsApp Icon Only -->
                 <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Gostaria%20de%20saber%20mais%20sobre%20o%20rastreamento%20veicular%20da%20Rastrek."
                    target="_blank"
                    rel="noopener noreferrer"
-                   class="btn btn-success btn-sm rounded-pill px-3 py-2 d-inline-flex align-items-center gap-1 shadow-sm border-0"
-                   style="background-color: #25d366;">
+                   class="btn btn-success btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center text-white border-0 shadow-sm"
+                   style="width: 36px; height: 36px; background-color: #25d366;"
+                   title="WhatsApp (83) 99138-6279">
                     <i class="ri-whatsapp-line fs-18"></i>
-                    <span class="fw-bold">(83) 99138-6279</span>
                 </a>
 
-                <!-- Customer Area (Login) Button -->
-                <a href="/auth-signin" class="btn btn-primary rounded-pill px-4 py-2 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-2 ms-lg-2">
-                    <i class="ri-user-shared-line fs-18"></i>
-                    <span>Área do Cliente</span>
+                <!-- Login Button -->
+                <a href="/auth-signin" class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-1 ms-1" style="font-size: 14px;">
+                    <i class="ri-user-shared-line fs-16"></i>
+                    <span>Login</span>
                 </a>
             </div>
         </div>
     </div>
 </nav>
 
-<!-- Hero Section (Light Theme) -->
-<section id="inicio" class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);">
-    <div class="container py-lg-5">
+<!-- Hero Section with Generated Photography -->
+<section id="inicio" class="py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);">
+    <div class="container py-lg-4">
         <div class="row align-items-center gy-5">
-            <div class="col-lg-7">
-                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-white shadow-sm border border-primary border-opacity-20 text-primary mb-3">
+            <div class="col-lg-6">
+                <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 mb-3">
                     <span class="badge bg-primary rounded-pill">PB</span>
-                    <small class="fw-bold">Rastrek Paraíba - Desde 2012 no Mercado</small>
+                    <small class="fw-bold">Rastrek Paraíba - Líder em Rastreamento desde 2012</small>
                 </div>
-                <h1 class="display-4 fw-extrabold text-dark mb-3">
-                    Sua Frota e Veículos Protegidos <span class="text-primary">24h Por Dia</span>
+                <h1 class="display-5 fw-extrabold text-dark mb-3 lh-sm">
+                    Proteção Veicular & Telemetria em <span class="text-primary">Tempo Real</span>
                 </h1>
-                <p class="lead text-secondary mb-4 fs-18">
-                    Localização GPS em tempo real, bloqueio remoto emergencial, cercas virtuais inteligentes e relatórios completos de telemetria na palma da sua mão.
+                <p class="text-secondary mb-4 fs-17">
+                    Monitore seu veículo ou frota em tempo real com GPS de alta precisão, bloqueio emergencial remoto, cercas virtuais e suporte 24 horas em toda a Paraíba.
                 </p>
 
                 <div class="d-flex flex-wrap align-items-center gap-3">
@@ -94,66 +90,111 @@
                        rel="noopener noreferrer"
                        class="btn btn-success btn-lg rounded-pill px-4 py-3 fw-bold d-inline-flex align-items-center gap-2 shadow border-0"
                        style="background-color: #25d366;">
-                        <i class="ri-whatsapp-line fs-24"></i>
+                        <i class="ri-whatsapp-line fs-22"></i>
                         <span>Solicitar Cotação no WhatsApp</span>
                     </a>
                     <a href="/auth-signin" class="btn btn-outline-primary btn-lg rounded-pill px-4 py-3 fw-semibold">
-                        Acessar Painel
+                        Acessar Login
                     </a>
                 </div>
 
                 <!-- Stats Highlights -->
-                <div class="row mt-5 pt-4 border-top border-secondary border-opacity-10">
+                <div class="row mt-5 pt-3 border-top border-light-subtle">
                     <div class="col-4">
-                        <h3 class="fw-bold text-primary mb-0">+140.000</h3>
-                        <small class="text-secondary fw-medium">Veículos Rastreados</small>
+                        <h4 class="fw-bold text-primary mb-0">+140.000</h4>
+                        <small class="text-secondary fw-medium fs-13">Veículos Rastreados</small>
                     </div>
                     <div class="col-4">
-                        <h3 class="fw-bold text-success mb-0">99.9%</h3>
-                        <small class="text-secondary fw-medium">Uptime da Rede</small>
+                        <h4 class="fw-bold text-success mb-0">99.9%</h4>
+                        <small class="text-secondary fw-medium fs-13">Disponibilidade GPS</small>
                     </div>
                     <div class="col-4">
-                        <h3 class="fw-bold text-warning mb-0">24/7</h3>
-                        <small class="text-secondary fw-medium">Suporte Emergencial</small>
+                        <h4 class="fw-bold text-warning mb-0">24/7</h4>
+                        <small class="text-secondary fw-medium fs-13">Suporte Emergência</small>
                     </div>
                 </div>
             </div>
 
-            <!-- Interactive Live Telemetry Mockup (Light Card) -->
-            <div class="col-lg-5">
-                <div class="card bg-white border-0 shadow-lg rounded-4 p-4">
-                    <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="spinner-grow spinner-grow-sm text-success" role="status"></span>
-                            <span class="fw-bold text-dark fs-16">Monitoramento ao Vivo</span>
+            <!-- Hero Image with Telemetry Overlay -->
+            <div class="col-lg-6 position-relative text-center">
+                <div class="position-relative d-inline-block">
+                    <!-- Photography Image -->
+                    <img src="{{ config.ASSETS_ROOT }}/images/rastrek_hero_vehicle.png"
+                         alt="Rastrek Vehicle Tracking"
+                         class="img-fluid rounded-4 shadow-lg border border-white"
+                         style="max-height: 440px; object-fit: cover;">
+
+                    <!-- Live Telemetry Card Badge Overlay -->
+                    <div class="position-absolute bottom-0 start-0 m-3 p-3 bg-white bg-opacity-95 rounded-3 shadow-lg text-start border border-light-subtle d-none d-sm-block" style="max-width: 280px; backdrop-filter: blur(8px);">
+                        <div class="d-flex align-items-center justify-content-between mb-1">
+                            <span class="badge bg-success-subtle text-success px-2 py-1 fs-11"><i class="ri-radio-button-line me-1"></i>Sinal GPS Ativo</span>
+                            <small class="text-muted fw-bold">João Pessoa - PB</small>
                         </div>
-                        <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">Sinal 100%</span>
+                        <div class="fw-bold text-dark fs-14"><i class="ri-car-line text-primary me-1"></i> Toyota Hilux SW4</div>
+                        <div class="small text-secondary mt-1"><i class="ri-dashboard-3-line text-info me-1"></i> Velocidade: <b>68 km/h</b> | Ignição: <b class="text-success">ON</b></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mobile App Section Showcase with Generated Mockup Image -->
+<section id="aplicativo" class="py-5 bg-white border-top border-light-subtle">
+    <div class="container py-lg-4">
+        <div class="row align-items-center gy-5">
+            <div class="col-lg-5 text-center">
+                <img src="{{ config.ASSETS_ROOT }}/images/rastrek_app_mockup.png"
+                     alt="Rastrek Mobile App"
+                     class="img-fluid rounded-4 shadow-lg border border-light-subtle"
+                     style="max-height: 480px;">
+            </div>
+
+            <div class="col-lg-7">
+                <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">Aplicativo Mobile & Web</span>
+                <h2 class="display-6 fw-bold text-dark mb-3">Seu Veículo na Palma da Sua Mão</h2>
+                <p class="text-secondary fs-16 mb-4">
+                    Com o aplicativo da Rastrek Paraíba, você tem controle total sobre seus veículos onde quer que esteja. Receba alertas em tempo real e execute ações de bloqueio emergencial instantaneamente.
+                </p>
+
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                            <div class="text-primary fs-24"><i class="ri-map-pin-2-fill"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Localização em Tempo Real</h6>
+                                <p class="small text-secondary mb-0">Visualização de mapa ao vivo com atualização contínua.</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <!-- Vehicle Status Item -->
-                    <div class="p-3 bg-light rounded-3 mb-3 border border-light-subtle">
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span class="fw-bold text-dark"><i class="ri-car-line text-primary me-1"></i> Toyota Hilux SW4</span>
-                            <span class="badge bg-primary text-white">Placa QFA-8399</span>
-                        </div>
-                        <div class="small text-secondary mb-1"><i class="ri-map-pin-2-fill text-danger me-1"></i> Localização: Av. Epitácio Pessoa, João Pessoa - PB</div>
-                        <div class="d-flex justify-content-between text-secondary small mt-2 pt-2 border-top">
-                            <span><i class="ri-dashboard-3-line me-1 text-info"></i> Velocidade: <b>68 km/h</b></span>
-                            <span><i class="ri-key-line me-1 text-success"></i> Ignição: <b>LIGADA</b></span>
+                    <div class="col-sm-6">
+                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                            <div class="text-danger fs-24"><i class="ri-lock-2-fill"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Bloqueio Remoto</h6>
+                                <p class="small text-secondary mb-0">Desligamento de emergência com 1 toque no celular.</p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Controls -->
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <button class="btn btn-outline-danger btn-sm w-100 py-2 rounded-3 fw-semibold">
-                                <i class="ri-lock-2-line me-1"></i> Bloquear Motor
-                            </button>
+                    <div class="col-sm-6">
+                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                            <div class="text-warning fs-24"><i class="ri-notification-badge-fill"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Notificações Push</h6>
+                                <p class="small text-secondary mb-0">Alertas de ignição, velocidade e cercas virtuais.</p>
+                            </div>
                         </div>
-                        <div class="col-6">
-                            <button class="btn btn-outline-primary btn-sm w-100 py-2 rounded-3 fw-semibold">
-                                <i class="ri-map-2-line me-1"></i> Ver no Mapa
-                            </button>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="d-flex gap-3 p-3 bg-light rounded-3 border border-light-subtle">
+                            <div class="text-success fs-24"><i class="ri-history-fill"></i></div>
+                            <div>
+                                <h6 class="fw-bold text-dark mb-1">Histórico de Trajetos</h6>
+                                <p class="small text-secondary mb-0">Relatórios completos de rotas e paradas.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,97 +203,67 @@
     </div>
 </section>
 
-<!-- Features Section (Light Theme) -->
-<section id="recursos" class="py-5 bg-white">
+<!-- Features Grid Section -->
+<section id="recursos" class="py-5 bg-light border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="text-center max-w-700 mx-auto mb-5">
-            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase">Recursos Principais</span>
+            <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase">Soluções Rápidas</span>
             <h2 class="display-6 fw-bold text-dark mt-2">Tecnologia Completa para Carros, Motos e Frotas</h2>
-            <p class="text-secondary fs-16">Conheça as vantagens que tornam a Rastrek a escolha número 1 no Brasil.</p>
+            <p class="text-secondary fs-16">Conheça as vantagens que fazem da Rastrek a líder no Brasil.</p>
         </div>
 
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white hover-top transition">
-                    <div class="avatar-lg bg-primary bg-opacity-10 text-primary rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-map-pin-user-line fs-28"></i>
+                    <div class="avatar-lg bg-primary bg-opacity-10 text-primary rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 54px; height: 54px;">
+                        <i class="ri-shield-check-line fs-26"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Rastreamento em Tempo Real</h5>
-                    <p class="text-secondary fs-14 mb-0">Acompanhe a posição exata do seu veículo 24 horas por dia através do aplicativo mobile ou web.</p>
+                    <h5 class="fw-bold text-dark">Rastreamento 24 Horas</h5>
+                    <p class="text-secondary fs-14 mb-0">Acompanhe a movimentação de veículos em tempo real com precisão de GPS de última geração.</p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white hover-top transition">
-                    <div class="avatar-lg bg-danger bg-opacity-10 text-danger rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-lock-password-line fs-28"></i>
+                    <div class="avatar-lg bg-danger bg-opacity-10 text-danger rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 54px; height: 54px;">
+                        <i class="ri-lock-password-line fs-26"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Bloqueio Remoto Emergencial</h5>
-                    <p class="text-secondary fs-14 mb-0">Em caso de furto ou roubo, efetue o bloqueio remoto da combustível/ignição com um toque no app.</p>
+                    <h5 class="fw-bold text-dark">Bloqueio Remoto</h5>
+                    <p class="text-secondary fs-14 mb-0">Corte de combustível ou ignição em situações de roubo/furto acionado direto pelo app.</p>
                 </div>
             </div>
 
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white hover-top transition">
-                    <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-compass-3-line fs-28"></i>
+                    <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 54px; height: 54px;">
+                        <i class="ri-compass-3-line fs-26"></i>
                     </div>
-                    <h5 class="fw-bold text-dark">Cercas Virtuais Inteligentes</h5>
-                    <p class="text-secondary fs-14 mb-0">Configure zonas seguras. Se o veículo sair do perímetro delimitado, você é notificado na hora.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white hover-top transition">
-                    <div class="avatar-lg bg-info bg-opacity-10 text-info rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-line-chart-line fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark">Gestão & Telemetria de Frotas</h5>
-                    <p class="text-secondary fs-14 mb-0">Controle rotas, odômetro, consumo de combustível, paradas não autorizadas e horários de uso da frota.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white hover-top transition">
-                    <div class="avatar-lg bg-success bg-opacity-10 text-success rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px;">
-                        <i class="ri-notification-3-line fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark">Alertas Instantâneos</h5>
-                    <p class="text-secondary fs-14 mb-0">Alertas de ignição ligada/desligada, excesso de velocidade, desconexão de bateria e botão de pânico.</p>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 border border-light-subtle shadow-sm rounded-4 p-4 bg-white hover-top transition">
-                    <div class="avatar-lg bg-purple bg-opacity-10 rounded-4 d-flex align-items-center justify-content-center mb-3" style="width: 56px; height: 56px; background-color: rgba(147, 51, 234, 0.1); color: #9333ea;">
-                        <i class="ri-history-line fs-28"></i>
-                    </div>
-                    <h5 class="fw-bold text-dark">Histórico Detalhado</h5>
-                    <p class="text-secondary fs-14 mb-0">Histórico completo dos trajetos percorridos armazenado com gráficos de velocidade e paradas.</p>
+                    <h5 class="fw-bold text-dark">Cercas Virtuais</h5>
+                    <p class="text-secondary fs-14 mb-0">Delimite áreas de circulação e receba alertas se o veículo sair da zona segura definida.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Redesigned Clean Contact Section (Tema Light) -->
-<section id="contato" class="py-5 bg-light border-top border-light-subtle">
+<!-- Redesigned Clean Contact Cards Section -->
+<section id="contato" class="py-5 bg-white border-top border-light-subtle">
     <div class="container py-lg-4">
         <div class="text-center max-w-700 mx-auto mb-5">
             <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold text-uppercase">Canais Oficiais</span>
-            <h2 class="display-6 fw-bold text-dark mt-2">Atendimento Direto & Redes Sociais</h2>
-            <p class="text-secondary fs-16">Fale diretamente com nossa equipe da Rastrek Paraíba pelos canais oficiais.</p>
+            <h2 class="display-6 fw-bold text-dark mt-2">Atendimento Direto Rastrek Paraíba</h2>
+            <p class="text-secondary fs-16">Fale com nossa equipe ou acesse o sistema pelos canais diretos.</p>
         </div>
 
         <div class="row g-4 justify-content-center">
             <!-- WhatsApp Direct Card -->
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center h-100 border-top border-success border-4">
-                    <div class="mx-auto mb-3 bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                        <i class="ri-whatsapp-fill fs-32"></i>
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-success border-4">
+                    <div class="mx-auto mb-3 bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; background-color: #25d366 !important;">
+                        <i class="ri-whatsapp-fill fs-30"></i>
                     </div>
                     <h5 class="fw-bold text-dark mb-1">WhatsApp Oficial</h5>
-                    <p class="text-secondary small mb-3">Atendimento rápido para cotações e suporte técnico.</p>
+                    <p class="text-secondary small mb-3">Cotação rápida e suporte emergencial.</p>
                     <h4 class="fw-bold text-success mb-3">(83) 99138-6279</h4>
                     <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Rastrek%20Para%C3%ADba."
                        target="_blank"
@@ -266,12 +277,12 @@
 
             <!-- Instagram Direct Card -->
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center h-100 border-top border-danger border-4">
-                    <div class="mx-auto mb-3 bg-danger bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                        <i class="ri-instagram-fill fs-32"></i>
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-danger border-4">
+                    <div class="mx-auto mb-3 bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="ri-instagram-fill fs-30"></i>
                     </div>
                     <h5 class="fw-bold text-dark mb-1">Instagram Oficial</h5>
-                    <p class="text-secondary small mb-3">Acompanhe novidades, dicas de segurança e instalações.</p>
+                    <p class="text-secondary small mb-3">Novidades, fotos de instalações e dicas.</p>
                     <h4 class="fw-bold text-danger mb-3">@rastrekparaiba</h4>
                     <a href="https://www.instagram.com/rastrekparaiba/"
                        target="_blank"
@@ -282,17 +293,17 @@
                 </div>
             </div>
 
-            <!-- Customer Portal Direct Card -->
+            <!-- Login Portal Card -->
             <div class="col-md-6 col-lg-4">
-                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white text-center h-100 border-top border-primary border-4">
-                    <div class="mx-auto mb-3 bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 64px; height: 64px;">
-                        <i class="ri-user-shared-line fs-32"></i>
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-light text-center h-100 border-top border-primary border-4">
+                    <div class="mx-auto mb-3 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                        <i class="ri-user-shared-line fs-30"></i>
                     </div>
-                    <h5 class="fw-bold text-dark mb-1">Área do Cliente</h5>
-                    <p class="text-secondary small mb-3">Acesse o painel de monitoramento e telemetria.</p>
+                    <h5 class="fw-bold text-dark mb-1">Acesso Restrito</h5>
+                    <p class="text-secondary small mb-3">Acesse o painel de monitoramento.</p>
                     <h4 class="fw-bold text-primary mb-3">Portal Rastrek</h4>
                     <a href="/auth-signin" class="btn btn-primary rounded-pill fw-bold py-2 px-4 shadow-sm w-100">
-                        <i class="ri-login-box-line me-1"></i> Entrar na Conta
+                        <i class="ri-login-box-line me-1"></i> Login
                     </a>
                 </div>
             </div>
@@ -300,7 +311,7 @@
     </div>
 </section>
 
-<!-- Footer (Light Theme) -->
+<!-- Footer -->
 <footer class="bg-white py-4 border-top border-light-subtle">
     <div class="container text-center">
         <p class="mb-0 text-secondary fs-14">
