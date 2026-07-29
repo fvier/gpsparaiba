@@ -1,4 +1,6 @@
 from apps.pages import blueprint
+from apps.pages.models import User
+from apps import db
 from flask import render_template, request, redirect, url_for, session, flash
 from jinja2 import TemplateNotFound
 
@@ -10,27 +12,49 @@ PUBLIC_PAGES = [
     'auth-password', 'auth-password.html'
 ]
 
+def ensure_default_user():
+    """Create initial admin user if database has no users."""
+    try:
+        if User.query.count() == 0:
+            default_user = User(
+                username='admin',
+                email='admin@gpsparaiba.com.br'
+            )
+            default_user.set_password('admin123')
+            db.session.add(default_user)
+            db.session.commit()
+            print("> Initial user created: admin@gpsparaiba.com.br / admin123")
+    except Exception as e:
+        db.session.rollback()
+        print("> Error ensuring default user: " + str(e))
+
 @blueprint.route('/')
 def home():
-    """Render the public landing page for Rastrek Paraíba."""
+    """Render the public landing page for GPS Paraíba."""
+    ensure_default_user()
     return render_template('pages/landing.html', segment='landing')
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-    """Handle user authentication."""
+    """Handle user authentication against database."""
+    ensure_default_user()
+
     if request.method == 'POST':
         email = request.form.get('email', '').strip()
         password = request.form.get('password', '').strip()
 
-        # For demonstration / initial setup: allow login with any valid input or admin
         if email and password:
-            session['logged_in'] = True
-            session['user_email'] = email
-            next_page = request.args.get('next', '/index')
-            return redirect(next_page)
-        else:
-            return redirect(url_for('pages_blueprint.route_template', template='auth-signin.html', msg='invalid_credentials'))
+            user = User.query.filter((User.email == email) | (User.username == email)).first()
+            if user and user.check_password(password):
+                session['logged_in'] = True
+                session['user_email'] = user.email
+                session['user_id'] = user.id
+                next_page = request.args.get('next', '/index')
+                return redirect(next_page)
+
+        # Fallback / demo mode if invalid credentials or user not found
+        return redirect(url_for('pages_blueprint.route_template', template='auth-signin.html', msg='invalid_credentials'))
 
     return redirect(url_for('pages_blueprint.route_template', template='auth-signin.html'))
 
