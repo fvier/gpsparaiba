@@ -125,22 +125,27 @@
                     <i class="ri-whatsapp-line fs-18"></i>
                 </a>
 
-                <!-- Dual Login Buttons Group -->
-                <div class="d-flex align-items-center gap-1.5 ms-1">
-                    <!-- 1. External Portal Login -->
+                <!-- Joined Segmented Button Group with 'ou' divider (Login ou ERP) -->
+                <div class="d-inline-flex align-items-center position-relative shadow-sm rounded-pill border border-secondary border-opacity-20 bg-light p-1 ms-1">
+                    <!-- 1. Login (Portal Rastrek) -->
                     <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
                        target="_blank"
                        rel="noopener noreferrer"
-                       class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 13.5px;">
+                       class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white d-inline-flex align-items-center gap-1 border-0 shadow-sm"
+                       style="font-size: 13px;">
                         <i class="ri-user-shared-line fs-15"></i>
                         <span>Login</span>
                     </a>
 
-                    <!-- 2. Internal Flask System Login (Preenchido / Sólido) -->
+                    <!-- Divider 'ou' badge -->
+                    <span class="badge bg-white text-secondary border rounded-circle z-2 p-1.5 fs-11 fw-bold shadow-xs mx-n1" style="margin-left: -7px; margin-right: -7px; min-width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">ou</span>
+
+                    <!-- 2. ERP (Sistema Flask) -->
                     <a href="/auth-signin.html"
-                       class="btn btn-dark rounded-pill px-3 py-1-5 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 13.5px;">
+                       class="btn btn-dark rounded-pill px-3 py-1-5 fw-bold text-white d-inline-flex align-items-center gap-1 border-0 shadow-sm"
+                       style="font-size: 13px;">
                         <i class="ri-dashboard-line fs-15"></i>
-                        <span>Painel</span>
+                        <span>ERP</span>
                     </a>
                 </div>
             </div>
