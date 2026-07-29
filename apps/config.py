@@ -14,6 +14,7 @@ class Config(object):
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('POSTGRES_URL')
     DB_ENGINE   = os.getenv('DB_ENGINE'   , None)
     DB_USERNAME = os.getenv('DB_USERNAME' , None)
     DB_PASS     = os.getenv('DB_PASS'     , None)
@@ -23,31 +24,33 @@ class Config(object):
 
     USE_SQLITE  = True 
 
-    # try to set up a Relational DBMS
-    if DB_ENGINE and DB_NAME and DB_USERNAME:
-
+    # Check for direct DATABASE_URL or POSTGRES_URL
+    if DATABASE_URL:
+        if DATABASE_URL.startswith("postgres://"):
+            DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+        SQLALCHEMY_DATABASE_URI = DATABASE_URL
+        USE_SQLITE = False
+    elif DB_ENGINE and DB_NAME and DB_USERNAME:
         try:
-            
-            # Relational DBMS: PSQL, MySql
+            # Relational DBMS: PostgreSQL, MySQL
+            engine = DB_ENGINE
+            if engine == 'postgres' or engine == 'postgresql':
+                engine = 'postgresql+psycopg2'
             SQLALCHEMY_DATABASE_URI = '{}://{}:{}@{}:{}/{}'.format(
-                DB_ENGINE,
+                engine,
                 DB_USERNAME,
                 DB_PASS,
-                DB_HOST,
-                DB_PORT,
+                DB_HOST or 'localhost',
+                DB_PORT or '5432',
                 DB_NAME
             ) 
-
-            USE_SQLITE  = False
-
+            USE_SQLITE = False
         except Exception as e:
-
             print('> Error: DBMS Exception: ' + str(e) )
             print('> Fallback to SQLite ')    
 
     if USE_SQLITE:
-
-        # This will create a file in <app> FOLDER
+        # Fallback to local SQLite file
         SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
     
 class ProductionConfig(Config):

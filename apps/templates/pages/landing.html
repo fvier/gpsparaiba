@@ -103,7 +103,7 @@
                 <li class="nav-item"><a class="nav-link text-dark hover-primary" href="#rodape">Contato</a></li>
             </ul>
 
-            <!-- Header Right: Social Icons Only & Login Button -->
+            <!-- Header Right: Social Icons Only & Dual Login Buttons -->
             <div class="d-flex align-items-center gap-2">
                 <!-- Instagram -->
                 <a href="https://www.instagram.com/rastrekparaiba/"
@@ -125,14 +125,24 @@
                     <i class="ri-whatsapp-line fs-18"></i>
                 </a>
 
-                <!-- External Portal Login Button -->
-                <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-1 ms-1" style="font-size: 14px;">
-                    <i class="ri-user-shared-line fs-16"></i>
-                    <span>Login</span>
-                </a>
+                <!-- Dual Login Buttons Group -->
+                <div class="d-flex align-items-center gap-1.5 ms-1">
+                    <!-- 1. External Portal Login -->
+                    <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 13.5px;">
+                        <i class="ri-user-shared-line fs-15"></i>
+                        <span>Login</span>
+                    </a>
+
+                    <!-- 2. Internal Flask System Login -->
+                    <a href="/auth-signin.html"
+                       class="btn btn-outline-primary rounded-pill px-3 py-1-5 fw-bold shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 13.5px;">
+                        <i class="ri-dashboard-line fs-15"></i>
+                        <span>Painel</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
