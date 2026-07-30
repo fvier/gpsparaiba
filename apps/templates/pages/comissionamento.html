@@ -9,12 +9,12 @@
         <div>
             <h4 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
                 <i class="ri-table-line text-primary fs-24"></i>
-                <span>Tabela Oficial de Comissionamento</span>
+                <span>Tabela de Comissionamento Atualizada</span>
             </h4>
-            <p class="text-secondary small mb-0">Regra de metas, salários base e comissões por contrato e unitários da GPS Paraíba.</p>
+            <p class="text-secondary small mb-0">Regra de metas de vendas, salários base, bônus extras e comissão por nível / técnico instalador.</p>
         </div>
         <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-primary rounded-pill px-3 py-2 fs-13">Vigência: 2026</span>
+            <span class="badge bg-success rounded-pill px-3 py-2 fs-13"><i class="ri-check-double-line me-1"></i>Tabela Vigente</span>
             <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="window.print();">
                 <i class="ri-printer-line me-1"></i> Imprimir Tabela
             </button>
@@ -29,13 +29,13 @@
                 <thead>
                     <!-- Meta Row -->
                     <tr class="text-uppercase fw-bold text-dark fs-11" style="background-color: #f8fafc;">
-                        <th colspan="4" class="text-start align-middle ps-3 bg-light">Metas de Produção</th>
+                        <th colspan="3" class="text-start align-middle ps-3 bg-light">Metas de Produção</th>
                         <th class="bg-light text-secondary">1 meta</th>
                         <th colspan="6" class="bg-light text-secondary">2 metas</th>
                     </tr>
                     <!-- Quantity Row -->
                     <tr class="fw-bold text-dark fs-12" style="background-color: #f1f5f9;">
-                        <th colspan="4" class="text-start align-middle ps-3">Faixa de Vendas (Contratos)</th>
+                        <th colspan="3" class="text-start align-middle ps-3">Faixa de Vendas (Contratos)</th>
                         <th>30</th>
                         <th>31 a 70</th>
                         <th>71 a 100</th>
@@ -46,7 +46,7 @@
                     </tr>
                     <!-- Tier Names Row -->
                     <tr class="fw-bold text-white fs-12 text-uppercase">
-                        <th colspan="4" class="text-start align-middle ps-3 text-dark bg-light">Categoria / Nível</th>
+                        <th colspan="3" class="text-start align-middle ps-3 text-dark bg-light">Categoria / Nível</th>
                         <th style="background-color: #f97316;">Orange</th>
                         <th style="background-color: #3b82f6;">Blue</th>
                         <th style="background-color: #22c55e;">Green</th>
@@ -55,140 +55,108 @@
                         <th style="background-color: #0284c7;">Diamond</th>
                         <th style="background-color: #0f172a;">Black</th>
                     </tr>
-                    <!-- Base Salary Row -->
-                    <tr class="fw-extrabold text-white fs-13" style="background-color: #1e293b;">
-                        <th colspan="3" class="text-start align-middle ps-3">Salário Base</th>
-                        <th class="bg-secondary text-white">Fixo</th>
-                        <th>R$ 2.500</th>
-                        <th>R$ 3.000</th>
-                        <th>R$ 3.200</th>
-                        <th>R$ 3.400</th>
-                        <th>R$ 3.600</th>
-                        <th>R$ 3.800</th>
-                        <th>R$ 4.100</th>
+                    <!-- Base Salary Row (Yellow Highlight) -->
+                    <tr class="fw-extrabold text-dark fs-13" style="background-color: #fef08a;">
+                        <th class="text-start align-middle ps-3">Salário Base</th>
+                        <th colspan="2" class="text-start align-middle ps-2">Fixo</th>
+                        <th>R$ 1.700,00</th>
+                        <th>R$ 1.900,00</th>
+                        <th>R$ 2.100,00</th>
+                        <th>R$ 2.300,00</th>
+                        <th>R$ 2.500,00</th>
+                        <th>R$ 2.700,00</th>
+                        <th>R$ 2.900,00</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <!-- SECTION 1: SEÇÃO PRINCIPAL (RASTREAMENTO & CONTRATOS CGPS) -->
+                    <!-- RASTREAMENTO GARANTIDO -->
                     <tr>
-                        <td rowspan="8" class="fw-bold text-white align-middle text-center" style="background-color: #6366f1; width: 140px; min-width: 130px; writing-mode: vertical-lr; transform: rotate(180deg);">
-                            <span class="fs-14 text-uppercase tracking-wider">Rastreamento & Contratos CGPS</span>
+                        <td rowspan="7" class="fw-bold text-white align-middle text-center" style="background-color: #6366f1; width: 140px; min-width: 130px; writing-mode: vertical-lr; transform: rotate(180deg);">
+                            <span class="fs-14 text-uppercase tracking-wider">Rastreamento Garantido</span>
                         </td>
-                        <td class="fw-semibold text-dark text-start ps-2">Nível 1</td>
-                        <td class="fw-semibold text-secondary">CGPS</td>
-                        <td class="text-start ps-2">De 50% a 69% Contratos</td>
+                        <td class="fw-semibold text-dark text-center" style="width: 50px;">N1</td>
+                        <td class="text-start ps-3">De 50% a 69% Contratos</td>
+                        <td class="fw-semibold">R$ 10,00</td>
+                        <td class="fw-semibold">R$ 15,00</td>
+                        <td class="fw-semibold">R$ 16,00</td>
+                        <td class="fw-semibold">R$ 17,00</td>
+                        <td class="fw-semibold">R$ 18,00</td>
+                        <td class="fw-semibold">R$ 19,00</td>
+                        <td class="fw-bold text-primary">R$ 22,00</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-semibold text-dark text-center">N2</td>
+                        <td class="text-start ps-3">De 70% a 80% Contratos</td>
+                        <td class="fw-semibold">R$ 15,00</td>
+                        <td class="fw-semibold">R$ 17,00</td>
+                        <td class="fw-semibold">R$ 18,00</td>
+                        <td class="fw-semibold">R$ 19,00</td>
+                        <td class="fw-semibold">R$ 21,00</td>
+                        <td class="fw-semibold">R$ 22,00</td>
+                        <td class="fw-bold text-primary">R$ 25,00</td>
+                    </tr>
+                    <tr>
+                        <td class="fw-semibold text-dark text-center">N3</td>
+                        <td class="text-start ps-3">De 81% a 90% Contratos</td>
                         <td class="fw-semibold">R$ 20,00</td>
-                        <td class="fw-semibold">R$ 30,00</td>
+                        <td class="fw-semibold">R$ 25,00</td>
+                        <td class="fw-semibold">R$ 28,00</td>
                         <td class="fw-semibold">R$ 32,00</td>
                         <td class="fw-semibold">R$ 34,00</td>
                         <td class="fw-semibold">R$ 36,00</td>
-                        <td class="fw-semibold">R$ 38,00</td>
-                        <td class="fw-bold text-primary">R$ 45,00</td>
+                        <td class="fw-bold text-primary">R$ 38,00</td>
                     </tr>
                     <tr>
-                        <td class="fw-semibold text-dark text-start ps-2">Nível 2</td>
-                        <td class="fw-semibold text-secondary">CGPS</td>
-                        <td class="text-start ps-2">De 70% a 80% Contratos</td>
+                        <td class="fw-semibold text-dark text-center">N4</td>
+                        <td class="text-start ps-3">De 91% a 99% Contratos</td>
                         <td class="fw-semibold">R$ 25,00</td>
-                        <td class="fw-semibold">R$ 35,00</td>
-                        <td class="fw-semibold">R$ 37,00</td>
-                        <td class="fw-semibold">R$ 39,00</td>
-                        <td class="fw-semibold">R$ 41,00</td>
-                        <td class="fw-semibold">R$ 43,00</td>
-                        <td class="fw-bold text-primary">R$ 50,00</td>
+                        <td class="fw-semibold">R$ 27,00</td>
+                        <td class="fw-semibold">R$ 29,00</td>
+                        <td class="fw-semibold">R$ 34,00</td>
+                        <td class="fw-semibold">R$ 36,00</td>
+                        <td class="fw-semibold">R$ 38,00</td>
+                        <td class="fw-bold text-primary">R$ 40,00</td>
                     </tr>
-                    <tr>
-                        <td class="fw-semibold text-dark text-start ps-2">Nível 3</td>
-                        <td class="fw-semibold text-secondary">CGPS</td>
-                        <td class="text-start ps-2">De 81% a 90% Contratos</td>
-                        <td class="fw-semibold">R$ 30,00</td>
-                        <td class="fw-semibold">R$ 40,00</td>
-                        <td class="fw-semibold">R$ 42,00</td>
-                        <td class="fw-semibold">R$ 44,00</td>
-                        <td class="fw-semibold">R$ 46,00</td>
-                        <td class="fw-semibold">R$ 48,00</td>
-                        <td class="fw-bold text-primary">R$ 55,00</td>
-                    </tr>
-                    <tr>
-                        <td class="fw-semibold text-dark text-start ps-2">Nível 4</td>
-                        <td class="fw-semibold text-secondary">CGPS</td>
-                        <td class="text-start ps-2">De 91% a 99% Contratos</td>
-                        <td class="fw-semibold">R$ 35,00</td>
-                        <td class="fw-semibold">R$ 45,00</td>
-                        <td class="fw-semibold">R$ 47,00</td>
-                        <td class="fw-semibold">R$ 49,00</td>
-                        <td class="fw-semibold">R$ 51,00</td>
-                        <td class="fw-semibold">R$ 53,00</td>
-                        <td class="fw-bold text-primary">R$ 60,00</td>
-                    </tr>
-                    <!-- Nível 5 (Highlight Green) -->
+                    <!-- N5 (Highlight Verde) -->
                     <tr class="table-success bg-opacity-25 fw-bold">
-                        <td class="fw-bold text-dark text-start ps-2">Nível 5</td>
-                        <td class="fw-bold text-dark">CGPS</td>
-                        <td class="text-start ps-2 text-success fw-bold">&gt;= 100% Contratos</td>
+                        <td class="fw-bold text-dark text-center">N5</td>
+                        <td class="text-start ps-3 text-success fw-bold">&gt;= 100% Contratos</td>
+                        <td class="fw-bold text-success">R$ 30,00</td>
                         <td class="fw-bold text-success">R$ 40,00</td>
+                        <td class="fw-bold text-success">R$ 45,00</td>
+                        <td class="fw-bold text-success">R$ 48,00</td>
                         <td class="fw-bold text-success">R$ 50,00</td>
                         <td class="fw-bold text-success">R$ 52,00</td>
-                        <td class="fw-bold text-success">R$ 54,00</td>
-                        <td class="fw-bold text-success">R$ 56,00</td>
-                        <td class="fw-bold text-success">R$ 58,00</td>
-                        <td class="fw-extrabold text-success">R$ 65,00</td>
+                        <td class="fw-extrabold text-success">R$ 54,00</td>
                     </tr>
-                    <tr>
-                        <td colspan="2" class="fw-semibold text-dark text-start ps-2">Assistência Veicular</td>
-                        <td class="text-muted">Unitário</td>
-                        <td>R$ 12,00</td>
-                        <td>R$ 15,00</td>
-                        <td>R$ 20,00</td>
-                        <td>R$ 25,00</td>
-                        <td>R$ 25,00</td>
-                        <td>R$ 25,00</td>
-                        <td class="fw-bold">R$ 30,00</td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" class="fw-semibold text-dark text-start ps-2">Anuidade</td>
-                        <td class="text-muted">Unitário</td>
-                        <td>R$ 15,00</td>
-                        <td>R$ 20,00</td>
-                        <td>R$ 25,00</td>
-                        <td>R$ 30,00</td>
-                        <td>R$ 30,00</td>
-                        <td>R$ 30,00</td>
-                        <td class="fw-bold">R$ 35,00</td>
-                    </tr>
-                    <!-- Bônus Row -->
-                    <tr class="table-warning bg-opacity-25 fw-bold">
-                        <td class="fw-extrabold text-dark text-start ps-2">Bônus Extra</td>
-                        <td class="fw-bold text-dark">CGPS</td>
-                        <td class="text-start ps-2 text-warning-emphasis fw-bold">&gt;= 110% de Atingimento</td>
+                    <!-- Bônus Extra (Highlight Laranja/Bege) -->
+                    <tr style="background-color: #ffedd5;">
+                        <td class="fw-extrabold text-dark text-center">Bônus Extra</td>
+                        <td class="text-start ps-3 text-warning-emphasis fw-bold">&gt;= 120% de Atingimento</td>
+                        <td class="fw-bold text-dark">R$ 100,00</td>
+                        <td class="fw-bold text-dark">R$ 200,00</td>
+                        <td class="fw-bold text-dark">R$ 300,00</td>
                         <td class="fw-bold text-dark">R$ 400,00</td>
                         <td class="fw-bold text-dark">R$ 500,00</td>
                         <td class="fw-bold text-dark">R$ 600,00</td>
-                        <td class="fw-bold text-dark">R$ 700,00</td>
-                        <td class="fw-bold text-dark">R$ 700,00</td>
-                        <td class="fw-bold text-dark">R$ 700,00</td>
                         <td class="fw-extrabold text-dark">R$ 700,00</td>
                     </tr>
-
-                    <!-- SECTION 2: ADICIONAIS DE TELEMETRIA E RASTREAMENTO -->
-                    <tr class="border-top border-2 border-dark">
-                        <td rowspan="3" class="fw-bold text-white align-middle text-center" style="background-color: #0284c7; width: 140px; writing-mode: vertical-lr; transform: rotate(180deg);">
-                            <span class="fs-14 text-uppercase tracking-wider">Telemetria & Adicionais</span>
-                        </td>
-                        <td colspan="2" class="fw-semibold text-dark text-start ps-2">Rastreamento</td>
-                        <td class="text-muted text-start ps-2">Não soma com Resolve (Unitário)</td>
+                    <tr>
+                        <td colspan="2" class="fw-semibold text-dark text-start ps-3">Rastreamento Start</td>
+                        <td class="fw-semibold">R$ 5,00</td>
                         <td class="fw-semibold">R$ 10,00</td>
-                        <td class="fw-semibold">R$ 12,00</td>
                         <td class="fw-semibold">R$ 15,00</td>
                         <td class="fw-semibold">R$ 18,00</td>
                         <td class="fw-semibold">R$ 20,00</td>
                         <td class="fw-semibold">R$ 22,00</td>
                         <td class="fw-bold text-primary">R$ 22,00</td>
                     </tr>
-                    <tr>
-                        <td colspan="2" class="fw-semibold text-dark text-start ps-2">Tag de Proximidade / Identificação</td>
-                        <td class="text-muted text-start ps-2">Unitário</td>
+
+                    <!-- RASTREAMENTO START (TAG) -->
+                    <tr class="border-top border-secondary">
+                        <td class="fw-bold text-dark text-start ps-3" colspan="2">Rastreamento Start</td>
+                        <td class="text-muted text-start ps-3">Tag / Unitário</td>
                         <td>R$ 5,00</td>
                         <td>R$ 6,00</td>
                         <td>R$ 8,00</td>
@@ -197,46 +165,63 @@
                         <td>R$ 14,00</td>
                         <td class="fw-bold">R$ 14,00</td>
                     </tr>
-                    <tr>
-                        <td colspan="2" class="fw-semibold text-dark text-start ps-2">Módulo Cearablock (Bloqueio)</td>
-                        <td class="text-muted text-start ps-2">Unitário</td>
-                        <td>R$ 2,00</td>
-                        <td>R$ 3,00</td>
-                        <td>R$ 4,00</td>
-                        <td>R$ 5,00</td>
-                        <td>R$ 6,00</td>
-                        <td>R$ 7,00</td>
-                        <td class="fw-bold">R$ 7,00</td>
+
+                    <!-- TÉCNICO INSTALADOR -->
+                    <tr class="table-light">
+                        <td class="fw-bold text-dark text-start ps-3" colspan="2">Técnico Instalador</td>
+                        <td class="text-start ps-3">N5 (&gt;= 100% Contratos)</td>
+                        <td class="fw-bold text-dark">R$ 10,00</td>
+                        <td class="fw-bold text-dark">R$ 12,00</td>
+                        <td class="fw-bold text-dark">R$ 14,00</td>
+                        <td class="fw-bold text-dark">R$ 15,00</td>
+                        <td class="fw-bold text-dark">R$ 16,00</td>
+                        <td class="fw-bold text-dark">R$ 17,00</td>
+                        <td class="fw-extrabold text-dark">R$ 18,00</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Info Cards -->
+    <!-- Highlight Notes Cards -->
     <div class="row g-3">
-        <div class="col-md-6">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="avatar-md bg-warning bg-opacity-20 text-dark rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
+                        <i class="ri-money-dollar-box-line fs-24 text-dark"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-dark mb-1">Salário Base (Fixo)</h6>
+                        <p class="small text-secondary mb-0">Varia de R$ 1.700,00 (Orange - 30 contrat.) até R$ 2.900,00 (Black - acima de 151 contrat.).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
                 <div class="d-flex align-items-center gap-3">
                     <div class="avatar-md bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
                         <i class="ri-checkbox-circle-line fs-24"></i>
                     </div>
                     <div>
-                        <h6 class="fw-bold text-dark mb-1">Nível 5 (&gt;= 100% de Atingimento)</h6>
-                        <p class="small text-secondary mb-0">Ao atingir 100% da meta de vendas, o vendedor recebe o valor máximo de comissão por contrato em todas as categorias.</p>
+                        <h6 class="fw-bold text-dark mb-1">Nível N5 (&gt;= 100% de Atingimento)</h6>
+                        <p class="small text-secondary mb-0">Comissão de R$ 30,00 a R$ 54,00 por contrato. Técnico instalador recebe de R$ 10 a R$ 18.</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+
+        <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
                 <div class="d-flex align-items-center gap-3">
-                    <div class="avatar-md bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
-                        <i class="ri-trophy-line fs-24"></i>
+                    <div class="avatar-md bg-orange bg-opacity-10 text-danger rounded-circle d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background-color: #ffedd5;">
+                        <i class="ri-fire-line fs-24 text-warning-emphasis"></i>
                     </div>
                     <div>
-                        <h6 class="fw-bold text-dark mb-1">Super Bônus de 110%</h6>
-                        <p class="small text-secondary mb-0">Superando a meta em 110%, é liberado um bônus adicional em dinheiro diretamente na folha de pagamento.</p>
+                        <h6 class="fw-bold text-dark mb-1">Super Bônus de 120%</h6>
+                        <p class="small text-secondary mb-0">Superando 120% da meta, é liberado bônus extra de R$ 100,00 até R$ 700,00 em dinheiro.</p>
                     </div>
                 </div>
             </div>
