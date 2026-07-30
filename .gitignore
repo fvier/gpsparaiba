@@ -1,50 +1,7 @@
-# Environment variables & secrets
-.env
-.env.*
-!.env.example
-!env.sample
-
-# Python & byte-compiled files
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.python-version
-
-# Virtual environments
 venv/
-env/
-ENV/
-.venv/
-
-# Database & Storage
-*.db
-*.sqlite
-*.sqlite3
-instance/
-
-# Logs & Cache
-*.log
-.cache/
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Editor & OS files
-.DS_Store
-.idea/
-.vscode/
-*.swp
-*.swo
-
-# Node / Frontend build
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-package-lock.json
-
-# Migrations & Build
-migrations/
-_build/
-_static/
-_templates/
+__pycache__/
+*.pyc
+.env
+.gemini/
+db.sqlite3
+Lahomes-Flask_v1.0/
