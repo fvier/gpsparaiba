@@ -1,0 +1,80 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Vendas | GPS Paraíba ERP{% endblock title %}
+
+{% block content %}
+<div class="container-fluid py-3">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-shopping-cart-2-line text-primary me-2"></i>Gestão de Vendas & Contratos</h4>
+            <p class="text-secondary small mb-0">Acompanhe todos os novos contratos de rastreamento ativados pela GPS Paraíba.</p>
+        </div>
+        <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Nova%20venda%20para%20cadastrar." target="_blank" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" style="background-color: #25d366; border: none;">
+            <i class="ri-add-circle-line me-1"></i> Registrar Nova Venda
+        </a>
+    </div>
+
+    <!-- Sales Table -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nº Contrato</th>
+                        <th>Cliente</th>
+                        <th>Veículo / Placa</th>
+                        <th>Plano Contratado</th>
+                        <th>Valor Mensal</th>
+                        <th>Vendedor Responsável</th>
+                        <th>Data Ativação</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="fw-bold text-dark">#GPS-9021</span></td>
+                        <td>Marcos Antônio de Souza</td>
+                        <td>Chevrolet Onix (QFB-8819)</td>
+                        <td><span class="badge bg-primary">Carro 30k (R$ 120)</span></td>
+                        <td>R$ 120,00</td>
+                        <td>Carlos Eduardo</td>
+                        <td>28/07/2026</td>
+                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="fw-bold text-dark">#GPS-9020</span></td>
+                        <td>Fernanda Lima Rangel</td>
+                        <td>Honda CG 160 (MOM-2210)</td>
+                        <td><span class="badge bg-info-subtle text-info fw-bold">Moto 15k (R$ 78)</span></td>
+                        <td>R$ 78,00</td>
+                        <td>Mariana Silva</td>
+                        <td>28/07/2026</td>
+                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="fw-bold text-dark">#GPS-9019</span></td>
+                        <td>Roberto Carlos Duarte</td>
+                        <td>Toyota Hilux (RST-4020)</td>
+                        <td><span class="badge bg-warning text-dark fw-bold">Carro VIP 60k (R$ 150)</span></td>
+                        <td>R$ 150,00</td>
+                        <td>Carlos Eduardo</td>
+                        <td>27/07/2026</td>
+                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="fw-bold text-dark">#GPS-9018</span></td>
+                        <td>Juliana de Alencar</td>
+                        <td>Fiat Argo (PQR-9912)</td>
+                        <td><span class="badge bg-secondary-subtle text-dark fw-bold">Qualquer Veículo (R$ 62)</span></td>
+                        <td>R$ 62,00</td>
+                        <td>Lucas Andrade</td>
+                        <td>26/07/2026</td>
+                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,106 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Ranking de Vendedores | GPS Paraíba ERP{% endblock title %}
+
+{% block content %}
+<div class="container-fluid py-3">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-trophy-line text-warning me-2"></i>Ranking de Desempenho Comercial</h4>
+            <p class="text-secondary small mb-0">Classificação oficial dos melhores vendedores da GPS Paraíba neste mês.</p>
+        </div>
+        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold fs-13"><i class="ri-medal-fill me-1"></i>Competição Julho/2026</span>
+    </div>
+
+    <!-- Top 3 Podium Cards -->
+    <div class="row g-4 mb-4 justify-content-center">
+        <!-- 2º Lugar -->
+        <div class="col-md-4 col-lg-3 order-2 order-md-1">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-top border-secondary border-4">
+                <div class="avatar-lg bg-secondary bg-opacity-10 text-secondary rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                    <i class="ri-medal-line fs-36 text-secondary"></i>
+                </div>
+                <span class="badge bg-secondary text-white px-3 py-1 rounded-pill mb-2">2º LUGAR</span>
+                <h5 class="fw-bold text-dark mb-1">Mariana Silva</h5>
+                <p class="small text-secondary mb-2">Consultora de Vendas</p>
+                <h3 class="fw-extrabold text-primary mb-1">24 Vendas</h3>
+                <span class="text-success small fw-bold">Comissão: R$ 600,00</span>
+            </div>
+        </div>
+
+        <!-- 1º Lugar (Campeão) -->
+        <div class="col-md-4 col-lg-4 order-1 order-md-2">
+            <div class="card border border-warning shadow-lg rounded-4 p-4 text-center bg-white h-100 position-relative" style="border-width: 2px !important;">
+                <span class="position-absolute top-0 start-50 translate-middle badge bg-warning text-dark px-4 py-2 rounded-pill fw-bold shadow-sm">🏆 CAMPEÃO DO MÊS</span>
+                <div class="avatar-lg bg-warning bg-opacity-20 text-warning rounded-circle mx-auto d-flex align-items-center justify-content-center my-3" style="width: 76px; height: 76px;">
+                    <i class="ri-trophy-fill fs-42 text-warning"></i>
+                </div>
+                <h4 class="fw-extrabold text-dark mb-1">Carlos Eduardo</h4>
+                <p class="small text-secondary mb-2">Líder Comercial</p>
+                <h2 class="display-6 fw-extrabold text-warning mb-1">28 Vendas</h2>
+                <span class="text-success fs-16 fw-extrabold">Comissão: R$ 700,00</span>
+            </div>
+        </div>
+
+        <!-- 3º Lugar -->
+        <div class="col-md-4 col-lg-3 order-3">
+            <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-top border-warning border-4">
+                <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
+                    <i class="ri-medal-fill fs-36 text-warning"></i>
+                </div>
+                <span class="badge bg-warning-subtle text-dark px-3 py-1 rounded-pill mb-2">3º LUGAR</span>
+                <h5 class="fw-bold text-dark mb-1">Lucas Andrade</h5>
+                <p class="small text-secondary mb-2">Consultor de Vendas</p>
+                <h3 class="fw-extrabold text-primary mb-1">19 Vendas</h3>
+                <span class="text-success small fw-bold">Comissão: R$ 475,00</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Complete Leaderboard Table -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <h5 class="fw-bold text-dark mb-3"><i class="ri-list-ordered me-2 text-primary"></i>Tabela Geral de Classificação</h5>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Posição</th>
+                        <th>Vendedor</th>
+                        <th>Vendas Realizadas</th>
+                        <th>Meta Alcançada</th>
+                        <th>Comissão Acumulada</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="table-warning bg-opacity-10">
+                        <td><span class="badge bg-warning text-dark rounded-circle p-2 fs-14">1º</span></td>
+                        <td><span class="fw-bold text-dark">Carlos Eduardo</span></td>
+                        <td><span class="fw-bold text-dark">28</span> contratos</td>
+                        <td><div class="progress" style="height: 8px;"><div class="progress-bar bg-success" style="width: 100%;"></div></div></td>
+                        <td><span class="fw-extrabold text-success">R$ 700,00</span></td>
+                        <td><span class="badge bg-success">Meta Superada</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-secondary text-white rounded-circle p-2 fs-14">2º</span></td>
+                        <td><span class="fw-bold text-dark">Mariana Silva</span></td>
+                        <td><span class="fw-bold text-dark">24</span> contratos</td>
+                        <td><div class="progress" style="height: 8px;"><div class="progress-bar bg-primary" style="width: 96%;"></div></div></td>
+                        <td><span class="fw-extrabold text-success">R$ 600,00</span></td>
+                        <td><span class="badge bg-primary">Meta Batida</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge bg-warning-subtle text-dark rounded-circle p-2 fs-14">3º</span></td>
+                        <td><span class="fw-bold text-dark">Lucas Andrade</span></td>
+                        <td><span class="fw-bold text-dark">19</span> contratos</td>
+                        <td><div class="progress" style="height: 8px;"><div class="progress-bar bg-info" style="width: 76%;"></div></div></td>
+                        <td><span class="fw-extrabold text-success">R$ 475,00</span></td>
+                        <td><span class="badge bg-info text-white">Quase Lá</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

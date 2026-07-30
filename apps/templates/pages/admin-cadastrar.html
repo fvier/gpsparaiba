@@ -1,0 +1,61 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Cadastrar Funcionário | Admin ERP GPS Paraíba{% endblock title %}
+
+{% block content %}
+<div class="container-fluid py-3">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-user-add-line text-warning me-2"></i>Cadastrar Novo Funcionário</h4>
+            <p class="text-secondary small mb-0">Adicione novos membros da equipe e atribua perfis de acesso no ERP.</p>
+        </div>
+        <a href="/admin-privilegios" class="btn btn-outline-dark rounded-pill px-4 fw-semibold">
+            <i class="ri-shield-keyhole-line me-1"></i> Ver Privilégios
+        </a>
+    </div>
+
+    <!-- Registration Form -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white max-w-900">
+        <form method="POST" action="/login">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-dark fs-13">Nome Completo *</label>
+                    <input type="text" class="form-control rounded-3" placeholder="Ex: João da Silva" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-dark fs-13">E-mail Corporativo *</label>
+                    <input type="email" class="form-control rounded-3" placeholder="joao@gpsparaiba.com.br" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-dark fs-13">CPF *</label>
+                    <input type="text" class="form-control rounded-3" placeholder="000.000.000-00" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-dark fs-13">Telefone / WhatsApp *</label>
+                    <input type="text" class="form-control rounded-3" placeholder="(83) 99999-9999" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-dark fs-13">Cargo / Função *</label>
+                    <select class="form-select rounded-3" required>
+                        <option value="vendedor">Vendedor / Consultor Comercial</option>
+                        <option value="gerente">Gerente de Vendas</option>
+                        <option value="suporte">Atendente 0800 / Suporte</option>
+                        <option value="admin">Administrador do Sistema</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold text-dark fs-13">Senha Inicial de Acesso *</label>
+                    <input type="password" class="form-control rounded-3" placeholder="••••••••" required>
+                </div>
+                <div class="col-12 pt-3 border-top mt-4 d-flex justify-content-end gap-2">
+                    <button type="reset" class="btn btn-light rounded-pill px-4">Limpar</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+                        <i class="ri-check-line me-1"></i> Salvar Cadastro
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

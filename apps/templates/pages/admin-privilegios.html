@@ -1,0 +1,84 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Privilégios & Permissões | Admin ERP GPS Paraíba{% endblock title %}
+
+{% block content %}
+<div class="container-fluid py-3">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+        <div>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-shield-keyhole-line text-danger me-2"></i>Controle de Privilégios & Acessos</h4>
+            <p class="text-secondary small mb-0">Defina quais páginas cada usuário pode acessar e se requer autenticação por login.</p>
+        </div>
+        <a href="/admin-cadastrar" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
+            <i class="ri-user-add-line me-1"></i> Cadastrar Funcionário
+        </a>
+    </div>
+
+    <!-- Permissions Table -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Página / Módulo</th>
+                        <th>Requer Login?</th>
+                        <th>Nível de Acesso Recomendado</th>
+                        <th>Vendedor</th>
+                        <th>Gerente</th>
+                        <th>Admin</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="fw-bold text-dark"><i class="ri-home-4-line text-primary me-2"></i>Início (Landing Page)</span></td>
+                        <td><span class="badge bg-secondary-subtle text-dark">Pública (Não requer)</span></td>
+                        <td>Todos os Visitantes</td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="fw-bold text-dark"><i class="ri-line-chart-line text-success me-2"></i>Dashboard de Vendas</span></td>
+                        <td><span class="badge bg-warning text-dark">Sim (Restrita)</span></td>
+                        <td>Vendedor / Gerente / Admin</td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="fw-bold text-dark"><i class="ri-table-line text-info me-2"></i>Comissionamento</span></td>
+                        <td><span class="badge bg-warning text-dark">Sim (Restrita)</span></td>
+                        <td>Vendedor (Próprio) / Admin</td>
+                        <td><i class="ri-indeterminate-circle-fill text-warning fs-20" title="Apenas visualiza própria comissão"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="fw-bold text-dark"><i class="ri-user-add-line text-warning me-2"></i>Cadastrar Funcionário</span></td>
+                        <td><span class="badge bg-danger text-white">Restrição Total</span></td>
+                        <td>Apenas Administradores</td>
+                        <td><i class="ri-close-circle-fill text-danger fs-20"></i></td>
+                        <td><i class="ri-close-circle-fill text-danger fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
+                    </tr>
+                    <tr>
+                        <td><span class="fw-bold text-dark"><i class="ri-trophy-line text-warning me-2"></i>Ranking de Vendas</span></td>
+                        <td><span class="badge bg-warning text-dark">Sim (Restrita)</span></td>
+                        <td>Todos os Funcionários Logados</td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
+                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,187 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Dashboard de Vendas | GPS Paraíba ERP{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between my-3">
+                <h4 class="mb-sm-0 fw-bold text-dark"><i class="ri-line-chart-line text-success me-2"></i>Dashboard de Vendas</h4>
+                <div class="page-title-right">
+                    <span class="badge bg-primary px-3 py-2 rounded-pill">GPS Paraíba ERP</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPI Cards Row -->
+    <div class="row g-3 mb-4">
+        <!-- Total Vendas Mês -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-secondary small fw-semibold">Vendas do Mês</span>
+                        <h3 class="fw-extrabold text-dark my-1">142</h3>
+                        <span class="badge bg-success-subtle text-success font-medium"><i class="ri-arrow-up-line me-1"></i>+12.5% este mês</span>
+                    </div>
+                    <div class="avatar-md bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <i class="ri-shopping-cart-2-line fs-24"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faturamento Mensal -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-secondary small fw-semibold">Faturamento Total</span>
+                        <h3 class="fw-extrabold text-success my-1">R$ 17.840</h3>
+                        <span class="badge bg-success-subtle text-success font-medium"><i class="ri-arrow-up-line me-1"></i>+8.4% este mês</span>
+                    </div>
+                    <div class="avatar-md bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <i class="ri-money-dollar-circle-line fs-24"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comissões a Pagar -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-secondary small fw-semibold">Comissões a Pagar</span>
+                        <h3 class="fw-extrabold text-warning my-1">R$ 3.568</h3>
+                        <span class="badge bg-warning-subtle text-warning font-medium"><i class="ri-time-line me-1"></i>Em processamento</span>
+                    </div>
+                    <div class="avatar-md bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <i class="ri-wallet-line fs-24"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendedores Ativos -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-secondary small fw-semibold">Vendedores Ativos</span>
+                        <h3 class="fw-extrabold text-info my-1">18</h3>
+                        <span class="badge bg-info-subtle text-info font-medium"><i class="ri-user-smile-line me-1"></i>Equipe Completa</span>
+                    </div>
+                    <div class="avatar-md bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                        <i class="ri-team-line fs-24"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="row g-4 mb-4">
+        <!-- Vendas por Plano -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+                <h5 class="fw-bold text-dark mb-3"><i class="ri-bar-chart-box-line me-2 text-primary"></i>Desempenho de Vendas por Plano</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Plano</th>
+                                <th>Valor Mensal</th>
+                                <th>Vendas Realizadas</th>
+                                <th>Faturamento acumulado</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge bg-secondary-subtle text-dark fw-bold">Qualquer Veículo</span></td>
+                                <td>R$ 62,00</td>
+                                <td><span class="fw-bold text-dark">48</span> vendas</td>
+                                <td>R$ 2.976,00</td>
+                                <td><span class="badge bg-success">Alta Procura</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-info-subtle text-info fw-bold">Moto 15k</span></td>
+                                <td>R$ 78,00</td>
+                                <td><span class="fw-bold text-dark">32</span> vendas</td>
+                                <td>R$ 2.496,00</td>
+                                <td><span class="badge bg-success">Estável</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-success text-white fw-bold">Moto Top 30k</span></td>
+                                <td>R$ 100,00</td>
+                                <td><span class="fw-bold text-dark">26</span> vendas</td>
+                                <td>R$ 2.600,00</td>
+                                <td><span class="badge bg-success">Em alta</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-primary text-white fw-bold">Carro 30k</span></td>
+                                <td>R$ 120,00</td>
+                                <td><span class="fw-bold text-dark">21</span> vendas</td>
+                                <td>R$ 2.520,00</td>
+                                <td><span class="badge bg-primary">Constante</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge bg-warning text-dark fw-bold">Carro VIP 60k</span></td>
+                                <td>R$ 150,00</td>
+                                <td><span class="fw-bold text-dark">15</span> vendas</td>
+                                <td>R$ 2.250,00</td>
+                                <td><span class="badge bg-warning text-dark">Destaque</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resumo Rápido da Equipe -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
+                <h5 class="fw-bold text-dark mb-3"><i class="ri-trophy-line me-2 text-warning"></i>Top Vendedores</h5>
+                <div class="d-grid gap-3">
+                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-warning rounded-circle p-2 fs-14">🥇</span>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">Carlos Eduardo</h6>
+                                <small class="text-secondary">28 contratos fechados</small>
+                            </div>
+                        </div>
+                        <span class="fw-bold text-success">R$ 700,00</span>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-secondary rounded-circle p-2 fs-14">🥈</span>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">Mariana Silva</h6>
+                                <small class="text-secondary">24 contratos fechados</small>
+                            </div>
+                        </div>
+                        <span class="fw-bold text-success">R$ 600,00</span>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-warning-subtle text-dark rounded-circle p-2 fs-14">🥉</span>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">Lucas Andrade</h6>
+                                <small class="text-secondary">19 contratos fechados</small>
+                            </div>
+                        </div>
+                        <span class="fw-bold text-success">R$ 475,00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
