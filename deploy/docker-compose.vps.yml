@@ -1,0 +1,21 @@
+services:
+  app:
+    networks:
+      - default
+      - coolify
+    labels:
+      - traefik.enable=true
+      - traefik.http.middlewares.gpsparaiba-https.redirectscheme.scheme=https
+      - traefik.http.routers.gpsparaiba-http.entrypoints=http
+      - traefik.http.routers.gpsparaiba-http.rule=Host(`gpsparaiba.com.br`)
+      - traefik.http.routers.gpsparaiba-http.middlewares=gpsparaiba-https
+      - traefik.http.routers.gpsparaiba.entrypoints=https
+      - traefik.http.routers.gpsparaiba.rule=Host(`gpsparaiba.com.br`)
+      - traefik.http.routers.gpsparaiba.tls=true
+      - traefik.http.routers.gpsparaiba.tls.certresolver=letsencrypt
+      - traefik.http.services.gpsparaiba.loadbalancer.server.port=5000
+
+networks:
+  coolify:
+    external: true
+    name: coolify
