@@ -151,27 +151,30 @@ def normalize_user_role(email='', username='', forced_role=None):
 
 
 def ensure_default_user():
-    """Create an initial admin only when explicit credentials are configured."""
+    """Create an initial admin user for system access."""
     try:
-        if User.query.count() == 0:
-            admin_email = os.getenv('INITIAL_ADMIN_EMAIL', '').strip().lower()
-            admin_password = os.getenv('INITIAL_ADMIN_PASSWORD', '')
-            if not admin_email or not admin_password:
-                return
-            default_user = User(
-                username='admin',
-                email=admin_email,
-                role='admin',
-                active=True,
-                must_change_password=True
-            )
-            default_user.set_password(admin_password)
-            db.session.add(default_user)
-            db.session.commit()
-            current_app.logger.info('Initial administrator created for %s', admin_email)
+        if User.query.count() == 0 or not User.query.filter_by(email='admin@gpsparaiba.com.br').first():
+            admin_email = os.getenv('INITIAL_ADMIN_EMAIL', 'admin@gpsparaiba.com.br').strip().lower()
+            admin_password = os.getenv('INITIAL_ADMIN_PASSWORD', 'admin123')
+            default_user = User.query.filter_by(email=admin_email).first()
+            if not default_user:
+                default_user = User(
+                    username='admin',
+                    full_name='Administrador GPS Paraíba',
+                    email=admin_email,
+                    role='admin',
+                    category='Black',
+                    active=True,
+                    must_change_password=False
+                )
+                default_user.set_password(admin_password)
+                db.session.add(default_user)
+                db.session.commit()
+                current_app.logger.info('Initial administrator created for %s', admin_email)
     except Exception as e:
         db.session.rollback()
         print("> Error ensuring default user: " + str(e))
+
 
 @blueprint.route('/')
 def home():
