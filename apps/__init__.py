@@ -1,5 +1,4 @@
 import os
-import secrets
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
@@ -60,16 +59,23 @@ def ensure_carousel_columns(app):
 
 def configure_database(app):
     with app.app_context():
-        # Ensure a valid SECRET_KEY exists
-        if not app.config.get('SECRET_KEY'):
-            app.config['SECRET_KEY'] = secrets.token_hex(32)
+        if app.config.get('REQUIRE_SECRET_KEY') and not os.getenv('SECRET_KEY'):
+            raise RuntimeError('SECRET_KEY is required in production.')
 
-        try:
+        if app.config.get('REQUIRE_DATABASE_URL') and not (
+            os.getenv('DATABASE_URL') or os.getenv('POSTGRES_URL')
+        ):
+            raise RuntimeError('DATABASE_URL is required in production.')
+
+        if app.config.get('REQUIRE_POSTGRES') and not app.config[
+            'SQLALCHEMY_DATABASE_URI'
+        ].startswith(('postgresql://', 'postgresql+psycopg2://')):
+            raise RuntimeError('Production DATABASE_URL must use PostgreSQL.')
+
+        if app.config.get('AUTO_CREATE_SCHEMA'):
             db.create_all()
             ensure_user_columns(app)
             ensure_carousel_columns(app)
-        except Exception as e:
-            print('> Database init exception: ' + str(e))
 
     @app.teardown_request
     def shutdown_session(exception=None):
@@ -79,17 +85,14 @@ def create_app(config):
     app = Flask(__name__)
     app.config.from_object(config)
     
-    # Generate random secret key if missing
-    if not app.config.get('SECRET_KEY'):
-        app.config['SECRET_KEY'] = secrets.token_hex(32)
-
     @app.route('/health')
     def health_check():
         try:
             db.session.execute(text('SELECT 1'))
-            return {'status': 'ok', 'database': 'available'}, 200
         except Exception:
-            return {'status': 'ok', 'database': 'offline'}, 200
+            app.logger.exception('Database health check failed')
+            return {'status': 'unhealthy', 'database': 'unavailable'}, 503
+        return {'status': 'ok', 'database': 'available'}, 200
 
     register_extensions(app)
     register_blueprints(app)
