@@ -1,24 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" {% block html_attribute %}{% endblock html_attribute %}>
+<html lang="pt-BR" {% block html_attribute %}{% endblock html_attribute %}>
 <head>
-    <!-- Title Meta -->
+    <!-- Title & Meta -->
     <meta charset="utf-8"/>
-    <title> {% block title %}{% endblock title %} | Lahomes - Real Estate Management Admin Template</title>
+    <title>{% block title %}GPS Paraíba | Rastreamento Veicular{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-          content="A fully responsive premium admin dashboard template, Real Estate Management Admin Template"/>
-    <meta name="author" content="Techzaa"/>
+    <meta name="description" content="GPS Paraíba - Rastreamento Veicular & Telemetria em Tempo Real 24h. Segurança, localização e gestão de frotas."/>
+    <meta name="author" content="GPS Paraíba"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <link rel="shortcut icon" href="{{ config.ASSETS_ROOT }}/images/favicon.ico">
+
+    <!-- Open Graph / Social Media Preview -->
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="GPS Paraíba | Rastreamento Veicular"/>
+    <meta property="og:description" content="GPS Paraíba - Rastreamento Veicular & Telemetria em Tempo Real 24h."/>
+    <meta property="og:site_name" content="GPS Paraíba"/>
+    <meta property="og:image" content="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png"/>
+
+    <!-- Favicon & Icons -->
+    <link rel="shortcut icon" href="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" type="image/png">
+    <link rel="icon" href="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" type="image/png">
+    <link rel="apple-touch-icon" href="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png">
 
     {% block css %}
-
     {% block extra_css %} {% endblock extra_css %}
-
     {% include 'partials/head-css.html' %}
-
     {% endblock css %}
-
 </head>
 <body {% block body_attribute %}{% endblock body_attribute %}>
 
@@ -27,11 +33,8 @@
 {% block content %}{% endblock content %}
 
 {% block javascript %}
-
 {% include 'partials/vendor-scripts.html' %}
-
 {% block extra_javascript %} {% endblock extra_javascript %}
-
 {% endblock javascript %}
 
 </body>
