@@ -1,5 +1,7 @@
 services:
   app:
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-gps_paraiba}:${SERVICE_PASSWORD_64_POSTGRES}@gpsparaiba-db:5432/${POSTGRES_DB:-gps_paraiba}
     networks:
       - default
       - coolify
@@ -14,6 +16,12 @@ services:
       - traefik.http.routers.gpsparaiba.tls=true
       - traefik.http.routers.gpsparaiba.tls.certresolver=letsencrypt
       - traefik.http.services.gpsparaiba.loadbalancer.server.port=5000
+
+  postgres:
+    networks:
+      default:
+        aliases:
+          - gpsparaiba-db
 
 networks:
   coolify:
