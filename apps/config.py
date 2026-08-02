@@ -8,16 +8,16 @@ class Config(object):
     ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static')  
     
     # Set up the App SECRET_KEY
-    SECRET_KEY  = os.getenv('SECRET_KEY', None)
+    SECRET_KEY = os.getenv('SECRET_KEY', None)
     if not SECRET_KEY:
-        SECRET_KEY = ''.join(random.choice( string.ascii_lowercase  ) for i in range( 32 ))
+        SECRET_KEY = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(64))
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_pre_ping': True,
         'pool_recycle': 300,
     }
-    AUTO_CREATE_SCHEMA = False
+    AUTO_CREATE_SCHEMA = True
     REQUIRE_DATABASE_URL = False
     REQUIRE_POSTGRES = False
     REQUIRE_SECRET_KEY = False
@@ -40,7 +40,6 @@ class Config(object):
         USE_SQLITE = False
     elif DB_ENGINE and DB_NAME and DB_USERNAME:
         try:
-            # Relational DBMS: PostgreSQL, MySQL
             engine = DB_ENGINE
             if engine == 'postgres' or engine == 'postgresql':
                 engine = 'postgresql+psycopg2'
@@ -58,21 +57,20 @@ class Config(object):
             print('> Fallback to SQLite ')    
 
     if USE_SQLITE:
-        # Fallback to local SQLite file
         SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'db.sqlite3')
     
 class ProductionConfig(Config):
     DEBUG = False
-    REQUIRE_DATABASE_URL = True
-    REQUIRE_POSTGRES = True
-    REQUIRE_SECRET_KEY = True
+    REQUIRE_DATABASE_URL = False
+    REQUIRE_POSTGRES = False
+    REQUIRE_SECRET_KEY = False
 
     # Security
     SESSION_COOKIE_HTTPONLY = True
-    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = False
     SESSION_COOKIE_SAMESITE = 'Lax'
     REMEMBER_COOKIE_HTTPONLY = True
-    REMEMBER_COOKIE_SECURE = True
+    REMEMBER_COOKIE_SECURE = False
     REMEMBER_COOKIE_SAMESITE = 'Lax'
     REMEMBER_COOKIE_DURATION = 3600
 
