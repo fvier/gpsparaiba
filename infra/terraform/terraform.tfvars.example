@@ -1,0 +1,11 @@
+# Preencha estes quatro valores com a saída de `terraform state show` após o import.
+vps_plan       = "VALOR_RETORNADO_PELA_HOSTINGER"
+data_center_id = 0
+template_id    = 0
+hostname       = "srv-exemplo.hstgr.cloud"
+
+expected_ipv4 = "147.79.110.132"
+
+# Não preencher para gpsparaiba.com.br: a zona está no Registro.br/NickBR,
+# fora do gerenciamento DNS da conta Hostinger.
+# dns_zone = ""
