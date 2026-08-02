@@ -104,6 +104,19 @@ python3 run.py
 ```
 Acesse a aplicação no navegador em `http://127.0.0.1:5000`.
 
+## Banco de dados e produção
+
+O desenvolvimento local pode usar SQLite com `DEBUG=True`. Em produção,
+`DATABASE_URL` é obrigatória e deve apontar para PostgreSQL. O esquema é
+controlado por Flask-Migrate:
+
+```bash
+flask db upgrade
+```
+
+Consulte [Deploy com PostgreSQL](docs/deploy_postgresql.md) para a primeira
+publicação e para a transferência segura dos dados atuais.
+
 ---
 
 ## 📖 Documentação & Governança

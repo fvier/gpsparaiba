@@ -1,5 +1,4 @@
 import os
-from   flask_migrate import Migrate
 from   flask_minify  import Minify
 from   sys import exit
 
@@ -21,7 +20,6 @@ except KeyError:
     exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
 
 app = create_app(app_config)
-Migrate(app, db)
 
 if not DEBUG:
     Minify(app=app, html=True, js=False, cssless=False)

@@ -13,6 +13,14 @@ class Config(object):
         SECRET_KEY = ''.join(random.choice( string.ascii_lowercase  ) for i in range( 32 ))
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,
+        'pool_recycle': 300,
+    }
+    AUTO_CREATE_SCHEMA = False
+    REQUIRE_DATABASE_URL = False
+    REQUIRE_POSTGRES = False
+    REQUIRE_SECRET_KEY = False
 
     DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('POSTGRES_URL')
     DB_ENGINE   = os.getenv('DB_ENGINE'   , None)
@@ -55,14 +63,22 @@ class Config(object):
     
 class ProductionConfig(Config):
     DEBUG = False
+    REQUIRE_DATABASE_URL = True
+    REQUIRE_POSTGRES = True
+    REQUIRE_SECRET_KEY = True
 
     # Security
     SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
     REMEMBER_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_SECURE = True
+    REMEMBER_COOKIE_SAMESITE = 'Lax'
     REMEMBER_COOKIE_DURATION = 3600
 
 class DebugConfig(Config):
     DEBUG = True
+    AUTO_CREATE_SCHEMA = True
 
 # Load all possible configurations
 config_dict = {
