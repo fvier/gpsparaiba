@@ -1,84 +1,97 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/vertical.html' %}
 
-{% block title %}Privilégios & Permissões | Admin ERP GPS Paraíba{% endblock title %}
+{% block title %}Privilégios & Permissões | GPS Paraíba{% endblock title %}
 
-{% block content %}
+{% macro access_indicator(level) %}
+    {% if level == 'total' %}<span class="permission-state permission-total"><i class="ri-checkbox-circle-fill"></i><span>Total</span></span>
+    {% elif level == 'limited' %}<span class="permission-state permission-limited"><i class="ri-indeterminate-circle-fill"></i><span>Limitado</span></span>
+    {% else %}<span class="permission-state permission-none"><i class="ri-close-circle-fill"></i><span>Sem acesso</span></span>{% endif %}
+{% endmacro %}
+
+{% block page_content %}
+<style>
+    .permission-summary { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px; }
+    .permission-summary-card { padding:18px;display:flex;align-items:center;gap:14px; }
+    .permission-summary-icon { width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:21px;flex:0 0 auto; }
+    .permission-state { display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;white-space:nowrap; }
+    .permission-total { color:#16a34a; }.permission-limited { color:#d97706; }.permission-none { color:#dc2626; }
+    .permission-route { font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;color:#64748b; }
+    .permission-legend { display:flex;gap:16px;flex-wrap:wrap; }
+    .collaborator-avatar { width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(29,78,216,.1);color:#1d4ed8;font-weight:800; }
+    @media(max-width:991.98px){.permission-summary{grid-template-columns:repeat(2,minmax(0,1fr));}}
+    @media(max-width:575.98px){.permission-summary{grid-template-columns:1fr;}}
+</style>
+
 <div class="container-fluid py-3">
-    <!-- Header -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div>
-            <h4 class="fw-bold text-dark mb-1"><i class="ri-shield-keyhole-line text-danger me-2"></i>Controle de Privilégios & Acessos</h4>
-            <p class="text-secondary small mb-0">Defina quais páginas cada usuário pode acessar e se requer autenticação por login.</p>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-shield-keyhole-line text-danger me-2"></i>Privilégios e acessos</h4>
+            <p class="text-secondary small mb-0">Consulte as regras dos módulos e administre o nível de acesso dos colaboradores.</p>
         </div>
-        <a href="/admin-cadastrar" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm">
-            <i class="ri-user-add-line me-1"></i> Cadastrar Funcionário
-        </a>
+        <div class="d-flex gap-2 flex-wrap"><a href="/admin-cadastrar" class="btn btn-outline-primary rounded-pill px-4"><i class="ri-team-line me-1"></i>Colaboradores</a><a href="/admin-carrossel" class="btn btn-primary rounded-pill px-4"><i class="ri-gallery-line me-1"></i>Carrossel</a></div>
     </div>
 
-    <!-- Permissions Table -->
-    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}<div class="alert alert-{{ category }} alert-dismissible fade show">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}
+    {% endwith %}
+
+    <div class="permission-summary mb-4">
+        <div class="card permission-summary-card"><span class="permission-summary-icon bg-primary-subtle text-primary"><i class="ri-team-line"></i></span><div><div class="fs-4 fw-bold">{{ managed_users|length }}</div><small class="text-secondary">Contas cadastradas</small></div></div>
+        <div class="card permission-summary-card"><span class="permission-summary-icon bg-success-subtle text-success"><i class="ri-user-follow-line"></i></span><div><div class="fs-4 fw-bold">{{ managed_users|selectattr('active')|list|length }}</div><small class="text-secondary">Contas ativas</small></div></div>
+        <div class="card permission-summary-card"><span class="permission-summary-icon bg-danger-subtle text-danger"><i class="ri-shield-user-line"></i></span><div><div class="fs-4 fw-bold">{{ managed_users|selectattr('role', 'equalto', 'admin')|list|length }}</div><small class="text-secondary">Administradores</small></div></div>
+        <div class="card permission-summary-card"><span class="permission-summary-icon bg-warning-subtle text-warning"><i class="ri-apps-2-line"></i></span><div><div class="fs-4 fw-bold">{{ permission_modules|length }}</div><small class="text-secondary">Módulos mapeados</small></div></div>
+    </div>
+
+    <div class="card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">
+            <div><h5 class="fw-bold mb-1">Mapa atual de permissões</h5><p class="text-secondary small mb-0">Representa as regras efetivamente aplicadas pelo sistema.</p></div>
+            <div class="permission-legend"><span class="permission-state permission-total"><i class="ri-checkbox-circle-fill"></i>Total</span><span class="permission-state permission-limited"><i class="ri-indeterminate-circle-fill"></i>Limitado</span><span class="permission-state permission-none"><i class="ri-close-circle-fill"></i>Sem acesso</span></div>
+        </div>
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Página / Módulo</th>
-                        <th>Requer Login?</th>
-                        <th>Nível de Acesso Recomendado</th>
-                        <th>Vendedor</th>
-                        <th>Gerente</th>
-                        <th>Admin</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
+                <thead class="table-light"><tr><th>Módulo</th><th>Autenticação</th><th>Colaborador</th><th>Gerente</th><th>Administrador</th></tr></thead>
                 <tbody>
+                    {% for module in permission_modules %}
                     <tr>
-                        <td><span class="fw-bold text-dark"><i class="ri-home-4-line text-primary me-2"></i>Início (Landing Page)</span></td>
-                        <td><span class="badge bg-secondary-subtle text-dark">Pública (Não requer)</span></td>
-                        <td>Todos os Visitantes</td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
+                        <td><div class="d-flex align-items-center gap-2"><i class="{{ module.icon }} text-{{ module.color }} fs-18"></i><div><strong>{{ module.name }}</strong><div class="permission-route">{{ module.route }}</div></div></div></td>
+                        <td>{% if module.login %}<span class="badge bg-warning-subtle text-warning-emphasis">Login obrigatório</span>{% else %}<span class="badge bg-success-subtle text-success">Público</span>{% endif %}</td>
+                        <td>{{ access_indicator(module.usuario) }}</td><td>{{ access_indicator(module.gerente) }}</td><td>{{ access_indicator(module.admin) }}</td>
                     </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card p-4">
+        <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
+            <div><h5 class="fw-bold mb-1">Acesso dos colaboradores</h5><p class="text-secondary small mb-0">Altere privilégio e categoria-base diretamente na tabela.</p></div>
+            <div class="input-group input-group-sm" style="width:min(100%,330px)"><span class="input-group-text bg-body"><i class="ri-search-line"></i></span><input id="privilege-user-search" type="search" class="form-control" placeholder="Pesquisar nome, e-mail, acesso ou categoria"></div>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light"><tr><th>Colaborador</th><th>Status</th><th style="min-width:190px">Privilégio</th><th style="min-width:210px">Categoria-base</th></tr></thead>
+                <tbody id="privilege-users-body">
+                    {% for user in managed_users %}
+                    {% set protected = user.email.lower() in max_privilege_emails or user.id == session.get('user_id') %}
                     <tr>
-                        <td><span class="fw-bold text-dark"><i class="ri-line-chart-line text-success me-2"></i>Dashboard de Vendas</span></td>
-                        <td><span class="badge bg-warning text-dark">Sim (Restrita)</span></td>
-                        <td>Vendedor / Gerente / Admin</td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
+                        <td><div class="d-flex align-items-center gap-2"><span class="collaborator-avatar">{{ (user.full_name or user.username)[0]|upper }}</span><div><strong>{{ user.full_name or user.username }}</strong><small class="text-secondary d-block">{{ user.email }}</small></div></div></td>
+                        <td>{% if user.active %}<span class="badge bg-success-subtle text-success"><i class="ri-checkbox-circle-fill me-1"></i>Ativo</span>{% else %}<span class="badge bg-danger-subtle text-danger"><i class="ri-close-circle-fill me-1"></i>Inativo</span>{% endif %}</td>
+                        <td><form method="POST" action="/admin/usuarios/{{ user.id }}/change-role"><input type="hidden" name="next" value="/admin-privilegios"><select class="form-select form-select-sm fw-semibold" name="role" onchange="this.form.submit()" {% if protected %}disabled title="Conta protegida"{% endif %}><option value="usuario" {% if user.role == 'usuario' %}selected{% endif %}>Colaborador</option><option value="gerente" {% if user.role == 'gerente' %}selected{% endif %}>Gerente</option><option value="admin" {% if user.role == 'admin' %}selected{% endif %}>Administrador</option></select>{% if protected %}<small class="text-secondary"><i class="ri-lock-line me-1"></i>Conta protegida</small>{% endif %}</form></td>
+                        <td><form method="POST" action="/admin/usuarios/{{ user.id }}/change-category"><input type="hidden" name="next" value="/admin-privilegios"><select class="form-select form-select-sm fw-semibold" name="category" onchange="this.form.submit()" style="border-left:5px solid {{ {'Orange':'#f97316','Blue':'#3b82f6','Green':'#22c55e','Gold':'#eab308','Platinum':'#06b6d4','Diamond':'#0284c7','Black':'#0f172a'}.get(user.category, '#f97316') }}">{% for category in ['Orange','Blue','Green','Gold','Platinum','Diamond','Black'] %}<option value="{{ category }}" {% if user.category == category %}selected{% endif %}>{{ category }}</option>{% endfor %}</select></form></td>
                     </tr>
-                    <tr>
-                        <td><span class="fw-bold text-dark"><i class="ri-table-line text-info me-2"></i>Comissionamento</span></td>
-                        <td><span class="badge bg-warning text-dark">Sim (Restrita)</span></td>
-                        <td>Vendedor (Próprio) / Admin</td>
-                        <td><i class="ri-indeterminate-circle-fill text-warning fs-20" title="Apenas visualiza própria comissão"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
-                    </tr>
-                    <tr>
-                        <td><span class="fw-bold text-dark"><i class="ri-user-add-line text-warning me-2"></i>Cadastrar Funcionário</span></td>
-                        <td><span class="badge bg-danger text-white">Restrição Total</span></td>
-                        <td>Apenas Administradores</td>
-                        <td><i class="ri-close-circle-fill text-danger fs-20"></i></td>
-                        <td><i class="ri-close-circle-fill text-danger fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
-                    </tr>
-                    <tr>
-                        <td><span class="fw-bold text-dark"><i class="ri-trophy-line text-warning me-2"></i>Ranking de Vendas</span></td>
-                        <td><span class="badge bg-warning text-dark">Sim (Restrita)</span></td>
-                        <td>Todos os Funcionários Logados</td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><i class="ri-checkbox-circle-fill text-success fs-20"></i></td>
-                        <td><button class="btn btn-sm btn-outline-secondary rounded-pill">Editar</button></td>
-                    </tr>
+                    {% else %}<tr><td colspan="4" class="text-center text-secondary py-5">Nenhum colaborador cadastrado.</td></tr>{% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-{% endblock content %}
+
+<script>
+    const privilegeSearch = document.getElementById('privilege-user-search');
+    privilegeSearch.addEventListener('input', () => {
+        const query = privilegeSearch.value.trim().toLocaleLowerCase('pt-BR');
+        [...document.querySelectorAll('#privilege-users-body tr')].forEach(row => row.classList.toggle('d-none', Boolean(query) && !row.textContent.toLocaleLowerCase('pt-BR').includes(query)));
+    });
+</script>
+{% endblock page_content %}

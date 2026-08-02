@@ -1,80 +1,496 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/vertical.html' %}
 
 {% block title %}Vendas | GPS Paraíba ERP{% endblock title %}
 
-{% block content %}
+{% block page_content %}
+<style>
+    .sale-status {
+        width: auto;
+        min-width: 98px;
+        max-width: 112px;
+        border-width: 1px;
+        font-size: 11px;
+        line-height: 1.1;
+        padding: .25rem 1.65rem .25rem .65rem;
+    }
+    .status-prospecto { background-color: #f97316 !important; border-color: #ea580c !important; color: #fff !important; }
+    .status-concluido { background-color: #16a34a !important; border-color: #15803d !important; color: #fff !important; }
+    .status-desistencia { background-color: #dc2626 !important; border-color: #b91c1c !important; color: #fff !important; }
+    .sale-status option { background-color: #fff; color: #212529; }
+    .sale-form-status option { background-color: #fff; color: #212529; }
+</style>
 <div class="container-fluid py-3">
-    <!-- Header -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div>
             <h4 class="fw-bold text-dark mb-1"><i class="ri-shopping-cart-2-line text-primary me-2"></i>Gestão de Vendas & Contratos</h4>
             <p class="text-secondary small mb-0">Acompanhe todos os novos contratos de rastreamento ativados pela GPS Paraíba.</p>
         </div>
-        <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Nova%20venda%20para%20cadastrar." target="_blank" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" style="background-color: #25d366; border: none;">
+        <button id="register-sale-btn" type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm ms-auto" style="background-color: #25d366; border: none;">
             <i class="ri-add-circle-line me-1"></i> Registrar Nova Venda
-        </a>
+        </button>
     </div>
 
-    <!-- Sales Table -->
     <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+            <div>
+                <small class="text-muted d-block">Último ID aplicado</small>
+                <span id="current-update-id" class="badge bg-primary-subtle text-primary rounded-pill fw-bold px-3 py-2">0000GPS0000-0000</span>
+            </div>
+            <div class="input-group input-group-sm" style="width: min(100%, 360px);">
+                <span class="input-group-text bg-white"><i class="ri-search-line text-muted"></i></span>
+                <input id="sales-filter-id" type="search" class="form-control" placeholder="Pesquisar qualquer informação">
+            </div>
+        </div>
+
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light">
                     <tr>
-                        <th>Nº Contrato</th>
-                        <th>Cliente</th>
-                        <th>Veículo / Placa</th>
-                        <th>Plano Contratado</th>
-                        <th>Valor Mensal</th>
-                        <th>Vendedor Responsável</th>
-                        <th>Data Ativação</th>
-                        <th>Status</th>
+                        <th style="width: 48px;"><span class="visually-hidden">Detalhes</span></th>
+                        <th><button type="button" class="btn btn-link p-0 text-dark fw-bold text-decoration-none sales-sort" data-sort="dataAtivacao">Data <i class="ri-arrow-up-down-line"></i></button></th>
+                        <th><button type="button" class="btn btn-link p-0 text-dark fw-bold text-decoration-none sales-sort" data-sort="plano">Plano <i class="ri-arrow-up-down-line"></i></button></th>
+                        <th><button type="button" class="btn btn-link p-0 text-dark fw-bold text-decoration-none sales-sort" data-sort="valorMensal">Valor <i class="ri-arrow-up-down-line"></i></button></th>
+                        <th><button type="button" class="btn btn-link p-0 text-dark fw-bold text-decoration-none sales-sort" data-sort="status">Status <i class="ri-arrow-up-down-line"></i></button></th>
+                        <th><button type="button" class="btn btn-link p-0 text-dark fw-bold text-decoration-none sales-sort" data-sort="tipoVeiculo">Tipo <i class="ri-arrow-up-down-line"></i></button></th>
+                        <th><button type="button" class="btn btn-link p-0 text-dark fw-bold text-decoration-none sales-sort" data-sort="veiculo">Veículo <i class="ri-arrow-up-down-line"></i></button></th>
+                        <th class="text-end" style="width: 54px;"><span class="visually-hidden">Ações</span></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><span class="fw-bold text-dark">#GPS-9021</span></td>
-                        <td>Marcos Antônio de Souza</td>
-                        <td>Chevrolet Onix (QFB-8819)</td>
-                        <td><span class="badge bg-primary">Carro 30k (R$ 120)</span></td>
-                        <td>R$ 120,00</td>
-                        <td>Carlos Eduardo</td>
-                        <td>28/07/2026</td>
-                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="fw-bold text-dark">#GPS-9020</span></td>
-                        <td>Fernanda Lima Rangel</td>
-                        <td>Honda CG 160 (MOM-2210)</td>
-                        <td><span class="badge bg-info-subtle text-info fw-bold">Moto 15k (R$ 78)</span></td>
-                        <td>R$ 78,00</td>
-                        <td>Mariana Silva</td>
-                        <td>28/07/2026</td>
-                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="fw-bold text-dark">#GPS-9019</span></td>
-                        <td>Roberto Carlos Duarte</td>
-                        <td>Toyota Hilux (RST-4020)</td>
-                        <td><span class="badge bg-warning text-dark fw-bold">Carro VIP 60k (R$ 150)</span></td>
-                        <td>R$ 150,00</td>
-                        <td>Carlos Eduardo</td>
-                        <td>27/07/2026</td>
-                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="fw-bold text-dark">#GPS-9018</span></td>
-                        <td>Juliana de Alencar</td>
-                        <td>Fiat Argo (PQR-9912)</td>
-                        <td><span class="badge bg-secondary-subtle text-dark fw-bold">Qualquer Veículo (R$ 62)</span></td>
-                        <td>R$ 62,00</td>
-                        <td>Lucas Andrade</td>
-                        <td>26/07/2026</td>
-                        <td><span class="badge bg-success px-3 py-1 rounded-pill">Ativo</span></td>
-                    </tr>
-                </tbody>
+                <tbody id="sales-table-body"></tbody>
             </table>
         </div>
     </div>
 </div>
-{% endblock content %}
+
+<div class="modal fade" id="sale-modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold text-dark">Registrar nova venda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="sale-form">
+                    <div class="row g-3">
+                        <div class="col-md-8">
+                            <label class="form-label small text-muted">Cliente</label>
+                            <input type="text" class="form-control" name="cliente" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Número do contrato</label>
+                            <input type="text" class="form-control" name="numeroContrato" placeholder="" required>
+                        </div>
+                        <div class="col-4 col-md-2">
+                            <label class="form-label small text-muted">DDD</label>
+                            <input type="text" inputmode="numeric" pattern="[0-9]{2}" maxlength="2" class="form-control" name="ddd" required>
+                        </div>
+                        <div class="col-8 col-md-4">
+                            <label class="form-label small text-muted">Contato</label>
+                            <input type="text" inputmode="numeric" pattern="[0-9]{8,9}" maxlength="9" class="form-control" name="contato" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Tipo</label>
+                            <select class="form-select" name="tipoVeiculo" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option value="Moto">Moto</option>
+                                <option value="Carro">Carro</option>
+                                <option value="Caminhonete">Caminhonete</option>
+                                <option value="Caminhão">Caminhão</option>
+                                <option value="Van">Van</option>
+                                <option value="Ônibus">Ônibus</option>
+                                <option value="Máquina / Equipamento">Máquina / Equipamento</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Marca</label>
+                            <input type="text" class="form-control" name="marca" placeholder="Ex.: Honda" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label small text-muted">Veículo / Modelo</label>
+                            <input type="text" class="form-control" name="veiculo" placeholder="Ex.: CG 160" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label small text-muted">Placa</label>
+                            <input type="text" class="form-control text-uppercase" name="placa" maxlength="8" placeholder="ABC1D23" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted">Plano Contratado</label>
+                            <select id="sale-plan" class="form-select" name="plano" required>
+                                <option value="" selected disabled>Selecione um plano ativo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Valor Mensal</label>
+                            <input id="sale-monthly-value" type="number" step="0.01" class="form-control bg-light" name="valorMensal" readonly required>
+                        </div>
+                        <div class="col-12">
+                            <div class="alert alert-light border py-2 mb-0 small">
+                                <i class="ri-user-follow-line text-primary me-1"></i>
+                                Esta venda será computada para a conta ativa. Habilite a transferência somente para atribuí-la a outro colaborador.
+                            </div>
+                            <input id="selected-seller" type="hidden" name="vendedor" value="{{ user_email }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small text-muted d-block">Transferência</label>
+                            <div class="form-check form-switch pt-2">
+                                <input id="transfer-sale" class="form-check-input" type="checkbox" role="switch">
+                                <label class="form-check-label" for="transfer-sale">Transferir para outro vendedor</label>
+                            </div>
+                        </div>
+                        <div id="transfer-seller-field" class="col-md-6 d-none">
+                            <label class="form-label small text-muted">Novo vendedor</label>
+                            <select id="transfer-seller" class="form-select">
+                                <option value="" selected disabled>Selecione o vendedor</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Data Ativação</label>
+                            <input type="date" class="form-control" name="dataAtivacao" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted">Status da venda</label>
+                            <select id="sale-form-status" class="form-select sale-form-status status-prospecto" name="status" required>
+                                <option value="Prospecto" selected>Prospecto</option>
+                                <option value="Concluído">Concluído</option>
+                                <option value="Desistência">Desistência</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer border-0 pt-0">
+                <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" form="sale-form" class="btn btn-primary rounded-pill px-4">Salvar venda</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const SALES_KEY = 'gps_sales_records';
+    const LAST_UPDATE_ID_KEY = 'gps_last_commission_update_id';
+    const COMMERCIAL_PLANS_KEY = 'gps_commercial_plans_v2';
+    const SALES_STATUSES = ['Concluído', 'Prospecto', 'Desistência'];
+    const ACTIVE_SELLER = {{ user_email|tojson }};
+    const SALES_USERS = {{ sales_users|tojson }};
+    const EXPANDED_SALES = new Set();
+    let salesSort = { field: 'dataAtivacao', direction: 'desc' };
+    let editingSaleId = null;
+
+    function getLastCommissionId() {
+        const storedId = localStorage.getItem(LAST_UPDATE_ID_KEY);
+        if (!storedId) return '0000GPS0000-0000';
+        const legacyMatch = storedId.match(/^UPD-(\d{4})(\d{2})(\d{2})-(\d{4})$/);
+        if (!legacyMatch) return storedId;
+        const migratedId = `${legacyMatch[1]}GPS${legacyMatch[2]}${legacyMatch[3]}-${legacyMatch[4]}`;
+        localStorage.setItem(LAST_UPDATE_ID_KEY, migratedId);
+        return migratedId;
+    }
+
+    function getActiveCommercialPlans() {
+        try {
+            const plans = JSON.parse(localStorage.getItem(COMMERCIAL_PLANS_KEY) || '[]');
+            if (Array.isArray(plans) && plans.length) return plans.filter(plan => plan.ativo);
+        } catch (error) { console.warn('Não foi possível carregar os planos:', error); }
+        return [
+            { nome: 'Rastreamento + Assistência', mensalidade: 62, ativo: true },
+            { nome: 'Moto Garantida + Assistência', mensalidade: 78, ativo: true },
+            { nome: 'Moto Top Garantida + Assistência', mensalidade: 100, ativo: true },
+            { nome: 'Carro Garantido + Assistência', mensalidade: 120, ativo: true },
+            { nome: 'Carro VIP Garantido + Assistência', mensalidade: 150, ativo: true }
+        ];
+    }
+
+    function populateActivePlans() {
+        const select = document.getElementById('sale-plan');
+        const monthlyValue = document.getElementById('sale-monthly-value');
+        select.replaceChildren(new Option('Selecione um plano ativo', '', true, true));
+        select.options[0].disabled = true;
+        getActiveCommercialPlans().forEach(plan => {
+            const option = new Option(`${plan.nome} — ${Number(plan.mensalidade).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`, plan.nome);
+            option.dataset.price = Number(plan.mensalidade || 0);
+            select.add(option);
+        });
+        monthlyValue.value = '';
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? '').replace(/[&<>'"]/g, character => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        })[character]);
+    }
+
+    function formatContact(sale) {
+        if (!sale.ddd && !sale.contato) return '';
+        return `(${escapeHTML(sale.ddd)}) ${escapeHTML(sale.contato)}`;
+    }
+
+    function formatVehicle(sale) {
+        if (!sale.tipoVeiculo && !sale.marca && !sale.placa) return escapeHTML(sale.veiculo);
+        const description = [sale.tipoVeiculo, sale.marca, sale.veiculo].filter(Boolean).map(escapeHTML).join(' · ');
+        const plate = sale.placa ? `<small class="d-block text-muted fw-semibold">Placa: ${escapeHTML(sale.placa)}</small>` : '';
+        return `${description}${plate}`;
+    }
+
+    function statusClass(status) {
+        if (status === 'Concluído') return 'status-concluido';
+        if (status === 'Desistência') return 'status-desistencia';
+        return 'status-prospecto';
+    }
+
+    function updateFormStatusColor() {
+        const select = document.getElementById('sale-form-status');
+        select.classList.remove('status-prospecto', 'status-concluido', 'status-desistencia');
+        select.classList.add(statusClass(select.value));
+    }
+
+    function formatSaleDate(value) {
+        if (!value) return '—';
+        const parts = String(value).split('-');
+        return parts.length === 3 ? `${parts[2]}/${parts[1]}` : escapeHTML(value);
+    }
+
+    function saleSearchText(sale) {
+        return Object.values(sale).map(value => String(value ?? '')).join(' ').toLocaleLowerCase('pt-BR');
+    }
+
+    function sortSales(sales) {
+        return sales.sort((first, second) => {
+            let firstValue = first[salesSort.field] ?? '';
+            let secondValue = second[salesSort.field] ?? '';
+            if (salesSort.field === 'valorMensal') {
+                firstValue = Number(firstValue || 0); secondValue = Number(secondValue || 0);
+                return salesSort.direction === 'asc' ? firstValue - secondValue : secondValue - firstValue;
+            }
+            const comparison = String(firstValue).localeCompare(String(secondValue), 'pt-BR', { numeric: true, sensitivity: 'base' });
+            return salesSort.direction === 'asc' ? comparison : -comparison;
+        });
+    }
+
+    function resetSellerTransfer() {
+        const transferSwitch = document.getElementById('transfer-sale');
+        const transferField = document.getElementById('transfer-seller-field');
+        const transferSelect = document.getElementById('transfer-seller');
+        transferSwitch.checked = false;
+        transferField.classList.add('d-none');
+        transferSelect.required = false;
+        transferSelect.value = '';
+        document.getElementById('selected-seller').value = ACTIVE_SELLER;
+    }
+
+    function populateSellers() {
+        const select = document.getElementById('transfer-seller');
+        select.replaceChildren(new Option('Selecione o vendedor', '', true, true));
+        select.options[0].disabled = true;
+        SALES_USERS.filter(user => user.email !== ACTIVE_SELLER).forEach(user => {
+            select.add(new Option(`${user.username} — ${user.email}`, user.email));
+        });
+    }
+
+    function getSalesRecords() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(SALES_KEY) || 'null');
+            if (Array.isArray(saved)) {
+                let changed = false;
+                const normalized = saved.map((sale, index) => {
+                    if (!sale.id) { sale.id = `legacy-${index}-${Date.now()}`; changed = true; }
+                    if (!SALES_STATUSES.includes(sale.status)) { sale.status = 'Concluído'; changed = true; }
+                    return sale;
+                });
+                if (changed) localStorage.setItem(SALES_KEY, JSON.stringify(normalized));
+                return normalized;
+            }
+            return [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function renderSalesTable() {
+        const tableBody = document.getElementById('sales-table-body');
+        const filterInput = document.getElementById('sales-filter-id');
+        if (!tableBody) return;
+
+        const filter = (filterInput ? filterInput.value.trim().toLowerCase() : '').toLowerCase();
+        const sales = sortSales(getSalesRecords().filter(item => !filter || saleSearchText(item).includes(filter)));
+
+        document.getElementById('current-update-id').textContent = getLastCommissionId();
+
+        if (!sales.length) {
+            tableBody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-4">Nenhuma venda encontrada para esta pesquisa.</td></tr>';
+            return;
+        }
+
+        tableBody.innerHTML = sales.map(sale => `
+            <tr>
+                <td><button type="button" class="btn btn-sm btn-outline-primary rounded-circle sale-expand" data-sale-id="${escapeHTML(sale.id)}" aria-label="${EXPANDED_SALES.has(String(sale.id)) ? 'Ocultar' : 'Exibir'} detalhes">${EXPANDED_SALES.has(String(sale.id)) ? '−' : '+'}</button></td>
+                <td class="fw-semibold text-nowrap">${formatSaleDate(sale.dataAtivacao)}</td>
+                <td><span class="badge bg-primary">${escapeHTML(sale.plano)}</span></td>
+                <td>R$ ${Number(sale.valorMensal || 0).toFixed(2).replace('.', ',')}</td>
+                <td>
+                    <select class="form-select form-select-sm rounded-pill fw-semibold sale-status ${statusClass(sale.status)}" data-sale-id="${escapeHTML(sale.id)}" aria-label="Alterar status da venda" ${sale.validada ? 'disabled' : ''}>
+                        ${SALES_STATUSES.map(status => `<option value="${status}" ${sale.status === status ? 'selected' : ''}>${status}</option>`).join('')}
+                    </select>
+                </td>
+                <td class="fw-semibold">${escapeHTML(sale.tipoVeiculo || 'Não informado')}</td>
+                <td>${escapeHTML(sale.veiculo || 'Não informado')}</td>
+                <td class="text-end">
+                    ${sale.validada
+                        ? `<button type="button" class="btn btn-sm btn-light text-muted rounded-circle" disabled title="Venda validada: edição bloqueada" aria-label="Venda validada e bloqueada"><i class="ri-lock-line"></i></button>`
+                        : `<button type="button" class="btn btn-sm btn-outline-primary rounded-circle edit-sale" data-sale-id="${escapeHTML(sale.id)}" title="Editar venda" aria-label="Editar venda"><i class="ri-pencil-line"></i></button>`}
+                </td>
+            </tr>
+            ${EXPANDED_SALES.has(String(sale.id)) ? `<tr class="bg-light"><td></td><td colspan="7"><div class="row g-3 py-2">
+                <div class="col-md-4"><small class="text-muted d-block">Cliente / Contato</small><strong>${escapeHTML(sale.cliente)}</strong>${formatContact(sale) ? `<span class="d-block">${formatContact(sale)}</span>` : ''}</div>
+                <div class="col-md-4"><small class="text-muted d-block">Contrato / Atualização</small><strong>${escapeHTML(sale.numeroContrato)}</strong><span class="d-block text-muted">${escapeHTML(sale.update_id)}</span></div>
+                ${sale.transferida ? `<div class="col-md-4"><small class="text-muted d-block">Venda transferida para</small><strong>${escapeHTML(sale.vendedor)}</strong><span class="d-block text-muted">Computada somente para este colaborador</span></div>` : ''}
+                <div class="col-md-6"><small class="text-muted d-block">Veículo</small>${formatVehicle(sale)}</div>
+                <div class="col-md-3"><small class="text-muted d-block">Data completa</small>${escapeHTML(sale.dataAtivacao)}</div>
+                <div class="col-md-3"><small class="text-muted d-block">Mensalidade</small>${Number(sale.valorMensal || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+                <div class="col-12 d-flex justify-content-end align-items-center gap-2">${sale.validada ? '<span class="badge bg-success"><i class="ri-lock-line me-1"></i>Venda validada e bloqueada</span>' : `<button type="button" class="btn btn-sm btn-outline-primary rounded-pill edit-sale" data-sale-id="${escapeHTML(sale.id)}"><i class="ri-pencil-line me-1"></i>Editar venda</button>`}</div>
+            </div></td></tr>` : ''}
+        `).join('');
+    }
+
+    document.getElementById('register-sale-btn').addEventListener('click', function () {
+        editingSaleId = null;
+        document.getElementById('sale-form').reset();
+        populateActivePlans();
+        resetSellerTransfer();
+        document.querySelector('#sale-modal .modal-title').textContent = 'Registrar nova venda';
+        updateFormStatusColor();
+        const modalEl = document.getElementById('sale-modal');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    });
+
+    document.getElementById('sale-plan').addEventListener('change', event => {
+        const selectedOption = event.target.options[event.target.selectedIndex];
+        document.getElementById('sale-monthly-value').value = selectedOption?.dataset.price || '';
+    });
+
+    document.getElementById('sale-form-status').addEventListener('change', updateFormStatusColor);
+
+    document.getElementById('transfer-sale').addEventListener('change', event => {
+        const transferField = document.getElementById('transfer-seller-field');
+        const transferSelect = document.getElementById('transfer-seller');
+        transferField.classList.toggle('d-none', !event.target.checked);
+        transferSelect.required = event.target.checked;
+        document.getElementById('selected-seller').value = event.target.checked ? transferSelect.value : ACTIVE_SELLER;
+    });
+
+    document.getElementById('transfer-seller').addEventListener('change', event => {
+        document.getElementById('selected-seller').value = event.target.value;
+    });
+
+    document.getElementById('sale-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const saleData = {
+            id: editingSaleId || `sale-${Date.now()}`,
+            update_id: getLastCommissionId(),
+            numeroContrato: formData.get('numeroContrato'),
+            cliente: formData.get('cliente'),
+            ddd: formData.get('ddd'),
+            contato: formData.get('contato'),
+            tipoVeiculo: formData.get('tipoVeiculo'),
+            marca: formData.get('marca'),
+            veiculo: formData.get('veiculo'),
+            placa: String(formData.get('placa') || '').toUpperCase(),
+            plano: formData.get('plano'),
+            valorMensal: Number(formData.get('valorMensal') || 0),
+            vendedor: formData.get('vendedor'),
+            vendedorOrigem: ACTIVE_SELLER,
+            transferida: formData.get('vendedor') !== ACTIVE_SELLER,
+            dataAtivacao: formData.get('dataAtivacao'),
+            status: formData.get('status'),
+            validada: false
+        };
+
+        const sales = getSalesRecords();
+        if (editingSaleId) {
+            const saleIndex = sales.findIndex(item => String(item.id) === editingSaleId);
+            if (saleIndex < 0 || sales[saleIndex].validada) return;
+            saleData.validada = false;
+            sales[saleIndex] = saleData;
+        } else {
+            sales.unshift(saleData);
+        }
+        localStorage.setItem(SALES_KEY, JSON.stringify(sales));
+
+        const modal = bootstrap.Modal.getInstance(document.getElementById('sale-modal'));
+        if (modal) modal.hide();
+        event.target.reset();
+        editingSaleId = null;
+        renderSalesTable();
+    });
+
+    document.getElementById('sales-filter-id').addEventListener('input', renderSalesTable);
+    document.querySelectorAll('.sales-sort').forEach(button => {
+        button.addEventListener('click', () => {
+            const field = button.dataset.sort;
+            salesSort = {
+                field,
+                direction: salesSort.field === field && salesSort.direction === 'asc' ? 'desc' : 'asc'
+            };
+            renderSalesTable();
+        });
+    });
+    document.getElementById('sales-table-body').addEventListener('click', event => {
+        const editButton = event.target.closest('.edit-sale');
+        if (editButton) {
+            const sale = getSalesRecords().find(item => String(item.id) === editButton.dataset.saleId);
+            if (!sale || sale.validada) return;
+            editingSaleId = String(sale.id);
+            const form = document.getElementById('sale-form');
+            populateActivePlans(); populateSellers(); resetSellerTransfer();
+            ['cliente','numeroContrato','ddd','contato','tipoVeiculo','marca','veiculo','placa','plano','valorMensal','dataAtivacao','status'].forEach(field => {
+                if (form.elements[field]) form.elements[field].value = sale[field] ?? '';
+            });
+            if (![...document.getElementById('sale-plan').options].some(option => option.value === sale.plano)) {
+                document.getElementById('sale-plan').add(new Option(sale.plano, sale.plano));
+                document.getElementById('sale-plan').value = sale.plano;
+            }
+            document.getElementById('selected-seller').value = sale.vendedor || ACTIVE_SELLER;
+            if (sale.transferida) {
+                document.getElementById('transfer-sale').checked = true;
+                document.getElementById('transfer-seller-field').classList.remove('d-none');
+                document.getElementById('transfer-seller').required = true;
+                document.getElementById('transfer-seller').value = sale.vendedor;
+            }
+            document.querySelector('#sale-modal .modal-title').textContent = 'Editar venda';
+            updateFormStatusColor();
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('sale-modal')).show();
+            return;
+        }
+        const button = event.target.closest('.sale-expand');
+        if (!button) return;
+        const saleId = button.dataset.saleId;
+        if (EXPANDED_SALES.has(saleId)) EXPANDED_SALES.delete(saleId);
+        else EXPANDED_SALES.add(saleId);
+        renderSalesTable();
+    });
+    document.getElementById('sales-table-body').addEventListener('change', event => {
+        const select = event.target.closest('.sale-status');
+        if (!select || !SALES_STATUSES.includes(select.value)) return;
+        const sales = getSalesRecords();
+        const sale = sales.find(item => String(item.id) === select.dataset.saleId);
+        if (!sale) return;
+        sale.status = select.value;
+        localStorage.setItem(SALES_KEY, JSON.stringify(sales));
+        renderSalesTable();
+    });
+    window.addEventListener('gps-commission-saved', function (event) {
+        const { updateId } = event.detail || {};
+        if (updateId) {
+            localStorage.setItem(LAST_UPDATE_ID_KEY, updateId);
+            renderSalesTable();
+        }
+    });
+
+    renderSalesTable();
+    populateActivePlans();
+    populateSellers();
+</script>
+{% endblock page_content %}

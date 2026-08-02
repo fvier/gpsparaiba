@@ -1,0 +1,187 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Carrossel | Admin GPS Paraíba{% endblock title %}
+
+{% block page_content %}
+<style>
+    .carousel-admin-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px; }
+    .carousel-admin-card { overflow:hidden;transition:transform .2s ease,border-color .2s ease; }
+    .carousel-admin-card.is-active { border-color:rgba(29,78,216,.5)!important;box-shadow:0 12px 28px rgba(29,78,216,.12)!important; }
+    .carousel-admin-preview { aspect-ratio:16/9;width:100%;object-fit:cover;background:#e2e8f0;transition:transform .25s ease; }
+    .carousel-preview-button { display:block;width:100%;padding:0;border:0;background:transparent;overflow:hidden;cursor:zoom-in;position:relative; }
+    .carousel-preview-button:hover .carousel-admin-preview { transform:scale(1.025); }
+    .carousel-preview-hint { position:absolute;right:10px;bottom:10px;background:rgba(15,23,42,.78);color:#fff;border-radius:999px;padding:5px 10px;font-size:11px;font-weight:700;backdrop-filter:blur(6px); }
+    .carousel-full-preview { display:block;max-width:100%;max-height:72vh;width:auto;height:auto;margin:auto;object-fit:contain;border-radius:12px; }
+    .carousel-status-dot { width:8px;height:8px;border-radius:50%;display:inline-block;background:#94a3b8; }
+    .is-active .carousel-status-dot { background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.13); }
+    html[data-bs-theme="dark"] .carousel-admin-preview { background:#0b1220; }
+</style>
+
+<div class="container-fluid py-3">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-gallery-line text-primary me-2"></i>Imagens do carrossel</h4>
+            <p class="text-secondary small mb-0">Escolha as imagens da landing page. A ordem é automática: ativas primeiro, das mais novas para as mais antigas.</p>
+        </div>
+        <a href="/" target="_blank" class="btn btn-outline-primary rounded-pill px-4"><i class="ri-external-link-line me-1"></i>Visualizar landing page</a>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}<div class="alert alert-{{ category }} alert-dismissible fade show">{{ message }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>{% endfor %}
+    {% endwith %}
+
+    <div class="card p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-3">
+            <div><h5 class="fw-bold mb-1">Adicionar imagem</h5><p class="text-secondary small mb-0">Formatos JPG, PNG ou WEBP, com até 8 MB. Recomendado: proporção 16:9.</p></div>
+            <span class="badge bg-primary-subtle text-primary px-3 py-2">Novas imagens começam ocultas</span>
+        </div>
+        <form method="POST" action="/admin/carrossel/upload" enctype="multipart/form-data" class="row g-3 align-items-end">
+            <div class="col-lg-3"><label class="form-label">Nome da imagem</label><input type="text" name="title" class="form-control" maxlength="120" placeholder="Ex.: Nova versão"></div>
+            <div class="col-lg-3"><label class="form-label">Tipo de conjunto *</label><select name="set_type" class="form-select" required><option value="" selected disabled>Selecione o conjunto</option>{% for value, label in carousel_set_types.items() %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select></div>
+            <div class="col-lg-4"><label class="form-label">Arquivo</label><input type="file" name="carousel_image" class="form-control" accept="image/png,image/jpeg,image/webp" required></div>
+            <div class="col-lg-2 d-grid"><button class="btn btn-primary" type="submit"><i class="ri-upload-cloud-2-line me-1"></i>Adicionar</button></div>
+        </form>
+    </div>
+
+    <form method="POST" action="/admin/carrossel/save">
+        <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+            <div><h5 class="fw-bold mb-1">Galeria</h5><p class="text-secondary small mb-0"><span id="carousel-active-count">0</span> selecionada(s) para exibição.</p></div>
+            <button type="submit" class="btn btn-success rounded-pill px-4"><i class="ri-save-line me-1"></i>Salvar carrossel</button>
+        </div>
+
+        <div class="card p-3 mb-3">
+            <div class="d-flex align-items-end justify-content-between flex-wrap gap-3">
+                <div class="d-flex gap-2 flex-wrap flex-grow-1">
+                    <div style="min-width:min(100%,280px)"><label class="form-label small fw-bold mb-1" for="carousel-set-filter">Filtrar por conjunto</label><select id="carousel-set-filter" class="form-select form-select-sm"><option value="todos">Todos os conjuntos</option>{% for value, label in carousel_set_types.items() %}<option value="{{ value }}">{{ label }}</option>{% endfor %}</select></div>
+                    <div style="min-width:min(100%,250px)"><label class="form-label small fw-bold mb-1" for="carousel-sort-mode">Classificar cards</label><select id="carousel-sort-mode" class="form-select form-select-sm"><option value="active_recent">Ativas primeiro</option><option value="newest">Mais novas primeiro</option><option value="oldest">Mais antigas primeiro</option><option value="set_asc">Conjunto 1 → 5</option><option value="set_desc">Conjunto 5 → 1</option><option value="name_asc">Nome A → Z</option><option value="name_desc">Nome Z → A</option></select></div>
+                </div>
+                <div class="d-flex gap-2 flex-wrap"><button id="show-filtered-images" type="button" class="btn btn-sm btn-outline-success"><i class="ri-eye-line me-1"></i>Exibir filtrados</button><button id="hide-filtered-images" type="button" class="btn btn-sm btn-outline-secondary"><i class="ri-eye-off-line me-1"></i>Ocultar filtrados</button></div>
+            </div>
+        </div>
+
+        <div class="carousel-admin-grid">
+            {% for image in carousel_images %}
+            <article class="card carousel-admin-card {% if image.active %}is-active{% endif %}" data-carousel-card data-set-type="{{ image.set_type }}" data-active="{{ 1 if image.active else 0 }}" data-version="{{ image.version }}" data-image-title="{{ image.title|lower }}">
+                <button class="carousel-preview-button" type="button" data-preview-image="{{ config.ASSETS_ROOT }}/images/{{ image.filename }}?v={{ image.version }}" data-preview-title="{{ image.title }}" aria-label="Visualizar {{ image.title }}">
+                    <img class="carousel-admin-preview" src="{{ config.ASSETS_ROOT }}/images/{{ image.filename }}?v={{ image.version }}" alt="{{ image.title }}" loading="lazy">
+                    <span class="carousel-preview-hint"><i class="ri-zoom-in-line me-1"></i>Visualizar</span>
+                </button>
+                <div class="p-3">
+                    <div class="d-flex align-items-center justify-content-between gap-2 mb-3">
+                        <span class="small fw-semibold"><span class="carousel-status-dot me-2"></span><span data-status-label>{{ 'Visível' if image.active else 'Oculta' }}</span></span>
+                        <span class="badge bg-primary-subtle text-primary rounded-pill">Imagem nº <span data-card-number>{{ image.display_number }}</span></span>
+                        <div class="form-check form-switch m-0">
+                            <input class="form-check-input carousel-active-toggle" type="checkbox" role="switch" name="active_ids" value="{{ image.id }}" id="carousel-image-{{ image.id }}" {% if image.active %}checked{% endif %}>
+                            <label class="visually-hidden" for="carousel-image-{{ image.id }}">Exibir {{ image.title }}</label>
+                        </div>
+                    </div>
+                    <label class="form-label small mb-1" for="title-{{ image.id }}">Nome</label>
+                    <input id="title-{{ image.id }}" type="text" class="form-control form-control-sm mb-3" name="title_{{ image.id }}" value="{{ image.title }}" maxlength="120">
+                    <label class="form-label small mb-1" for="set-type-{{ image.id }}">Tipo de conjunto</label>
+                    <select id="set-type-{{ image.id }}" class="form-select form-select-sm mb-3 carousel-card-set-type" name="set_type_{{ image.id }}">{% for value, label in carousel_set_types.items() %}<option value="{{ value }}" {% if image.set_type == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+                    <div class="d-flex justify-content-between align-items-center gap-2">
+                        <div class="text-secondary small text-truncate" title="{{ image.filename }}"><i class="ri-image-line me-1"></i>{{ image.filename }}</div>
+                        <button type="submit" class="btn btn-sm btn-outline-danger flex-shrink-0 delete-image-button" formaction="/admin/carrossel/{{ image.id }}/delete" formmethod="post" formnovalidate data-image-title="{{ image.title }}" title="Excluir esta imagem"><i class="ri-delete-bin-6-line me-1"></i>Excluir</button>
+                    </div>
+                </div>
+            </article>
+            {% else %}
+            <div class="card p-5 text-center text-secondary">Nenhuma imagem cadastrada.</div>
+            {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-end mt-4"><button type="submit" class="btn btn-success rounded-pill px-4"><i class="ri-save-line me-1"></i>Salvar carrossel</button></div>
+    </form>
+</div>
+
+<div class="modal fade" id="carousel-preview-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-0 pb-2">
+                <div><small class="text-uppercase text-secondary fw-bold">Pré-visualização</small><h5 class="modal-title fw-bold mb-0" id="carousel-preview-title">Imagem do carrossel</h5></div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body pt-2 bg-body-tertiary rounded-bottom-4">
+                <img id="carousel-preview-image" class="carousel-full-preview" src="" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const carouselToggles = [...document.querySelectorAll('.carousel-active-toggle')];
+    function updateCarouselSelection() {
+        const activeCount = carouselToggles.filter(toggle => toggle.checked).length;
+        document.getElementById('carousel-active-count').textContent = activeCount;
+        carouselToggles.forEach(toggle => {
+            const card = toggle.closest('[data-carousel-card]');
+            card.dataset.active = toggle.checked ? '1' : '0';
+            card.classList.toggle('is-active', toggle.checked);
+            card.querySelector('[data-status-label]').textContent = toggle.checked ? 'Visível' : 'Oculta';
+        });
+    }
+    carouselToggles.forEach(toggle => toggle.addEventListener('change', updateCarouselSelection));
+    updateCarouselSelection();
+
+    const setFilter = document.getElementById('carousel-set-filter');
+    const sortMode = document.getElementById('carousel-sort-mode');
+    const carouselCards = [...document.querySelectorAll('[data-carousel-card]')];
+    const carouselGrid = document.querySelector('.carousel-admin-grid');
+    function filterCarouselCards() {
+        const selectedType = setFilter.value;
+        carouselCards.forEach(card => card.classList.toggle('d-none', selectedType !== 'todos' && card.dataset.setType !== selectedType));
+    }
+    setFilter.addEventListener('change', filterCarouselCards);
+    function sortCarouselCards() {
+        const mode = sortMode.value;
+        const direction = mode === 'name_desc' || mode === 'set_desc' ? -1 : 1;
+        const sortedCards = [...carouselCards].sort((first, second) => {
+            if (mode === 'active_recent') {
+                const activeDifference = Number(second.dataset.active) - Number(first.dataset.active);
+                return activeDifference || Number(second.dataset.version) - Number(first.dataset.version);
+            }
+            if (mode === 'newest') return Number(second.dataset.version) - Number(first.dataset.version);
+            if (mode === 'oldest') return Number(first.dataset.version) - Number(second.dataset.version);
+            if (mode.startsWith('set_')) return direction * first.dataset.setType.localeCompare(second.dataset.setType, 'pt-BR', { numeric:true });
+            const firstName = first.querySelector('input[name^="title_"]').value;
+            const secondName = second.querySelector('input[name^="title_"]').value;
+            return direction * firstName.localeCompare(secondName, 'pt-BR', { numeric:true, sensitivity:'base' });
+        });
+        sortedCards.forEach((card, index) => {
+            carouselGrid.appendChild(card);
+            card.querySelector('[data-card-number]').textContent = index + 1;
+        });
+        filterCarouselCards();
+    }
+    sortMode.addEventListener('change', sortCarouselCards);
+    document.querySelectorAll('.carousel-card-set-type').forEach(select => select.addEventListener('change', () => {
+        select.closest('[data-carousel-card]').dataset.setType = select.value;
+        filterCarouselCards();
+    }));
+    document.getElementById('show-filtered-images').addEventListener('click', () => {
+        carouselCards.filter(card => !card.classList.contains('d-none')).forEach(card => { card.querySelector('.carousel-active-toggle').checked = true; });
+        updateCarouselSelection();
+    });
+    document.getElementById('hide-filtered-images').addEventListener('click', () => {
+        carouselCards.filter(card => !card.classList.contains('d-none')).forEach(card => { card.querySelector('.carousel-active-toggle').checked = false; });
+        updateCarouselSelection();
+    });
+    document.querySelectorAll('.delete-image-button').forEach(button => button.addEventListener('click', event => {
+        const confirmed = window.confirm(`Excluir permanentemente “${button.dataset.imageTitle}”?\n\nA imagem será removida da galeria e o arquivo não poderá ser recuperado por esta tela.`);
+        if (!confirmed) event.preventDefault();
+    }));
+
+    const previewModalElement = document.getElementById('carousel-preview-modal');
+    document.querySelectorAll('[data-preview-image]').forEach(button => button.addEventListener('click', () => {
+        const title = button.dataset.previewTitle;
+        const image = document.getElementById('carousel-preview-image');
+        document.getElementById('carousel-preview-title').textContent = title;
+        image.src = button.dataset.previewImage;
+        image.alt = title;
+        bootstrap.Modal.getOrCreateInstance(previewModalElement).show();
+    }));
+    previewModalElement.addEventListener('hidden.bs.modal', () => {
+        document.getElementById('carousel-preview-image').src = '';
+    });
+</script>
+{% endblock page_content %}

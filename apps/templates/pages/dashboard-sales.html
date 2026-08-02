@@ -1,187 +1,145 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/vertical.html' %}
 
 {% block title %}Dashboard de Vendas | GPS Paraíba ERP{% endblock title %}
 
-{% block content %}
-<div class="container-fluid">
-    <!-- Page Header -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between my-3">
-                <h4 class="mb-sm-0 fw-bold text-dark"><i class="ri-line-chart-line text-success me-2"></i>Dashboard de Vendas</h4>
-                <div class="page-title-right">
-                    <span class="badge bg-primary px-3 py-2 rounded-pill">GPS Paraíba ERP</span>
-                </div>
-            </div>
-        </div>
+{% block page_content %}
+<style>
+    .sales-dashboard { --dash-primary: #2563eb; --dash-success: #16a34a; --dash-purple: #7c3aed; }
+    .dashboard-hero { background: linear-gradient(120deg, #eff6ff, #f5f3ff 55%, #ecfdf5); border: 1px solid rgba(37,99,235,.08); }
+    .dashboard-stat { border: 0; box-shadow: 0 8px 26px rgba(15,23,42,.06); overflow: hidden; position: relative; }
+    .dashboard-stat::after { content: ''; position: absolute; width: 80px; height: 80px; border-radius: 50%; right: -30px; top: -35px; background: var(--stat-color); opacity: .09; }
+    .dashboard-stat-icon { width: 38px; height: 38px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--stat-color) 12%, white); color: var(--stat-color); }
+    .dashboard-chart-card { border: 0; box-shadow: 0 10px 30px rgba(15,23,42,.065); border-radius: 18px; }
+    .dashboard-chart-card .chart-space { min-height: 300px; }
+    .dashboard-chart-kicker { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 800; color: #94a3b8; }
+    #chart-plan-donut .apexcharts-legend { justify-content: flex-start !important; padding-left: .5rem !important; }
+    @media (max-width: 575.98px) { .dashboard-chart-card { padding: 1rem !important; } .dashboard-chart-card .chart-space { min-height: 270px; } }
+</style>
+<div class="container-fluid py-3 sales-dashboard">
+    <div class="dashboard-hero rounded-4 p-4 d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div><h4 class="fw-bold text-dark mb-1"><i class="ri-line-chart-line text-success me-2"></i>Meu desempenho</h4><p id="dashboard-period" class="text-secondary small mb-0"></p></div>
+        <a href="/vendas" class="btn btn-outline-primary rounded-pill"><i class="ri-shopping-cart-2-line me-1"></i>Ver vendas</a>
     </div>
 
-    <!-- KPI Cards Row -->
     <div class="row g-3 mb-4">
-        <!-- Total Vendas Mês -->
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <span class="text-secondary small fw-semibold">Vendas do Mês</span>
-                        <h3 class="fw-extrabold text-dark my-1">142</h3>
-                        <span class="badge bg-success-subtle text-success font-medium"><i class="ri-arrow-up-line me-1"></i>+12.5% este mês</span>
-                    </div>
-                    <div class="avatar-md bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                        <i class="ri-shopping-cart-2-line fs-24"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Faturamento Mensal -->
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <span class="text-secondary small fw-semibold">Faturamento Total</span>
-                        <h3 class="fw-extrabold text-success my-1">R$ 17.840</h3>
-                        <span class="badge bg-success-subtle text-success font-medium"><i class="ri-arrow-up-line me-1"></i>+8.4% este mês</span>
-                    </div>
-                    <div class="avatar-md bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                        <i class="ri-money-dollar-circle-line fs-24"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Comissões a Pagar -->
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <span class="text-secondary small fw-semibold">Comissões a Pagar</span>
-                        <h3 class="fw-extrabold text-warning my-1">R$ 3.568</h3>
-                        <span class="badge bg-warning-subtle text-warning font-medium"><i class="ri-time-line me-1"></i>Em processamento</span>
-                    </div>
-                    <div class="avatar-md bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                        <i class="ri-wallet-line fs-24"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Vendedores Ativos -->
-        <div class="col-md-6 col-xl-3">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <span class="text-secondary small fw-semibold">Vendedores Ativos</span>
-                        <h3 class="fw-extrabold text-info my-1">18</h3>
-                        <span class="badge bg-info-subtle text-info font-medium"><i class="ri-user-smile-line me-1"></i>Equipe Completa</span>
-                    </div>
-                    <div class="avatar-md bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
-                        <i class="ri-team-line fs-24"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="col-md-6 col-xl"><div class="card dashboard-stat p-3 h-100" style="--stat-color:#2563eb"><div class="d-flex justify-content-between"><small class="text-muted">Vendas concluídas</small><span class="dashboard-stat-icon"><i class="ri-shopping-bag-3-line"></i></span></div><strong id="dashboard-sales" class="fs-3 text-dark">0</strong><small id="dashboard-validation" class="text-muted"></small></div></div>
+        <div class="col-md-6 col-xl"><div class="card dashboard-stat p-3 h-100" style="--stat-color:#16a34a"><div class="d-flex justify-content-between"><small class="text-muted">Faturamento mensal</small><span class="dashboard-stat-icon"><i class="ri-funds-line"></i></span></div><strong id="dashboard-revenue" class="fs-3 text-success">R$ 0,00</strong><small class="text-muted">Mensalidades contratadas</small></div></div>
+        <div class="col-md-6 col-xl"><div class="card dashboard-stat p-3 h-100" style="--stat-color:#7c3aed"><div class="d-flex justify-content-between"><small class="text-muted">Salário-base</small><span class="dashboard-stat-icon"><i class="ri-wallet-3-line"></i></span></div><strong id="dashboard-salary" class="fs-3 text-primary">R$ 0,00</strong><small id="dashboard-category" class="text-muted">Categoria Orange</small></div></div>
+        <div class="col-md-6 col-xl"><div class="card dashboard-stat p-3 h-100" style="--stat-color:#f59e0b"><div class="d-flex justify-content-between"><small class="text-muted">Comissão até agora</small><span class="dashboard-stat-icon"><i class="ri-coins-line"></i></span></div><strong id="dashboard-commission" class="fs-3 text-warning">R$ 0,00</strong><small id="dashboard-rate" class="text-muted"></small></div></div>
+        <div class="col-md-6 col-xl"><div class="card dashboard-stat p-3 h-100" style="--stat-color:#0891b2"><div class="d-flex justify-content-between"><small class="text-muted">Total estimado</small><span class="dashboard-stat-icon"><i class="ri-money-dollar-circle-line"></i></span></div><strong id="dashboard-total" class="fs-3 text-info">R$ 0,00</strong><small id="dashboard-bonus" class="text-muted"></small></div></div>
     </div>
 
-    <!-- Main Content Grid -->
     <div class="row g-4 mb-4">
-        <!-- Vendas por Plano -->
-        <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
-                <h5 class="fw-bold text-dark mb-3"><i class="ri-bar-chart-box-line me-2 text-primary"></i>Desempenho de Vendas por Plano</h5>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Plano</th>
-                                <th>Valor Mensal</th>
-                                <th>Vendas Realizadas</th>
-                                <th>Faturamento acumulado</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><span class="badge bg-secondary-subtle text-dark fw-bold">Qualquer Veículo</span></td>
-                                <td>R$ 62,00</td>
-                                <td><span class="fw-bold text-dark">48</span> vendas</td>
-                                <td>R$ 2.976,00</td>
-                                <td><span class="badge bg-success">Alta Procura</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge bg-info-subtle text-info fw-bold">Moto 15k</span></td>
-                                <td>R$ 78,00</td>
-                                <td><span class="fw-bold text-dark">32</span> vendas</td>
-                                <td>R$ 2.496,00</td>
-                                <td><span class="badge bg-success">Estável</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge bg-success text-white fw-bold">Moto Top 30k</span></td>
-                                <td>R$ 100,00</td>
-                                <td><span class="fw-bold text-dark">26</span> vendas</td>
-                                <td>R$ 2.600,00</td>
-                                <td><span class="badge bg-success">Em alta</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge bg-primary text-white fw-bold">Carro 30k</span></td>
-                                <td>R$ 120,00</td>
-                                <td><span class="fw-bold text-dark">21</span> vendas</td>
-                                <td>R$ 2.520,00</td>
-                                <td><span class="badge bg-primary">Constante</span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="badge bg-warning text-dark fw-bold">Carro VIP 60k</span></td>
-                                <td>R$ 150,00</td>
-                                <td><span class="fw-bold text-dark">15</span> vendas</td>
-                                <td>R$ 2.250,00</td>
-                                <td><span class="badge bg-warning text-dark">Destaque</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <div class="col-xl-5"><div class="card dashboard-chart-card p-4 h-100"><span class="dashboard-chart-kicker">Mix comercial</span><h5 class="fw-bold mb-1">Planos vendidos</h5><small class="text-muted">Participação de cada plano nas vendas concluídas</small><div id="chart-plan-donut" class="chart-space"></div></div></div>
+        <div class="col-xl-7"><div class="card dashboard-chart-card p-4 h-100"><span class="dashboard-chart-kicker">Comparativo</span><h5 class="fw-bold mb-1">Quantidade por plano</h5><small class="text-muted">Leitura horizontal do desempenho de cada produto</small><div id="chart-plan-bars" class="chart-space"></div></div></div>
+    </div>
 
-        <!-- Resumo Rápido da Equipe -->
-        <div class="col-lg-4">
-            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
-                <h5 class="fw-bold text-dark mb-3"><i class="ri-trophy-line me-2 text-warning"></i>Top Vendedores</h5>
-                <div class="d-grid gap-3">
-                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-warning rounded-circle p-2 fs-14">🥇</span>
-                            <div>
-                                <h6 class="fw-bold mb-0 text-dark">Carlos Eduardo</h6>
-                                <small class="text-secondary">28 contratos fechados</small>
-                            </div>
-                        </div>
-                        <span class="fw-bold text-success">R$ 700,00</span>
-                    </div>
+    <div class="row g-4 mb-4">
+        <div class="col-xl-6"><div class="card dashboard-chart-card p-4 h-100"><div class="d-flex justify-content-between gap-2 flex-wrap"><div><span class="dashboard-chart-kicker">Ritmo de vendas</span><h5 class="fw-bold mb-1">Vendas por semana</h5><small class="text-muted">Distribuição das vendas concluídas ao longo do mês</small></div><span id="dashboard-target" class="badge bg-primary-subtle text-primary px-3 py-2 align-self-start"></span></div><div id="chart-weekly-bars" class="chart-space"></div></div></div>
+        <div class="col-xl-6"><div class="card dashboard-chart-card p-4 h-100"><span class="dashboard-chart-kicker">Trajetória da meta</span><h5 class="fw-bold mb-1">Evolução acumulada</h5><small class="text-muted">Crescimento diário das vendas em direção à meta da categoria</small><div id="chart-goal-area" class="chart-space"></div></div></div>
+    </div>
 
-                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-secondary rounded-circle p-2 fs-14">🥈</span>
-                            <div>
-                                <h6 class="fw-bold mb-0 text-dark">Mariana Silva</h6>
-                                <small class="text-secondary">24 contratos fechados</small>
-                            </div>
-                        </div>
-                        <span class="fw-bold text-success">R$ 600,00</span>
-                    </div>
-
-                    <div class="d-flex align-items-center justify-content-between p-2 rounded-3 bg-light">
-                        <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-warning-subtle text-dark rounded-circle p-2 fs-14">🥉</span>
-                            <div>
-                                <h6 class="fw-bold mb-0 text-dark">Lucas Andrade</h6>
-                                <small class="text-secondary">19 contratos fechados</small>
-                            </div>
-                        </div>
-                        <span class="fw-bold text-success">R$ 475,00</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="card dashboard-chart-card p-4">
+        <div class="row g-4 align-items-center"><div class="col-lg-4"><h5 class="fw-bold mb-1">Resumo da remuneração</h5><div id="achievement-alert" class="alert alert-light border mt-3 mb-0 small"></div></div><div class="col-lg-8"><div class="row g-3 text-center"><div class="col-6 col-md-3"><small class="text-muted d-block">Salário-base</small><strong id="pay-base">R$ 0,00</strong></div><div class="col-6 col-md-3"><small class="text-muted d-block">Comissão</small><strong id="pay-commission" class="text-success">R$ 0,00</strong></div><div class="col-6 col-md-3"><small class="text-muted d-block">Bônus</small><strong id="pay-bonus" class="text-warning">R$ 0,00</strong></div><div class="col-6 col-md-3"><small class="text-muted d-block">Total estimado</small><strong id="pay-total" class="text-primary fs-5">R$ 0,00</strong></div></div></div></div>
     </div>
 </div>
-{% endblock content %}
+
+<script src="{{ url_for('static', filename='vendor/apexcharts/apexcharts.min.js') }}"></script>
+<script>
+    const DASHBOARD_USER = {{ user_email|tojson }}.toLowerCase();
+    const DASHBOARD_BASE_CATEGORY = {{ user_category|tojson }};
+    const DASHBOARD_SALES_KEY = 'gps_sales_records';
+    const DASHBOARD_COMMISSION_KEY = 'gps_commission_table_values';
+    const CATEGORY_DATA = [
+        { name: 'Orange', target: 30, suffix: '30' }, { name: 'Blue', target: 70, suffix: '31_70' },
+        { name: 'Green', target: 100, suffix: '71_100' }, { name: 'Gold', target: 120, suffix: '101_120' },
+        { name: 'Platinum', target: 140, suffix: '121_140' }, { name: 'Diamond', target: 150, suffix: '141_150' },
+        { name: 'Black', target: 151, suffix: '151' }
+    ];
+    const DEFAULT_BASE = [1700, 1900, 2100, 2300, 2500, 2700, 2900];
+    const DEFAULT_RATES = [30, 40, 45, 48, 50, 52, 54];
+    const DEFAULT_BONUS = [100, 200, 300, 400, 500, 600, 700];
+    const DASHBOARD_COLORS = ['#2563eb', '#16a34a', '#7c3aed', '#f59e0b', '#06b6d4', '#ef4444'];
+    const dashboardCharts = {};
+
+    const currency = value => Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    function dashboardSales() { try { const data = JSON.parse(localStorage.getItem(DASHBOARD_SALES_KEY) || '[]'); return Array.isArray(data) ? data : []; } catch (error) { return []; } }
+    function commissionValues() { try { return JSON.parse(localStorage.getItem(DASHBOARD_COMMISSION_KEY) || '{}') || {}; } catch (error) { return {}; } }
+
+    function categoryExperience(sales) {
+        const monthly = {};
+        sales.filter(sale => sale.status === 'Concluído').forEach(sale => { const month = String(sale.dataAtivacao || '').slice(0, 7); if (month) monthly[month] = (monthly[month] || 0) + 1; });
+        const recorded = Object.keys(monthly).sort(), months = [];
+        if (recorded.length) { const cursor = new Date(`${recorded[0]}-01T12:00:00`), limit = new Date(); limit.setDate(1); while (cursor <= limit) { months.push(`${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`); cursor.setMonth(cursor.getMonth() + 1); } }
+        const baseIndex = Math.max(CATEGORY_DATA.findIndex(category => category.name === DASHBOARD_BASE_CATEGORY), 0);
+        let index = baseIndex, points = 0;
+        months.forEach(month => { const next = CATEGORY_DATA[index + 1], reached = next ? (monthly[month] || 0) >= (index === 0 ? 31 : next.target === 70 ? 31 : CATEGORY_DATA[index + 1].target === 100 ? 71 : CATEGORY_DATA[index + 1].target === 120 ? 101 : CATEGORY_DATA[index + 1].target === 140 ? 121 : CATEGORY_DATA[index + 1].target === 150 ? 141 : 151) : (monthly[month] || 0) >= CATEGORY_DATA[index].target; if (reached && next) { points++; if (points >= (index === 0 ? 1 : 2)) { index++; points = 0; } } else if (!reached) { if (points > 0) points--; else if (index > baseIndex) { index--; points = 1; } } });
+        return index;
+    }
+
+    function renderDashboard() {
+        const allUserSales = dashboardSales().filter(sale => String(sale.vendedor).toLowerCase() === DASHBOARD_USER);
+        const now = new Date(), monthKey = now.toISOString().slice(0, 7);
+        const monthSales = allUserSales.filter(sale => String(sale.dataAtivacao || '').slice(0, 7) === monthKey);
+        const concluded = monthSales.filter(sale => sale.status === 'Concluído');
+        const categoryIndex = categoryExperience(allUserSales), category = CATEGORY_DATA[categoryIndex], config = commissionValues();
+        const salary = Number(config[`base_${category.suffix}`] ?? DEFAULT_BASE[categoryIndex]);
+        const achievement = category.target ? concluded.length / category.target * 100 : 0;
+        const level = achievement >= 100 ? 'n5' : achievement >= 91 ? 'n4' : achievement >= 81 ? 'n3' : achievement >= 70 ? 'n2' : achievement >= 50 ? 'n1' : null;
+        const defaultRate = level === 'n5' ? DEFAULT_RATES[categoryIndex] : level === 'n4' ? DEFAULT_RATES[categoryIndex] * .75 : level === 'n3' ? DEFAULT_RATES[categoryIndex] * .65 : level === 'n2' ? DEFAULT_RATES[categoryIndex] * .45 : level === 'n1' ? DEFAULT_RATES[categoryIndex] * .35 : 0;
+        const rate = level ? Number(config[`rg_${level}_${category.suffix}`] ?? defaultRate) : 0;
+        const commission = concluded.length * rate;
+        const bonus = achievement >= 120 ? Number(config[`bonus_${category.suffix}`] ?? DEFAULT_BONUS[categoryIndex]) : 0;
+        const revenue = concluded.reduce((sum, sale) => sum + Number(sale.valorMensal || 0), 0), total = salary + commission + bonus;
+        document.getElementById('dashboard-period').textContent = `${now.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })} · dados da conta ativa`;
+        document.getElementById('dashboard-sales').textContent = concluded.length;
+        document.getElementById('dashboard-validation').textContent = `${concluded.filter(sale => !sale.validada).length} aguardando validação`;
+        document.getElementById('dashboard-revenue').textContent = currency(revenue);
+        document.getElementById('dashboard-salary').textContent = currency(salary);
+        document.getElementById('dashboard-category').textContent = `Categoria ${category.name}`;
+        document.getElementById('dashboard-commission').textContent = currency(commission);
+        document.getElementById('dashboard-rate').textContent = rate ? `${currency(rate)} por venda · ${achievement.toFixed(0)}% da meta` : `Abaixo de 50% da meta`;
+        document.getElementById('dashboard-total').textContent = currency(total);
+        document.getElementById('dashboard-bonus').textContent = bonus ? `Inclui ${currency(bonus)} de bônus` : 'Bônus liberado a partir de 120%';
+        ['pay-base','pay-commission','pay-bonus','pay-total'].forEach((id, index) => document.getElementById(id).textContent = currency([salary, commission, bonus, total][index]));
+        document.getElementById('dashboard-target').textContent = `${concluded.length} de ${category.target} vendas · ${Math.min(achievement, 999).toFixed(0)}%`;
+        document.getElementById('achievement-alert').innerHTML = achievement >= 120 ? '<i class="ri-trophy-line text-warning me-1"></i>Super meta alcançada: bônus liberado.' : achievement >= 100 ? '<i class="ri-checkbox-circle-line text-success me-1"></i>Meta mensal alcançada.' : `<i class="ri-time-line text-primary me-1"></i>Faltam <strong>${Math.max(category.target - concluded.length, 0)}</strong> vendas para a meta.`;
+
+        const planGroups = {};
+        concluded.forEach(sale => { const name = sale.plano || 'Sem plano'; planGroups[name] = (planGroups[name] || 0) + 1; });
+        const planEntries = Object.entries(planGroups).sort((a, b) => b[1] - a[1]);
+        const planNames = planEntries.map(([name]) => name), planCounts = planEntries.map(([, count]) => count);
+        const weeks = [{ label: 'Sem. 1', start: 1, end: 7 }, { label: 'Sem. 2', start: 8, end: 14 }, { label: 'Sem. 3', start: 15, end: 21 }, { label: 'Sem. 4', start: 22, end: 28 }, { label: 'Sem. 5', start: 29, end: 31 }];
+        const weeklyCounts = weeks.map(week => concluded.filter(sale => { const day = Number(String(sale.dataAtivacao).slice(8, 10)); return day >= week.start && day <= week.end; }).length);
+        const currentDay = now.getDate(), dailyLabels = Array.from({ length: currentDay }, (_, index) => `${String(index + 1).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}`);
+        let dailyTotal = 0;
+        const dailyCumulative = dailyLabels.map((label, index) => { dailyTotal += concluded.filter(sale => Number(String(sale.dataAtivacao).slice(8, 10)) === index + 1).length; return dailyTotal; });
+        Object.values(dashboardCharts).forEach(chart => chart.destroy());
+        const common = { chart: { fontFamily: 'inherit', toolbar: { show: false }, animations: { enabled: true, speed: 450 } }, dataLabels: { enabled: false }, grid: { borderColor: '#eef2f7', strokeDashArray: 4 }, noData: { text: 'Sem vendas concluídas neste período' }, tooltip: { theme: 'light' } };
+        dashboardCharts.donut = new ApexCharts(document.querySelector('#chart-plan-donut'), {
+            ...common, chart: { ...common.chart, type: 'donut', height: 310 }, series: planCounts, labels: planNames, colors: DASHBOARD_COLORS,
+            legend: { position: 'bottom', horizontalAlign: 'left', fontSize: '12px' }, stroke: { width: 3, colors: ['#fff'] },
+            plotOptions: { pie: { donut: { size: '68%', labels: { show: true, total: { show: true, label: 'Vendas', formatter: () => concluded.length } } } } },
+            responsive: [{ breakpoint: 480, options: { chart: { height: 330 }, legend: { position: 'bottom' } } }]
+        });
+        dashboardCharts.planBars = new ApexCharts(document.querySelector('#chart-plan-bars'), {
+            ...common, chart: { ...common.chart, type: 'bar', height: 310 }, series: [{ name: 'Vendas', data: planCounts }], colors: ['#2563eb'],
+            plotOptions: { bar: { horizontal: true, borderRadius: 7, barHeight: '54%', distributed: true } }, xaxis: { categories: planNames, min: 0, tickAmount: 4, labels: { formatter: value => Math.round(value) } },
+            yaxis: { labels: { maxWidth: 190, style: { fontSize: '11px' } } }, legend: { show: false }, dataLabels: { enabled: true, formatter: value => Math.round(value) }
+        });
+        dashboardCharts.weekly = new ApexCharts(document.querySelector('#chart-weekly-bars'), {
+            ...common, chart: { ...common.chart, type: 'bar', height: 310 }, series: [{ name: 'Vendas concluídas', data: weeklyCounts }], colors: ['#7c3aed'],
+            plotOptions: { bar: { borderRadius: 8, columnWidth: '48%', distributed: true } }, xaxis: { categories: weeks.map(week => week.label) }, yaxis: { min: 0, forceNiceScale: true, labels: { formatter: value => Math.round(value) } },
+            dataLabels: { enabled: true, offsetY: -18, style: { colors: ['#334155'], fontSize: '12px' } }, legend: { show: false }
+        });
+        dashboardCharts.goal = new ApexCharts(document.querySelector('#chart-goal-area'), {
+            ...common, chart: { ...common.chart, type: 'area', height: 310 }, series: [{ name: 'Vendas acumuladas', data: dailyCumulative }], colors: ['#16a34a'],
+            stroke: { curve: 'smooth', width: 3 }, fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: .38, opacityTo: .04, stops: [0, 90, 100] } },
+            xaxis: { categories: dailyLabels, tickAmount: Math.min(6, dailyLabels.length), labels: { rotate: 0 } }, yaxis: { min: 0, max: Math.max(category.target, concluded.length, 1), labels: { formatter: value => Math.round(value) } },
+            annotations: { yaxis: [{ y: category.target, borderColor: '#f59e0b', strokeDashArray: 5, label: { text: `Meta ${category.target}`, style: { background: '#f59e0b', color: '#fff' } } }] }
+        });
+        Object.values(dashboardCharts).forEach(chart => chart.render());
+    }
+    renderDashboard();
+</script>
+{% endblock page_content %}

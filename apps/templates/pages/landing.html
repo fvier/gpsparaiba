@@ -2,23 +2,57 @@
 
 {% block title %}GPS Paraíba | Rastreamento Veicular & Telemetria 24h{% endblock title %}
 
-{% block body_attribute %}class="bg-light text-dark"{% endblock body_attribute %}
+{% block html_attribute %}data-bs-theme="light"{% endblock html_attribute %}
+
+{% block body_attribute %}class="landing-page bg-light text-dark"{% endblock body_attribute %}
 
 {% block content %}
+<script>
+    (() => {
+        const savedTheme = localStorage.getItem('gps_landing_theme');
+        const savedAccent = localStorage.getItem('gps_color_palette') || localStorage.getItem('gps_landing_accent');
+        document.documentElement.setAttribute('data-bs-theme', savedTheme === 'dark' ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-landing-accent', ['blue','gold','green','purple','graphite'].includes(savedAccent) ? savedAccent : 'blue');
+    })();
+</script>
 <!-- Custom Glassmorphism & Hero Styles -->
 <style>
+    .landing-page { --landing-accent:#2563eb;--landing-accent-rgb:37,99,235;--landing-accent-soft:#dbeafe; }
+    html[data-landing-accent="gold"] .landing-page { --landing-accent:#d97706;--landing-accent-rgb:217,119,6;--landing-accent-soft:#fef3c7; }
+    html[data-landing-accent="green"] .landing-page { --landing-accent:#15803d;--landing-accent-rgb:21,128,61;--landing-accent-soft:#dcfce7; }
+    html[data-landing-accent="purple"] .landing-page { --landing-accent:#7c3aed;--landing-accent-rgb:124,58,237;--landing-accent-soft:#ede9fe; }
+    html[data-landing-accent="graphite"] .landing-page { --landing-accent:#475569;--landing-accent-rgb:71,85,105;--landing-accent-soft:#e2e8f0; }
+    .landing-page .text-primary { color:var(--landing-accent)!important; }
+    .landing-page .bg-primary { background-color:var(--landing-accent)!important; }
+    .landing-page .bg-primary-subtle { background-color:var(--landing-accent-soft)!important; }
+    .landing-page .btn-primary { --bs-btn-bg:var(--landing-accent);--bs-btn-border-color:var(--landing-accent);--bs-btn-hover-bg:var(--landing-accent);--bs-btn-hover-border-color:var(--landing-accent); }
+    .landing-page .btn-outline-primary { --bs-btn-color:var(--landing-accent);--bs-btn-border-color:var(--landing-accent);--bs-btn-hover-bg:var(--landing-accent);--bs-btn-hover-border-color:var(--landing-accent); }
     .hero-full-bg {
         position: relative;
-        background: url('{{ config.ASSETS_ROOT }}/images/rastrek_hero_vehicle.png') no-repeat center left / cover;
+        background: #eef4fb;
         min-height: 82vh;
         display: flex;
         align-items: center;
     }
+    .hero-background-carousel { position:absolute;inset:0;z-index:0; }
+    .hero-background-carousel .carousel-inner,
+    .hero-background-carousel .carousel-item { height:100%; }
+    .hero-slide-bg { width:100%;height:100%;background-position:center;background-size:cover;background-repeat:no-repeat; }
+    .hero-background-carousel .carousel-indicators { z-index:3;justify-content:flex-end;margin-right:3%;margin-left:60%; }
+    .hero-background-carousel .carousel-indicators button { width:8px;height:8px;border-radius:50%;border:2px solid #fff;background-color:var(--landing-accent);box-shadow:0 2px 8px rgba(15,23,42,.22); }
+    .hero-manual-control { z-index:5;width:46px;height:46px;top:50%;bottom:auto;transform:translateY(-50%);border-radius:50%;background:rgba(15,23,42,.48);border:1px solid rgba(255,255,255,.65);opacity:.82;backdrop-filter:blur(8px);transition:opacity .2s ease,background .2s ease,transform .2s ease; }
+    .hero-manual-control.carousel-control-prev { left:18px; }
+    .hero-manual-control.carousel-control-next { right:18px; }
+    .hero-manual-control:hover { opacity:1;background:rgba(29,78,216,.88);transform:translateY(-50%) scale(1.06); }
+    .hero-manual-control .carousel-control-prev-icon,
+    .hero-manual-control .carousel-control-next-icon { width:18px;height:18px; }
+    @media(max-width:767.98px){.hero-manual-control{width:38px;height:38px}.hero-manual-control.carousel-control-prev{left:8px}.hero-manual-control.carousel-control-next{right:8px}}
     .hero-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(90deg, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 45%, rgba(255, 255, 255, 0.45) 80%, rgba(255, 255, 255, 0.15) 100%);
         z-index: 1;
+        pointer-events: none;
     }
     .hero-content {
         position: relative;
@@ -31,6 +65,14 @@
         border: 1px solid rgba(255, 255, 255, 0.8);
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
     }
+    .hero-brand-lockup { background:transparent;border:0;box-shadow:none; }
+    .hero-brand-logo { width:54px;height:54px;object-fit:contain;border-radius:13px;flex:0 0 auto; }
+    .landing-navbar-brand { gap:10px;padding:4px 8px 4px 2px!important;border:0;background:transparent;box-shadow:none; }
+    .landing-brand-mark,.hero-brand-logo,.site-footer img[alt="GPS Paraíba"] { filter:drop-shadow(0 6px 7px rgba(15,23,42,.2)) drop-shadow(0 0 3px rgba(255,255,255,.72))!important; }
+    .landing-brand-name { color:#0f172a;font-size:18px;font-weight:850;letter-spacing:-.025em;line-height:1;white-space:nowrap; }
+    .landing-brand-name small { display:block;color:#64748b;font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-top:5px; }
+    .hero-price-line { display:inline-flex;align-items:baseline;gap:6px;color:#475569;font-weight:600; }
+    .hero-price-line strong { color:var(--landing-accent);font-size:1.45rem; }
     .hover-lift {
         transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
     }
@@ -38,22 +80,16 @@
         transform: translateY(-3px);
         box-shadow: 0 14px 32px rgba(15, 23, 42, 0.15) !important;
     }
-    /* Rich Dark Footer Styles (Inspirado no Modelo Rastro System) */
-    .rich-footer {
-        background-color: #222222;
-        color: #e2e8f0;
-    }
-    .rich-footer h5, .rich-footer h6 {
-        color: #ffffff;
-        font-weight: 700;
-    }
-    .rich-footer a {
-        color: #cbd5e1;
-        transition: color 0.2s ease;
-    }
-    .rich-footer a:hover {
-        color: #38bdf8;
-    }
+    .site-footer { background:#f8fafc;color:#475569; }
+    .site-footer h5,.site-footer h6 { color:#0f172a;font-weight:800; }
+    .site-footer a { color:#475569;transition:color .2s ease,transform .2s ease; }
+    .site-footer a:hover { color:var(--landing-accent); }
+    .footer-contact-item { display:flex;align-items:flex-start;gap:10px;padding:9px 0; }
+    .footer-contact-icon { width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--landing-accent-soft);color:var(--landing-accent);flex:0 0 auto; }
+    .landing-palette-swatch { width:13px;height:13px;border-radius:50%;display:inline-block;box-shadow:0 0 0 2px rgba(148,163,184,.2); }
+    .landing-palette-option.active { background:rgba(var(--landing-accent-rgb),.12)!important;font-weight:700;color:var(--landing-accent)!important; }
+    .footer-app-link { width:38px;height:38px;border-radius:11px;display:inline-grid;place-items:center;background:#fff;border:1px solid #dbe3ef;color:#0f172a!important;box-shadow:0 4px 14px rgba(15,23,42,.06); }
+    .footer-brand-lockup { display:inline-flex;padding:3px 4px 3px 0;border:0;background:transparent;box-shadow:none; }
     .social-btn-round {
         width: 40px;
         height: 40px;
@@ -70,6 +106,47 @@
         background-color: #ef4444;
         color: #ffffff;
     }
+    html[data-bs-theme="dark"] body.landing-page { background:#080e1a!important;color:#e5edf8!important; }
+    html[data-bs-theme="dark"] .landing-page .navbar { background:rgba(8,14,26,.94)!important;border-color:#263449!important;backdrop-filter:blur(12px); }
+    html[data-bs-theme="dark"] .landing-page .navbar .nav-link { color:#cbd5e1!important; }
+    html[data-bs-theme="dark"] .landing-page .navbar .nav-link.active,
+    html[data-bs-theme="dark"] .landing-page .navbar .nav-link:hover { color:var(--landing-accent)!important;filter:brightness(1.25); }
+    html[data-bs-theme="dark"] .landing-page .navbar-toggler-icon { filter:invert(1) grayscale(1) brightness(1.8); }
+    html[data-bs-theme="dark"] .landing-page .hero-full-bg { background:#0b1220; }
+    html[data-bs-theme="dark"] .landing-page .hero-overlay { background:linear-gradient(90deg,rgba(8,14,26,.97) 0%,rgba(8,14,26,.9) 45%,rgba(8,14,26,.56) 80%,rgba(8,14,26,.28) 100%); }
+    html[data-bs-theme="dark"] .landing-page .glass-badge { background:rgba(15,23,42,.88);border-color:rgba(71,85,105,.72);box-shadow:0 12px 34px rgba(0,0,0,.3); }
+    html[data-bs-theme="dark"] .landing-page .bg-white { background-color:#111827!important; }
+    html[data-bs-theme="dark"] .landing-page .bg-light { background-color:#0f172a!important; }
+    html[data-bs-theme="dark"] .landing-page .text-dark { color:#f1f5f9!important; }
+    html[data-bs-theme="dark"] .landing-page .text-secondary { color:#aebdd0!important; }
+    html[data-bs-theme="dark"] .landing-page .border-light-subtle,
+    html[data-bs-theme="dark"] .landing-page .border { border-color:#334155!important; }
+    html[data-bs-theme="dark"] .landing-page .card,
+    html[data-bs-theme="dark"] .landing-page .accordion-item,
+    html[data-bs-theme="dark"] .landing-page .accordion-button,
+    html[data-bs-theme="dark"] .landing-page .accordion-body { background-color:#111827!important;color:#dbe6f3!important; }
+    html[data-bs-theme="dark"] .landing-page .accordion-button:not(.collapsed) { background-color:#172554!important;color:#bfdbfe!important; }
+    html[data-bs-theme="dark"] .landing-page .accordion-button::after { filter:invert(1) grayscale(1) brightness(1.8); }
+    html[data-bs-theme="dark"] .landing-page .btn-light { background:#172033!important;border-color:#334155!important;color:#e5edf8!important; }
+    html[data-bs-theme="dark"] .landing-page #landing-theme-toggle { background:#1e293b!important;color:#fbbf24!important; }
+    html[data-bs-theme="dark"] .landing-page .erp-access-button { background:#f8fafc!important;border-color:#f8fafc!important;color:#0f172a!important; }
+    html[data-bs-theme="dark"] .landing-page .hero-brand-lockup { background:transparent;border:0;box-shadow:none; }
+    html[data-bs-theme="dark"] .landing-page .hero-price-line { color:#aebdd0; }
+    html[data-bs-theme="dark"] .landing-page .hero-price-line strong { color:var(--landing-accent);filter:brightness(1.25); }
+    html[data-bs-theme="dark"] .landing-page .landing-brand-name { color:#f8fafc; }
+    html[data-bs-theme="dark"] .landing-page .landing-brand-name small { color:#94a3b8; }
+    html[data-bs-theme="dark"] .landing-page .landing-navbar-brand,
+    html[data-bs-theme="dark"] .landing-page .footer-brand-lockup { background:transparent;border:0;box-shadow:none; }
+    html[data-bs-theme="dark"] .landing-page .landing-brand-mark,
+    html[data-bs-theme="dark"] .landing-page .hero-brand-logo,
+    html[data-bs-theme="dark"] .landing-page .site-footer img[alt="GPS Paraíba"] { filter:drop-shadow(0 7px 9px rgba(0,0,0,.5)) drop-shadow(0 0 4px rgba(251,191,36,.2))!important; }
+    html[data-bs-theme="dark"] .landing-page .site-footer { background:#080e1a;color:#aebdd0;border-color:#263449!important; }
+    html[data-bs-theme="dark"] .landing-page .site-footer h5,
+    html[data-bs-theme="dark"] .landing-page .site-footer h6 { color:#f1f5f9; }
+    html[data-bs-theme="dark"] .landing-page .site-footer a { color:#b8c6d9; }
+    html[data-bs-theme="dark"] .landing-page .site-footer a:hover { color:var(--landing-accent);filter:brightness(1.25); }
+    html[data-bs-theme="dark"] .landing-page .footer-contact-icon,
+    html[data-bs-theme="dark"] .landing-page .footer-app-link { background:#111c2e;border-color:#334155;color:var(--landing-accent)!important; }
 </style>
 
 <!-- Floating WhatsApp Button -->
@@ -86,8 +163,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white py-2 sticky-top border-bottom border-light-subtle shadow-sm z-3">
     <div class="container">
         <!-- Logo Image Compact -->
-        <a class="navbar-brand d-flex align-items-center py-0" href="/">
-            <img src="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" alt="GPS Paraíba Logo" style="height: 32px; width: auto;" class="rounded-2 shadow-sm">
+        <a class="navbar-brand landing-navbar-brand d-flex align-items-center py-0" href="/">
+            <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba Logo" style="height:42px;width:auto" class="landing-brand-mark">
+            <span class="landing-brand-name">GPS Paraíba<small>Rastreamento veicular</small></span>
         </a>
 
         <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,6 +183,21 @@
 
             <!-- Header Right: Social Icons Only & Dual Login Buttons -->
             <div class="d-flex align-items-center gap-2">
+                <button id="landing-theme-toggle" type="button" class="btn btn-light btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center border shadow-sm" style="width:36px;height:36px" title="Ativar tema escuro" aria-label="Alternar tema claro e escuro">
+                    <i id="landing-theme-moon" class="ri-moon-line fs-18"></i>
+                    <i id="landing-theme-sun" class="ri-sun-line fs-18 d-none"></i>
+                </button>
+                <div class="dropdown">
+                    <button id="landing-palette-toggle" type="button" class="btn btn-light btn-sm rounded-circle p-0 d-inline-flex align-items-center justify-content-center border shadow-sm" style="width:36px;height:36px" data-bs-toggle="dropdown" aria-expanded="false" title="Escolher cor do tema" aria-label="Escolher cor do tema"><i class="ri-palette-line fs-18"></i></button>
+                    <div class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 p-2" style="min-width:190px">
+                        <small class="text-secondary text-uppercase fw-bold px-2 d-block mb-1" style="font-size:9px;letter-spacing:.1em">Cor do tema</small>
+                        <button type="button" class="dropdown-item rounded-2 landing-palette-option d-flex align-items-center gap-2" data-accent="blue"><span class="landing-palette-swatch" style="background:#2563eb"></span>Azul</button>
+                        <button type="button" class="dropdown-item rounded-2 landing-palette-option d-flex align-items-center gap-2" data-accent="gold"><span class="landing-palette-swatch" style="background:#d97706"></span>Dourado</button>
+                        <button type="button" class="dropdown-item rounded-2 landing-palette-option d-flex align-items-center gap-2" data-accent="green"><span class="landing-palette-swatch" style="background:#15803d"></span>Verde</button>
+                        <button type="button" class="dropdown-item rounded-2 landing-palette-option d-flex align-items-center gap-2" data-accent="purple"><span class="landing-palette-swatch" style="background:#7c3aed"></span>Roxo</button>
+                        <button type="button" class="dropdown-item rounded-2 landing-palette-option d-flex align-items-center gap-2" data-accent="graphite"><span class="landing-palette-swatch" style="background:#475569"></span>Grafite</button>
+                    </div>
+                </div>
                 <!-- Instagram -->
                 <a href="https://www.instagram.com/rastrekparaiba/"
                    target="_blank"
@@ -125,27 +218,13 @@
                     <i class="ri-whatsapp-line fs-18"></i>
                 </a>
 
-                <!-- Joined Segmented Button Group with 'ou' divider (Login ou ERP) -->
                 <div class="d-inline-flex align-items-center position-relative shadow-sm rounded-pill border border-secondary border-opacity-20 bg-light p-1 ms-1">
-                    <!-- 1. Login (Portal Rastrek) -->
-                    <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white d-inline-flex align-items-center gap-1 border-0 shadow-sm"
-                       style="font-size: 13px;">
-                        <i class="ri-user-shared-line fs-15"></i>
-                        <span>Login</span>
+                    <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/" target="_blank" rel="noopener noreferrer" class="btn btn-primary rounded-pill px-3 py-1-5 fw-bold text-white d-inline-flex align-items-center gap-1 border-0 shadow-sm" style="font-size:13px" title="Abrir Portal do Cliente">
+                        <i class="ri-user-shared-line fs-15"></i><span>Login</span>
                     </a>
-
-                    <!-- Divider 'ou' badge -->
-                    <span class="badge bg-white text-secondary border rounded-circle z-2 p-1.5 fs-11 fw-bold shadow-xs mx-n1" style="margin-left: -7px; margin-right: -7px; min-width: 24px; height: 24px; display: inline-flex; align-items: center; justify-content: center;">ou</span>
-
-                    <!-- 2. ERP (Sistema Flask) -->
-                    <a href="/auth-signin.html"
-                       class="btn btn-dark rounded-pill px-3 py-1-5 fw-bold text-white d-inline-flex align-items-center gap-1 border-0 shadow-sm"
-                       style="font-size: 13px;">
-                        <i class="ri-dashboard-line fs-15"></i>
-                        <span>ERP</span>
+                    <span class="badge bg-white text-secondary border rounded-circle z-2 p-1.5 fs-11 fw-bold shadow-xs" style="margin-left:-7px;margin-right:-7px;min-width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center">ou</span>
+                    <a href="/auth-signin.html" class="btn btn-dark erp-access-button rounded-pill px-3 py-1-5 fw-bold text-white d-inline-flex align-items-center gap-1 border-0 shadow-sm" style="font-size:13px" title="Acessar sistema interno">
+                        <i class="ri-dashboard-line fs-15"></i><span>ERP</span>
                     </a>
                 </div>
             </div>
@@ -155,21 +234,45 @@
 
 <!-- HERO SECTION FULL-WIDTH: Imagem ocupando toda a tela com veículo à esquerda e informações sobrepostas -->
 <section id="inicio" class="hero-full-bg py-4 overflow-hidden">
+    <div id="landing-hero-carousel" class="carousel slide carousel-fade hero-background-carousel" data-bs-ride="carousel" data-bs-interval="6500" data-bs-pause="false" aria-label="Demonstração de imagens do destaque principal">
+        <div class="carousel-indicators">
+            {% for image in carousel_images %}
+            <button type="button" data-bs-target="#landing-hero-carousel" data-bs-slide-to="{{ loop.index0 }}" {% if loop.first %}class="active" aria-current="true"{% endif %} aria-label="{{ image.title }}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for image in carousel_images %}
+            <div class="carousel-item {% if loop.first %}active{% endif %}"><div class="hero-slide-bg" style="background-image:url('{{ config.ASSETS_ROOT }}/images/{{ image.filename }}?v={{ image.version }}')"></div></div>
+            {% endfor %}
+        </div>
+    </div>
+        {% if carousel_images|length > 1 %}
+        <button class="carousel-control-prev hero-manual-control" type="button" data-bs-target="#landing-hero-carousel" data-bs-slide="prev" aria-label="Imagem anterior">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Imagem anterior</span>
+        </button>
+        <button class="carousel-control-next hero-manual-control" type="button" data-bs-target="#landing-hero-carousel" data-bs-slide="next" aria-label="Próxima imagem">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Próxima imagem</span>
+        </button>
+        {% endif %}
     <div class="hero-overlay"></div>
 
     <div class="container hero-content py-lg-4">
         <div class="row align-items-center">
             <div class="col-lg-7 col-xl-6">
-                <!-- Top Tag Pill -->
-                <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-primary bg-opacity-10 text-primary border border-primary border-opacity-20 mb-3 shadow-sm">
-                    <span class="badge bg-primary rounded-pill px-2">GPS Paraíba</span>
-                    <small class="fw-bold text-dark">Líder em Rastreamento Veicular desde 2012</small>
+                <div class="hero-brand-lockup d-inline-flex align-items-center gap-3 rounded-4 p-2 pe-4 mb-4">
+                    <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="hero-brand-logo" alt="Logo GPS Paraíba">
+                    <div class="text-start">
+                        <strong class="d-block text-dark fs-17 lh-sm">GPS Paraíba</strong>
+                        <small class="text-secondary fw-semibold">Rastreamento veicular desde 2012</small>
+                    </div>
                 </div>
 
-                <!-- Main Headline -->
-                <h1 class="display-5 fw-extrabold text-dark tracking-tight lh-sm mb-3">
-                    Rastreamento Veicular & Telemetria em Tempo Real por a partir de <span class="text-primary">R$ 62,00/mês</span>
+                <h1 class="display-5 fw-extrabold text-dark tracking-tight lh-sm mb-2">
+                    Rastreamento veicular e telemetria em tempo real
                 </h1>
+                <div class="hero-price-line mb-3"><span>Planos a partir de</span><strong>R$ 62,00/mês</strong></div>
 
                 <!-- Subheadline -->
                 <p class="text-secondary fs-17 mb-4 lh-base" style="max-width: 540px;">
@@ -220,19 +323,19 @@
                     </a>
                 </div>
 
-                <!-- Compact Trust Stats Row sobreposto -->
+                <!-- Informações institucionais verificáveis -->
                 <div class="row g-3 pt-3 border-top border-light-subtle text-center text-sm-start" style="max-width: 560px;">
                     <div class="col-4">
-                        <h4 class="fw-extrabold text-primary mb-0 fs-22">+700k</h4>
-                        <small class="text-secondary font-medium fs-12">Veículos Rastreados</small>
+                        <h4 class="fw-extrabold text-primary mb-0 fs-22">Desde 2012</h4>
+                        <small class="text-secondary font-medium fs-12">Experiência no setor</small>
                     </div>
                     <div class="col-4">
-                        <h4 class="fw-extrabold text-warning mb-0 fs-22">+1.500</h4>
-                        <small class="text-secondary font-medium fs-12">Franquias no Brasil</small>
+                        <h4 class="fw-extrabold text-warning mb-0 fs-22">Tempo real</h4>
+                        <small class="text-secondary font-medium fs-12">Localização e alertas</small>
                     </div>
                     <div class="col-4">
-                        <h4 class="fw-extrabold text-success mb-0 fs-22">24/7</h4>
-                        <small class="text-secondary font-medium fs-12">Suporte 0800</small>
+                        <h4 class="fw-extrabold text-success mb-0 fs-22">App + Portal</h4>
+                        <small class="text-secondary font-medium fs-12">Acesso onde estiver</small>
                     </div>
                 </div>
             </div>
@@ -402,13 +505,18 @@
         <div class="row align-items-center gy-4 mb-5">
             <div class="col-lg-6">
                 <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">Quem Somos</span>
-                <h2 class="display-6 fw-bold text-dark mb-3">Liderança Nacional em Rastreamento Veicular</h2>
+                <h2 class="display-6 fw-bold text-dark mb-3">Tecnologia e cuidado para proteger o que importa</h2>
                 <p class="text-secondary fs-16 mb-3">
-                    A <b>GPS Paraíba</b> atua no segmento de rastreamento veicular e telemetria <b>desde 2012</b>. Com mais de <b>1.500 franquias em todo o Brasil</b> e mais de <b>700.000 veículos monitorados</b>, garantimos suporte técnico rápido e equipe altamente especializada.
+                    A <b>GPS Paraíba</b> atua no segmento de rastreamento veicular e telemetria <b>desde 2012</b>, oferecendo soluções para motocicletas, carros, utilitários e frotas. Nosso trabalho combina tecnologia, atendimento próximo e planos adaptados a diferentes necessidades.
                 </p>
-                <p class="text-secondary fs-16 mb-0">
+                <p class="text-secondary fs-16 mb-3">
                     Evoluindo lado a lado com a tecnologia, oferecemos equipamentos de ponta para a logística, gestão de frotas e segurança do seu patrimônio.
                 </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="badge bg-white text-primary border border-primary-subtle rounded-pill px-3 py-2"><i class="ri-map-pin-user-line me-1"></i>Atendimento próximo</span>
+                    <span class="badge bg-white text-primary border border-primary-subtle rounded-pill px-3 py-2"><i class="ri-smartphone-line me-1"></i>Acesso pelo aplicativo</span>
+                    <span class="badge bg-white text-primary border border-primary-subtle rounded-pill px-3 py-2"><i class="ri-route-line me-1"></i>Gestão em tempo real</span>
+                </div>
             </div>
             <div class="col-lg-6">
                 <div class="card border-0 shadow-sm bg-white p-4 rounded-4 border-start border-warning border-5">
@@ -418,7 +526,8 @@
                         <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Equipe especializada para pronta localização e recuperação</li>
                         <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Reboque guincho até 200km em todo o Brasil</li>
                         <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Socorro chaveiro, pane seca e bateria nova</li>
-                        <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Cobertura nacional e em +8 países da América Latina</li>
+                        <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Acompanhamento pelo aplicativo e Portal do Cliente</li>
+                        <li class="d-flex align-items-center gap-2"><i class="ri-checkbox-circle-fill text-success fs-18"></i> Histórico de localização e alertas conforme o plano contratado</li>
                     </ul>
                 </div>
             </div>
@@ -558,116 +667,73 @@
     </div>
 </section>
 
-<!-- NOVO RODAPÉ COMPLETO & ELEGANTE (Inspirado no Modelo Rastro System) -->
-<footer id="rodape" class="rich-footer pt-5 pb-4 border-top border-secondary border-opacity-25">
-    <div class="container py-lg-2">
-        <div class="row g-4 justify-content-between mb-4">
-            
-            <!-- Coluna 1: Baixe o App Lion Rastreamento -->
-            <div class="col-lg-4 col-md-6">
-                <h5 class="mb-3">Baixe o app Lion Rastreamento</h5>
-                <p class="small text-slate-300 mb-3" style="color: #cbd5e1;">
-                    Tenha o controle total do seu veículo em tempo real na palma da mão. Baixe nosso aplicativo oficial para iOS e Android.
-                </p>
-                <div class="d-flex flex-column gap-2.5" style="max-width: 180px;">
-                    <!-- App Store Button -->
-                    <a href="https://apps.apple.com/br/app/lion-rastreamento/id6745529989"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-light rounded-3 py-2 px-3 d-inline-flex align-items-center gap-2.5 shadow-sm text-dark fw-bold hover-lift"
-                       style="font-size: 13px;">
-                        <i class="ri-apple-fill fs-22"></i>
-                        <div class="text-start leading-tight">
-                            <small class="d-block text-muted text-uppercase" style="font-size: 9px; line-height: 1;">Disponível na</small>
-                            <span class="fs-13">App Store</span>
-                        </div>
-                    </a>
-
-                    <!-- Google Play Button -->
-                    <a href="https://play.google.com/store/apps/details?id=br.com.rs.lionras"
-                       target="_blank"
-                       rel="noopener noreferrer"
-                       class="btn btn-light rounded-3 py-2 px-3 d-inline-flex align-items-center gap-2.5 shadow-sm text-dark fw-bold hover-lift"
-                       style="font-size: 13px;">
-                        <i class="ri-google-play-fill fs-22 text-warning"></i>
-                        <div class="text-start leading-tight">
-                            <small class="d-block text-muted text-uppercase" style="font-size: 9px; line-height: 1;">Disponível no</small>
-                            <span class="fs-13">Google Play</span>
-                        </div>
-                    </a>
+<footer id="rodape" class="site-footer py-5 border-top">
+    <div class="container">
+        <div class="row g-5 pb-4">
+            <div class="col-lg-5">
+                <div class="footer-brand-lockup align-items-center gap-2 mb-3 flex-wrap">
+                    <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba" class="me-2" style="height:58px;width:auto">
+                    <a class="footer-app-link" href="https://www.instagram.com/rastrekparaiba/" target="_blank" rel="noopener noreferrer" title="Instagram"><i class="ri-instagram-line fs-19"></i></a>
+                    <a class="footer-app-link" href="https://apps.apple.com/br/app/lion-rastreamento/id6745529989" target="_blank" rel="noopener noreferrer" title="Aplicativo para iPhone"><i class="ri-apple-fill fs-19"></i></a>
+                    <a class="footer-app-link" href="https://play.google.com/store/apps/details?id=br.com.rs.lionras" target="_blank" rel="noopener noreferrer" title="Aplicativo para Android"><i class="ri-google-play-fill fs-19"></i></a>
+                </div>
+                <p class="mb-3" style="max-width:460px">Rastreamento veicular e telemetria com atendimento próximo, tecnologia em tempo real e soluções para motos, carros e frotas.</p>
+                <div class="small text-secondary d-grid gap-1">
+                    <span><strong>CNPJ 47.279.670/0001-52</strong> · GPS Paraíba</span>
+                    <span>&copy; <script>document.write(new Date().getFullYear())</script> Todos os direitos reservados.</span>
                 </div>
             </div>
-
-            <!-- Coluna 2: Contato & Acesso Restrito -->
-            <div class="col-lg-3 col-md-6">
-                <h5 class="mb-3">Contato & Atendimento</h5>
-                <ul class="list-unstyled d-grid gap-2 mb-0 fs-14">
-                    <li class="d-flex align-items-center gap-2">
-                        <i class="ri-whatsapp-line text-success fs-18"></i>
-                        <a href="https://api.whatsapp.com/send?phone=5583991386279&text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20GPS%20Para%C3%ADba." target="_blank" rel="noopener noreferrer" class="fw-semibold">
-                            (83) 99138-6279
-                        </a>
-                    </li>
-                    <li class="d-flex align-items-center gap-2">
-                        <i class="ri-mail-line text-info fs-18"></i>
-                        <span>contato@gpsparaiba.com.br</span>
-                    </li>
-                    <li class="pt-2">
-                        <a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="btn btn-outline-light btn-sm rounded-pill px-3 py-1-5 fw-semibold d-inline-flex align-items-center gap-1">
-                            <i class="ri-user-shared-line me-1"></i> Acesso Restrito (Portal Rastrek)
-                        </a>
-                    </li>
-                </ul>
+            <div class="col-6 col-lg-3">
+                <h6 class="mb-3">Navegação</h6>
+                <nav class="d-grid gap-2 small"><a href="#inicio">Início</a><a href="#planos">Planos</a><a href="#quemsomos">Quem somos</a><a href="#faq">Dúvidas frequentes</a><a href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/" target="_blank" rel="noopener noreferrer">Portal do Cliente</a></nav>
             </div>
-
-            <!-- Coluna 3: Conecte-se & Onde Estamos -->
-            <div class="col-lg-4 col-md-12">
-                <div class="row g-3">
-                    <div class="col-12">
-                        <h5 class="mb-2">Conecte-se</h5>
-                        <div class="d-flex align-items-center gap-2 mb-3">
-                            <a href="https://www.instagram.com/rastrekparaiba/" target="_blank" rel="noopener noreferrer" class="social-btn-round" title="Instagram Official">
-                                <i class="ri-instagram-line fs-20"></i>
-                            </a>
-                            <a href="https://api.whatsapp.com/send?phone=5583991386279" target="_blank" rel="noopener noreferrer" class="social-btn-round" style="background-color: #25d366;" title="WhatsApp Direct">
-                                <i class="ri-whatsapp-line fs-20"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-12 pt-1">
-                        <h5 class="mb-1">Onde Estamos</h5>
-                        <p class="small mb-1 text-slate-300" style="color: #cbd5e1;">
-                            <i class="ri-map-pin-line text-danger me-1"></i> Terminal rodoviário Clóvis Rolim centro (Rodoviária nova)
-                        </p>
-                        <p class="small mb-2 text-slate-300" style="color: #cbd5e1;">
-                            Cajazeiras, Paraíba, Brasil
-                        </p>
-                        <a href="https://www.google.com/maps/place/RASTREK+CAJAZEIRAS+PB+RASTREAMENTO+E+ATENDIMENTO+24+HORAS/@-6.8874271,-38.5567211,17z/data=!3m1!4b1!4m6!3m5!1s0x7a4755904b3b897:0xa6647834e5d3682c!8m2!3d-6.8874324!4d-38.5541462!16s%2Fg%2F11k517zg4s?entry=ttu&g_ep=EgoyMDI2MDcyNy4wIKXMDSoASAFQAw%3D%3D"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="text-info small fw-bold text-decoration-underline d-inline-flex align-items-center gap-1">
-                            <i class="ri-external-link-line"></i> Ver no Google Maps
-                        </a>
-                    </div>
-                </div>
+            <div class="col-lg-4">
+                <h6 class="mb-2">Atendimento</h6>
+                <div class="footer-contact-item"><span class="footer-contact-icon"><i class="ri-whatsapp-line"></i></span><div><small class="d-block text-secondary">WhatsApp</small><a class="fw-bold" href="https://api.whatsapp.com/send?phone=5583991386279" target="_blank" rel="noopener noreferrer">(83) 99138-6279</a></div></div>
+                <div class="footer-contact-item"><span class="footer-contact-icon"><i class="ri-mail-line"></i></span><div><small class="d-block text-secondary">E-mail</small><a class="fw-bold" href="mailto:contato@gpsparaiba.com.br">contato@gpsparaiba.com.br</a></div></div>
+                <div class="footer-contact-item"><span class="footer-contact-icon"><i class="ri-map-pin-line"></i></span><div><small class="d-block text-secondary">Cajazeiras, Paraíba</small><a class="fw-bold" href="https://www.google.com/maps/place/RASTREK+CAJAZEIRAS+PB+RASTREAMENTO+E+ATENDIMENTO+24+HORAS/@-6.8874271,-38.5567211,17z" target="_blank" rel="noopener noreferrer">Terminal Rodoviário Clóvis Rolim <i class="ri-external-link-line ms-1"></i></a></div></div>
             </div>
-
-        </div>
-
-        <!-- Linha de Direitos e CNPJ -->
-        <div class="pt-3 border-top border-secondary border-opacity-30 text-center text-md-between d-md-flex align-items-center justify-content-between">
-            <p class="small mb-2 mb-md-0 text-slate-400" style="color: #94a3b8;">
-                <b>CNPJ: 47.279.670/0001-52</b> &bull; GPS Paraíba - Rastreamento Veicular & Telemetria
-            </p>
-            <p class="small mb-0 text-slate-400" style="color: #94a3b8;">
-                &copy; <script>document.write(new Date().getFullYear())</script> <b>GPS Paraíba</b>. Todos os direitos reservados.
-            </p>
         </div>
     </div>
 </footer>
+
+<script>
+    (() => {
+        const toggle = document.getElementById('landing-theme-toggle');
+        const moonIcon = document.getElementById('landing-theme-moon');
+        const sunIcon = document.getElementById('landing-theme-sun');
+        function updateLandingThemeButton() {
+            const dark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            moonIcon.classList.toggle('d-none', dark);
+            sunIcon.classList.toggle('d-none', !dark);
+            toggle.title = dark ? 'Ativar tema claro' : 'Ativar tema escuro';
+            toggle.setAttribute('aria-pressed', dark ? 'true' : 'false');
+        }
+        toggle.addEventListener('click', () => {
+            const nextTheme = document.documentElement.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-bs-theme', nextTheme);
+            localStorage.setItem('gps_landing_theme', nextTheme);
+            updateLandingThemeButton();
+        });
+        updateLandingThemeButton();
+
+        const paletteOptions = [...document.querySelectorAll('.landing-palette-option')];
+        function updateLandingPalette() {
+            const currentAccent = document.documentElement.getAttribute('data-landing-accent') || 'blue';
+            paletteOptions.forEach(option => classListToggle(option, option.dataset.accent === currentAccent));
+        }
+        function classListToggle(option, active) {
+            option.classList.toggle('active', active);
+            option.setAttribute('aria-pressed', active ? 'true' : 'false');
+        }
+        paletteOptions.forEach(option => option.addEventListener('click', () => {
+            document.documentElement.setAttribute('data-landing-accent', option.dataset.accent);
+            localStorage.setItem('gps_landing_accent', option.dataset.accent);
+            localStorage.setItem('gps_color_palette', option.dataset.accent);
+            updateLandingPalette();
+        }));
+        updateLandingPalette();
+    })();
+</script>
 
 {% endblock content %}

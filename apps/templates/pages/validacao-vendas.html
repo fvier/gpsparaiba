@@ -1,0 +1,77 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Validação de Vendas | GPS Paraíba ERP{% endblock title %}
+
+{% block page_content %}
+<div class="container-fluid py-3">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-checkbox-circle-line text-success me-2"></i>Validação de Vendas</h4>
+            <p class="text-secondary small mb-0">Confira os dados antes de bloquear definitivamente uma venda.</p>
+        </div>
+        <a href="/vendas" class="btn btn-outline-primary rounded-pill"><i class="ri-arrow-left-line me-1"></i>Voltar às vendas</a>
+    </div>
+
+    <div class="alert alert-warning border-0 shadow-sm">
+        <i class="ri-lock-line me-1"></i><strong>Atenção:</strong> depois de validada, a venda não poderá mais ser editada nem ter o status alterado.
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-6"><div class="card p-3"><small class="text-muted">Aguardando validação</small><strong id="pending-sales-count" class="fs-3 text-warning">0</strong></div></div>
+        <div class="col-md-6"><div class="card p-3"><small class="text-muted">Vendas validadas</small><strong id="validated-sales-count" class="fs-3 text-success">0</strong></div></div>
+    </div>
+
+    <div class="card p-4">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light"><tr><th>Data</th><th>Contrato</th><th>Cliente</th><th>Plano</th><th>Valor</th><th>Responsável</th><th>Status</th><th class="text-end">Validação</th></tr></thead>
+                <tbody id="validation-sales-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    const VALIDATION_SALES_KEY = 'gps_sales_records';
+
+    function validationEscape(value) {
+        return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
+    }
+
+    function validationSales() {
+        try { const sales = JSON.parse(localStorage.getItem(VALIDATION_SALES_KEY) || '[]'); return Array.isArray(sales) ? sales : []; }
+        catch (error) { return []; }
+    }
+
+    function renderValidationSales() {
+        const sales = validationSales();
+        document.getElementById('pending-sales-count').textContent = sales.filter(sale => !sale.validada).length;
+        document.getElementById('validated-sales-count').textContent = sales.filter(sale => sale.validada).length;
+        document.getElementById('validation-sales-body').innerHTML = sales.length ? sales.map(sale => `
+            <tr>
+                <td>${validationEscape(sale.dataAtivacao)}</td><td><strong>${validationEscape(sale.numeroContrato)}</strong></td>
+                <td>${validationEscape(sale.cliente)}</td><td>${validationEscape(sale.plano)}</td>
+                <td>${Number(sale.valorMensal || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
+                <td>${validationEscape(sale.vendedor)}</td>
+                <td><span class="badge ${sale.status === 'Concluído' ? 'bg-success' : sale.status === 'Desistência' ? 'bg-danger' : 'bg-warning text-dark'}">${validationEscape(sale.status)}</span></td>
+                <td class="text-end">${sale.validada ? `<span class="badge bg-success-subtle text-success"><i class="ri-lock-line me-1"></i>Validada</span>` : `<button type="button" class="btn btn-sm btn-success rounded-pill validate-sale" data-sale-id="${validationEscape(sale.id)}" ${sale.status !== 'Concluído' ? 'disabled title="Somente vendas concluídas podem ser validadas"' : ''}><i class="ri-check-double-line me-1"></i>Validar</button>`}</td>
+            </tr>`).join('') : '<tr><td colspan="8" class="text-center text-muted py-4">Nenhuma venda registrada.</td></tr>';
+    }
+
+    document.getElementById('validation-sales-body').addEventListener('click', event => {
+        const button = event.target.closest('.validate-sale');
+        if (!button) return;
+        const sales = validationSales();
+        const sale = sales.find(item => String(item.id) === button.dataset.saleId);
+        if (!sale || sale.validada || sale.status !== 'Concluído') return;
+        if (!window.confirm(`Validar a venda ${sale.numeroContrato}? Esta ação bloqueará futuras edições.`)) return;
+        sale.validada = true;
+        sale.validadaEm = new Date().toISOString();
+        sale.validadaPor = {{ user_email|tojson }};
+        localStorage.setItem(VALIDATION_SALES_KEY, JSON.stringify(sales));
+        renderValidationSales();
+    });
+
+    renderValidationSales();
+</script>
+{% endblock page_content %}

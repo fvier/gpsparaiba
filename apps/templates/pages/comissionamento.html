@@ -3,9 +3,120 @@
 {% block title %}Tabela de Comissionamento | GPS Paraíba ERP{% endblock title %}
 
 {% block page_content %}
-<div class="container-fluid py-3">
-    <!-- Header Page Title -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
+<style>
+    .commission-scroll-top {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: 16px;
+    }
+    .commission-scroll-top > div { height: 1px; }
+    .commission-table-scroll { overflow-x: auto; width: 100%; }
+    #commission-table { min-width: 1380px; width: 100%; table-layout: fixed; margin-left: auto; margin-right: auto; }
+    #commission-table th, #commission-table td { padding: .65rem .5rem; }
+    #commission-table th { line-height: 1.25; vertical-align: middle; }
+    #commission-table tbody td { line-height: 1.35; }
+    #commission-table .commission-input {
+        min-width: 104px;
+        padding-left: .55rem;
+        padding-right: .55rem;
+    }
+    #commission-table .commission-category {
+        color: #fff !important;
+        font-weight: 800 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, .28);
+        letter-spacing: .03em;
+    }
+    .experience-track { display: grid; grid-template-columns: repeat(7, minmax(90px, 1fr)); min-width: 760px; gap: 6px; }
+    .experience-step { opacity: .38; transition: .2s ease; }
+    .experience-step.reached { opacity: 1; }
+    .experience-step.current { transform: translateY(-3px); box-shadow: 0 7px 16px rgba(15, 23, 42, .18); }
+    .experience-step .experience-color { height: 9px; border-radius: 99px; }
+    #commission-table .current-category-heading { box-shadow: inset 0 0 0 3px #fff, 0 0 0 3px #2563eb; position: relative; z-index: 1; }
+    #commission-page { width: 100%; max-width: none; }
+    #commission-page.compact-mode .experience-track { min-width: 0; grid-template-columns: repeat(var(--visible-categories, 3), minmax(140px, 1fr)); }
+    #commission-page.compact-mode .commission-context-card { border-color: rgba(37, 99, 235, .24) !important; }
+    .commission-action-bar .btn, .commission-action-bar .badge {
+        font-size: .72rem !important;
+        padding: .32rem .65rem !important;
+        line-height: 1.2;
+    }
+    .commission-version-tools { max-width: 470px; }
+    .commission-version-tools .form-select { min-height: 31px; font-size: .75rem; padding-top: .25rem; padding-bottom: .25rem; }
+    .commission-version-tools .btn { width: 31px; height: 31px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+
+    html[data-bs-theme="dark"] #commission-table {
+        background: #111827 !important;
+        border-color: #334155 !important;
+        color: #dbe7f5 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table th,
+    html[data-bs-theme="dark"] #commission-table td {
+        border-color: #334155 !important;
+        color: #dbe7f5 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table thead tr:nth-child(1) th,
+    html[data-bs-theme="dark"] #commission-table thead tr:nth-child(2) th {
+        background: #172033 !important;
+        color: #aebdd0 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table thead tr:nth-child(3) th:first-child {
+        background: #172033 !important;
+        color: #dbe7f5 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table thead tr:nth-child(4) th {
+        background: #3b3214 !important;
+        color: #fde68a !important;
+        border-color: #5b4b17 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table tbody tr:not([style]) td:not([style*="background-color"]),
+    html[data-bs-theme="dark"] #commission-table tbody tr.table-light td {
+        background: #111827 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table tbody tr:hover td:not([style*="background-color"]) {
+        background-color: #152036 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table tbody tr[style*="background-color: #ffedd5"] td {
+        background: #3a2618 !important;
+        color: #fed7aa !important;
+        border-color: #573822 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table tbody tr[style*="background-color: #ffedd5"] td:first-of-type,
+    html[data-bs-theme="dark"] #commission-table tbody tr[style*="background-color: #ffedd5"] td:nth-of-type(2) {
+        color: #fdba74 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table .commission-input {
+        background: #0a1221 !important;
+        color: #f1f5f9 !important;
+        border: 1px solid rgba(148, 163, 184, .08) !important;
+        border-radius: 6px !important;
+    }
+    html[data-bs-theme="dark"] #commission-table .commission-input:focus {
+        background: #0d1729 !important;
+        border-color: #3b82f6 !important;
+    }
+    html[data-bs-theme="dark"] #commission-table .commission-input:disabled {
+        opacity: 1;
+        -webkit-text-fill-color: #dbe7f5;
+    }
+    html[data-bs-theme="dark"] #commission-table .text-success { color: #4ade80 !important; }
+    html[data-bs-theme="dark"] #commission-table .text-primary { color: #7db2ff !important; }
+    html[data-bs-theme="dark"] #commission-table .text-muted { color: #8fa0b6 !important; }
+    html[data-bs-theme="dark"] #commission-table .commission-category {
+        color: #fff !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, .55);
+    }
+    html[data-bs-theme="dark"] #commission-table .current-category-heading {
+        box-shadow: inset 0 0 0 2px #fff, 0 0 0 2px #60a5fa !important;
+    }
+    @media (max-width: 767.98px) {
+        #commission-page { padding-left: 0 !important; padding-right: 0 !important; }
+        #commission-page .card { border-radius: 14px !important; padding-left: .75rem !important; padding-right: .75rem !important; }
+        #commission-page.compact-mode .experience-track { min-width: 480px; }
+        #commission-table .commission-input { min-width: 92px; }
+    }
+</style>
+<div id="commission-page" class="container-fluid py-3 compact-mode">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
         <div>
             <h4 class="fw-bold text-dark mb-1 d-flex align-items-center gap-2">
                 <i class="ri-table-line text-primary fs-24"></i>
@@ -13,27 +124,96 @@
             </h4>
             <p class="text-secondary small mb-0">Regra de metas de vendas, salários base, bônus extras e comissão por nível / técnico instalador.</p>
         </div>
-        <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-success rounded-pill px-3 py-2 fs-13"><i class="ri-check-double-line me-1"></i>Tabela Vigente</span>
-            <button class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="window.print();">
-                <i class="ri-printer-line me-1"></i> Imprimir Tabela
-            </button>
+    </div>
+
+    <div class="card commission-context-card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+        <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap mb-3">
+            <div><small class="text-muted d-block">Experiência do colaborador</small><h5 id="experience-current-category" class="fw-bold mb-1">Orange</h5><span id="experience-summary" class="text-muted small"></span></div>
+            <div class="text-end"><small class="text-muted d-block">Salário-base da categoria</small><strong id="experience-base-salary" class="text-primary fs-5">R$ 1.700,00</strong></div>
+        </div>
+        <div class="overflow-auto pb-2"><div id="experience-track" class="experience-track"></div></div>
+        <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap mt-3">
+            <span id="experience-points" class="badge bg-primary-subtle text-primary px-3 py-2"></span>
+            <small class="text-muted"><i class="ri-information-line me-1"></i>Orange exige 1 mês de meta; as promoções seguintes exigem 2 pontos. Mês sem atingir a meta reduz 1 ponto e pode causar regressão.</small>
         </div>
     </div>
 
-    <!-- Main Commission Table Card -->
-    <div class="card border-0 shadow-sm rounded-4 p-3 bg-white mb-4 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-bordered align-middle text-center mb-0 border-light-subtle" style="font-size: 13px;">
-                <!-- Header Top Tier (Metas & Salários) -->
+    <form id="commission-form" class="card border-0 shadow-sm rounded-4 p-3 bg-white mb-4 overflow-hidden">
+        <div class="d-flex align-items-start justify-content-between gap-3 flex-wrap mb-3">
+            <div>
+                <strong class="text-dark">Visualização da tabela</strong>
+                <small id="commission-view-description" class="text-muted d-block">Categoria atual e próximas categorias</small>
+                <div class="btn-group btn-group-sm mt-2" role="group" aria-label="Modo de visualização da tabela">
+                    <button id="commission-view-default" type="button" class="btn btn-primary px-2 py-1" title="Exibir posição atual e próximas"><i class="ri-focus-3-line"></i><span class="ms-1">Padrão</span></button>
+                    <button id="commission-view-all" type="button" class="btn btn-light text-primary px-2 py-1" title="Exibir todas as categorias"><i class="ri-layout-grid-line"></i><span class="ms-1">Tudo</span></button>
+                </div>
+                <div class="commission-action-bar d-flex align-items-center gap-2 flex-wrap mt-3">
+                    <span class="badge bg-success rounded-pill px-3 py-2 fs-13"><i class="ri-check-double-line me-1"></i>Tabela Vigente</span>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="window.print();">
+                        <i class="ri-printer-line me-1"></i> Imprimir
+                    </button>
+                    {% if can_edit_commission %}
+                    <button type="button" id="edit-commission" class="btn btn-primary btn-sm rounded-pill px-3">
+                        <i class="ri-pencil-line me-1"></i> Editar
+                    </button>
+                    <button type="button" id="save-commission" class="btn btn-success btn-sm rounded-pill px-3">
+                        <i class="ri-save-line me-1"></i> Salvar
+                    </button>
+                    <button type="button" id="discard-commission" class="btn btn-outline-secondary btn-sm rounded-pill px-3" disabled>
+                        <i class="ri-close-circle-line me-1"></i> Descartar alterações
+                    </button>
+                    <button type="button" id="reset-commission" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+                        <i class="ri-refresh-line me-1"></i> Resetar
+                    </button>
+                    {% else %}
+                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fs-13">
+                        <i class="ri-lock-line me-1"></i> Somente gerentes/admins podem editar
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="commission-version-tools mt-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-muted small flex-shrink-0"><i class="ri-history-line me-1"></i>Versões</span>
+                        <div class="flex-grow-1">
+                            <label for="commission-version-select" class="visually-hidden">Tabela vigente e versões anteriores</label>
+                            <select id="commission-version-select" class="form-select form-select-sm rounded-pill">
+                                <option value="">Tabela vigente</option>
+                            </select>
+                        </div>
+                        <button id="current-commission-version" type="button" class="btn btn-sm btn-outline-primary rounded-circle flex-shrink-0" title="Voltar para a tabela vigente" aria-label="Voltar para a tabela vigente">
+                            <i class="ri-arrow-go-back-line"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex align-items-center gap-1 mt-1 ps-1">
+                        <small class="text-muted" style="font-size: .68rem;">Última atualização:</small>
+                        <small id="last-update-id" class="text-primary fw-semibold" style="font-size: .68rem;">0000GPS0000-0000</small>
+                    </div>
+                </div>
+            </div>
+            <div class="alert alert-warning border-0 py-2 px-3 mb-0 small d-flex align-items-center gap-2" style="max-width: 440px;">
+                <i class="ri-error-warning-line fs-18"></i>
+                <span>Se a meta mensal não for atingida, você perde um ponto e pode regredir de categoria.</span>
+            </div>
+        </div>
+        <div id="commission-version-notice" class="alert alert-info border-0 mb-3 d-none" role="status"></div>
+        <div id="commission-scroll-top" class="commission-scroll-top mb-2" aria-label="Rolagem horizontal superior">
+            <div id="commission-scroll-top-content"></div>
+        </div>
+        <div id="commission-table-scroll" class="table-responsive commission-table-scroll">
+            <table id="commission-table" class="table table-bordered align-middle text-center mb-0 border-light-subtle" style="font-size: 13px;">
+                <colgroup>
+                    <col><col><col>
+                    <col data-category-column="0"><col data-category-column="1"><col data-category-column="2"><col data-category-column="3">
+                    <col data-category-column="4"><col data-category-column="5"><col data-category-column="6">
+                </colgroup>
                 <thead>
-                    <!-- Meta Row -->
                     <tr class="text-uppercase fw-bold text-dark fs-11" style="background-color: #f8fafc;">
                         <th colspan="3" class="text-start align-middle ps-3 bg-light">Metas de Produção</th>
                         <th class="bg-light text-secondary">1 meta</th>
-                        <th colspan="6" class="bg-light text-secondary">2 metas</th>
+                        <th class="bg-light text-secondary">2 metas</th><th class="bg-light text-secondary">2 metas</th>
+                        <th class="bg-light text-secondary">2 metas</th><th class="bg-light text-secondary">2 metas</th>
+                        <th class="bg-light text-secondary">2 metas</th><th class="bg-light text-secondary">2 metas</th>
                     </tr>
-                    <!-- Quantity Row -->
                     <tr class="fw-bold text-dark fs-12" style="background-color: #f1f5f9;">
                         <th colspan="3" class="text-start align-middle ps-3">Faixa de Vendas (Contratos)</th>
                         <th>30</th>
@@ -44,147 +224,137 @@
                         <th>141 a 150</th>
                         <th>Acima de 151</th>
                     </tr>
-                    <!-- Tier Names Row -->
                     <tr class="fw-bold text-white fs-12 text-uppercase">
                         <th colspan="3" class="text-start align-middle ps-3 text-dark bg-light">Categoria / Nível</th>
-                        <th style="background-color: #f97316;">Orange</th>
-                        <th style="background-color: #3b82f6;">Blue</th>
-                        <th style="background-color: #22c55e;">Green</th>
-                        <th style="background-color: #eab308;">Gold</th>
-                        <th style="background-color: #06b6d4;">Platinum</th>
-                        <th style="background-color: #0284c7;">Diamond</th>
-                        <th style="background-color: #0f172a;">Black</th>
+                        <th class="commission-category" style="background-color: #f97316;">Orange</th>
+                        <th class="commission-category" style="background-color: #3b82f6;">Blue</th>
+                        <th class="commission-category" style="background-color: #22c55e;">Green</th>
+                        <th class="commission-category" style="background-color: #eab308;">Gold</th>
+                        <th class="commission-category" style="background-color: #06b6d4;">Platinum</th>
+                        <th class="commission-category" style="background-color: #0284c7;">Diamond</th>
+                        <th class="commission-category" style="background-color: #0f172a;">Black</th>
                     </tr>
-                    <!-- Base Salary Row (Yellow Highlight) -->
                     <tr class="fw-extrabold text-dark fs-13" style="background-color: #fef08a;">
                         <th class="text-start align-middle ps-3">Salário Base</th>
                         <th colspan="2" class="text-start align-middle ps-2">Fixo</th>
-                        <th>R$ 1.700,00</th>
-                        <th>R$ 1.900,00</th>
-                        <th>R$ 2.100,00</th>
-                        <th>R$ 2.300,00</th>
-                        <th>R$ 2.500,00</th>
-                        <th>R$ 2.700,00</th>
-                        <th>R$ 2.900,00</th>
+                        <th><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="base_30" value="1700"></th>
+                        <th><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="base_31_70" value="1900"></th>
+                        <th><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="base_71_100" value="2100"></th>
+                        <th><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="base_101_120" value="2300"></th>
+                        <th><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="base_121_140" value="2500"></th>
+                        <th><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="base_141_150" value="2700"></th>
+                        <th><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="base_151" value="2900"></th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <!-- RASTREAMENTO GARANTIDO -->
                     <tr>
                         <td rowspan="7" class="fw-bold text-white align-middle text-center" style="background-color: #6366f1; width: 140px; min-width: 130px; writing-mode: vertical-lr; transform: rotate(180deg);">
                             <span class="fs-14 text-uppercase tracking-wider">Rastreamento Garantido</span>
                         </td>
                         <td class="fw-semibold text-dark text-center" style="width: 50px;">N1</td>
                         <td class="text-start ps-3">De 50% a 69% Contratos</td>
-                        <td class="fw-semibold">R$ 10,00</td>
-                        <td class="fw-semibold">R$ 15,00</td>
-                        <td class="fw-semibold">R$ 16,00</td>
-                        <td class="fw-semibold">R$ 17,00</td>
-                        <td class="fw-semibold">R$ 18,00</td>
-                        <td class="fw-semibold">R$ 19,00</td>
-                        <td class="fw-bold text-primary">R$ 22,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n1_30" value="10"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n1_31_70" value="15"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n1_71_100" value="16"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n1_101_120" value="17"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n1_121_140" value="18"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n1_141_150" value="19"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-primary" name="rg_n1_151" value="22"></td>
                     </tr>
                     <tr>
                         <td class="fw-semibold text-dark text-center">N2</td>
                         <td class="text-start ps-3">De 70% a 80% Contratos</td>
-                        <td class="fw-semibold">R$ 15,00</td>
-                        <td class="fw-semibold">R$ 17,00</td>
-                        <td class="fw-semibold">R$ 18,00</td>
-                        <td class="fw-semibold">R$ 19,00</td>
-                        <td class="fw-semibold">R$ 21,00</td>
-                        <td class="fw-semibold">R$ 22,00</td>
-                        <td class="fw-bold text-primary">R$ 25,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n2_30" value="15"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n2_31_70" value="17"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n2_71_100" value="18"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n2_101_120" value="19"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n2_121_140" value="21"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n2_141_150" value="22"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-primary" name="rg_n2_151" value="25"></td>
                     </tr>
                     <tr>
                         <td class="fw-semibold text-dark text-center">N3</td>
                         <td class="text-start ps-3">De 81% a 90% Contratos</td>
-                        <td class="fw-semibold">R$ 20,00</td>
-                        <td class="fw-semibold">R$ 25,00</td>
-                        <td class="fw-semibold">R$ 28,00</td>
-                        <td class="fw-semibold">R$ 32,00</td>
-                        <td class="fw-semibold">R$ 34,00</td>
-                        <td class="fw-semibold">R$ 36,00</td>
-                        <td class="fw-bold text-primary">R$ 38,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n3_30" value="20"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n3_31_70" value="25"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n3_71_100" value="28"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n3_101_120" value="32"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n3_121_140" value="34"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n3_141_150" value="36"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-primary" name="rg_n3_151" value="38"></td>
                     </tr>
                     <tr>
                         <td class="fw-semibold text-dark text-center">N4</td>
                         <td class="text-start ps-3">De 91% a 99% Contratos</td>
-                        <td class="fw-semibold">R$ 25,00</td>
-                        <td class="fw-semibold">R$ 27,00</td>
-                        <td class="fw-semibold">R$ 29,00</td>
-                        <td class="fw-semibold">R$ 34,00</td>
-                        <td class="fw-semibold">R$ 36,00</td>
-                        <td class="fw-semibold">R$ 38,00</td>
-                        <td class="fw-bold text-primary">R$ 40,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n4_30" value="25"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n4_31_70" value="27"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n4_71_100" value="29"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n4_101_120" value="34"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n4_121_140" value="36"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="rg_n4_141_150" value="38"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-primary" name="rg_n4_151" value="40"></td>
                     </tr>
-                    <!-- N5 (Highlight Verde) -->
                     <tr class="table-success bg-opacity-25 fw-bold">
                         <td class="fw-bold text-dark text-center">N5</td>
                         <td class="text-start ps-3 text-success fw-bold">&gt;= 100% Contratos</td>
-                        <td class="fw-bold text-success">R$ 30,00</td>
-                        <td class="fw-bold text-success">R$ 40,00</td>
-                        <td class="fw-bold text-success">R$ 45,00</td>
-                        <td class="fw-bold text-success">R$ 48,00</td>
-                        <td class="fw-bold text-success">R$ 50,00</td>
-                        <td class="fw-bold text-success">R$ 52,00</td>
-                        <td class="fw-extrabold text-success">R$ 54,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-success" name="rg_n5_30" value="30"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-success" name="rg_n5_31_70" value="40"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-success" name="rg_n5_71_100" value="45"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-success" name="rg_n5_101_120" value="48"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-success" name="rg_n5_121_140" value="50"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-success" name="rg_n5_141_150" value="52"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-extrabold text-success" name="rg_n5_151" value="54"></td>
                     </tr>
-                    <!-- Bônus Extra (Highlight Laranja/Bege) -->
                     <tr style="background-color: #ffedd5;">
                         <td class="fw-extrabold text-dark text-center">Bônus Extra</td>
                         <td class="text-start ps-3 text-warning-emphasis fw-bold">&gt;= 120% de Atingimento</td>
-                        <td class="fw-bold text-dark">R$ 100,00</td>
-                        <td class="fw-bold text-dark">R$ 200,00</td>
-                        <td class="fw-bold text-dark">R$ 300,00</td>
-                        <td class="fw-bold text-dark">R$ 400,00</td>
-                        <td class="fw-bold text-dark">R$ 500,00</td>
-                        <td class="fw-bold text-dark">R$ 600,00</td>
-                        <td class="fw-extrabold text-dark">R$ 700,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="bonus_30" value="100"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="bonus_31_70" value="200"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="bonus_71_100" value="300"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="bonus_101_120" value="400"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="bonus_121_140" value="500"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="bonus_141_150" value="600"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-extrabold text-dark" name="bonus_151" value="700"></td>
                     </tr>
                     <tr>
                         <td colspan="2" class="fw-semibold text-dark text-start ps-3">Rastreamento Start</td>
-                        <td class="fw-semibold">R$ 5,00</td>
-                        <td class="fw-semibold">R$ 10,00</td>
-                        <td class="fw-semibold">R$ 15,00</td>
-                        <td class="fw-semibold">R$ 18,00</td>
-                        <td class="fw-semibold">R$ 20,00</td>
-                        <td class="fw-semibold">R$ 22,00</td>
-                        <td class="fw-bold text-primary">R$ 22,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="start_regular_30" value="5"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="start_regular_31_70" value="10"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="start_regular_71_100" value="15"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="start_regular_101_120" value="18"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="start_regular_121_140" value="20"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-semibold" name="start_regular_141_150" value="22"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-primary" name="start_regular_151" value="22"></td>
                     </tr>
-
-                    <!-- RASTREAMENTO START (TAG) -->
                     <tr class="border-top border-secondary">
                         <td class="fw-bold text-dark text-start ps-3" colspan="2">Rastreamento Start</td>
                         <td class="text-muted text-start ps-3">Tag / Unitário</td>
-                        <td>R$ 5,00</td>
-                        <td>R$ 6,00</td>
-                        <td>R$ 8,00</td>
-                        <td>R$ 10,00</td>
-                        <td>R$ 12,00</td>
-                        <td>R$ 14,00</td>
-                        <td class="fw-bold">R$ 14,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent" name="tag_30" value="5"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent" name="tag_31_70" value="6"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent" name="tag_71_100" value="8"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent" name="tag_101_120" value="10"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent" name="tag_121_140" value="12"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent" name="tag_141_150" value="14"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold" name="tag_151" value="14"></td>
                     </tr>
-
-                    <!-- TÉCNICO INSTALADOR -->
                     <tr class="table-light">
                         <td class="fw-bold text-dark text-start ps-3" colspan="2">Técnico Instalador</td>
                         <td class="text-start ps-3">N5 (&gt;= 100% Contratos)</td>
-                        <td class="fw-bold text-dark">R$ 10,00</td>
-                        <td class="fw-bold text-dark">R$ 12,00</td>
-                        <td class="fw-bold text-dark">R$ 14,00</td>
-                        <td class="fw-bold text-dark">R$ 15,00</td>
-                        <td class="fw-bold text-dark">R$ 16,00</td>
-                        <td class="fw-bold text-dark">R$ 17,00</td>
-                        <td class="fw-extrabold text-dark">R$ 18,00</td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="tecnico_30" value="10"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="tecnico_31_70" value="12"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="tecnico_71_100" value="14"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="tecnico_101_120" value="15"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="tecnico_121_140" value="16"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-bold text-dark" name="tecnico_141_150" value="17"></td>
+                        <td><input type="number" step="0.01" class="form-control commission-input text-center border-0 bg-transparent fw-extrabold text-dark" name="tecnico_151" value="18"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    </form>
 
-    <!-- Highlight Notes Cards -->
-    <div class="row g-3">
+    <div class="row g-3 mt-2">
         <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4 p-3 bg-white">
                 <div class="d-flex align-items-center gap-3">
@@ -228,4 +398,391 @@
         </div>
     </div>
 </div>
+
+<script>
+    const COMMISSION_STORAGE_KEY = 'gps_commission_table_values';
+    const COMMISSION_HISTORY_KEY = 'gps_commission_update_history';
+    const LAST_UPDATE_ID_KEY = 'gps_last_commission_update_id';
+    const EXPERIENCE_SALES_KEY = 'gps_sales_records';
+    const EXPERIENCE_USER = {{ user_email|tojson }};
+    const EXPERIENCE_BASE_CATEGORY = {{ user_category|tojson }};
+    const EXPERIENCE_CATEGORIES = [
+        { name: 'Orange', color: '#f97316', minimum: 0, salaryField: 'base_30' },
+        { name: 'Blue', color: '#3b82f6', minimum: 31, salaryField: 'base_31_70' },
+        { name: 'Green', color: '#22c55e', minimum: 71, salaryField: 'base_71_100' },
+        { name: 'Gold', color: '#eab308', minimum: 101, salaryField: 'base_101_120' },
+        { name: 'Platinum', color: '#06b6d4', minimum: 121, salaryField: 'base_121_140' },
+        { name: 'Diamond', color: '#0284c7', minimum: 141, salaryField: 'base_141_150' },
+        { name: 'Black', color: '#0f172a', minimum: 151, salaryField: 'base_151' }
+    ];
+    const form = document.getElementById('commission-form');
+    const inputs = form ? Array.from(form.querySelectorAll('.commission-input')) : [];
+    let editingBaseline = null;
+
+    function getHistory() {
+        try {
+            const history = JSON.parse(localStorage.getItem(COMMISSION_HISTORY_KEY) || '[]');
+            return Array.isArray(history) ? history : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function getLastUpdateId() {
+        const storedId = localStorage.getItem(LAST_UPDATE_ID_KEY);
+        if (!storedId) return '0000GPS0000-0000';
+        const legacyMatch = storedId.match(/^UPD-(\d{4})(\d{2})(\d{2})-(\d{4})$/);
+        if (!legacyMatch) return storedId;
+        const migratedId = `${legacyMatch[1]}GPS${legacyMatch[2]}${legacyMatch[3]}-${legacyMatch[4]}`;
+        localStorage.setItem(LAST_UPDATE_ID_KEY, migratedId);
+        return migratedId;
+    }
+
+    function updateLastUpdateBadge(updateId, persist = true) {
+        const badge = document.getElementById('last-update-id');
+        if (badge) badge.textContent = updateId;
+        if (persist) localStorage.setItem(LAST_UPDATE_ID_KEY, updateId);
+    }
+
+    function generateNextUpdateId() {
+        const history = getHistory();
+        const last = history.length ? history[history.length - 1] : null;
+        let sequence = 1;
+
+        if (last && last.id) {
+            const match = String(last.id).match(/^(\d{4})GPS(\d{2})(\d{2})-(\d{4})$/);
+            if (match) {
+                const currentDate = `${match[1]}${match[2]}${match[3]}`;
+                const currentSequence = Number(match[4]);
+                const today = new Date();
+                const dateKey = today.toISOString().slice(0, 10).replace(/-/g, '');
+                sequence = (currentDate === dateKey) ? currentSequence + 1 : 1;
+            }
+        }
+
+        const today = new Date();
+        const dateKey = today.toISOString().slice(0, 10).replace(/-/g, '');
+        const year = dateKey.slice(0, 4);
+        const month = dateKey.slice(4, 6);
+        const day = dateKey.slice(6, 8);
+        return `${year}GPS${month}${day}-${String(sequence).padStart(4, '0')}`;
+    }
+
+    function setEditableState(enabled) {
+        if (!inputs.length) return;
+        inputs.forEach(input => {
+            input.disabled = !enabled;
+            input.classList.toggle('bg-white', enabled);
+            input.classList.toggle('border', enabled);
+            input.classList.toggle('shadow-sm', enabled);
+        });
+    }
+
+    function applyValues(values) {
+        if (!form || !values) return;
+        Object.entries(values).forEach(([name, value]) => {
+            if (name.startsWith('_')) return;
+            const input = form.elements.namedItem(name);
+            if (input) input.value = value;
+        });
+    }
+
+    function getCurrentValues() {
+        try {
+            return JSON.parse(localStorage.getItem(COMMISSION_STORAGE_KEY) || 'null');
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function collectFormValues() {
+        const values = {};
+        inputs.forEach(input => {
+            values[input.name] = input.value;
+        });
+        return values;
+    }
+
+    function loadFromStorage() {
+        const values = getCurrentValues();
+        if (!values) return;
+        try {
+            applyValues(values);
+        } catch (e) {
+            console.warn('Valores de comissão inválidos:', e);
+        }
+    }
+
+    function renderHistoryList() {
+        const history = getHistory();
+        const select = document.getElementById('commission-version-select');
+        if (!select) return;
+        const selectedValue = select.value;
+        select.replaceChildren(new Option('Tabela vigente', ''));
+        history.slice().reverse().forEach(item => {
+            const savedAt = item.saved_at ? new Date(item.saved_at).toLocaleString('pt-BR') : 'data não informada';
+            select.add(new Option(`${item.id} — ${savedAt}`, item.id));
+        });
+        if (Array.from(select.options).some(option => option.value === selectedValue)) {
+            select.value = selectedValue;
+        }
+    }
+
+    function showVersionNotice(message) {
+        const notice = document.getElementById('commission-version-notice');
+        if (!notice) return;
+        notice.textContent = message;
+        notice.classList.toggle('d-none', !message);
+    }
+
+    function openVersion(versionId) {
+        if (!versionId) {
+            loadFromStorage();
+            updateLastUpdateBadge(getLastUpdateId());
+            showVersionNotice('');
+            setEditableState(false);
+            return;
+        }
+
+        const version = getHistory().find(item => item.id === versionId);
+        if (!version || !version.values) {
+            showVersionNotice(`A versão ${versionId} é anterior ao histórico detalhado e não possui valores para consulta.`);
+            return;
+        }
+
+        applyValues(version.values);
+        updateLastUpdateBadge(version.id, false);
+        setEditableState(false);
+        const savedAt = new Date(version.saved_at).toLocaleString('pt-BR');
+        showVersionNotice(`Consultando ${version.id}, salva em ${savedAt}. Para torná-la vigente, clique em Editar e depois em Salvar.`);
+    }
+
+    function saveToStorage() {
+        if (!inputs.length) return;
+
+        const values = collectFormValues();
+
+        const updateId = generateNextUpdateId();
+        const timestamp = new Date().toISOString();
+        values._last_update_id = updateId;
+        values._updated_at = timestamp;
+
+        localStorage.setItem(COMMISSION_STORAGE_KEY, JSON.stringify(values));
+        const history = getHistory();
+        history.push({ id: updateId, saved_at: timestamp, values: { ...values } });
+        localStorage.setItem(COMMISSION_HISTORY_KEY, JSON.stringify(history.slice(-50)));
+        updateLastUpdateBadge(updateId);
+        renderHistoryList();
+        const versionSelect = document.getElementById('commission-version-select');
+        if (versionSelect) versionSelect.value = '';
+        showVersionNotice('');
+        setEditableState(false);
+        renderExperience();
+        editingBaseline = null;
+        const discardButton = document.getElementById('discard-commission');
+        if (discardButton) discardButton.disabled = true;
+
+        const toast = document.createElement('div');
+        toast.className = 'position-fixed top-0 end-0 p-3';
+        toast.innerHTML = '<div class="toast show align-items-center text-white bg-success border-0" role="alert"><div class="d-flex"><div class="toast-body">Atualização salva: ' + updateId + '</div></div></div>';
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2200);
+
+        window.dispatchEvent(new CustomEvent('gps-commission-saved', { detail: { updateId, timestamp } }));
+    }
+
+    function resetToDefault() {
+        if (!inputs.length) return;
+        inputs.forEach(input => {
+            input.value = input.defaultValue;
+        });
+        localStorage.removeItem(COMMISSION_STORAGE_KEY);
+        localStorage.removeItem(LAST_UPDATE_ID_KEY);
+        updateLastUpdateBadge('0000GPS0000-0000');
+    }
+
+    function startEditing() {
+        editingBaseline = collectFormValues();
+        setEditableState(true);
+        const discardButton = document.getElementById('discard-commission');
+        if (discardButton) discardButton.disabled = false;
+    }
+
+    function discardChanges() {
+        if (!editingBaseline) return;
+        applyValues(editingBaseline);
+        editingBaseline = null;
+        setEditableState(false);
+        const discardButton = document.getElementById('discard-commission');
+        if (discardButton) discardButton.disabled = true;
+        showVersionNotice('Alterações descartadas. Nenhum valor foi salvo.');
+    }
+
+    function initializeCommissionScrollbars() {
+        const topScroll = document.getElementById('commission-scroll-top');
+        const topContent = document.getElementById('commission-scroll-top-content');
+        const tableScroll = document.getElementById('commission-table-scroll');
+        const table = document.getElementById('commission-table');
+        if (!topScroll || !topContent || !tableScroll || !table) return;
+
+        const updateWidth = () => {
+            topContent.style.width = `${table.scrollWidth}px`;
+        };
+        let syncing = false;
+        topScroll.addEventListener('scroll', () => {
+            if (syncing) return;
+            syncing = true;
+            tableScroll.scrollLeft = topScroll.scrollLeft;
+            syncing = false;
+        });
+        tableScroll.addEventListener('scroll', () => {
+            if (syncing) return;
+            syncing = true;
+            topScroll.scrollLeft = tableScroll.scrollLeft;
+            syncing = false;
+        });
+        window.addEventListener('resize', updateWidth);
+        updateWidth();
+    }
+
+    function calculateExperience() {
+        let sales = [];
+        try { sales = JSON.parse(localStorage.getItem(EXPERIENCE_SALES_KEY) || '[]'); } catch (error) { sales = []; }
+        const monthlySales = {};
+        sales.filter(sale => sale.status === 'Concluído' && String(sale.vendedor).toLowerCase() === EXPERIENCE_USER.toLowerCase()).forEach(sale => {
+            const month = String(sale.dataAtivacao || '').slice(0, 7);
+            if (month) monthlySales[month] = (monthlySales[month] || 0) + 1;
+        });
+        const recordedMonths = Object.keys(monthlySales).sort();
+        const months = [];
+        if (recordedMonths.length) {
+            const cursor = new Date(`${recordedMonths[0]}-01T12:00:00`);
+            const currentMonth = new Date();
+            currentMonth.setDate(1);
+            while (cursor <= currentMonth) {
+                months.push(`${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`);
+                cursor.setMonth(cursor.getMonth() + 1);
+            }
+        }
+        const baseCategoryIndex = Math.max(EXPERIENCE_CATEGORIES.findIndex(category => category.name === EXPERIENCE_BASE_CATEGORY), 0);
+        let categoryIndex = baseCategoryIndex;
+        let points = 0;
+        months.forEach(month => {
+            const nextCategory = EXPERIENCE_CATEGORIES[categoryIndex + 1];
+            const salesCount = monthlySales[month] || 0;
+            const reached = nextCategory ? salesCount >= nextCategory.minimum : salesCount >= EXPERIENCE_CATEGORIES[categoryIndex].minimum;
+            if (reached && nextCategory) {
+                points += 1;
+                const requiredPoints = categoryIndex === 0 ? 1 : 2;
+                if (points >= requiredPoints) { categoryIndex += 1; points = 0; }
+            } else if (!reached) {
+                if (points > 0) points -= 1;
+                else if (categoryIndex > baseCategoryIndex) { categoryIndex -= 1; points = 1; }
+            }
+        });
+        return { categoryIndex, points, currentMonthSales: monthlySales[new Date().toISOString().slice(0, 7)] || 0 };
+    }
+
+    function renderExperience() {
+        const experience = calculateExperience();
+        const category = EXPERIENCE_CATEGORIES[experience.categoryIndex];
+        const nextCategory = EXPERIENCE_CATEGORIES[experience.categoryIndex + 1];
+        document.getElementById('experience-track').innerHTML = EXPERIENCE_CATEGORIES.map((item, index) => `
+            <div class="experience-step rounded-3 border p-2 ${index <= experience.categoryIndex ? 'reached' : ''} ${index === experience.categoryIndex ? 'current' : ''}" data-experience-category="${index}">
+                <div class="experience-color mb-2" style="background:${item.color}"></div><strong class="small">${item.name}</strong><small class="d-block text-muted">${item.minimum ? `${item.minimum}+ vendas` : 'Inicial'}</small>
+            </div>`).join('');
+        document.getElementById('experience-current-category').textContent = category.name;
+        document.getElementById('experience-current-category').style.color = category.color;
+        document.getElementById('experience-summary').textContent = nextCategory ? `${experience.currentMonthSales} vendas concluídas neste mês · próxima: ${nextCategory.name} (${nextCategory.minimum} vendas)` : `${experience.currentMonthSales} vendas concluídas neste mês · categoria máxima`;
+        const required = experience.categoryIndex === 0 ? 1 : 2;
+        document.getElementById('experience-points').textContent = nextCategory ? `${experience.points} de ${required} ponto(s) para evoluir` : 'Categoria máxima alcançada';
+        const salaryInput = form?.elements.namedItem(category.salaryField);
+        document.getElementById('experience-base-salary').textContent = Number(salaryInput?.value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function setCommissionView(showAll) {
+        const experience = calculateExperience();
+        const currentIndex = experience.categoryIndex;
+        const firstVisibleIndex = showAll ? 0 : Math.max(0, currentIndex - 1);
+        const lastVisibleIndex = showAll ? EXPERIENCE_CATEGORIES.length - 1 : Math.min(EXPERIENCE_CATEGORIES.length - 1, currentIndex + 2);
+        document.querySelectorAll('[data-category-column]').forEach(column => {
+            const index = Number(column.dataset.categoryColumn);
+            const visible = index >= firstVisibleIndex && index <= lastVisibleIndex;
+            column.style.visibility = visible ? 'visible' : 'collapse';
+        });
+        document.querySelectorAll('.commission-category').forEach((heading, index) => heading.classList.toggle('current-category-heading', index === currentIndex));
+        const visibleCount = lastVisibleIndex - firstVisibleIndex + 1;
+        const descriptorColumns = document.querySelectorAll('#commission-table colgroup col:not([data-category-column])');
+        const categoryColumns = document.querySelectorAll('#commission-table [data-category-column]');
+        if (showAll) {
+            [150, 70, 240].forEach((width, index) => descriptorColumns[index].style.width = `${width}px`);
+            categoryColumns.forEach(column => column.style.width = '140px');
+        } else {
+            [150, 72, 260].forEach((width, index) => descriptorColumns[index].style.width = `${width}px`);
+            categoryColumns.forEach(column => column.style.width = '155px');
+        }
+        const page = document.getElementById('commission-page');
+        page.classList.toggle('compact-mode', !showAll);
+        page.classList.toggle('all-categories-mode', showAll);
+        page.style.setProperty('--visible-categories', visibleCount);
+        document.querySelectorAll('[data-experience-category]').forEach(step => {
+            const index = Number(step.dataset.experienceCategory);
+            step.classList.toggle('d-none', index < firstVisibleIndex || index > lastVisibleIndex);
+        });
+        document.getElementById('experience-track').style.gridTemplateColumns = showAll ? 'repeat(7, minmax(90px, 1fr))' : `repeat(${visibleCount}, minmax(140px, 1fr))`;
+        document.getElementById('experience-track').style.minWidth = showAll ? '760px' : (window.innerWidth < 768 ? '480px' : '0');
+        const compactTableWidth = 482 + visibleCount * 155;
+        document.getElementById('commission-table').style.minWidth = showAll ? '1440px' : `${compactTableWidth}px`;
+        document.getElementById('commission-view-default').className = `btn btn-sm px-2 py-1 ${showAll ? 'btn-light text-primary' : 'btn-primary'}`;
+        document.getElementById('commission-view-all').className = `btn btn-sm px-2 py-1 ${showAll ? 'btn-primary' : 'btn-light text-primary'}`;
+        const visibleNames = EXPERIENCE_CATEGORIES.slice(firstVisibleIndex, lastVisibleIndex + 1).map(item => item.name).join(', ');
+        document.getElementById('commission-view-description').textContent = showAll ? 'Todas as categorias' : `Anterior, posição atual e próximas: ${visibleNames}`;
+        requestAnimationFrame(() => {
+            const table = document.getElementById('commission-table');
+            document.getElementById('commission-scroll-top-content').style.width = `${table.scrollWidth}px`;
+        });
+    }
+
+    if (document.getElementById('edit-commission')) {
+        document.getElementById('edit-commission').addEventListener('click', startEditing);
+    }
+    if (document.getElementById('save-commission')) {
+        document.getElementById('save-commission').addEventListener('click', () => saveToStorage());
+    }
+    if (document.getElementById('reset-commission')) {
+        document.getElementById('reset-commission').addEventListener('click', () => resetToDefault());
+    }
+    if (document.getElementById('discard-commission')) {
+        document.getElementById('discard-commission').addEventListener('click', discardChanges);
+    }
+    document.getElementById('commission-view-default').addEventListener('click', () => setCommissionView(false));
+    document.getElementById('commission-view-all').addEventListener('click', () => setCommissionView(true));
+    window.addEventListener('resize', () => {
+        if (document.getElementById('commission-page').classList.contains('compact-mode')) {
+            document.getElementById('experience-track').style.minWidth = window.innerWidth < 768 ? '480px' : '0';
+        }
+    });
+
+    if (document.getElementById('commission-version-select')) {
+        document.getElementById('commission-version-select').addEventListener('change', event => openVersion(event.target.value));
+    }
+    if (document.getElementById('current-commission-version')) {
+        document.getElementById('current-commission-version').addEventListener('click', () => {
+            const select = document.getElementById('commission-version-select');
+            if (select) select.value = '';
+            openVersion('');
+        });
+    }
+
+    if (form) {
+        setEditableState(false);
+        loadFromStorage();
+    }
+
+    updateLastUpdateBadge(getLastUpdateId());
+    renderHistoryList();
+    initializeCommissionScrollbars();
+    renderExperience();
+    setCommissionView(false);
+</script>
 {% endblock page_content %}

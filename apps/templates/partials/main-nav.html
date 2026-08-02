@@ -2,11 +2,13 @@
     <!-- Sidebar Logo -->
     <div class="logo-box px-3 py-2">
         <a href="/index" class="logo-dark">
-            <img src="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" class="logo-lg rounded-2" alt="GPS Paraíba Logo" style="height: 32px; width: auto;">
+            <span class="logo-lg gps-sidebar-brand-content"><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba Logo"><span class="gps-sidebar-brand-name">GPS Paraíba<small>ERP Comercial</small></span></span>
+            <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="logo-sm gps-sidebar-brand-small" alt="GPS Paraíba">
         </a>
 
         <a href="/index" class="logo-light">
-            <img src="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" class="logo-lg rounded-2" alt="GPS Paraíba Logo" style="height: 32px; width: auto;">
+            <span class="logo-lg gps-sidebar-brand-content"><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba Logo"><span class="gps-sidebar-brand-name text-white">GPS Paraíba<small>ERP Comercial</small></span></span>
+            <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="logo-sm gps-sidebar-brand-small" alt="GPS Paraíba">
         </a>
     </div>
 
@@ -60,6 +62,15 @@
                 </a>
             </li>
 
+            {% if user_role == 'admin' %}
+            <li class="nav-item">
+                <a class="nav-link" href="/admin-carrossel">
+                    <span class="nav-icon"><i class="ri-gallery-line text-primary"></i></span>
+                    <span class="nav-text"> Gerenciar Carrossel </span>
+                </a>
+            </li>
+            {% endif %}
+
             <!-- Categoria 3: COMISSÕES & VENDAS -->
             <li class="menu-title">Comissões & Vendas</li>
 
@@ -67,6 +78,22 @@
                 <a class="nav-link" href="/vendas">
                     <span class="nav-icon"><i class="ri-shopping-cart-2-line text-primary"></i></span>
                     <span class="nav-text"> Vendas </span>
+                </a>
+            </li>
+
+            {% if can_validate_sales %}
+            <li class="nav-item">
+                <a class="nav-link" href="/validacao-vendas">
+                    <span class="nav-icon"><i class="ri-checkbox-circle-line text-info"></i></span>
+                    <span class="nav-text"> Validar Vendas </span>
+                </a>
+            </li>
+            {% endif %}
+
+            <li class="nav-item">
+                <a class="nav-link" href="/planos">
+                    <span class="nav-icon"><i class="ri-price-tag-3-line text-success"></i></span>
+                    <span class="nav-text"> Planos </span>
                 </a>
             </li>
 

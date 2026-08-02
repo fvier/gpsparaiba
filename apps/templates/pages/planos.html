@@ -1,0 +1,268 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Planos | GPS Paraíba ERP{% endblock title %}
+
+{% block page_content %}
+<div class="container-fluid py-3">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-price-tag-3-line text-success me-2"></i>Gestão de Planos</h4>
+            <p class="text-secondary small mb-0">Cadastre e consulte os planos comerciais da GPS Paraíba.</p>
+        </div>
+        {% if can_manage_plans %}
+        <div class="d-flex gap-2 flex-wrap">
+            <button id="edit-plans-btn" type="button" class="btn btn-primary rounded-pill px-3"><i class="ri-pencil-line me-1"></i>Editar valores</button>
+            <button id="save-plans-btn" type="button" class="btn btn-success rounded-pill px-3" disabled><i class="ri-save-line me-1"></i>Salvar versão</button>
+            <button id="discard-plans-btn" type="button" class="btn btn-outline-secondary rounded-pill px-3" disabled><i class="ri-close-circle-line me-1"></i>Descartar</button>
+            <button id="new-plan-btn" type="button" class="btn btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#plan-modal"><i class="ri-add-circle-line me-1"></i>Novo plano</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="card p-3 mb-4">
+        <div class="d-flex align-items-end justify-content-between gap-3 flex-wrap">
+            <div><small class="text-muted d-block">Última versão dos planos</small><span id="plans-version-id" class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">0000GPS0000-0000</span></div>
+            <div style="min-width: 300px; max-width: 480px; width: 100%;">
+                <label for="plans-version-select" class="form-label small text-muted mb-1">Consultar versões anteriores</label>
+                <select id="plans-version-select" class="form-select rounded-pill"><option value="">Versão vigente</option></select>
+            </div>
+        </div>
+        <div id="plans-version-notice" class="alert alert-info mt-3 mb-0 d-none"></div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card p-3 h-100"><small class="text-muted">Planos cadastrados</small><strong id="plans-total" class="fs-3 text-dark">0</strong></div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 h-100"><small class="text-muted">Planos ativos</small><strong id="plans-active" class="fs-3 text-success">0</strong></div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3 h-100">
+                <label for="plans-filter" class="small text-muted mb-1">Pesquisar plano</label>
+                <input id="plans-filter" type="search" class="form-control" placeholder="Nome, tipo ou cobertura">
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Plano</th>
+                        <th>Tipo de veículo</th>
+                        <th>Cobertura</th>
+                        <th>Mensalidade</th>
+                        <th>Instalação</th>
+                        <th>Status</th>
+                        {% if can_manage_plans %}<th class="text-end">Ações</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody id="plans-table-body"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% if can_manage_plans %}
+<div class="modal fade" id="plan-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg">
+            <div class="modal-header border-0 pb-0">
+                <h5 class="modal-title fw-bold">Cadastrar plano</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <form id="plan-form">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-7">
+                            <label class="form-label">Nome do plano</label>
+                            <input type="text" class="form-control" name="nome" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Tipo de veículo</label>
+                            <select class="form-select" name="tipoVeiculo" required>
+                                <option value="" selected disabled>Selecione</option>
+                                <option>Moto</option><option>Carro</option><option>Caminhonete</option>
+                                <option>Caminhão</option><option>Van</option><option>Ônibus</option>
+                                <option>Máquina / Equipamento</option><option>Qualquer veículo</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Cobertura</label>
+                            <input type="text" class="form-control" name="cobertura" placeholder="Ex.: Até R$ 30 mil" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Mensalidade (R$)</label>
+                            <input type="number" min="0" step="0.01" class="form-control" name="mensalidade" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Instalação (R$)</label>
+                            <input type="number" min="0" step="0.01" class="form-control" name="instalacao" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Descrição</label>
+                            <textarea class="form-control" name="descricao" rows="3" placeholder="Benefícios e observações do plano"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 pt-0">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary rounded-pill px-4">Salvar plano</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<script>
+    const PLANS_KEY = 'gps_commercial_plans_v2';
+    const PLANS_HISTORY_KEY = 'gps_commercial_plans_history_v2';
+    const PLANS_VERSION_KEY = 'gps_commercial_plans_last_version_v2';
+    const CAN_MANAGE_PLANS = {{ 'true' if can_manage_plans else 'false' }};
+    let plansEditingBaseline = null;
+
+    function defaultPlans() {
+        return [
+            { id: 1, nome: 'Rastreamento + Assistência', tipoVeiculo: 'Qualquer veículo', cobertura: 'Sem cobertura FIPE', mensalidade: 62, instalacao: 0, descricao: 'Suporte 24h, bloqueio remoto e recuperação veicular', ativo: true },
+            { id: 2, nome: 'Moto Garantida + Assistência', tipoVeiculo: 'Moto', cobertura: 'Até R$ 15 mil FIPE', mensalidade: 78, instalacao: 0, descricao: 'Assistência, reboque 200 km e bateria nova', ativo: true },
+            { id: 3, nome: 'Moto Top Garantida + Assistência', tipoVeiculo: 'Moto', cobertura: 'Até R$ 30 mil FIPE', mensalidade: 100, instalacao: 0, descricao: 'Assistência, reboque 200 km e bateria nova', ativo: true },
+            { id: 4, nome: 'Carro Garantido + Assistência', tipoVeiculo: 'Carro', cobertura: 'Até R$ 30 mil FIPE', mensalidade: 120, instalacao: 0, descricao: 'Assistência completa e reboque 200 km', ativo: true },
+            { id: 5, nome: 'Carro VIP Garantido + Assistência', tipoVeiculo: 'Carro', cobertura: 'Até R$ 60 mil FIPE', mensalidade: 150, instalacao: 0, descricao: 'Assistência completa e reboque 200 km', ativo: true }
+        ];
+    }
+
+    function getPlansHistory() {
+        try { const history = JSON.parse(localStorage.getItem(PLANS_HISTORY_KEY) || '[]'); return Array.isArray(history) ? history : []; }
+        catch (error) { return []; }
+    }
+
+    function nextPlansVersionId() {
+        const now = new Date();
+        const date = `${now.getFullYear()}GPS${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+        const todayVersions = getPlansHistory().filter(item => String(item.id).startsWith(date));
+        return `${date}-${String(todayVersions.length + 1).padStart(4, '0')}`;
+    }
+
+    function getPlans() {
+        try {
+            const saved = JSON.parse(localStorage.getItem(PLANS_KEY) || 'null');
+            if (Array.isArray(saved)) return saved;
+        } catch (error) { console.warn('Planos inválidos:', error); }
+        const plans = defaultPlans();
+        localStorage.setItem(PLANS_KEY, JSON.stringify(plans));
+        return plans;
+    }
+
+    function savePlans(plans, createVersion = false) {
+        localStorage.setItem(PLANS_KEY, JSON.stringify(plans));
+        if (createVersion) {
+            const id = nextPlansVersionId();
+            const savedAt = new Date().toISOString();
+            const history = getPlansHistory();
+            history.push({ id, saved_at: savedAt, plans: JSON.parse(JSON.stringify(plans)) });
+            localStorage.setItem(PLANS_HISTORY_KEY, JSON.stringify(history.slice(-50)));
+            localStorage.setItem(PLANS_VERSION_KEY, id);
+        }
+        renderPlans();
+        renderPlansVersions();
+    }
+
+    function escapeHTML(value) {
+        return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
+    }
+
+    function money(value) {
+        return Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    }
+
+    function renderPlans(plansToRender = null, historical = false) {
+        const plans = plansToRender || getPlans();
+        const query = document.getElementById('plans-filter').value.trim().toLowerCase();
+        const filtered = plans.filter(plan => !query || [plan.nome, plan.tipoVeiculo, plan.cobertura].some(value => String(value).toLowerCase().includes(query)));
+        document.getElementById('plans-total').textContent = plans.length;
+        document.getElementById('plans-active').textContent = plans.filter(plan => plan.ativo).length;
+        const actionsColumn = CAN_MANAGE_PLANS ? 7 : 6;
+        document.getElementById('plans-table-body').innerHTML = filtered.length ? filtered.map(plan => `
+            <tr>
+                <td><strong class="text-dark">${escapeHTML(plan.nome)}</strong>${plan.descricao ? `<small class="d-block text-muted">${escapeHTML(plan.descricao)}</small>` : ''}</td>
+                <td>${escapeHTML(plan.tipoVeiculo)}</td><td>${escapeHTML(plan.cobertura)}</td>
+                <td class="fw-semibold">${CAN_MANAGE_PLANS ? `<input type="number" min="0" step="0.01" class="form-control form-control-sm plan-value" data-id="${plan.id}" data-field="mensalidade" value="${Number(plan.mensalidade)}" ${plansEditingBaseline && !historical ? '' : 'disabled'}>` : money(plan.mensalidade)}</td>
+                <td>${CAN_MANAGE_PLANS ? `<input type="number" min="0" step="0.01" class="form-control form-control-sm plan-value" data-id="${plan.id}" data-field="instalacao" value="${Number(plan.instalacao)}" ${plansEditingBaseline && !historical ? '' : 'disabled'}>` : money(plan.instalacao)}</td>
+                <td><span class="badge ${plan.ativo ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}">${plan.ativo ? 'Ativo' : 'Inativo'}</span></td>
+                ${CAN_MANAGE_PLANS ? `<td class="text-end"><button class="btn btn-sm btn-outline-secondary rounded-pill" data-action="toggle" data-id="${plan.id}">${plan.ativo ? 'Desativar' : 'Ativar'}</button></td>` : ''}
+            </tr>`).join('') : `<tr><td colspan="${actionsColumn}" class="text-center text-muted py-4">Nenhum plano encontrado.</td></tr>`;
+    }
+
+    function renderPlansVersions() {
+        const history = getPlansHistory();
+        const select = document.getElementById('plans-version-select');
+        const selected = select.value;
+        select.replaceChildren(new Option('Versão vigente', ''));
+        history.slice().reverse().forEach(item => select.add(new Option(`${item.id} — ${new Date(item.saved_at).toLocaleString('pt-BR')}`, item.id)));
+        if ([...select.options].some(option => option.value === selected)) select.value = selected;
+        document.getElementById('plans-version-id').textContent = localStorage.getItem(PLANS_VERSION_KEY) || '0000GPS0000-0000';
+    }
+
+    function setPlansEditing(enabled) {
+        document.querySelectorAll('.plan-value').forEach(input => input.disabled = !enabled);
+        document.getElementById('save-plans-btn')?.toggleAttribute('disabled', !enabled);
+        document.getElementById('discard-plans-btn')?.toggleAttribute('disabled', !enabled);
+    }
+
+    document.getElementById('plans-filter').addEventListener('input', renderPlans);
+    document.getElementById('plans-table-body').addEventListener('click', event => {
+        const button = event.target.closest('[data-action="toggle"]');
+        if (!button || !CAN_MANAGE_PLANS) return;
+        const plans = getPlans();
+        const plan = plans.find(item => String(item.id) === button.dataset.id);
+        if (plan) { plan.ativo = !plan.ativo; savePlans(plans, true); }
+    });
+
+    document.getElementById('edit-plans-btn')?.addEventListener('click', () => {
+        plansEditingBaseline = JSON.parse(JSON.stringify(getPlans()));
+        document.getElementById('plans-version-select').value = '';
+        renderPlans(); setPlansEditing(true);
+    });
+    document.getElementById('discard-plans-btn')?.addEventListener('click', () => {
+        plansEditingBaseline = null; renderPlans(); setPlansEditing(false);
+        const notice = document.getElementById('plans-version-notice'); notice.textContent = 'Alterações descartadas.'; notice.classList.remove('d-none');
+    });
+    document.getElementById('save-plans-btn')?.addEventListener('click', () => {
+        const plans = getPlans();
+        document.querySelectorAll('.plan-value').forEach(input => {
+            const plan = plans.find(item => String(item.id) === input.dataset.id);
+            if (plan) plan[input.dataset.field] = Number(input.value || 0);
+        });
+        plansEditingBaseline = null; savePlans(plans, true); setPlansEditing(false);
+        document.getElementById('plans-version-select').value = '';
+    });
+    document.getElementById('plans-version-select').addEventListener('change', event => {
+        plansEditingBaseline = null; setPlansEditing(false);
+        const notice = document.getElementById('plans-version-notice');
+        if (!event.target.value) { renderPlans(); notice.classList.add('d-none'); return; }
+        const version = getPlansHistory().find(item => item.id === event.target.value);
+        if (version) { renderPlans(version.plans, true); notice.textContent = `Consultando ${version.id}. Os valores estão somente para leitura.`; notice.classList.remove('d-none'); }
+    });
+
+    const planForm = document.getElementById('plan-form');
+    if (planForm) planForm.addEventListener('submit', event => {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        const plans = getPlans();
+        plans.unshift({
+            id: Date.now(), nome: data.get('nome').trim(), tipoVeiculo: data.get('tipoVeiculo'),
+            cobertura: data.get('cobertura').trim(), mensalidade: Number(data.get('mensalidade')),
+            instalacao: Number(data.get('instalacao')), descricao: data.get('descricao').trim(), ativo: true
+        });
+        savePlans(plans, true);
+        bootstrap.Modal.getInstance(document.getElementById('plan-modal'))?.hide();
+        event.target.reset();
+    });
+
+    renderPlans();
+    renderPlansVersions();
+</script>
+{% endblock page_content %}

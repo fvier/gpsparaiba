@@ -1,12 +1,20 @@
+<script>
+    (() => {
+        const savedAccent = localStorage.getItem('gps_color_palette') || localStorage.getItem('gps_landing_accent') || 'blue';
+        document.documentElement.setAttribute('data-gps-accent', ['blue','gold','green','purple','graphite'].includes(savedAccent) ? savedAccent : 'blue');
+    })();
+</script>
 <header class="sticky-top bg-white border-bottom border-light-subtle shadow-xs z-3">
     <div class="topbar py-2">
         <div class="container-fluid">
             <div class="navbar-header d-flex align-items-center justify-content-between">
                 <!-- Left: Sidebar Toggle Button & Brand Title -->
-                <div class="d-flex align-items-center gap-3">
-                    <button type="button" class="btn btn-light rounded-circle p-2 d-flex align-items-center justify-content-center button-toggle-menu" title="Alternar Menu Lateral">
-                        <i class="ri-menu-2-line fs-20 text-dark"></i>
-                    </button>
+                <div class="d-flex align-items-center gap-3 h-100">
+                    <div class="topbar-item">
+                        <button type="button" class="topbar-button button-toggle-menu" title="Alternar menu lateral">
+                            <i class="ri-menu-2-line fs-22"></i>
+                        </button>
+                    </div>
 
                     <div class="d-flex align-items-center gap-2">
                         <span class="badge bg-primary rounded-pill px-2.5 py-1 fw-bold fs-12">GPS Paraíba ERP</span>
@@ -14,22 +22,72 @@
                 </div>
 
                 <!-- Right: Site Home Link & User Profile Dropdown -->
-                <div class="d-flex align-items-center gap-2">
-                    <!-- Home Landing Page Link -->
-                    <a href="/" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold d-inline-flex align-items-center gap-1">
-                        <i class="ri-home-4-line fs-16"></i>
-                        <span class="d-none d-sm-inline">Ver Site Público</span>
-                    </a>
+                <div class="d-flex align-items-center justify-content-center gap-1 h-100">
+                    <div class="topbar-item">
+                        <button type="button" class="topbar-button" id="light-dark-mode" title="Alternar tema claro/escuro">
+                            <i class="ri-moon-line fs-22 light-mode"></i>
+                            <i class="ri-sun-line fs-22 dark-mode"></i>
+                        </button>
+                    </div>
 
-                    <!-- User Profile Dropdown -->
-                    <div class="dropdown">
-                        <a type="button" class="btn btn-light rounded-pill px-3 py-1-5 border d-flex align-items-center gap-2" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="ri-user-3-fill text-primary fs-18"></i>
-                            <span class="fw-bold text-dark fs-13 d-none d-md-inline">{{ user_email if user_email else 'Frotista' }}</span>
-                            <i class="ri-arrow-down-s-line text-muted"></i>
+                    <div class="dropdown topbar-item">
+                        <button type="button" class="topbar-button" id="gps-erp-palette-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Escolher cor do tema" aria-label="Escolher cor do tema"><i class="ri-palette-line fs-22"></i></button>
+                        <div class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 p-2" style="min-width:190px">
+                            <small class="text-secondary text-uppercase fw-bold px-2 d-block mb-1" style="font-size:9px;letter-spacing:.1em">Cor do sistema</small>
+                            <button type="button" class="dropdown-item rounded-2 gps-erp-palette-option d-flex align-items-center gap-2" data-accent="blue"><span class="rounded-circle" style="width:12px;height:12px;background:#2563eb"></span>Azul</button>
+                            <button type="button" class="dropdown-item rounded-2 gps-erp-palette-option d-flex align-items-center gap-2" data-accent="gold"><span class="rounded-circle" style="width:12px;height:12px;background:#d97706"></span>Dourado</button>
+                            <button type="button" class="dropdown-item rounded-2 gps-erp-palette-option d-flex align-items-center gap-2" data-accent="green"><span class="rounded-circle" style="width:12px;height:12px;background:#15803d"></span>Verde</button>
+                            <button type="button" class="dropdown-item rounded-2 gps-erp-palette-option d-flex align-items-center gap-2" data-accent="purple"><span class="rounded-circle" style="width:12px;height:12px;background:#7c3aed"></span>Roxo</button>
+                            <button type="button" class="dropdown-item rounded-2 gps-erp-palette-option d-flex align-items-center gap-2" data-accent="graphite"><span class="rounded-circle" style="width:12px;height:12px;background:#475569"></span>Grafite</button>
+                        </div>
+                    </div>
+
+                    <div class="topbar-item d-none d-md-flex">
+                        <button type="button" class="topbar-button" data-toggle="fullscreen" title="Tela cheia">
+                            <i class="ri-fullscreen-line fs-22 fullscreen"></i>
+                            <i class="ri-fullscreen-exit-line fs-22 quit-fullscreen"></i>
+                        </button>
+                    </div>
+
+                    <div class="topbar-item">
+                        <button type="button" class="topbar-button" id="theme-settings-btn"
+                                data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas"
+                                aria-controls="theme-settings-offcanvas" title="Personalizar painel">
+                            <i class="ri-settings-4-line fs-22"></i>
+                        </button>
+                    </div>
+
+                    <!-- Home Landing Page Link -->
+                    <div class="topbar-item">
+                        <a href="/" class="topbar-button d-flex align-items-center justify-content-center"
+                           title="Ver site público" aria-label="Ver site público">
+                            <i class="ri-home-4-line fs-22"></i>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2">
-                            <h6 class="dropdown-header text-dark fw-bold">Olá, {{ user_email if user_email else 'Frotista' }}!</h6>
+                    </div>
+
+                    {% if session.get('logged_in') %}
+                    <!-- User Profile Dropdown: exibido somente em áreas internas autenticadas -->
+                    <div class="dropdown topbar-item">
+                        <button type="button" class="topbar-button account-topbar-button" id="page-header-user-dropdown"
+                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                title="Minha conta" aria-label="Abrir menu da conta">
+                            <img src="{{ user_avatar_url or config.ASSETS_ROOT ~ '/images/users/dummy-avatar.jpg' }}" alt="Foto do colaborador" width="32" height="32" class="rounded-circle object-fit-cover">
+                            <span class="fw-semibold small d-none d-sm-inline">{{ (user_display_name or user_email or 'Colaborador').split()[0] }}</span>
+                            <span id="user-category-indicator" class="rounded-circle border border-2 border-white shadow-sm" style="width: 11px; height: 11px; background: #f97316;" title="Categoria Orange"></span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end shadow-lg border-0 rounded-3 mt-2" style="min-width: 260px;">
+                            <div class="px-3 py-2">
+                                <small class="text-muted d-block">Conta conectada</small>
+                                <span class="text-dark fw-semibold small text-break">{{ user_email if user_email else 'Frotista' }}</span>
+                            </div>
+                            {% if session.get('logged_in') %}
+                            <form id="profile-photo-form" method="POST" action="/perfil/foto" enctype="multipart/form-data">
+                                <input id="profile-photo-input" type="file" name="profile_photo" accept="image/jpeg,image/png,image/webp" class="d-none">
+                                <label for="profile-photo-input" class="dropdown-item d-flex align-items-center gap-2 py-2" role="button">
+                                    <i class="ri-camera-line text-primary fs-16"></i><span>Alterar foto de perfil</span>
+                                </label>
+                            </form>
+                            {% endif %}
                             <a class="dropdown-item d-flex align-items-center gap-2 py-2" href="/">
                                 <i class="ri-global-line text-primary fs-16"></i>
                                 <span>Voltar ao Site da GPS Paraíba</span>
@@ -41,8 +99,73 @@
                             </a>
                         </div>
                     </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
 </header>
+
+{% include 'partials/right-sidebar.html' %}
+
+<script>
+    document.getElementById('profile-photo-input')?.addEventListener('change', event => {
+        if (event.target.files.length) document.getElementById('profile-photo-form').submit();
+    });
+    (() => {
+        const currentUser = {{ (user_email or '')|tojson }}.toLowerCase();
+        const baseCategory = {{ (user_category or 'Orange')|tojson }};
+        const categories = [
+            { name: 'Orange', color: '#f97316', minimum: 0 }, { name: 'Blue', color: '#3b82f6', minimum: 31 },
+            { name: 'Green', color: '#22c55e', minimum: 71 }, { name: 'Gold', color: '#eab308', minimum: 101 },
+            { name: 'Platinum', color: '#06b6d4', minimum: 121 }, { name: 'Diamond', color: '#0284c7', minimum: 141 },
+            { name: 'Black', color: '#0f172a', minimum: 151 }
+        ];
+        let sales = [];
+        try { sales = JSON.parse(localStorage.getItem('gps_sales_records') || '[]'); } catch (error) { sales = []; }
+        const monthly = {};
+        sales.filter(sale => sale.status === 'Concluído' && String(sale.vendedor).toLowerCase() === currentUser).forEach(sale => {
+            const month = String(sale.dataAtivacao || '').slice(0, 7);
+            if (month) monthly[month] = (monthly[month] || 0) + 1;
+        });
+        const recorded = Object.keys(monthly).sort();
+        const months = [];
+        if (recorded.length) {
+            const cursor = new Date(`${recorded[0]}-01T12:00:00`), limit = new Date(); limit.setDate(1);
+            while (cursor <= limit) { months.push(`${cursor.getFullYear()}-${String(cursor.getMonth() + 1).padStart(2, '0')}`); cursor.setMonth(cursor.getMonth() + 1); }
+        }
+        const baseCategoryIndex = Math.max(categories.findIndex(category => category.name === baseCategory), 0);
+        let categoryIndex = baseCategoryIndex, points = 0;
+        months.forEach(month => {
+            const next = categories[categoryIndex + 1];
+            const reached = next ? (monthly[month] || 0) >= next.minimum : (monthly[month] || 0) >= categories[categoryIndex].minimum;
+            if (reached && next) {
+                points += 1;
+                if (points >= (categoryIndex === 0 ? 1 : 2)) { categoryIndex += 1; points = 0; }
+            } else if (!reached) {
+                if (points > 0) points -= 1; else if (categoryIndex > baseCategoryIndex) { categoryIndex -= 1; points = 1; }
+            }
+        });
+        const indicator = document.getElementById('user-category-indicator');
+        if (indicator) { indicator.style.backgroundColor = categories[categoryIndex].color; indicator.title = `Categoria ${categories[categoryIndex].name}`; }
+    })();
+    (() => {
+        const paletteOptions = [...document.querySelectorAll('.gps-erp-palette-option')];
+        function updateErpPalette() {
+            const accent = document.documentElement.getAttribute('data-gps-accent') || 'blue';
+            paletteOptions.forEach(option => {
+                const active = option.dataset.accent === accent;
+                option.classList.toggle('active', active);
+                option.setAttribute('aria-pressed', active ? 'true' : 'false');
+            });
+        }
+        paletteOptions.forEach(option => option.addEventListener('click', () => {
+            const accent = option.dataset.accent;
+            document.documentElement.setAttribute('data-gps-accent', accent);
+            localStorage.setItem('gps_color_palette', accent);
+            localStorage.setItem('gps_landing_accent', accent);
+            updateErpPalette();
+        }));
+        updateErpPalette();
+    })();
+</script>

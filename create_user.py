@@ -30,5 +30,4 @@ if __name__ == '__main__':
         pass_input = sys.argv[2]
         add_user(email_input, pass_input)
     else:
-        # Default user setup
-        add_user('admin@gpsparaiba.com.br', 'admin123', 'admin')
+        raise SystemExit('Uso: python create_user.py EMAIL SENHA')

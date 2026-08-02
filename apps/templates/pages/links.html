@@ -1,0 +1,50 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %}Links | GPS Paraíba{% endblock title %}
+
+{% block body_attribute %}class="linktree-body"{% endblock body_attribute %}
+
+{% block extra_css %}
+<style>
+    .linktree-body { min-height:100vh; margin:0; background:radial-gradient(circle at 12% 8%,rgba(59,130,246,.09),transparent 28%),radial-gradient(circle at 88% 92%,rgba(34,197,94,.08),transparent 30%),#fff; color:#172033; }
+    .gps-links { width:min(100% - 28px,520px); margin:0 auto; padding:38px 0 30px; min-height:100vh; display:flex; flex-direction:column; justify-content:center; }
+    .linktree-body .gps-links-profile { text-align:center; margin-bottom:24px; background:transparent !important; border:0 !important; box-shadow:none !important; }
+    .gps-links-logo { width:94px;height:94px;border-radius:26px;object-fit:contain;background:#fff;padding:9px;box-shadow:0 18px 42px rgba(0,0,0,.26); }
+    .gps-links-profile h1 { color:#172033;font-size:1.65rem;font-weight:850;margin:16px 0 5px; }
+    .gps-links-profile p { color:#64748b;font-size:.9rem;margin:0 auto;max-width:390px; }
+    .gps-link-card { display:flex;align-items:center;gap:14px;width:100%;padding:13px 15px;margin-bottom:11px;border:1px solid #e5eaf1;border-radius:16px;background:#fff;color:#172033;text-decoration:none;text-transform:uppercase;box-shadow:0 7px 20px rgba(15,23,42,.06);transition:.2s ease; }
+    .gps-link-card:hover { color:#172033;transform:translateY(-2px);background:#f8fafc;border-color:#cbd5e1;box-shadow:0 10px 26px rgba(15,23,42,.1); }
+    .gps-link-icon { width:42px;height:42px;border-radius:13px;display:inline-flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;background:var(--link-color); }
+    .gps-link-copy { min-width:0;flex:1; }
+    .gps-link-copy strong { display:block;font-size:.92rem;letter-spacing:.025em; }
+    .gps-link-copy small { display:block;color:#7c8799;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.7rem;letter-spacing:.02em; }
+    .gps-links-social { display:flex;justify-content:center;gap:10px;margin-top:12px; }
+    .gps-links-social a { width:38px;height:38px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);text-decoration:none; }
+    .gps-links-footer { text-align:center;color:#94a3b8;font-size:.72rem;margin-top:22px; }
+    @media(max-height:720px){.gps-links{justify-content:flex-start;padding-top:24px}.gps-links-logo{width:74px;height:74px}.gps-links-profile{margin-bottom:16px}.gps-link-card{padding:10px 13px;margin-bottom:8px}}
+</style>
+{% endblock extra_css %}
+
+{% block content %}
+<main class="gps-links">
+    <header class="gps-links-profile">
+        <img src="{{ url_for('static', filename='images/logo_fundo_preto.png') }}" alt="GPS Paraíba" class="gps-links-logo">
+        <h1>@gpsparaiba</h1>
+        <p>Segurança e rastreamento veicular ao seu alcance. Escolha abaixo como podemos ajudar.</p>
+    </header>
+
+    <nav aria-label="Links da GPS Paraíba">
+        <a class="gps-link-card" href="https://api.whatsapp.com/send?phone=5583991386279&amp;text=Ol%C3%A1!%20Vim%20pela%20p%C3%A1gina%20de%20links%20da%20GPS%20Para%C3%ADba%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer"><span class="gps-link-icon" style="--link-color:#22c55e"><i class="ri-whatsapp-line"></i></span><span class="gps-link-copy"><strong>Fale conosco pelo WhatsApp</strong><small>(83) 99138-6279 · Atendimento comercial</small></span><i class="ri-arrow-right-up-line"></i></a>
+        <a class="gps-link-card" href="tel:+5583991386279"><span class="gps-link-icon" style="--link-color:#0ea5e9"><i class="ri-phone-line"></i></span><span class="gps-link-copy"><strong>Ligar agora</strong><small>(83) 99138-6279 · Ligação pela operadora</small></span><i class="ri-phone-fill"></i></a>
+        <a class="gps-link-card" href="/" target="_blank"><span class="gps-link-icon" style="--link-color:#2563eb"><i class="ri-global-line"></i></span><span class="gps-link-copy"><strong>Site / Planos</strong><small>Conheça a GPS Paraíba e escolha seu plano</small></span><i class="ri-arrow-right-up-line"></i></a>
+        <a class="gps-link-card" href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/" target="_blank" rel="noopener noreferrer"><span class="gps-link-icon" style="--link-color:#7c3aed"><i class="ri-user-settings-line"></i></span><span class="gps-link-copy"><strong>Portal do Cliente</strong><small>Acesse seu rastreamento e serviços</small></span><i class="ri-arrow-right-up-line"></i></a>
+        <a class="gps-link-card" href="https://www.google.com/maps/place/RASTREK+CAJAZEIRAS+PB+RASTREAMENTO+E+ATENDIMENTO+24+HORAS/@-6.8874271,-38.5567211,17z/data=!3m1!4b1!4m6!3m5!1s0x7a4755904b3b897:0xa6647834e5d3682c!8m2!3d-6.8874324!4d-38.5541462!16s%2Fg%2F11k517zg4s?entry=ttu" target="_blank" rel="noopener noreferrer"><span class="gps-link-icon" style="--link-color:#ef4444"><i class="ri-map-pin-2-line"></i></span><span class="gps-link-copy"><strong>Localização e atendimento</strong><small>Cajazeiras, Paraíba · Abrir no Google Maps</small></span><i class="ri-arrow-right-up-line"></i></a>
+    </nav>
+    <footer class="gps-links-footer">© 2026 GPS Paraíba · Todos os direitos reservados</footer>
+</main>
+<div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3"><div id="demo-link-toast" class="toast text-bg-dark border-0" role="status"><div class="d-flex"><div class="toast-body">Link demonstrativo. Envie o endereço oficial para ativá-lo.</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div></div></div>
+{% endblock content %}
+
+{% block extra_javascript %}
+<script>document.querySelectorAll('[data-demo-link]').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();bootstrap.Toast.getOrCreateInstance(document.getElementById('demo-link-toast')).show()}));</script>
+{% endblock extra_javascript %}

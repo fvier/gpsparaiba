@@ -1,0 +1,17 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Alterar Senha | GPS Paraíba{% endblock title %}
+
+{% block page_content %}
+<div class="container-fluid py-5">
+    <div class="card p-4 mx-auto" style="max-width: 480px;">
+        <div class="text-center mb-4"><i class="ri-lock-password-line text-primary fs-1"></i><h4 class="fw-bold mt-2">Crie sua nova senha</h4><p class="text-muted mb-0">Por segurança, a senha inicial deve ser alterada antes de acessar o painel.</p></div>
+        {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
+        <form method="POST" action="/alterar-senha">
+            <div class="mb-3"><label class="form-label">Nova senha</label><input type="password" class="form-control" name="password" minlength="8" autocomplete="new-password" required><small class="text-muted">Use pelo menos 8 caracteres.</small></div>
+            <div class="mb-4"><label class="form-label">Confirmar nova senha</label><input type="password" class="form-control" name="password_confirmation" minlength="8" autocomplete="new-password" required></div>
+            <button type="submit" class="btn btn-primary w-100 rounded-pill">Salvar nova senha e continuar</button>
+        </form>
+    </div>
+</div>
+{% endblock page_content %}

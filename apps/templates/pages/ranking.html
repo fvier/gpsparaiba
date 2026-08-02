@@ -1,106 +1,139 @@
-{% extends 'layouts/base.html' %}
+{% extends 'layouts/vertical.html' %}
 
 {% block title %}Ranking de Vendedores | GPS Paraíba ERP{% endblock title %}
 
-{% block content %}
+{% block page_content %}
+<style>
+    .ranking-podium-card { transition: transform .2s ease; }
+    .ranking-podium-card:hover { transform: translateY(-3px); }
+    .ranking-position { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; }
+    .ranking-position.gold { background: linear-gradient(145deg, #fde68a, #d99a06); color: #5f3b00; box-shadow: 0 3px 9px rgba(217,154,6,.28); }
+    .ranking-position.silver { background: linear-gradient(145deg, #f1f5f9, #9ca3af); color: #334155; box-shadow: 0 3px 9px rgba(100,116,139,.22); }
+    .ranking-position.bronze { background: linear-gradient(145deg, #f6c69a, #b8652c); color: #54270d; box-shadow: 0 3px 9px rgba(184,101,44,.25); }
+    .ranking-position.standard { background: #f1f5f9; color: #475569; }
+    .ranking-rule-points { min-width: 38px; }
+    @media (max-width: 767.98px) { .ranking-podium-card { min-height: auto !important; } }
+</style>
 <div class="container-fluid py-3">
-    <!-- Header -->
-    <div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
         <div>
-            <h4 class="fw-bold text-dark mb-1"><i class="ri-trophy-line text-warning me-2"></i>Ranking de Desempenho Comercial</h4>
-            <p class="text-secondary small mb-0">Classificação oficial dos melhores vendedores da GPS Paraíba neste mês.</p>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-trophy-line text-warning me-2"></i>Ranking de vendas</h4>
+            <p class="text-secondary small mb-0">Quem mais vende, com pontuação maior para planos de maior valor.</p>
         </div>
-        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold fs-13"><i class="ri-medal-fill me-1"></i>Competição Julho/2026</span>
+        <div class="d-flex align-items-end gap-2 flex-wrap">
+            <div>
+                <label for="ranking-month" class="form-label small text-muted mb-1">Mês da edição</label>
+                <select id="ranking-month" class="form-select form-select-sm rounded-pill"></select>
+            </div>
+            <div>
+                <label for="ranking-year" class="form-label small text-muted mb-1">Ano</label>
+                <select id="ranking-year" class="form-select form-select-sm rounded-pill"></select>
+            </div>
+            <span id="ranking-period" class="badge bg-warning-subtle text-warning-emphasis px-3 py-2 rounded-pill mb-1"></span>
+        </div>
     </div>
 
-    <!-- Top 3 Podium Cards -->
-    <div class="row g-4 mb-4 justify-content-center">
-        <!-- 2º Lugar -->
-        <div class="col-md-4 col-lg-3 order-2 order-md-1">
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-top border-secondary border-4">
-                <div class="avatar-lg bg-secondary bg-opacity-10 text-secondary rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                    <i class="ri-medal-line fs-36 text-secondary"></i>
-                </div>
-                <span class="badge bg-secondary text-white px-3 py-1 rounded-pill mb-2">2º LUGAR</span>
-                <h5 class="fw-bold text-dark mb-1">Mariana Silva</h5>
-                <p class="small text-secondary mb-2">Consultora de Vendas</p>
-                <h3 class="fw-extrabold text-primary mb-1">24 Vendas</h3>
-                <span class="text-success small fw-bold">Comissão: R$ 600,00</span>
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-5">
+                <h5 class="fw-bold mb-2"><i class="ri-information-line text-primary me-2"></i>Como funciona</h5>
+                <p class="small text-muted mb-2">Somente vendas com status <strong>Concluído</strong> no mês atual pontuam. Cada venda soma os pontos do plano contratado.</p>
+                <p class="small text-muted mb-0">A ordem considera <strong>pontos</strong>, depois <strong>quantidade de vendas</strong> e, persistindo o empate, <strong>valor mensal vendido</strong>. Venda transferida pontua somente para o colaborador que a recebeu.</p>
             </div>
-        </div>
-
-        <!-- 1º Lugar (Campeão) -->
-        <div class="col-md-4 col-lg-4 order-1 order-md-2">
-            <div class="card border border-warning shadow-lg rounded-4 p-4 text-center bg-white h-100 position-relative" style="border-width: 2px !important;">
-                <span class="position-absolute top-0 start-50 translate-middle badge bg-warning text-dark px-4 py-2 rounded-pill fw-bold shadow-sm">🏆 CAMPEÃO DO MÊS</span>
-                <div class="avatar-lg bg-warning bg-opacity-20 text-warning rounded-circle mx-auto d-flex align-items-center justify-content-center my-3" style="width: 76px; height: 76px;">
-                    <i class="ri-trophy-fill fs-42 text-warning"></i>
-                </div>
-                <h4 class="fw-extrabold text-dark mb-1">Carlos Eduardo</h4>
-                <p class="small text-secondary mb-2">Líder Comercial</p>
-                <h2 class="display-6 fw-extrabold text-warning mb-1">28 Vendas</h2>
-                <span class="text-success fs-16 fw-extrabold">Comissão: R$ 700,00</span>
-            </div>
-        </div>
-
-        <!-- 3º Lugar -->
-        <div class="col-md-4 col-lg-3 order-3">
-            <div class="card border-0 shadow-sm rounded-4 p-4 text-center bg-white h-100 border-top border-warning border-4">
-                <div class="avatar-lg bg-warning bg-opacity-10 text-warning rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 64px; height: 64px;">
-                    <i class="ri-medal-fill fs-36 text-warning"></i>
-                </div>
-                <span class="badge bg-warning-subtle text-dark px-3 py-1 rounded-pill mb-2">3º LUGAR</span>
-                <h5 class="fw-bold text-dark mb-1">Lucas Andrade</h5>
-                <p class="small text-secondary mb-2">Consultor de Vendas</p>
-                <h3 class="fw-extrabold text-primary mb-1">19 Vendas</h3>
-                <span class="text-success small fw-bold">Comissão: R$ 475,00</span>
+            <div class="col-lg-7">
+                <h6 class="fw-bold mb-2">Pontos por plano</h6>
+                <div id="ranking-rules" class="row g-2"></div>
             </div>
         </div>
     </div>
 
-    <!-- Complete Leaderboard Table -->
+    <div id="ranking-summary" class="row g-3 mb-4"></div>
+    <div id="ranking-podium" class="row g-4 mb-4 justify-content-center"></div>
+
     <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <h5 class="fw-bold text-dark mb-3"><i class="ri-list-ordered me-2 text-primary"></i>Tabela Geral de Classificação</h5>
+        <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
+            <h5 class="fw-bold text-dark mb-0"><i class="ri-list-ordered me-2 text-primary"></i>Classificação geral</h5>
+            <small class="text-muted">Atualização automática conforme as vendas</small>
+        </div>
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Posição</th>
-                        <th>Vendedor</th>
-                        <th>Vendas Realizadas</th>
-                        <th>Meta Alcançada</th>
-                        <th>Comissão Acumulada</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="table-warning bg-opacity-10">
-                        <td><span class="badge bg-warning text-dark rounded-circle p-2 fs-14">1º</span></td>
-                        <td><span class="fw-bold text-dark">Carlos Eduardo</span></td>
-                        <td><span class="fw-bold text-dark">28</span> contratos</td>
-                        <td><div class="progress" style="height: 8px;"><div class="progress-bar bg-success" style="width: 100%;"></div></div></td>
-                        <td><span class="fw-extrabold text-success">R$ 700,00</span></td>
-                        <td><span class="badge bg-success">Meta Superada</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="badge bg-secondary text-white rounded-circle p-2 fs-14">2º</span></td>
-                        <td><span class="fw-bold text-dark">Mariana Silva</span></td>
-                        <td><span class="fw-bold text-dark">24</span> contratos</td>
-                        <td><div class="progress" style="height: 8px;"><div class="progress-bar bg-primary" style="width: 96%;"></div></div></td>
-                        <td><span class="fw-extrabold text-success">R$ 600,00</span></td>
-                        <td><span class="badge bg-primary">Meta Batida</span></td>
-                    </tr>
-                    <tr>
-                        <td><span class="badge bg-warning-subtle text-dark rounded-circle p-2 fs-14">3º</span></td>
-                        <td><span class="fw-bold text-dark">Lucas Andrade</span></td>
-                        <td><span class="fw-bold text-dark">19</span> contratos</td>
-                        <td><div class="progress" style="height: 8px;"><div class="progress-bar bg-info" style="width: 76%;"></div></div></td>
-                        <td><span class="fw-extrabold text-success">R$ 475,00</span></td>
-                        <td><span class="badge bg-info text-white">Quase Lá</span></td>
-                    </tr>
-                </tbody>
+                <thead class="table-light"><tr><th>Posição</th><th>Vendedor</th><th>Vendas</th><th>Pontos</th><th>Valor mensal</th><th>Ticket médio</th><th>Pontos/venda</th><th>Alto valor</th><th>Validação</th></tr></thead>
+                <tbody id="ranking-body"></tbody>
             </table>
         </div>
     </div>
 </div>
-{% endblock content %}
+
+<script>
+    const RANKING_SALES_KEY = 'gps_sales_records';
+    const RANKING_USERS = {{ sales_users|tojson }};
+    const PLAN_POINTS = [
+        { name: 'Rastreamento + Assistência', points: 1, color: '#64748b' },
+        { name: 'Moto Garantida + Assistência', points: 2, color: '#3b82f6' },
+        { name: 'Moto Top Garantida + Assistência', points: 3, color: '#06b6d4' },
+        { name: 'Carro Garantido + Assistência', points: 4, color: '#22c55e' },
+        { name: 'Carro VIP Garantido + Assistência', points: 5, color: '#f59e0b' }
+    ];
+    const rankingCurrency = value => Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const rankingEscape = value => String(value ?? '').replace(/[&<>'"]/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;' })[character]);
+    function rankingSales() { try { const data = JSON.parse(localStorage.getItem(RANKING_SALES_KEY) || '[]'); return Array.isArray(data) ? data : []; } catch (error) { return []; } }
+    function planRule(name) { return PLAN_POINTS.find(rule => rule.name === name) || { name: name || 'Plano não identificado', points: 1, color: '#94a3b8' }; }
+    function sellerName(email) { const user = RANKING_USERS.find(item => String(item.email).toLowerCase() === String(email).toLowerCase()); return user?.full_name || user?.username || email || 'Sem vendedor'; }
+
+    function rankingResults(month) {
+        const sellers = {};
+        rankingSales().filter(sale => sale.status === 'Concluído' && String(sale.dataAtivacao || '').slice(0, 7) === month).forEach(sale => {
+            const key = String(sale.vendedor || 'Sem vendedor').toLowerCase(), rule = planRule(sale.plano);
+            if (!sellers[key]) sellers[key] = { email: sale.vendedor, name: sellerName(sale.vendedor), sales: 0, points: 0, value: 0, premium: 0, validated: 0 };
+            sellers[key].sales += 1; sellers[key].points += rule.points; sellers[key].value += Number(sale.valorMensal || 0);
+            if (rule.points >= 4) sellers[key].premium += 1;
+            if (sale.validada) sellers[key].validated += 1;
+        });
+        return Object.values(sellers).sort((a, b) => b.points - a.points || b.sales - a.sales || b.value - a.value || a.name.localeCompare(b.name, 'pt-BR'));
+    }
+
+    function renderRanking() {
+        const monthNumber = Number(document.getElementById('ranking-month').value), year = Number(document.getElementById('ranking-year').value);
+        const monthKey = `${year}-${String(monthNumber).padStart(2, '0')}`, results = rankingResults(monthKey);
+        const totalSales = results.reduce((sum, item) => sum + item.sales, 0), totalPoints = results.reduce((sum, item) => sum + item.points, 0);
+        const editionDate = new Date(year, monthNumber - 1, 1);
+        document.getElementById('ranking-period').innerHTML = `<i class="ri-calendar-line me-1"></i>${editionDate.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' })}`;
+        document.getElementById('ranking-rules').innerHTML = PLAN_POINTS.map(rule => `<div class="col-sm-6"><div class="border rounded-3 p-2 d-flex align-items-center gap-2 h-100"><span class="ranking-rule-points badge rounded-pill" style="background:${rule.color}">${rule.points} pt${rule.points > 1 ? 's' : ''}</span><small class="fw-semibold">${rankingEscape(rule.name)}</small></div></div>`).join('');
+        document.getElementById('ranking-summary').innerHTML = [
+            ['Vendas concluídas', totalSales, 'ri-checkbox-circle-line', 'text-success'], ['Pontos distribuídos', totalPoints, 'ri-star-line', 'text-warning'],
+            ['Vendedores pontuando', results.length, 'ri-team-line', 'text-primary'], ['Líder atual', results[0]?.name || 'Sem resultado', 'ri-trophy-line', 'text-warning']
+        ].map(([label,value,icon,color]) => `<div class="col-sm-6 col-xl-3"><div class="card border-0 shadow-sm p-3 h-100"><small class="text-muted"><i class="${icon} ${color} me-1"></i>${label}</small><strong class="fs-4 text-dark text-truncate">${rankingEscape(value)}</strong></div></div>`).join('');
+        const podiumStyles = [
+            { place: '1º', icon: 'ri-trophy-fill', color: 'warning', order: 'order-1 order-md-2', size: 'col-md-4' },
+            { place: '2º', icon: 'ri-medal-line', color: 'secondary', order: 'order-2 order-md-1', size: 'col-md-4 col-lg-3' },
+            { place: '3º', icon: 'ri-medal-fill', color: 'warning', order: 'order-3', size: 'col-md-4 col-lg-3' }
+        ];
+        document.getElementById('ranking-podium').innerHTML = results.slice(0, 3).map((item, index) => { const style = podiumStyles[index]; return `<div class="${style.size} ${style.order}"><div class="ranking-podium-card card border-0 shadow-sm rounded-4 p-4 text-center h-100 border-top border-${style.color} border-4"><i class="${style.icon} text-${style.color} fs-36 mb-2"></i><span class="badge bg-${style.color}${index === 2 ? '-subtle text-dark' : ' text-white'} rounded-pill mb-2">${style.place} LUGAR</span><h5 class="fw-bold mb-1">${rankingEscape(item.name)}</h5><strong class="fs-3 text-primary">${item.points} pontos</strong><small class="text-muted">${item.sales} venda(s) · ${rankingCurrency(item.value)}</small></div></div>`; }).join('');
+        document.getElementById('ranking-body').innerHTML = results.length ? results.map((item, index) => {
+            const averageTicket = item.sales ? item.value / item.sales : 0, pointsPerSale = item.sales ? item.points / item.sales : 0;
+            const validationRate = item.sales ? item.validated / item.sales * 100 : 0, premiumRate = item.sales ? item.premium / item.sales * 100 : 0;
+            return `<tr class="${index === 0 ? 'table-warning' : ''}">
+                <td><span class="ranking-position badge ${index === 0 ? 'gold' : index === 1 ? 'silver' : index === 2 ? 'bronze' : 'standard'} rounded-circle">${index + 1}º</span></td>
+                <td><strong>${rankingEscape(item.name)}</strong><small class="d-block text-muted">${rankingEscape(item.email)}</small></td>
+                <td><strong>${item.sales}</strong></td><td><strong class="text-primary fs-5">${item.points}</strong></td>
+                <td class="text-success fw-semibold">${rankingCurrency(item.value)}</td><td>${rankingCurrency(averageTicket)}</td>
+                <td><span class="badge bg-primary-subtle text-primary">${pointsPerSale.toFixed(1).replace('.', ',')} pts</span></td>
+                <td><strong>${item.premium}</strong><small class="d-block text-muted">${premiumRate.toFixed(0)}% das vendas</small></td>
+                <td style="min-width:120px"><div class="d-flex justify-content-between small mb-1"><span>${item.validated}/${item.sales}</span><strong>${validationRate.toFixed(0)}%</strong></div><div class="progress" style="height:5px"><div class="progress-bar bg-success" style="width:${validationRate}%"></div></div></td>
+            </tr>`;
+        }).join('') : '<tr><td colspan="9" class="text-center text-muted py-5">Nenhuma venda concluída neste mês.</td></tr>';
+    }
+    function initializeRankingPeriod() {
+        const now = new Date(), monthSelect = document.getElementById('ranking-month'), yearSelect = document.getElementById('ranking-year');
+        const monthNames = Array.from({ length: 12 }, (_, index) => new Date(2026, index, 1).toLocaleDateString('pt-BR', { month: 'long' }));
+        monthNames.forEach((name, index) => monthSelect.add(new Option(name.charAt(0).toUpperCase() + name.slice(1), String(index + 1))));
+        const recordedYears = rankingSales().map(sale => Number(String(sale.dataAtivacao || '').slice(0, 4))).filter(Boolean);
+        const firstYear = Math.min(now.getFullYear() - 2, ...recordedYears), lastYear = Math.max(now.getFullYear() + 1, ...recordedYears);
+        for (let year = lastYear; year >= firstYear; year -= 1) yearSelect.add(new Option(String(year), String(year)));
+        monthSelect.value = String(now.getMonth() + 1); yearSelect.value = String(now.getFullYear());
+        monthSelect.addEventListener('change', renderRanking); yearSelect.addEventListener('change', renderRanking);
+    }
+    initializeRankingPeriod();
+    renderRanking();
+</script>
+{% endblock page_content %}
