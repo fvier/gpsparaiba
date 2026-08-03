@@ -34,11 +34,13 @@
     </header>
 
     <nav aria-label="Links da GPS Paraíba">
-        <a class="gps-link-card" href="https://api.whatsapp.com/send?phone=5583991386279&amp;text=Ol%C3%A1!%20Vim%20pela%20p%C3%A1gina%20de%20links%20da%20GPS%20Para%C3%ADba%20e%20gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer"><span class="gps-link-icon" style="--link-color:#22c55e"><i class="ri-whatsapp-line"></i></span><span class="gps-link-copy"><strong>Fale conosco pelo WhatsApp</strong><small>(83) 99138-6279 · Atendimento comercial</small></span><i class="ri-arrow-right-up-line"></i></a>
-        <a class="gps-link-card" href="tel:+5583991386279"><span class="gps-link-icon" style="--link-color:#0ea5e9"><i class="ri-phone-line"></i></span><span class="gps-link-copy"><strong>Ligar agora</strong><small>(83) 99138-6279 · Ligação pela operadora</small></span><i class="ri-phone-fill"></i></a>
-        <a class="gps-link-card" href="/" target="_blank"><span class="gps-link-icon" style="--link-color:#2563eb"><i class="ri-global-line"></i></span><span class="gps-link-copy"><strong>Site / Planos</strong><small>Conheça a GPS Paraíba e escolha seu plano</small></span><i class="ri-arrow-right-up-line"></i></a>
-        <a class="gps-link-card" href="https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/" target="_blank" rel="noopener noreferrer"><span class="gps-link-icon" style="--link-color:#7c3aed"><i class="ri-user-settings-line"></i></span><span class="gps-link-copy"><strong>Portal do Cliente</strong><small>Acesse seu rastreamento e serviços</small></span><i class="ri-arrow-right-up-line"></i></a>
-        <a class="gps-link-card" href="https://www.google.com/maps/place/RASTREK+CAJAZEIRAS+PB+RASTREAMENTO+E+ATENDIMENTO+24+HORAS/@-6.8874271,-38.5567211,17z/data=!3m1!4b1!4m6!3m5!1s0x7a4755904b3b897:0xa6647834e5d3682c!8m2!3d-6.8874324!4d-38.5541462!16s%2Fg%2F11k517zg4s?entry=ttu" target="_blank" rel="noopener noreferrer"><span class="gps-link-icon" style="--link-color:#ef4444"><i class="ri-map-pin-2-line"></i></span><span class="gps-link-copy"><strong>Localização e atendimento</strong><small>Cajazeiras, Paraíba · Abrir no Google Maps</small></span><i class="ri-arrow-right-up-line"></i></a>
+        {% for link in linktree_links %}
+        <a class="gps-link-card" href="{{ link.url }}" {% if link.url.startswith('http') %}target="_blank" rel="noopener noreferrer"{% endif %}>
+            <span class="gps-link-icon" style="--link-color:{{ link.cor }}"><i class="{{ link.icone }}"></i></span>
+            <span class="gps-link-copy"><strong>{{ link.titulo }}</strong><small>{{ link.subtitulo }}</small></span>
+            <i class="ri-arrow-right-up-line"></i>
+        </a>
+        {% endfor %}
     </nav>
     <footer class="gps-links-footer">© 2026 GPS Paraíba · Todos os direitos reservados</footer>
 </main>
