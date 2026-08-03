@@ -1,10 +1,15 @@
 from apps.pages import blueprint
-from apps.pages.models import User, CarouselImage
+from apps.pages.models import (User, CarouselImage, CommercialPlan, PlanVersion, LinktreeLink,
+                               LandingCard, FinancialCategory, FinancialEntry)
 from apps import db
-from flask import render_template, request, redirect, url_for, session, flash, current_app
+from flask import render_template, request, redirect, url_for, session, flash, current_app, jsonify
 from werkzeug.utils import secure_filename
 from uuid import uuid4
 import os
+import json
+from datetime import datetime, timezone, date, timedelta
+from decimal import Decimal, InvalidOperation
+from urllib.parse import quote
 from jinja2 import TemplateNotFound
 
 # Public pages that do not require authentication
@@ -40,6 +45,30 @@ CAROUSEL_SET_TYPES = {
     'outros': 'Outros / Testes',
 }
 
+DEFAULT_PLAN_BENEFITS = [
+    'Acesso ilimitado ao aplicativo celular e computador',
+    'Suporte 24h Roubo / Furto',
+    'Central 0800 e monitoramento 24 Horas',
+    'Rastreamento + Bloqueio Remoto',
+    'Equipe de Recuperação Veicular',
+]
+
+DEFAULT_PLANS = [
+    ('Rastreamento + Assistência', 'Qualquer veículo', 'Sem cobertura FIPE', 62, 'Para qualquer automóvel ou moto', 'QUALQUER VEÍCULO', False),
+    ('Moto Garantida + Assistência', 'Moto', 'Até R$ 15 mil FIPE', 78, 'Para motocicletas de até R$ 15 mil FIPE', 'MOTO', False),
+    ('Moto Top Garantida + Assistência', 'Moto', 'Até R$ 30 mil FIPE', 100, 'Para motocicletas de até R$ 30 mil FIPE', 'MOTO TOP', False),
+    ('Carro Garantido + Assistência', 'Carro', 'Até R$ 30 mil FIPE', 120, 'Para veículos de passeio de até R$ 30 mil FIPE', 'CARRO', False),
+    ('Carro VIP Garantido + Assistência', 'Carro', 'Até R$ 60 mil FIPE', 150, 'Para veículos de passeio de até R$ 60 mil FIPE', 'CARRO VIP', True),
+]
+
+DEFAULT_LINKS = [
+    ('Fale conosco pelo WhatsApp', '(83) 99138-6279 · Atendimento comercial', 'https://api.whatsapp.com/send?phone=5583991386279', 'ri-whatsapp-line', '#22c55e'),
+    ('Ligar agora', '(83) 99138-6279 · Ligação pela operadora', 'tel:+5583991386279', 'ri-phone-line', '#0ea5e9'),
+    ('Site / Planos', 'Conheça a GPS Paraíba e escolha seu plano', '/', 'ri-global-line', '#2563eb'),
+    ('Portal do Cliente', 'Acesse seu rastreamento e serviços', 'https://lionras.rastrosystem.com.br/acl/login/?next=/pessoa/', 'ri-user-settings-line', '#7c3aed'),
+    ('Localização e atendimento', 'Cajazeiras, Paraíba · Abrir no Google Maps', 'https://www.google.com/maps/search/?api=1&query=GPS+Paraiba+Cajazeiras+PB', 'ri-map-pin-2-line', '#ef4444'),
+]
+
 PERMISSION_MODULES = [
     {'name': 'Landing page', 'route': '/', 'icon': 'ri-global-line', 'color': 'primary', 'login': False, 'usuario': 'total', 'gerente': 'total', 'admin': 'total'},
     {'name': 'Painel público da TV', 'route': '/index', 'icon': 'ri-tv-2-line', 'color': 'info', 'login': False, 'usuario': 'total', 'gerente': 'total', 'admin': 'total'},
@@ -49,6 +78,7 @@ PERMISSION_MODULES = [
     {'name': 'Validação de vendas', 'route': '/validacao-vendas', 'icon': 'ri-checkbox-circle-line', 'color': 'warning', 'login': True, 'usuario': 'none', 'gerente': 'total', 'admin': 'total'},
     {'name': 'Planos', 'route': '/planos', 'icon': 'ri-price-tag-3-line', 'color': 'success', 'login': True, 'usuario': 'limited', 'gerente': 'total', 'admin': 'total'},
     {'name': 'Ranking', 'route': '/ranking', 'icon': 'ri-trophy-line', 'color': 'warning', 'login': True, 'usuario': 'total', 'gerente': 'total', 'admin': 'total'},
+    {'name': 'Financeiro', 'route': '/financeiro', 'icon': 'ri-wallet-3-line', 'color': 'success', 'login': True, 'usuario': 'none', 'gerente': 'total', 'admin': 'total'},
     {'name': 'Usuários e colaboradores', 'route': '/admin-cadastrar', 'icon': 'ri-team-line', 'color': 'danger', 'login': True, 'usuario': 'none', 'gerente': 'none', 'admin': 'total'},
     {'name': 'Privilégios', 'route': '/admin-privilegios', 'icon': 'ri-shield-keyhole-line', 'color': 'danger', 'login': True, 'usuario': 'none', 'gerente': 'none', 'admin': 'total'},
     {'name': 'Gerenciar carrossel', 'route': '/admin-carrossel', 'icon': 'ri-gallery-line', 'color': 'primary', 'login': True, 'usuario': 'none', 'gerente': 'none', 'admin': 'total'},
@@ -137,6 +167,79 @@ def active_carousel_images():
     return sorted(image_views, key=lambda image: (-image['version'], -image['id']))
 
 
+def ensure_commercial_content():
+    """Seed editable public content once for new and existing installations."""
+    changed = False
+    if CommercialPlan.query.count() == 0:
+        benefits = '\n'.join(DEFAULT_PLAN_BENEFITS)
+        for position, item in enumerate(DEFAULT_PLANS, start=1):
+            name, vehicle_type, coverage, price, description, badge, featured = item
+            db.session.add(CommercialPlan(
+                name=name, vehicle_type=vehicle_type, coverage=coverage,
+                monthly_price=price, installation_price=0, description=description,
+                benefits=benefits, badge=badge, featured=featured,
+                whatsapp_url=f'https://api.whatsapp.com/send?phone=5583991386279&text=Olá! Quero contratar o plano {name}.',
+                active=True, sort_order=position * 10,
+            ))
+        changed = True
+    if changed:
+        db.session.flush()
+    if LandingCard.query.count() == 0:
+        plans = CommercialPlan.query.order_by(CommercialPlan.sort_order.asc(), CommercialPlan.id.asc()).limit(5).all()
+        for slot, plan in enumerate(plans, start=1):
+            db.session.add(LandingCard(slot=slot, plan_id=plan.id, benefits=plan.benefits))
+        changed = True
+    if LinktreeLink.query.count() == 0:
+        for position, item in enumerate(DEFAULT_LINKS, start=1):
+            title, subtitle, url, icon, color = item
+            db.session.add(LinktreeLink(title=title, subtitle=subtitle, url=url, icon=icon,
+                                        color=color, active=True, sort_order=position * 10))
+        changed = True
+    if changed:
+        db.session.commit()
+
+
+def plan_view(plan):
+    whatsapp_message = quote(f'Olá! Quero contratar o plano {plan.name} da GPS Paraíba.')
+    return {
+        'id': plan.id, 'nome': plan.name, 'tipoVeiculo': plan.vehicle_type,
+        'cobertura': plan.coverage, 'mensalidade': float(plan.monthly_price or 0),
+        'instalacao': float(plan.installation_price or 0), 'descricao': plan.description,
+        'beneficios': [line.strip() for line in (plan.benefits or '').splitlines() if line.strip()],
+        'badge': plan.badge,
+        'whatsappUrl': f'https://api.whatsapp.com/send?phone=5583991386279&text={whatsapp_message}',
+        'ativo': plan.active,
+        'destaque': plan.featured, 'ordem': plan.sort_order,
+        'atualizadoEm': plan.updated_at.isoformat() if plan.updated_at else None,
+        'ultimaVersao': plan.last_version_code,
+    }
+
+
+def link_view(link):
+    return {'id': link.id, 'titulo': link.title, 'subtitulo': link.subtitle, 'url': link.url,
+            'icone': link.icon, 'cor': link.color, 'ativo': link.active, 'ordem': link.sort_order}
+
+
+def card_view(card):
+    view = plan_view(card.plan)
+    view.update({'cardId': card.id, 'slot': card.slot, 'planId': card.plan_id,
+                 'beneficios': [line.strip() for line in (card.benefits or '').splitlines() if line.strip()]})
+    return view
+
+
+def active_plans():
+    ensure_commercial_content()
+    cards = LandingCard.query.join(CommercialPlan).filter(CommercialPlan.active.is_(True))\
+        .order_by(LandingCard.slot.asc()).all()
+    return [card_view(card) for card in cards]
+
+
+def active_linktree_links():
+    ensure_commercial_content()
+    return [link_view(link) for link in LinktreeLink.query.filter_by(active=True)
+            .order_by(LinktreeLink.sort_order.asc(), LinktreeLink.id.asc()).all()]
+
+
 def normalize_user_role(email='', username='', forced_role=None):
     if forced_role:
         return forced_role.lower()
@@ -180,7 +283,8 @@ def ensure_default_user():
 def home():
     """Render the public landing page for GPS Paraíba."""
     ensure_default_user()
-    return render_template('pages/landing.html', segment='landing', carousel_images=active_carousel_images())
+    return render_template('pages/landing.html', segment='landing', carousel_images=active_carousel_images(),
+                           landing_plans=active_plans())
 
 
 @blueprint.route('/login', methods=['GET', 'POST'])
@@ -257,6 +361,311 @@ def change_password():
 
 def admin_required():
     return session.get('logged_in') and session.get('user_role') == 'admin'
+
+
+def content_manager_required():
+    return session.get('logged_in') and session.get('user_role') in {'admin', 'gerente'}
+
+
+def parse_money(value):
+    try:
+        amount = Decimal(str(value))
+    except (InvalidOperation, TypeError, ValueError):
+        raise ValueError('Informe valores monetários válidos.')
+    if amount < 0:
+        raise ValueError('Os valores não podem ser negativos.')
+    return amount.quantize(Decimal('0.01'))
+
+
+def ensure_financial_categories():
+    fixed = FinancialCategory.query.filter_by(name='Custos fixos', parent_id=None).first()
+    legacy = FinancialCategory.query.filter_by(name='Despesas operacionais', parent_id=None).first()
+    if not fixed and legacy:
+        legacy.name = 'Custos fixos'
+        fixed = legacy
+    if not fixed:
+        fixed = FinancialCategory(name='Custos fixos', entry_type='despesa', active=True)
+        db.session.add(fixed)
+        db.session.flush()
+    if legacy and legacy.id != fixed.id:
+        FinancialCategory.query.filter_by(parent_id=legacy.id).update(
+            {FinancialCategory.parent_id: fixed.id}, synchronize_session=False)
+        FinancialEntry.query.filter_by(category_id=legacy.id).update(
+            {FinancialEntry.category_id: fixed.id}, synchronize_session=False)
+        db.session.delete(legacy)
+    variable = FinancialCategory.query.filter_by(name='Custos variáveis', parent_id=None).first()
+    if not variable:
+        variable = FinancialCategory(name='Custos variáveis', entry_type='despesa', active=True)
+        db.session.add(variable)
+        db.session.flush()
+    for parent, names in ((fixed, ('Água', 'Luz', 'Aluguel', 'Salários', 'Comissões')),
+                          (variable, ('Lanche', 'Recarga celular', 'Vale'))):
+        for name in names:
+            category = FinancialCategory.query.filter_by(name=name).first()
+            if category:
+                category.parent_id = parent.id
+            else:
+                db.session.add(FinancialCategory(name=name, entry_type='despesa',
+                                                 parent_id=parent.id, active=True))
+    revenue = FinancialCategory.query.filter_by(name='Vendas e mensalidades', parent_id=None).first()
+    if not revenue:
+        revenue = FinancialCategory(name='Vendas e mensalidades', entry_type='receita', active=True)
+        db.session.add(revenue)
+        db.session.flush()
+    monthly = FinancialCategory.query.filter_by(name='Mensalidades').first()
+    if monthly:
+        monthly.parent_id = revenue.id
+    else:
+        db.session.add(FinancialCategory(name='Mensalidades', entry_type='receita',
+                                         parent_id=revenue.id, active=True))
+    db.session.commit()
+
+
+@blueprint.route('/api/planos', methods=['GET', 'POST'])
+def plans_api():
+    ensure_commercial_content()
+    if request.method == 'GET':
+        plans = CommercialPlan.query.order_by(CommercialPlan.sort_order.asc(), CommercialPlan.id.asc()).all()
+        versions = PlanVersion.query.order_by(PlanVersion.created_at.desc()).limit(50).all()
+        return jsonify({
+            'plans': [plan_view(plan) for plan in plans],
+            'cards': [card_view(card) for card in LandingCard.query.order_by(LandingCard.slot.asc()).all()],
+            'versions': [{'id': version.version_code, 'saved_at': version.created_at.isoformat(),
+                          'plans': json.loads(version.snapshot)} for version in versions],
+        })
+    if not content_manager_required():
+        return jsonify({'error': 'Acesso restrito a gerentes e administradores.'}), 403
+    payload = request.get_json(silent=True) or {}
+    submitted = payload.get('plans')
+    if payload.get('benefits_only') is True:
+        submitted_cards = payload.get('cards')
+        if not isinstance(submitted_cards, list) or len(submitted_cards) != 5:
+            return jsonify({'error': 'A landing page precisa manter exatamente cinco cards.'}), 400
+        cards = {card.slot: card for card in LandingCard.query.all()}
+        valid_plan_ids = {plan.id for plan in CommercialPlan.query.all()}
+        now = datetime.now(timezone.utc)
+        prefix = now.strftime('%YGPS%m%d')
+        sequence = PlanVersion.query.filter(PlanVersion.version_code.like(f'{prefix}-%')).count() + 1
+        version_code = f'{prefix}-{sequence:04d}'
+        for position, data in enumerate(submitted_cards, start=1):
+            plan_id = int(data.get('planId')) if str(data.get('planId', '')).isdigit() else 0
+            if plan_id not in valid_plan_ids:
+                return jsonify({'error': f'Selecione um plano válido para o Card {chr(64 + position)}.'}), 400
+            card = cards.get(position)
+            if card is None:
+                card = LandingCard(slot=position, plan_id=plan_id)
+                db.session.add(card)
+            benefits = data.get('beneficios', [])
+            if isinstance(benefits, str):
+                benefits = benefits.splitlines()
+            normalized_benefits = '\n'.join(str(item).strip()[:180] for item in benefits if str(item).strip())
+            if card.benefits != normalized_benefits or card.plan_id != plan_id:
+                card.benefits = normalized_benefits
+                card.plan_id = plan_id
+        db.session.flush()
+        snapshot = [plan_view(plan) for plan in CommercialPlan.query.order_by(CommercialPlan.sort_order.asc()).all()]
+        version = PlanVersion(version_code=version_code, snapshot=json.dumps(snapshot, ensure_ascii=False))
+        db.session.add(version)
+        db.session.commit()
+        return jsonify({'message': 'Benefícios salvos e publicados na landing page.',
+                        'version': version.version_code, 'plans': snapshot,
+                        'cards': [card_view(card) for card in LandingCard.query.order_by(LandingCard.slot.asc()).all()]})
+    if not isinstance(submitted, list) or not submitted:
+        return jsonify({'error': 'Cadastre pelo menos um plano.'}), 400
+    try:
+        existing = {plan.id: plan for plan in CommercialPlan.query.all()}
+        retained_ids = set()
+        now = datetime.now(timezone.utc)
+        prefix = now.strftime('%YGPS%m%d')
+        sequence = PlanVersion.query.filter(PlanVersion.version_code.like(f'{prefix}-%')).count() + 1
+        version_code = f'{prefix}-{sequence:04d}'
+        for position, data in enumerate(submitted, start=1):
+            plan_id = data.get('id')
+            plan = existing.get(int(plan_id)) if str(plan_id or '').isdigit() else None
+            if plan is None:
+                plan = CommercialPlan()
+                db.session.add(plan)
+                previous_values = None
+            else:
+                retained_ids.add(plan.id)
+                previous_values = (plan.name, plan.vehicle_type, plan.coverage, plan.monthly_price,
+                                   plan.installation_price, plan.description, plan.active,
+                                   plan.featured, plan.sort_order)
+            name = str(data.get('nome', '')).strip()
+            if not name:
+                raise ValueError('Todo plano precisa de um nome.')
+            plan.name = name[:120]
+            plan.vehicle_type = str(data.get('tipoVeiculo', '')).strip()[:80] or 'Qualquer veículo'
+            plan.coverage = str(data.get('cobertura', '')).strip()[:160] or 'Consulte as condições'
+            plan.monthly_price = parse_money(data.get('mensalidade', 0))
+            plan.installation_price = parse_money(data.get('instalacao', 0))
+            plan.description = str(data.get('descricao', '')).strip()[:240]
+            benefits = data.get('beneficios', [])
+            if isinstance(benefits, str):
+                benefits = benefits.splitlines()
+            plan.benefits = '\n'.join(str(item).strip()[:180] for item in benefits if str(item).strip())
+            plan.badge = str(data.get('badge', '')).strip()[:60]
+            plan.whatsapp_url = 'https://api.whatsapp.com/send?phone=5583991386279'
+            plan.active = bool(data.get('ativo', True))
+            plan.featured = bool(data.get('destaque', False))
+            plan.sort_order = position * 10
+            current_values = (plan.name, plan.vehicle_type, plan.coverage, plan.monthly_price,
+                              plan.installation_price, plan.description, plan.active,
+                              plan.featured, plan.sort_order)
+            if previous_values != current_values:
+                plan.last_version_code = version_code
+        db.session.flush()
+        submitted_ids = {int(data['id']) for data in submitted if str(data.get('id', '')).isdigit()}
+        assigned_ids = {card.plan_id for card in LandingCard.query.all()}
+        removed_assigned = (set(existing) - submitted_ids) & assigned_ids
+        if removed_assigned:
+            raise ValueError('Antes de excluir um plano, remova-o de todos os cards da landing page.')
+        for plan_id, plan in existing.items():
+            if plan_id not in submitted_ids:
+                db.session.delete(plan)
+        snapshot = [plan_view(plan) for plan in CommercialPlan.query.order_by(CommercialPlan.sort_order.asc()).all()]
+        version = PlanVersion(version_code=version_code, snapshot=json.dumps(snapshot, ensure_ascii=False))
+        db.session.add(version)
+        db.session.commit()
+        return jsonify({'message': 'Planos salvos e publicados na landing page.',
+                        'version': version.version_code, 'plans': snapshot})
+    except ValueError as error:
+        db.session.rollback()
+        return jsonify({'error': str(error)}), 400
+
+
+@blueprint.route('/api/linktree', methods=['GET', 'POST'])
+def linktree_api():
+    ensure_commercial_content()
+    if request.method == 'GET':
+        links = LinktreeLink.query.order_by(LinktreeLink.sort_order.asc(), LinktreeLink.id.asc()).all()
+        return jsonify({'links': [link_view(link) for link in links]})
+    if not content_manager_required():
+        return jsonify({'error': 'Acesso restrito a gerentes e administradores.'}), 403
+    payload = request.get_json(silent=True) or {}
+    submitted = payload.get('links')
+    if not isinstance(submitted, list):
+        return jsonify({'error': 'Lista de links inválida.'}), 400
+    existing = {link.id: link for link in LinktreeLink.query.all()}
+    submitted_ids = set()
+    for position, data in enumerate(submitted, start=1):
+        link_id = data.get('id')
+        link = existing.get(int(link_id)) if str(link_id or '').isdigit() else None
+        if link is None:
+            link = LinktreeLink()
+            db.session.add(link)
+        else:
+            submitted_ids.add(link.id)
+        title, url = str(data.get('titulo', '')).strip(), str(data.get('url', '')).strip()
+        if not title or not url or not (url.startswith(('https://', 'http://', 'tel:', 'mailto:', '/'))):
+            db.session.rollback()
+            return jsonify({'error': 'Cada link precisa de título e URL válida.'}), 400
+        color = str(data.get('cor', '#2563eb')).strip()
+        link.title, link.url = title[:100], url
+        link.subtitle = str(data.get('subtitulo', '')).strip()[:180]
+        link.icon = str(data.get('icone', 'ri-links-line')).strip()[:60] or 'ri-links-line'
+        link.color = color if len(color) == 7 and color.startswith('#') else '#2563eb'
+        link.active = bool(data.get('ativo', True))
+        link.sort_order = position * 10
+    for link_id, link in existing.items():
+        if link_id not in submitted_ids:
+            db.session.delete(link)
+    db.session.commit()
+    links = LinktreeLink.query.order_by(LinktreeLink.sort_order.asc(), LinktreeLink.id.asc()).all()
+    return jsonify({'message': 'Linktree atualizado.', 'links': [link_view(link) for link in links]})
+
+
+@blueprint.route('/financeiro/categorias', methods=['POST'])
+def create_financial_category():
+    if not content_manager_required():
+        return redirect('/index')
+    name = request.form.get('name', '').strip()
+    entry_type = request.form.get('entry_type', '')
+    if not name or entry_type not in {'receita', 'despesa', 'ambos'}:
+        flash('Informe um nome e um tipo válido para a categoria.', 'danger')
+    else:
+        parent_id = request.form.get('parent_id', '')
+        parent = db.session.get(FinancialCategory, int(parent_id)) if parent_id.isdigit() else None
+        db.session.add(FinancialCategory(name=name[:100], entry_type=entry_type,
+                                         parent_id=parent.id if parent else None, active=True))
+        db.session.commit()
+        flash('Categoria financeira cadastrada.', 'success')
+    return redirect('/financeiro/categorias')
+
+
+@blueprint.route('/financeiro/lancamentos', methods=['GET'])
+def financial_entries_page():
+    return route_template('financeiro-lancamentos')
+
+
+@blueprint.route('/financeiro/categorias', methods=['GET'])
+def financial_categories_page():
+    return route_template('financeiro-categorias')
+
+
+@blueprint.route('/financeiro/categorias/<int:category_id>', methods=['POST'])
+def update_financial_category(category_id):
+    if not content_manager_required():
+        return redirect('/index')
+    category = db.session.get(FinancialCategory, category_id)
+    if category:
+        action = request.form.get('action', 'edit')
+        if action == 'toggle':
+            category.active = not category.active
+        else:
+            name = request.form.get('name', '').strip()
+            entry_type = request.form.get('entry_type', '')
+            parent_id = request.form.get('parent_id', '')
+            parent = db.session.get(FinancialCategory, int(parent_id)) if parent_id.isdigit() else None
+            if name and entry_type in {'receita', 'despesa', 'ambos'} and (not parent or parent.id != category.id):
+                category.name = name[:100]
+                category.entry_type = entry_type
+                category.parent_id = parent.id if parent else None
+        db.session.commit()
+        flash('Categoria atualizada.', 'success')
+    return redirect('/financeiro/categorias')
+
+
+@blueprint.route('/financeiro/lancamentos', methods=['POST'])
+def create_financial_entry():
+    if not content_manager_required():
+        return redirect('/index')
+    try:
+        entry_type = request.form.get('entry_type', '')
+        selected_category_id = request.form.get('subcategory_id') or request.form.get('category_id', 0)
+        category = db.session.get(FinancialCategory, int(selected_category_id))
+        description = request.form.get('description', '').strip()
+        amount = parse_money(request.form.get('amount'))
+        due_date = date.fromisoformat(request.form.get('due_date', ''))
+        status = request.form.get('status', 'pendente')
+        if entry_type not in {'receita', 'despesa'} or status not in {'pendente', 'pago', 'cancelado'}:
+            raise ValueError('Tipo ou status inválido.')
+        if not category or not category.active or category.entry_type not in {entry_type, 'ambos'}:
+            raise ValueError('Selecione uma categoria compatível.')
+        if not description:
+            raise ValueError('Informe a descrição do lançamento.')
+        db.session.add(FinancialEntry(entry_type=entry_type, description=description[:180],
+                                      category_id=category.id, amount=amount, due_date=due_date,
+                                      status=status, notes=request.form.get('notes', '').strip()))
+        db.session.commit()
+        flash('Lançamento financeiro cadastrado.', 'success')
+    except (ValueError, TypeError):
+        db.session.rollback()
+        flash('Revise os dados do lançamento financeiro.', 'danger')
+    return redirect('/financeiro/lancamentos')
+
+
+@blueprint.route('/financeiro/lancamentos/<int:entry_id>/status', methods=['POST'])
+def update_financial_entry_status(entry_id):
+    if not content_manager_required():
+        return redirect('/index')
+    entry = db.session.get(FinancialEntry, entry_id)
+    if entry:
+        status = request.form.get('status', '')
+        if status in {'pendente', 'pago', 'cancelado'}:
+            entry.status = status
+            db.session.commit()
+    return redirect('/financeiro/lancamentos')
 
 
 @blueprint.route('/perfil/foto', methods=['POST'])
@@ -550,12 +959,78 @@ def route_template(template):
         if clean_template == 'validacao-vendas' and not can_validate_sales:
             flash('A validação de vendas é restrita a gerentes e administradores.', 'warning')
             return redirect(url_for('pages_blueprint.route_template', template='vendas'))
+        financial_templates = {'financeiro', 'financeiro-lancamentos', 'financeiro-categorias'}
+        if clean_template in financial_templates and not can_manage_plans:
+            flash('O financeiro é restrito a gerentes e administradores.', 'warning')
+            return redirect('/index')
         sales_users = [
             {'email': user.email, 'username': user.username, 'full_name': user.full_name, 'category': user.category}
             for user in User.query.order_by(User.username.asc()).all()
         ] if clean_template in {'index', 'vendas', 'ranking'} else []
         managed_users = User.query.order_by(User.full_name.asc(), User.username.asc()).all() if clean_template in {'admin-cadastrar', 'admin-privilegios'} else []
         landing_carousel_images = active_carousel_images() if clean_template == 'landing' else []
+        landing_plans = active_plans() if clean_template == 'landing' else []
+        linktree_links = active_linktree_links() if clean_template == 'links' else []
+        if clean_template in financial_templates:
+            ensure_financial_categories()
+        financial_categories = FinancialCategory.query.order_by(FinancialCategory.parent_id.asc(), FinancialCategory.name.asc()).all() if clean_template in financial_templates else []
+        financial_entries = FinancialEntry.query.order_by(FinancialEntry.due_date.desc(), FinancialEntry.id.desc()).all() if clean_template in financial_templates else []
+        financial_filter = {'period': '', 'start_date': '', 'end_date': '', 'month': '', 'year': ''}
+        financial_entry_filter = {'entry_type': '', 'category_id': '', 'subcategory_id': ''}
+        financial_launch_filter = {'q': '', 'status': '', 'entry_type': '', 'category_id': '', 'subcategory_id': ''}
+        financial_latest_entries = financial_entries
+        if clean_template == 'financeiro':
+            financial_filter = {key: request.args.get(key, '').strip() for key in financial_filter}
+            start_date, end_date = None, None
+            try:
+                if financial_filter['start_date'] or financial_filter['end_date']:
+                    start_date = date.fromisoformat(financial_filter['start_date']) if financial_filter['start_date'] else None
+                    end_date = date.fromisoformat(financial_filter['end_date']) if financial_filter['end_date'] else None
+                elif financial_filter['month'] and financial_filter['year']:
+                    month, year = int(financial_filter['month']), int(financial_filter['year'])
+                    start_date = date(year, month, 1)
+                    end_date = date(year + (month == 12), 1 if month == 12 else month + 1, 1) - timedelta(days=1)
+                elif financial_filter['period'] in {'30', '60', '90'}:
+                    end_date = date.today()
+                    start_date = end_date - timedelta(days=int(financial_filter['period']) - 1)
+            except (ValueError, TypeError):
+                start_date, end_date = None, None
+            financial_entries = [entry for entry in financial_entries
+                                 if (not start_date or entry.due_date >= start_date)
+                                 and (not end_date or entry.due_date <= end_date)]
+            financial_entry_filter = {key: request.args.get(key, '').strip() for key in financial_entry_filter}
+            financial_latest_entries = financial_entries
+            if financial_entry_filter['entry_type'] in {'receita', 'despesa'}:
+                financial_latest_entries = [entry for entry in financial_latest_entries
+                                            if entry.entry_type == financial_entry_filter['entry_type']]
+            if financial_entry_filter['category_id'].isdigit():
+                category_id = int(financial_entry_filter['category_id'])
+                financial_latest_entries = [entry for entry in financial_latest_entries
+                                            if entry.category_id == category_id or entry.category.parent_id == category_id]
+            if financial_entry_filter['subcategory_id'].isdigit():
+                subcategory_id = int(financial_entry_filter['subcategory_id'])
+                financial_latest_entries = [entry for entry in financial_latest_entries
+                                            if entry.category_id == subcategory_id]
+        if clean_template == 'financeiro-lancamentos':
+            financial_launch_filter = {key: request.args.get(key, '').strip() for key in financial_launch_filter}
+            query = financial_launch_filter['q'].lower()
+            if query:
+                financial_entries = [entry for entry in financial_entries
+                                     if query in entry.description.lower()
+                                     or query in (entry.notes or '').lower()
+                                     or query in entry.category.name.lower()]
+            if financial_launch_filter['status'] in {'pago', 'pendente', 'cancelado', 'vencido', 'perto_vencer'}:
+                financial_entries = [entry for entry in financial_entries
+                                     if entry.effective_status == financial_launch_filter['status']]
+            if financial_launch_filter['entry_type'] in {'receita', 'despesa'}:
+                financial_entries = [entry for entry in financial_entries if entry.entry_type == financial_launch_filter['entry_type']]
+            if financial_launch_filter['category_id'].isdigit():
+                category_id = int(financial_launch_filter['category_id'])
+                financial_entries = [entry for entry in financial_entries
+                                     if entry.category_id == category_id or entry.category.parent_id == category_id]
+            if financial_launch_filter['subcategory_id'].isdigit():
+                subcategory_id = int(financial_launch_filter['subcategory_id'])
+                financial_entries = [entry for entry in financial_entries if entry.category_id == subcategory_id]
 
         return render_template(
             "pages/" + template,
@@ -571,6 +1046,14 @@ def route_template(template):
             sales_users=sales_users,
             managed_users=managed_users,
             carousel_images=landing_carousel_images,
+            landing_plans=landing_plans,
+            linktree_links=linktree_links,
+            financial_categories=financial_categories,
+            financial_entries=financial_entries,
+            financial_filter=financial_filter,
+            financial_entry_filter=financial_entry_filter,
+            financial_latest_entries=financial_latest_entries,
+            financial_launch_filter=financial_launch_filter,
             permission_modules=PERMISSION_MODULES if clean_template == 'admin-privilegios' else [],
             max_privilege_emails=MAX_PRIVILEGE_EMAILS
         )

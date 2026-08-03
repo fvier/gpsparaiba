@@ -261,7 +261,7 @@
                     <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="hero-brand-logo" alt="Logo GPS Paraíba">
                     <div class="text-start">
                         <strong class="d-block text-dark fs-17 lh-sm">GPS Paraíba</strong>
-                        <small class="text-secondary fw-semibold">Rastreamento veicular desde 2012</small>
+                        <small class="text-secondary fw-semibold">Rastreamento veicular desde 2022</small>
                     </div>
                 </div>
 
@@ -349,6 +349,28 @@
         </div>
 
         <div class="row g-4 justify-content-center">
+            {% for plan in landing_plans %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 rounded-4 p-4 hover-top transition d-flex flex-column {{ 'border border-warning shadow-lg bg-white position-relative' if plan.destaque else 'border-0 shadow-sm bg-light' }}">
+                    {% if plan.destaque %}<span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark fw-bold px-3 py-1 rounded-pill">MAIS VENDIDO</span>{% endif %}
+                    <div class="badge bg-primary-subtle text-primary align-self-start px-3 py-1 rounded-pill fw-bold fs-12 mb-2">{{ plan.badge or plan.tipoVeiculo|upper }}</div>
+                    <h5 class="fw-bold text-dark mb-1">{{ plan.nome }}</h5>
+                    <p class="small text-secondary mb-2">{{ plan.descricao or plan.cobertura }}</p>
+                    <div class="my-3">
+                        <span class="fs-14 text-secondary">R$</span>
+                        <span class="display-5 fw-extrabold text-primary">{{ '%.2f'|format(plan.mensalidade)|replace('.', ',') }}</span>
+                        <span class="text-secondary fs-14">/mês</span>
+                    </div>
+                    <ul class="list-unstyled text-secondary fs-14 d-grid gap-2 mb-4">
+                        {% for benefit in plan.beneficios %}<li><i class="ri-check-line text-success fw-bold me-1"></i> {{ benefit }}</li>{% endfor %}
+                    </ul>
+                    <a href="{{ plan.whatsappUrl }}" target="_blank" rel="noopener noreferrer" class="btn {{ 'btn-warning text-dark' if plan.destaque else 'btn-outline-primary' }} rounded-pill fw-bold py-2 mt-auto">
+                        <i class="ri-whatsapp-line me-1"></i> Contratar este Plano
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+            {% if false %}
             <!-- Plano 1: Qualquer Veículo - R$ 62,00 -->
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light hover-top transition d-flex flex-column">
@@ -491,6 +513,7 @@
                     </a>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -503,7 +526,7 @@
                 <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-bold text-uppercase mb-2">Quem Somos</span>
                 <h2 class="display-6 fw-bold text-dark mb-3">Tecnologia e cuidado para proteger o que importa</h2>
                 <p class="text-secondary fs-16 mb-3">
-                    A <b>GPS Paraíba</b> atua no segmento de rastreamento veicular e telemetria <b>desde 2012</b>, oferecendo soluções para motocicletas, carros, utilitários e frotas. Nosso trabalho combina tecnologia, atendimento próximo e planos adaptados a diferentes necessidades.
+                    A <b>GPS Paraíba</b> atua no segmento de rastreamento veicular e telemetria <b>desde 2022</b>, oferecendo soluções para motocicletas, carros, utilitários e frotas. Nosso trabalho combina tecnologia, atendimento próximo e planos adaptados a diferentes necessidades.
                 </p>
                 <p class="text-secondary fs-16 mb-3">
                     Evoluindo lado a lado com a tecnologia, oferecemos equipamentos de ponta para a logística, gestão de frotas e segurança do seu patrimônio.
@@ -610,7 +633,7 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                             <div class="accordion-body text-secondary fs-15 bg-light">
-                                Em situação de emergência, você pode acionar o bloqueio instantâneo do combustível ou ignição direto pelo seu aplicativo no celular ou ligando para a nossa Central 0800 com atendimento 24h.
+                                Em situação de emergência, você pode acionar o bloqueio pelo seu aplicativo no celular ou ligando para a nossa Central 0800 com atendimento 24h.
                             </div>
                         </div>
                     </div>

@@ -1,268 +1,139 @@
 {% extends 'layouts/vertical.html' %}
-
-{% block title %}Planos | GPS Paraíba ERP{% endblock title %}
+{% block title %}Planos e Linktree | GPS Paraíba ERP{% endblock title %}
 
 {% block page_content %}
 <div class="container-fluid py-3">
     <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div>
-            <h4 class="fw-bold text-dark mb-1"><i class="ri-price-tag-3-line text-success me-2"></i>Gestão de Planos</h4>
-            <p class="text-secondary small mb-0">Cadastre e consulte os planos comerciais da GPS Paraíba.</p>
+            <h4 class="fw-bold text-dark mb-1"><i class="ri-price-tag-3-line text-success me-2"></i>Conteúdo Comercial</h4>
+            <p class="text-secondary small mb-0">Edite os cards publicados na landing page e os links da página Linktree.</p>
         </div>
-        {% if can_manage_plans %}
-        <div class="d-flex gap-2 flex-wrap">
-            <button id="edit-plans-btn" type="button" class="btn btn-primary rounded-pill px-3"><i class="ri-pencil-line me-1"></i>Editar valores</button>
-            <button id="save-plans-btn" type="button" class="btn btn-success rounded-pill px-3" disabled><i class="ri-save-line me-1"></i>Salvar versão</button>
-            <button id="discard-plans-btn" type="button" class="btn btn-outline-secondary rounded-pill px-3" disabled><i class="ri-close-circle-line me-1"></i>Descartar</button>
-            <button id="new-plan-btn" type="button" class="btn btn-outline-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#plan-modal"><i class="ri-add-circle-line me-1"></i>Novo plano</button>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-primary rounded-pill" href="/" target="_blank"><i class="ri-external-link-line me-1"></i>Ver landing page</a>
+            <a class="btn btn-outline-dark rounded-pill" href="/links" target="_blank"><i class="ri-links-line me-1"></i>Ver Linktree</a>
         </div>
-        {% endif %}
     </div>
 
-    <div class="card p-3 mb-4">
-        <div class="d-flex align-items-end justify-content-between gap-3 flex-wrap">
-            <div><small class="text-muted d-block">Última versão dos planos</small><span id="plans-version-id" class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2">0000GPS0000-0000</span></div>
-            <div style="min-width: 300px; max-width: 480px; width: 100%;">
-                <label for="plans-version-select" class="form-label small text-muted mb-1">Consultar versões anteriores</label>
-                <select id="plans-version-select" class="form-select rounded-pill"><option value="">Versão vigente</option></select>
+    <ul class="nav nav-pills gap-2 mb-4" role="tablist">
+        <li class="nav-item"><button class="nav-link active rounded-pill" data-bs-toggle="pill" data-bs-target="#plans-pane" type="button"><i class="ri-layout-grid-line me-1"></i>Cards da landing page</button></li>
+        <li class="nav-item"><button class="nav-link rounded-pill" data-bs-toggle="pill" data-bs-target="#links-pane" type="button"><i class="ri-links-line me-1"></i>Linktree</button></li>
+    </ul>
+
+    <div id="content-alert" class="alert d-none" role="alert"></div>
+    <div class="tab-content">
+        <section id="plans-pane" class="tab-pane fade show active">
+            <div class="row g-3 mb-4">
+                <div class="col-md-4"><div class="card p-3 h-100"><small class="text-muted">Planos cadastrados</small><strong id="plans-total" class="fs-3 text-dark">0</strong></div></div>
+                <div class="col-md-4"><div class="card p-3 h-100"><small class="text-muted">Planos publicados</small><strong id="plans-active" class="fs-3 text-success">0</strong></div></div>
+                <div class="col-md-4"><div class="card p-3 h-100"><label for="plans-filter" class="small text-muted mb-1">Pesquisar plano</label><input id="plans-filter" type="search" class="form-control" placeholder="Nome, veículo ou cobertura"></div></div>
             </div>
-        </div>
-        <div id="plans-version-notice" class="alert alert-info mt-3 mb-0 d-none"></div>
-    </div>
-
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="card p-3 h-100"><small class="text-muted">Planos cadastrados</small><strong id="plans-total" class="fs-3 text-dark">0</strong></div>
-        </div>
-        <div class="col-md-4">
-            <div class="card p-3 h-100"><small class="text-muted">Planos ativos</small><strong id="plans-active" class="fs-3 text-success">0</strong></div>
-        </div>
-        <div class="col-md-4">
-            <div class="card p-3 h-100">
-                <label for="plans-filter" class="small text-muted mb-1">Pesquisar plano</label>
-                <input id="plans-filter" type="search" class="form-control" placeholder="Nome, tipo ou cobertura">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
+                    <div><h5 class="fw-bold mb-1">Planos cadastrados</h5><small class="text-muted">Esta tabela é a fonte das informações exibidas nos cards da landing page.</small></div>
+                    {% if can_manage_plans %}<div class="d-flex gap-2 flex-wrap"><button id="edit-plans-table" class="btn btn-primary btn-sm rounded-pill px-3" type="button"><i class="ri-pencil-line me-1"></i>Editar planos</button><button id="add-plan" class="btn btn-outline-primary btn-sm rounded-pill px-3 d-none" type="button"><i class="ri-add-line me-1"></i>Novo plano</button><button id="save-plans-table" class="btn btn-success btn-sm rounded-pill px-3 d-none" type="button"><i class="ri-save-line me-1"></i>Salvar versão</button><button id="discard-plans-table" class="btn btn-outline-secondary btn-sm rounded-pill px-3 d-none" type="button">Descartar</button></div>{% endif %}
+                </div>
+                <div class="d-none"><select id="plans-versions-top"><option value="">Tabela vigente</option></select></div>
+                <div class="table-responsive"><table class="table table-hover align-middle mb-0 plans-management-table"><thead class="table-light"><tr><th>Card</th><th>Plano</th><th>Cobertura</th><th>Mensalidade</th><th>Status</th><th>Versão do plano</th><th class="text-end">Ação</th></tr></thead><tbody id="plans-table-body"></tbody></table></div>
             </div>
-        </div>
-    </div>
-
-    <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
-                    <tr>
-                        <th>Plano</th>
-                        <th>Tipo de veículo</th>
-                        <th>Cobertura</th>
-                        <th>Mensalidade</th>
-                        <th>Instalação</th>
-                        <th>Status</th>
-                        {% if can_manage_plans %}<th class="text-end">Ações</th>{% endif %}
-                    </tr>
-                </thead>
-                <tbody id="plans-table-body"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-{% if can_manage_plans %}
-<div class="modal fade" id="plan-modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content border-0 rounded-4 shadow-lg">
-            <div class="modal-header border-0 pb-0">
-                <h5 class="modal-title fw-bold">Cadastrar plano</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="mb-3"><h5 class="fw-bold mb-1">Editar benefícios dos cards</h5><small class="text-muted">Cada card herda automaticamente os dados do plano cadastrado. Apenas os benefícios podem ser alterados aqui.</small></div>
+                <div id="card-assignment-warnings"></div>
+                <div id="plans-list" class="d-grid gap-3"></div>
+                {% if can_manage_plans %}<div class="d-flex justify-content-end mt-4"><button id="save-plans" class="btn btn-success rounded-pill px-4" type="button"><i class="ri-save-line me-1"></i>Salvar benefícios</button></div>{% endif %}
+                <div class="mt-4 pt-3 border-top"><small class="text-muted d-block mb-2">Histórico das últimas versões</small><select id="plans-versions" class="form-select" style="max-width:520px"><option value="">Versão vigente</option></select></div>
             </div>
-            <form id="plan-form">
-                <div class="modal-body">
-                    <div class="row g-3">
-                        <div class="col-md-7">
-                            <label class="form-label">Nome do plano</label>
-                            <input type="text" class="form-control" name="nome" required>
-                        </div>
-                        <div class="col-md-5">
-                            <label class="form-label">Tipo de veículo</label>
-                            <select class="form-select" name="tipoVeiculo" required>
-                                <option value="" selected disabled>Selecione</option>
-                                <option>Moto</option><option>Carro</option><option>Caminhonete</option>
-                                <option>Caminhão</option><option>Van</option><option>Ônibus</option>
-                                <option>Máquina / Equipamento</option><option>Qualquer veículo</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Cobertura</label>
-                            <input type="text" class="form-control" name="cobertura" placeholder="Ex.: Até R$ 30 mil" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Mensalidade (R$)</label>
-                            <input type="number" min="0" step="0.01" class="form-control" name="mensalidade" required>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="form-label">Instalação (R$)</label>
-                            <input type="number" min="0" step="0.01" class="form-control" name="instalacao" required>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Descrição</label>
-                            <textarea class="form-control" name="descricao" rows="3" placeholder="Benefícios e observações do plano"></textarea>
+        </section>
+
+        <section id="links-pane" class="tab-pane fade">
+            <div class="card border-0 shadow-sm rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-center gap-3 flex-wrap mb-3">
+                    <div><h5 class="fw-bold mb-1">Links públicos</h5><small class="text-muted">Edite texto, destino, ícone e cor; use as setas para ordenar.</small></div>
+                    {% if can_manage_plans %}<button id="add-link" class="btn btn-outline-primary rounded-pill" type="button"><i class="ri-add-line me-1"></i>Novo link</button>{% endif %}
+                </div>
+                <div class="row g-4 align-items-start">
+                    <div class="col-xl-7">
+                        <div id="links-list"></div>
+                        {% if can_manage_plans %}<div class="d-flex justify-content-end mt-4"><button id="save-links" class="btn btn-success rounded-pill px-4" type="button"><i class="ri-save-line me-1"></i>Salvar Linktree</button></div>{% endif %}
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="linktree-preview-shell">
+                            <div class="d-flex align-items-center justify-content-between px-3 py-2 border-bottom"><strong class="small"><i class="ri-eye-line me-1"></i>Prévia do Linktree</strong><a href="/links" target="_blank" class="btn btn-sm btn-light rounded-circle" title="Abrir em nova aba"><i class="ri-external-link-line"></i></a></div>
+                            <iframe id="linktree-preview" src="/links" title="Prévia pública do Linktree"></iframe>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4">Salvar plano</button>
-                </div>
-            </form>
-        </div>
+            </div>
+        </section>
     </div>
 </div>
-{% endif %}
+
+<style>
+.content-editor { border:1px solid #e5e7eb; border-radius:16px; padding:18px; background:#fff; }
+.editor-actions { display:flex; gap:6px; justify-content:flex-end; }
+.form-label { font-size:.78rem; color:#64748b; margin-bottom:.3rem; }
+.plan-card-tabs { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:6px; border-bottom:0; }
+.plan-card-tabs .nav-item, .plan-card-tabs .nav-link { min-width:0; width:100%; }
+.plan-card-tabs .nav-link { padding:.65rem .55rem; border:1px solid #e5e7eb; border-radius:10px; font-size:.72rem; overflow:hidden; text-align:left; }
+.plan-card-tabs .nav-link strong { display:block; font-size:1rem; line-height:1.15; }
+.plan-card-tabs .nav-link small { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:.62rem; }
+.plans-management-table .form-control, .plans-management-table .form-select { min-width:90px; font-size:.75rem; padding:.35rem .45rem; }
+.plans-management-table [data-edit-official-plan], .plans-management-table [data-plan-benefits] { width:30px; height:30px; padding:0; display:inline-flex; align-items:center; justify-content:center; border-radius:50%!important; font-size:0; vertical-align:middle; }
+.plans-management-table [data-edit-official-plan] i, .plans-management-table [data-plan-benefits] i { margin:0!important; font-size:.9rem; }
+.plans-management-table [data-plan-benefits]::before { content:'▦'; font-size:1rem; line-height:1; }
+.link-editor-tabs { display:grid; grid-template-columns:repeat(auto-fit,minmax(105px,1fr)); gap:5px; border-bottom:0; }
+.link-editor-tabs .nav-link { width:100%; min-width:0; text-align:left; padding:.55rem .65rem; border:1px solid #e5e7eb; border-radius:10px; overflow:hidden; }
+.link-editor-tabs .nav-link strong, .link-editor-tabs .nav-link small { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.link-editor-tabs .nav-link strong { font-size:.78rem; }.link-editor-tabs .nav-link small { font-size:.62rem; color:#64748b; }
+.linktree-preview-shell { border:1px solid #e5e7eb; border-radius:18px; overflow:hidden; background:#fff; position:sticky; top:90px; box-shadow:0 10px 28px rgba(15,23,42,.08); }
+.linktree-preview-shell iframe { display:block; width:100%; height:680px; border:0; background:#fff; }
+.card-plan-select { background-color:#2563eb; color:#fff; border-color:#2563eb; font-weight:700; min-height:48px; box-shadow:0 6px 16px rgba(37,99,235,.22); }
+.card-plan-select:focus { background-color:#1d4ed8; color:#fff; border-color:#93c5fd; box-shadow:0 0 0 .22rem rgba(37,99,235,.25); }
+.card-plan-select option { background:#fff; color:#172033; font-weight:600; }
+@media(max-width:767.98px){.plan-card-tabs{gap:3px}.plan-card-tabs .nav-link{font-size:.63rem;padding:.45rem .15rem}.plan-card-tabs .nav-link small{display:none!important}}
+</style>
 
 <script>
-    const PLANS_KEY = 'gps_commercial_plans_v2';
-    const PLANS_HISTORY_KEY = 'gps_commercial_plans_history_v2';
-    const PLANS_VERSION_KEY = 'gps_commercial_plans_last_version_v2';
-    const CAN_MANAGE_PLANS = {{ 'true' if can_manage_plans else 'false' }};
-    let plansEditingBaseline = null;
-
-    function defaultPlans() {
-        return [
-            { id: 1, nome: 'Rastreamento + Assistência', tipoVeiculo: 'Qualquer veículo', cobertura: 'Sem cobertura FIPE', mensalidade: 62, instalacao: 0, descricao: 'Suporte 24h, bloqueio remoto e recuperação veicular', ativo: true },
-            { id: 2, nome: 'Moto Garantida + Assistência', tipoVeiculo: 'Moto', cobertura: 'Até R$ 15 mil FIPE', mensalidade: 78, instalacao: 0, descricao: 'Assistência, reboque 200 km e bateria nova', ativo: true },
-            { id: 3, nome: 'Moto Top Garantida + Assistência', tipoVeiculo: 'Moto', cobertura: 'Até R$ 30 mil FIPE', mensalidade: 100, instalacao: 0, descricao: 'Assistência, reboque 200 km e bateria nova', ativo: true },
-            { id: 4, nome: 'Carro Garantido + Assistência', tipoVeiculo: 'Carro', cobertura: 'Até R$ 30 mil FIPE', mensalidade: 120, instalacao: 0, descricao: 'Assistência completa e reboque 200 km', ativo: true },
-            { id: 5, nome: 'Carro VIP Garantido + Assistência', tipoVeiculo: 'Carro', cobertura: 'Até R$ 60 mil FIPE', mensalidade: 150, instalacao: 0, descricao: 'Assistência completa e reboque 200 km', ativo: true }
-        ];
-    }
-
-    function getPlansHistory() {
-        try { const history = JSON.parse(localStorage.getItem(PLANS_HISTORY_KEY) || '[]'); return Array.isArray(history) ? history : []; }
-        catch (error) { return []; }
-    }
-
-    function nextPlansVersionId() {
-        const now = new Date();
-        const date = `${now.getFullYear()}GPS${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
-        const todayVersions = getPlansHistory().filter(item => String(item.id).startsWith(date));
-        return `${date}-${String(todayVersions.length + 1).padStart(4, '0')}`;
-    }
-
-    function getPlans() {
-        try {
-            const saved = JSON.parse(localStorage.getItem(PLANS_KEY) || 'null');
-            if (Array.isArray(saved)) return saved;
-        } catch (error) { console.warn('Planos inválidos:', error); }
-        const plans = defaultPlans();
-        localStorage.setItem(PLANS_KEY, JSON.stringify(plans));
-        return plans;
-    }
-
-    function savePlans(plans, createVersion = false) {
-        localStorage.setItem(PLANS_KEY, JSON.stringify(plans));
-        if (createVersion) {
-            const id = nextPlansVersionId();
-            const savedAt = new Date().toISOString();
-            const history = getPlansHistory();
-            history.push({ id, saved_at: savedAt, plans: JSON.parse(JSON.stringify(plans)) });
-            localStorage.setItem(PLANS_HISTORY_KEY, JSON.stringify(history.slice(-50)));
-            localStorage.setItem(PLANS_VERSION_KEY, id);
-        }
-        renderPlans();
-        renderPlansVersions();
-    }
-
-    function escapeHTML(value) {
-        return String(value ?? '').replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character]);
-    }
-
-    function money(value) {
-        return Number(value || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-    }
-
-    function renderPlans(plansToRender = null, historical = false) {
-        const plans = plansToRender || getPlans();
-        const query = document.getElementById('plans-filter').value.trim().toLowerCase();
-        const filtered = plans.filter(plan => !query || [plan.nome, plan.tipoVeiculo, plan.cobertura].some(value => String(value).toLowerCase().includes(query)));
-        document.getElementById('plans-total').textContent = plans.length;
-        document.getElementById('plans-active').textContent = plans.filter(plan => plan.ativo).length;
-        const actionsColumn = CAN_MANAGE_PLANS ? 7 : 6;
-        document.getElementById('plans-table-body').innerHTML = filtered.length ? filtered.map(plan => `
-            <tr>
-                <td><strong class="text-dark">${escapeHTML(plan.nome)}</strong>${plan.descricao ? `<small class="d-block text-muted">${escapeHTML(plan.descricao)}</small>` : ''}</td>
-                <td>${escapeHTML(plan.tipoVeiculo)}</td><td>${escapeHTML(plan.cobertura)}</td>
-                <td class="fw-semibold">${CAN_MANAGE_PLANS ? `<input type="number" min="0" step="0.01" class="form-control form-control-sm plan-value" data-id="${plan.id}" data-field="mensalidade" value="${Number(plan.mensalidade)}" ${plansEditingBaseline && !historical ? '' : 'disabled'}>` : money(plan.mensalidade)}</td>
-                <td>${CAN_MANAGE_PLANS ? `<input type="number" min="0" step="0.01" class="form-control form-control-sm plan-value" data-id="${plan.id}" data-field="instalacao" value="${Number(plan.instalacao)}" ${plansEditingBaseline && !historical ? '' : 'disabled'}>` : money(plan.instalacao)}</td>
-                <td><span class="badge ${plan.ativo ? 'bg-success-subtle text-success' : 'bg-secondary-subtle text-secondary'}">${plan.ativo ? 'Ativo' : 'Inativo'}</span></td>
-                ${CAN_MANAGE_PLANS ? `<td class="text-end"><button class="btn btn-sm btn-outline-secondary rounded-pill" data-action="toggle" data-id="${plan.id}">${plan.ativo ? 'Desativar' : 'Ativar'}</button></td>` : ''}
-            </tr>`).join('') : `<tr><td colspan="${actionsColumn}" class="text-center text-muted py-4">Nenhum plano encontrado.</td></tr>`;
-    }
-
-    function renderPlansVersions() {
-        const history = getPlansHistory();
-        const select = document.getElementById('plans-version-select');
-        const selected = select.value;
-        select.replaceChildren(new Option('Versão vigente', ''));
-        history.slice().reverse().forEach(item => select.add(new Option(`${item.id} — ${new Date(item.saved_at).toLocaleString('pt-BR')}`, item.id)));
-        if ([...select.options].some(option => option.value === selected)) select.value = selected;
-        document.getElementById('plans-version-id').textContent = localStorage.getItem(PLANS_VERSION_KEY) || '0000GPS0000-0000';
-    }
-
-    function setPlansEditing(enabled) {
-        document.querySelectorAll('.plan-value').forEach(input => input.disabled = !enabled);
-        document.getElementById('save-plans-btn')?.toggleAttribute('disabled', !enabled);
-        document.getElementById('discard-plans-btn')?.toggleAttribute('disabled', !enabled);
-    }
-
-    document.getElementById('plans-filter').addEventListener('input', renderPlans);
-    document.getElementById('plans-table-body').addEventListener('click', event => {
-        const button = event.target.closest('[data-action="toggle"]');
-        if (!button || !CAN_MANAGE_PLANS) return;
-        const plans = getPlans();
-        const plan = plans.find(item => String(item.id) === button.dataset.id);
-        if (plan) { plan.ativo = !plan.ativo; savePlans(plans, true); }
-    });
-
-    document.getElementById('edit-plans-btn')?.addEventListener('click', () => {
-        plansEditingBaseline = JSON.parse(JSON.stringify(getPlans()));
-        document.getElementById('plans-version-select').value = '';
-        renderPlans(); setPlansEditing(true);
-    });
-    document.getElementById('discard-plans-btn')?.addEventListener('click', () => {
-        plansEditingBaseline = null; renderPlans(); setPlansEditing(false);
-        const notice = document.getElementById('plans-version-notice'); notice.textContent = 'Alterações descartadas.'; notice.classList.remove('d-none');
-    });
-    document.getElementById('save-plans-btn')?.addEventListener('click', () => {
-        const plans = getPlans();
-        document.querySelectorAll('.plan-value').forEach(input => {
-            const plan = plans.find(item => String(item.id) === input.dataset.id);
-            if (plan) plan[input.dataset.field] = Number(input.value || 0);
-        });
-        plansEditingBaseline = null; savePlans(plans, true); setPlansEditing(false);
-        document.getElementById('plans-version-select').value = '';
-    });
-    document.getElementById('plans-version-select').addEventListener('change', event => {
-        plansEditingBaseline = null; setPlansEditing(false);
-        const notice = document.getElementById('plans-version-notice');
-        if (!event.target.value) { renderPlans(); notice.classList.add('d-none'); return; }
-        const version = getPlansHistory().find(item => item.id === event.target.value);
-        if (version) { renderPlans(version.plans, true); notice.textContent = `Consultando ${version.id}. Os valores estão somente para leitura.`; notice.classList.remove('d-none'); }
-    });
-
-    const planForm = document.getElementById('plan-form');
-    if (planForm) planForm.addEventListener('submit', event => {
-        event.preventDefault();
-        const data = new FormData(event.target);
-        const plans = getPlans();
-        plans.unshift({
-            id: Date.now(), nome: data.get('nome').trim(), tipoVeiculo: data.get('tipoVeiculo'),
-            cobertura: data.get('cobertura').trim(), mensalidade: Number(data.get('mensalidade')),
-            instalacao: Number(data.get('instalacao')), descricao: data.get('descricao').trim(), ativo: true
-        });
-        savePlans(plans, true);
-        bootstrap.Modal.getInstance(document.getElementById('plan-modal'))?.hide();
-        event.target.reset();
-    });
-
-    renderPlans();
-    renderPlansVersions();
+const CAN_MANAGE = {{ 'true' if can_manage_plans else 'false' }};
+let plans = [], cards = [], links = [], versions = [], viewingHistory = false, plansEditing = false, plansEditingBaseline = null;
+const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+const field = (label, name, value, type='text', extra='') => `<div><label class="form-label">${label}</label><input class="form-control" data-field="${name}" type="${type}" value="${esc(value)}" ${extra} ${CAN_MANAGE?'':'disabled'}></div>`;
+const cardAlias = index => `Card ${String.fromCharCode(65 + index)}`;
+function message(text, kind='success') { const box=document.getElementById('content-alert'); box.className=`alert alert-${kind}`; box.textContent=text; box.scrollIntoView({behavior:'smooth',block:'center'}); }
+function planTemplate(plan, index) { return `<article class="tab-pane fade ${index===0?'show active':''} content-editor" id="plan-card-${index}" role="tabpanel" data-index="${index}">
+  <div class="d-flex align-items-center gap-3 mb-4"><span class="badge bg-primary px-3 py-2 rounded-pill">${cardAlias(index)}</span><div><strong class="d-block">${esc(plan.nome)}</strong><small class="text-muted">Dados herdados do plano cadastrado</small></div></div>
+  <div class="mb-4"><label class="form-label fw-semibold text-dark">Plano exibido neste card</label><select class="form-select card-plan-select" data-card-plan="${index}" ${CAN_MANAGE&&!viewingHistory?'':'disabled'}>${plans.map(item=>`<option value="${item.id}" ${String(item.id)===String(plan.id)?'selected':''}>${esc(item.nome)}</option>`).join('')}</select><small class="text-muted">Ao trocar o plano, os cards serão reorganizados sem duplicar informações.</small></div>
+  <div class="row g-3 mb-4"><div class="col-md-4"><small class="text-muted d-block">Tipo de veículo</small><strong>${esc(plan.tipoVeiculo)}</strong></div><div class="col-md-4"><small class="text-muted d-block">Cobertura</small><strong>${esc(plan.cobertura)}</strong></div><div class="col-md-2"><small class="text-muted d-block">Mensalidade</small><strong>${Number(plan.mensalidade||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</strong></div><div class="col-md-2"><small class="text-muted d-block">Instalação</small><strong>${Number(plan.instalacao||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</strong></div></div>
+  <div><label class="form-label fw-semibold text-dark">Benefícios (um por linha)</label><textarea class="form-control" rows="6" data-field="beneficios" ${CAN_MANAGE&&!viewingHistory?'':'disabled'}>${esc((plan.beneficios||[]).join('\n'))}</textarea><small class="text-muted">Esses itens serão exibidos no ${cardAlias(index)} da landing page.</small></div></article>`; }
+function linkTemplate(link,index) { return `<article id="link-editor-${index}" class="tab-pane fade ${index===0?'show active':''} content-editor" role="tabpanel" data-index="${index}"><div class="d-flex justify-content-between align-items-center mb-3"><div><strong>Link ${index+1}</strong><small class="text-muted d-block">${esc(link.titulo)}</small></div><div class="editor-actions">${CAN_MANAGE?`<button class="btn btn-sm btn-light" data-move="up" title="Mover para cima">↑</button><button class="btn btn-sm btn-light" data-move="down" title="Mover para baixo">↓</button><button class="btn btn-sm btn-outline-danger" data-remove title="Excluir"><i class="ri-delete-bin-line"></i></button>`:''}</div></div><div class="row g-3"><div class="col-md-5">${field('Título','titulo',link.titulo)}</div><div class="col-md-7">${field('Descrição','subtitulo',link.subtitulo||'')}</div><div class="col-md-5">${field('Ícone Remix Icon','icone',link.icone||'ri-links-line')}</div><div class="col-md-7">${field('Cor','cor',link.cor||'#2563eb','color')}</div><div class="col-12">${field('URL','url',link.url)}</div><div class="col-md-5 form-check ms-2"><input class="form-check-input" data-field="ativo" type="checkbox" ${link.ativo?'checked':''} ${CAN_MANAGE?'':'disabled'}><label class="form-check-label">Exibir no Linktree</label></div></div></article>`; }
+function renderPlans(source=plans) {
+  const query=(document.getElementById('plans-filter')?.value||'').trim().toLowerCase();
+  document.getElementById('plans-total').textContent=source.length;
+  document.getElementById('plans-active').textContent=source.filter(plan=>plan.ativo).length;
+  const editInput=(index,key,value,type='text')=>`<input class="form-control form-control-sm" type="${type}" data-plan-index="${index}" data-plan-field="${key}" value="${esc(value)}" ${type==='number'?'min="0" step="0.01"':''}>`;
+  document.getElementById('plans-table-body').innerHTML=source.map((plan,index)=>({plan,index})).filter(({plan})=>!query||[plan.nome,plan.cobertura].some(value=>String(value).toLowerCase().includes(query))).map(({plan,index})=>{const slots=cards.filter(card=>String(card.planId)===String(plan.id)).map(card=>cardAlias(card.slot-1));const cardStatus=slots.length?slots.map(slot=>`<span class="badge bg-primary-subtle text-primary me-1">${slot}</span>`).join(''):`<span class="badge ${plan.ativo?'bg-warning-subtle text-warning':'bg-light text-muted'}">${plan.ativo?'Ativo sem card':'Sem card'}</span>`;return `<tr data-plan-row="${index}"><td>${cardStatus}</td><td>${plansEditing?`${editInput(index,'nome',plan.nome)}<div class="mt-1">${editInput(index,'descricao',plan.descricao||'')}</div>`:`<strong class="text-dark">${esc(plan.nome)}</strong><small class="d-block text-muted">${esc(plan.descricao||'')}</small>`}</td><td>${plansEditing?editInput(index,'cobertura',plan.cobertura):esc(plan.cobertura)}</td><td class="fw-semibold">${plansEditing?editInput(index,'mensalidade',plan.mensalidade,'number'):Number(plan.mensalidade||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}</td><td>${plansEditing?`<select class="form-select form-select-sm" data-plan-index="${index}" data-plan-field="ativo"><option value="true" ${plan.ativo?'selected':''}>Publicado</option><option value="false" ${!plan.ativo?'selected':''}>Oculto</option></select>`:`<span class="badge ${plan.ativo?'bg-success-subtle text-success':'bg-secondary-subtle text-secondary'}">${plan.ativo?'Publicado':'Oculto'}</span>`}</td><td>${plan.ultimaVersao?`<span class="badge bg-primary-subtle text-primary">${esc(plan.ultimaVersao)}</span>`:'<span class="text-muted small">Versão inicial</span>'}<small class="d-block text-muted mt-1">${plan.atualizadoEm?new Date(plan.atualizadoEm).toLocaleString('pt-BR'):'Sem atualização'}</small></td><td class="text-end">${plansEditing?`<button class="btn btn-sm btn-outline-danger" data-remove-plan="${index}" title="Excluir"><i class="ri-delete-bin-line"></i></button>`:`<button class="btn btn-sm btn-primary rounded-pill mb-1" data-edit-official-plan="${index}"><i class="ri-pencil-line me-1"></i>Editar plano</button><button class="btn btn-sm btn-outline-primary rounded-pill mb-1" data-plan-benefits="${plan.id}">Cards</button>`}</td></tr>`;}).join('')||'<tr><td colspan="7" class="text-center text-muted py-4">Nenhum plano encontrado.</td></tr>';
+  document.querySelectorAll('[data-edit-official-plan]').forEach(button=>{button.title='Editar plano';button.setAttribute('aria-label','Editar plano');});document.querySelectorAll('[data-plan-benefits]').forEach(button=>{button.title='Configurar cards';button.setAttribute('aria-label','Configurar cards');});
+}
+function renderCards() { const tabs=`<ul class="nav nav-tabs plan-card-tabs mb-3" role="tablist">${cards.map((card,index)=>`<li class="nav-item" role="presentation"><button class="nav-link ${index===0?'active':''}" data-bs-toggle="tab" data-bs-target="#plan-card-${index}" type="button"><strong>${cardAlias(index)}</strong><small class="d-block">${esc(card.nome)}</small></button></li>`).join('')}</ul>`;document.getElementById('plans-list').innerHTML=cards.length?tabs+`<div class="tab-content">${cards.map(planTemplate).join('')}</div>`:'<p class="text-muted">Nenhum card configurado.</p>';renderCardWarnings(); }
+function renderCardWarnings(){const counts={};cards.forEach(card=>counts[card.planId]=(counts[card.planId]||0)+1);const duplicated=plans.filter(plan=>(counts[plan.id]||0)>1);const missing=plans.filter(plan=>plan.ativo&&!counts[plan.id]);const notices=[];if(duplicated.length)notices.push(`<div class="alert alert-warning mb-2"><i class="ri-file-copy-line me-1"></i><strong>Cards duplicados:</strong> ${duplicated.map(plan=>`${esc(plan.nome)} (${counts[plan.id]} cards)`).join(', ')}. Você pode salvar assim para organizar a landing page.</div>`);if(missing.length)notices.push(`<div class="alert alert-info mb-2"><i class="ri-information-line me-1"></i><strong>Planos ativos sem card:</strong> ${missing.map(plan=>esc(plan.nome)).join(', ')}.</div>`);document.getElementById('card-assignment-warnings').innerHTML=notices.join('');}
+function renderLinks() { if(!links.length){document.getElementById('links-list').innerHTML='<p class="text-muted">Nenhum link cadastrado.</p>';return;}const tabs=`<ul class="nav nav-tabs link-editor-tabs mb-3" role="tablist">${links.map((link,index)=>`<li class="nav-item"><button class="nav-link ${index===0?'active':''}" data-bs-toggle="tab" data-bs-target="#link-editor-${index}" type="button"><strong>Link ${index+1}</strong><small>${esc(link.titulo)}</small></button></li>`).join('')}</ul>`;document.getElementById('links-list').innerHTML=tabs+`<div class="tab-content">${links.map(linkTemplate).join('')}</div>`; }
+function collect(container, items) { document.querySelectorAll(`${container} .content-editor`).forEach((card,index)=>card.querySelectorAll('[data-field]').forEach(input=>{ const key=input.dataset.field; items[index][key]=input.type==='checkbox'?input.checked:(key==='beneficios'?input.value.split('\n').map(x=>x.trim()).filter(Boolean):input.value); })); }
+function collectPlansTable() { document.querySelectorAll('[data-plan-index][data-plan-field]').forEach(input=>{const plan=plans[Number(input.dataset.planIndex)];if(!plan)return;const key=input.dataset.planField;plan[key]=key==='ativo'?input.value==='true':(input.type==='number'?Number(input.value||0):input.value);}); }
+function bindList(container, getItems, render) { document.getElementById(container).addEventListener('click',event=>{ const card=event.target.closest('.content-editor'), button=event.target.closest('button'); if(!card||!button)return;const items=getItems();collect(`#${container}`,items);const index=Number(card.dataset.index);if(button.hasAttribute('data-remove'))items.splice(index,1);if(button.dataset.move==='up'&&index>0)[items[index-1],items[index]]=[items[index],items[index-1]];if(button.dataset.move==='down'&&index<items.length-1)[items[index+1],items[index]]=[items[index],items[index+1]];render(); }); }
+function fillVersions() { ['plans-versions','plans-versions-top'].forEach(id=>{const select=document.getElementById(id);select.replaceChildren(new Option(id==='plans-versions-top'?'Tabela vigente':'Versão vigente',''));versions.forEach(v=>select.add(new Option(`${v.id} — ${new Date(v.saved_at).toLocaleString('pt-BR')}`,v.id)));}); }
+async function load() { const [p,l]=await Promise.all([fetch('/api/planos').then(r=>r.json()),fetch('/api/linktree').then(r=>r.json())]); plans=p.plans;cards=p.cards||[];versions=p.versions||[];links=l.links;renderPlans();renderCards();renderLinks();fillVersions(); }
+function setPlansEditing(enabled){plansEditing=enabled;document.getElementById('edit-plans-table')?.classList.toggle('d-none',enabled);['add-plan','save-plans-table','discard-plans-table'].forEach(id=>document.getElementById(id)?.classList.toggle('d-none',!enabled));document.getElementById('plans-versions-top').disabled=enabled;renderPlans();}
+document.getElementById('edit-plans-table')?.addEventListener('click',()=>{plansEditingBaseline=JSON.parse(JSON.stringify(plans));setPlansEditing(true);});
+document.getElementById('discard-plans-table')?.addEventListener('click',()=>{plans=plansEditingBaseline;plansEditingBaseline=null;setPlansEditing(false);message('Alterações nos planos descartadas.','info');});
+document.getElementById('add-plan')?.addEventListener('click',()=>{collectPlansTable();plans.push({nome:'Novo plano',tipoVeiculo:'Qualquer veículo',cobertura:'Consulte as condições',mensalidade:0,instalacao:0,descricao:'',beneficios:[],badge:'NOVO',ativo:true,destaque:false});renderPlans();});
+document.getElementById('save-plans-table')?.addEventListener('click',async()=>{collectPlansTable();const response=await fetch('/api/planos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({plans})});const data=await response.json();if(!response.ok)return message(data.error||'Não foi possível salvar os planos.','danger');plans=data.plans;plansEditingBaseline=null;versions.unshift({id:data.version,saved_at:new Date().toISOString(),plans:JSON.parse(JSON.stringify(plans))});fillVersions();setPlansEditing(false);renderCards();message(`${data.message} Versão ${data.version}.`);});
+document.getElementById('add-link')?.addEventListener('click',()=>{collect('#links-list',links);links.push({titulo:'Novo link',subtitulo:'',url:'https://',icone:'ri-links-line',cor:'#2563eb',ativo:true});renderLinks();const tab=document.querySelector(`[data-bs-target="#link-editor-${links.length-1}"]`);if(tab)bootstrap.Tab.getOrCreateInstance(tab).show();});
+document.getElementById('save-plans')?.addEventListener('click',async()=>{collect('#plans-list',cards);const submittedCards=cards.map(card=>({slot:card.slot,planId:card.planId,beneficios:card.beneficios}));const response=await fetch('/api/planos',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({benefits_only:true,cards:submittedCards})});const data=await response.json();if(!response.ok)return message(data.error||'Não foi possível salvar.','danger');plans=data.plans;cards=data.cards;versions.unshift({id:data.version,saved_at:new Date().toISOString(),plans:JSON.parse(JSON.stringify(plans))});fillVersions();renderPlans();renderCards();message(`${data.message} Versão ${data.version}.`);});
+document.getElementById('save-links')?.addEventListener('click',async()=>{collect('#links-list',links);const response=await fetch('/api/linktree',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({links})});const data=await response.json();if(!response.ok)return message(data.error||'Não foi possível salvar.','danger');links=data.links;renderLinks();document.getElementById('linktree-preview').src=`/links?preview=${Date.now()}`;message(data.message);});
+document.getElementById('plans-versions').addEventListener('change',event=>{const version=versions.find(v=>v.id===event.target.value);viewingHistory=Boolean(version);document.getElementById('save-plans')?.toggleAttribute('disabled',viewingHistory);renderPlans(version?version.plans:plans);if(version)message(`Visualizando ${version.id} (somente consulta).`,'info');});
+document.getElementById('plans-versions-top').addEventListener('change',event=>{const version=versions.find(v=>v.id===event.target.value);viewingHistory=Boolean(version);document.getElementById('save-plans')?.toggleAttribute('disabled',viewingHistory);renderPlans(version?version.plans:plans);if(version)message(`Consultando a versão ${version.id}, salva em ${new Date(version.saved_at).toLocaleString('pt-BR')}.`,'info');});
+document.getElementById('plans-filter').addEventListener('input',()=>{collect('#plans-list',cards);if(plansEditing)collectPlansTable();renderPlans();});
+document.getElementById('plans-table-body').addEventListener('click',event=>{const edit=event.target.closest('[data-edit-official-plan]');if(edit&&!plansEditing){const index=Number(edit.dataset.editOfficialPlan);plansEditingBaseline=JSON.parse(JSON.stringify(plans));setPlansEditing(true);const input=document.querySelector(`[data-plan-index="${index}"][data-plan-field="nome"]`);input?.focus();input?.closest('tr')?.scrollIntoView({behavior:'smooth',block:'center'});return;}const remove=event.target.closest('[data-remove-plan]');if(remove&&plansEditing){collectPlansTable();plans.splice(Number(remove.dataset.removePlan),1);renderPlans();return;}const button=event.target.closest('[data-plan-benefits]');if(!button)return;const cardIndex=cards.findIndex(card=>String(card.planId)===button.dataset.planBenefits);if(cardIndex<0){message('Este plano ainda não está aplicado em nenhum card. Selecione-o em uma das guias abaixo.','warning');document.getElementById('plans-list').scrollIntoView({behavior:'smooth'});return;}const tab=document.querySelector(`[data-bs-target="#plan-card-${cardIndex}"]`);if(tab){bootstrap.Tab.getOrCreateInstance(tab).show();document.getElementById('plans-list').scrollIntoView({behavior:'smooth',block:'start'});}});
+document.getElementById('plans-list').addEventListener('change',event=>{const select=event.target.closest('[data-card-plan]');if(!select||viewingHistory)return;collect('#plans-list',cards);const cardIndex=Number(select.dataset.cardPlan),selectedPlan=plans.find(plan=>String(plan.id)===select.value);if(!selectedPlan)return;const duplicate=cards.some((card,index)=>index!==cardIndex&&String(card.planId)===select.value);if(duplicate&&!window.confirm(`${selectedPlan.nome} já está aplicado em outro card. Deseja autorizar o card duplicado?`)){renderCards();return;}cards[cardIndex]={...cards[cardIndex],...selectedPlan,planId:selectedPlan.id,slot:cardIndex+1};renderPlans();renderCards();const tab=document.querySelector(`[data-bs-target="#plan-card-${cardIndex}"]`);if(tab)bootstrap.Tab.getOrCreateInstance(tab).show();});
+bindList('links-list',()=>links,renderLinks);load().catch(()=>message('Não foi possível carregar o conteúdo.','danger'));
 </script>
 {% endblock page_content %}

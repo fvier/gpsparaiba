@@ -1,109 +1,21 @@
 <div class="main-nav">
-    <!-- Sidebar Logo -->
-    <div class="logo-box px-3 py-2">
-        <a href="/index" class="logo-dark">
-            <span class="logo-lg gps-sidebar-brand-content"><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba Logo"><span class="gps-sidebar-brand-name">GPS Paraíba<small>ERP Comercial</small></span></span>
-            <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="logo-sm gps-sidebar-brand-small" alt="GPS Paraíba">
-        </a>
+  <div class="logo-box px-3 py-2"><a href="/index" class="logo-dark"><span class="logo-lg gps-sidebar-brand-content"><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba"><span class="gps-sidebar-brand-name">GPS Paraíba<small>ERP Comercial</small></span></span><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="logo-sm gps-sidebar-brand-small" alt="GPS Paraíba"></a><a href="/index" class="logo-light"><span class="logo-lg gps-sidebar-brand-content"><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba"><span class="gps-sidebar-brand-name text-white">GPS Paraíba<small>ERP Comercial</small></span></span><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="logo-sm gps-sidebar-brand-small" alt="GPS Paraíba"></a></div>
+  <button type="button" class="button-sm-hover" aria-label="Exibir menu"><i class="ri-menu-2-line fs-24 button-sm-hover-icon"></i></button>
+  <div class="scrollbar" data-simplebar><ul class="navbar-nav" id="navbar-nav">
+    <li class="menu-title">Visão geral</li>
+    <li class="nav-item"><a class="nav-link" href="/index"><span class="nav-icon"><i class="ri-home-4-line text-primary"></i></span><span class="nav-text">Início</span></a></li>
+    <li class="nav-item"><a class="nav-link" href="/dashboard-sales"><span class="nav-icon"><i class="ri-line-chart-line text-success"></i></span><span class="nav-text">Dashboard</span></a></li>
 
-        <a href="/index" class="logo-light">
-            <span class="logo-lg gps-sidebar-brand-content"><img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" alt="GPS Paraíba Logo"><span class="gps-sidebar-brand-name text-white">GPS Paraíba<small>ERP Comercial</small></span></span>
-            <img src="{{ config.ASSETS_ROOT }}/images/logo-gps-profissional-v1.png?v=20260802a" class="logo-sm gps-sidebar-brand-small" alt="GPS Paraíba">
-        </a>
-    </div>
-
-    <!-- Menu Toggle Button (sm-hover) -->
-    <button type="button" class="button-sm-hover" aria-label="Show Full Sidebar">
-        <i class="ri-menu-2-line fs-24 button-sm-hover-icon"></i>
-    </button>
-
-    <div class="scrollbar" data-simplebar>
-
-        <ul class="navbar-nav" id="navbar-nav">
-
-            <!-- Categoria 1: BOAS-VINDAS -->
-            <li class="menu-title">Boas-Vindas</li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/index">
-                    <span class="nav-icon"><i class="ri-home-4-line text-primary"></i></span>
-                    <span class="nav-text"> Início </span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/dashboard-sales">
-                    <span class="nav-icon"><i class="ri-line-chart-line text-success"></i></span>
-                    <span class="nav-text"> Dashboard </span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/comissionamento">
-                    <span class="nav-icon"><i class="ri-table-line text-info"></i></span>
-                    <span class="nav-text"> Comissionamento </span>
-                </a>
-            </li>
-
-            <!-- Categoria 2: ADMIN -->
-            <li class="menu-title">Admin</li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin-cadastrar">
-                    <span class="nav-icon"><i class="ri-user-add-line text-warning"></i></span>
-                    <span class="nav-text"> Cadastrar Funcionário </span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/admin-privilegios">
-                    <span class="nav-icon"><i class="ri-shield-keyhole-line text-danger"></i></span>
-                    <span class="nav-text"> Privilégios </span>
-                </a>
-            </li>
-
-            {% if user_role == 'admin' %}
-            <li class="nav-item">
-                <a class="nav-link" href="/admin-carrossel">
-                    <span class="nav-icon"><i class="ri-gallery-line text-primary"></i></span>
-                    <span class="nav-text"> Gerenciar Carrossel </span>
-                </a>
-            </li>
-            {% endif %}
-
-            <!-- Categoria 3: COMISSÕES & VENDAS -->
-            <li class="menu-title">Comissões & Vendas</li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/vendas">
-                    <span class="nav-icon"><i class="ri-shopping-cart-2-line text-primary"></i></span>
-                    <span class="nav-text"> Vendas </span>
-                </a>
-            </li>
-
-            {% if can_validate_sales %}
-            <li class="nav-item">
-                <a class="nav-link" href="/validacao-vendas">
-                    <span class="nav-icon"><i class="ri-checkbox-circle-line text-info"></i></span>
-                    <span class="nav-text"> Validar Vendas </span>
-                </a>
-            </li>
-            {% endif %}
-
-            <li class="nav-item">
-                <a class="nav-link" href="/planos">
-                    <span class="nav-icon"><i class="ri-price-tag-3-line text-success"></i></span>
-                    <span class="nav-text"> Planos </span>
-                </a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link" href="/ranking">
-                    <span class="nav-icon"><i class="ri-trophy-line text-warning"></i></span>
-                    <span class="nav-text"> Ranking </span>
-                </a>
-            </li>
-
-        </ul>
-    </div>
+    <li class="menu-title">Módulos</li>
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#menu-sales" role="button" aria-expanded="{{ 'true' if segment in ['vendas','validacao-vendas','planos'] else 'false' }}"><span class="nav-icon"><i class="ri-shopping-cart-2-line text-primary"></i></span><span class="nav-text flex-grow-1">Vendas</span><i class="ri-arrow-down-s-line"></i></a>
+      <div class="collapse {{ 'show' if segment in ['vendas','validacao-vendas','planos'] }}" id="menu-sales"><ul class="nav flex-column ms-3"><li><a class="nav-link" href="/vendas">Vendas</a></li>{% if can_validate_sales %}<li><a class="nav-link" href="/validacao-vendas">Validar vendas</a></li>{% endif %}<li><a class="nav-link" href="/planos">Planos e conteúdo</a></li></ul></div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#menu-commission" role="button" aria-expanded="{{ 'true' if segment in ['comissionamento','ranking'] else 'false' }}"><span class="nav-icon"><i class="ri-table-line text-info"></i></span><span class="nav-text flex-grow-1">Comissões</span><i class="ri-arrow-down-s-line"></i></a>
+      <div class="collapse {{ 'show' if segment in ['comissionamento','ranking'] }}" id="menu-commission"><ul class="nav flex-column ms-3"><li><a class="nav-link" href="/comissionamento">Comissionamento</a></li><li><a class="nav-link" href="/ranking">Ranking</a></li></ul></div>
+    </li>
+    {% if user_role in ['admin','gerente'] %}<li class="nav-item"><a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#menu-financial" role="button" aria-expanded="{{ 'true' if segment in ['financeiro','lancamentos','categorias'] else 'false' }}"><span class="nav-icon"><i class="ri-wallet-3-line text-success"></i></span><span class="nav-text flex-grow-1">Financeiro</span><i class="ri-arrow-down-s-line"></i></a><div class="collapse {{ 'show' if segment in ['financeiro','lancamentos','categorias'] }}" id="menu-financial"><ul class="nav flex-column ms-3"><li><a class="nav-link" href="/financeiro"><i class="ri-dashboard-line me-1"></i>Dash</a></li><li><a class="nav-link" href="/financeiro/lancamentos"><i class="ri-file-list-3-line me-1"></i>Lançamentos</a></li><li><a class="nav-link" href="/financeiro/categorias"><i class="ri-folder-settings-line me-1"></i>Categorias</a></li></ul></div></li>{% endif %}
+    {% if user_role == 'admin' %}<li class="nav-item"><a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#menu-admin" role="button" aria-expanded="{{ 'true' if segment in ['admin-cadastrar','admin-privilegios','admin-carrossel'] else 'false' }}"><span class="nav-icon"><i class="ri-settings-3-line text-warning"></i></span><span class="nav-text flex-grow-1">Administração</span><i class="ri-arrow-down-s-line"></i></a><div class="collapse {{ 'show' if segment in ['admin-cadastrar','admin-privilegios','admin-carrossel'] }}" id="menu-admin"><ul class="nav flex-column ms-3"><li><a class="nav-link" href="/admin-cadastrar">Funcionários</a></li><li><a class="nav-link" href="/admin-privilegios">Privilégios</a></li><li><a class="nav-link" href="/admin-carrossel">Carrossel</a></li></ul></div></li>{% endif %}
+  </ul></div>
 </div>
