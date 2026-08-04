@@ -2,7 +2,7 @@ from apps.pages import blueprint
 from apps.pages.models import (User, CarouselImage, CommercialPlan, PlanVersion, LinktreeLink,
                                LandingCard, FinancialCategory, FinancialEntry)
 from apps import db
-from flask import render_template, request, redirect, url_for, session, flash, current_app, jsonify
+from flask import render_template, request, redirect, url_for, session, flash, current_app, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 from uuid import uuid4
 import os
