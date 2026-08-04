@@ -19,7 +19,8 @@ PUBLIC_PAGES = [
     'links', 'links.html',
     'auth-signin', 'auth-signin.html',
     'auth-signup', 'auth-signup.html',
-    'auth-password', 'auth-password.html'
+    'auth-password', 'auth-password.html',
+    'favicon.ico', 'apple-touch-icon.png', 'apple-touch-icon-precomposed.png'
 ]
 
 MAX_PRIVILEGE_EMAILS = {'jarmessonn.cz@gmail.com'}
@@ -277,6 +278,13 @@ def ensure_default_user():
     except Exception as e:
         db.session.rollback()
         print("> Error ensuring default user: " + str(e))
+
+
+@blueprint.route('/favicon.ico')
+@blueprint.route('/apple-touch-icon.png')
+@blueprint.route('/apple-touch-icon-precomposed.png')
+def serve_favicon():
+    return send_from_directory(os.path.join(current_app.root_path, 'static', 'images'), 'logo_fundo_preto.png')
 
 
 @blueprint.route('/')
