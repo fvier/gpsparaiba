@@ -668,6 +668,25 @@ def update_financial_entry_status(entry_id):
     return redirect('/financeiro/lancamentos')
 
 
+@blueprint.route('/financeiro/lancamentos/<int:entry_id>/categoria', methods=['POST'])
+def update_financial_entry_category(entry_id):
+    if not content_manager_required():
+        return redirect('/index')
+    entry = db.session.get(FinancialEntry, entry_id)
+    if entry:
+        subcategory_id = request.form.get('subcategory_id', '').strip()
+        category_id = request.form.get('category_id', '').strip()
+        target_id = subcategory_id if (subcategory_id and subcategory_id.isdigit()) else category_id
+        if target_id and target_id.isdigit():
+            category = db.session.get(FinancialCategory, int(target_id))
+            if category and category.active:
+                entry.category_id = category.id
+                db.session.commit()
+                flash('Categoria do lançamento atualizada com sucesso.', 'success')
+    return redirect('/financeiro/lancamentos')
+
+
+
 @blueprint.route('/perfil/foto', methods=['POST'])
 def upload_profile_photo():
     if not session.get('logged_in'):

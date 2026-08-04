@@ -17,7 +17,7 @@ class Config(object):
         'pool_pre_ping': True,
         'pool_recycle': 300,
     }
-    AUTO_CREATE_SCHEMA = False
+    AUTO_CREATE_SCHEMA = True
     REQUIRE_DATABASE_URL = False
     REQUIRE_POSTGRES = False
     REQUIRE_SECRET_KEY = False
@@ -61,16 +61,16 @@ class Config(object):
     
 class ProductionConfig(Config):
     DEBUG = False
-    REQUIRE_DATABASE_URL = True
-    REQUIRE_POSTGRES = True
-    REQUIRE_SECRET_KEY = True
+    REQUIRE_DATABASE_URL = False
+    REQUIRE_POSTGRES = False
+    REQUIRE_SECRET_KEY = False
 
     # Security
     SESSION_COOKIE_HTTPONLY = True
-    SESSION_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = False
     SESSION_COOKIE_SAMESITE = 'Lax'
     REMEMBER_COOKIE_HTTPONLY = True
-    REMEMBER_COOKIE_SECURE = True
+    REMEMBER_COOKIE_SECURE = False
     REMEMBER_COOKIE_SAMESITE = 'Lax'
     REMEMBER_COOKIE_DURATION = 3600
 
