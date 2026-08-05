@@ -140,3 +140,16 @@ class FinancialEntry(db.Model):
         if self.due_date < today + timedelta(days=5):
             return 'perto_vencer'
         return 'pendente'
+
+
+class AuditLog(db.Model):
+    __tablename__ = 'audit_logs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_email = db.Column(db.String(120), nullable=False, default='Sistema')
+    user_name = db.Column(db.String(100), nullable=False, default='Sistema')
+    action = db.Column(db.String(120), nullable=False)
+    details = db.Column(db.Text, nullable=False, default='')
+    ip_address = db.Column(db.String(45), nullable=False, default='')
+    timestamp = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+

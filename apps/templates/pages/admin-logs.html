@@ -1,0 +1,150 @@
+{% extends 'layouts/vertical.html' %}
+{% block title %}Logs de Auditoria e Atividades | GPS Paraíba{% endblock title %}
+{% block page_content %}
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-1"><i class="ri-history-line text-info me-2"></i>Logs de Auditoria e Atividades</h4>
+      <p class="text-muted small mb-0">Rastreamento de todas as ações dos usuários no sistema ("Quem fez o quê").</p>
+    </div>
+  </div>
+
+  <!-- Cards de Métricas -->
+  <div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 p-3 bg-primary-subtle text-primary">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h6 class="text-uppercase fw-semibold fs-12 mb-1">Total Registrado</h6>
+            <h3 class="fw-bold mb-0">{{ audit_logs|length }}</h3>
+          </div>
+          <div class="avatar-sm rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fs-20">
+            <i class="ri-file-list-line"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 p-3 bg-success-subtle text-success">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h6 class="text-uppercase fw-semibold fs-12 mb-1">Logins no Sistema</h6>
+            <h3 class="fw-bold mb-0">{{ audit_logs|selectattr('action', 'equalto', 'Login no ERP')|list|length }}</h3>
+          </div>
+          <div class="avatar-sm rounded-circle bg-success text-white d-flex align-items-center justify-content-center fs-20">
+            <i class="ri-login-circle-line"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 p-3 bg-warning-subtle text-warning">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h6 class="text-uppercase fw-semibold fs-12 mb-1">Usuários no Histórico</h6>
+            <h3 class="fw-bold mb-0">{{ audit_users|length }}</h3>
+          </div>
+          <div class="avatar-sm rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center fs-20">
+            <i class="ri-user-follow-line"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="card border-0 shadow-sm rounded-4 p-3 bg-info-subtle text-info">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <h6 class="text-uppercase fw-semibold fs-12 mb-1">Tipos de Ação</h6>
+            <h3 class="fw-bold mb-0">{{ audit_actions|length }}</h3>
+          </div>
+          <div class="avatar-sm rounded-circle bg-info text-white d-flex align-items-center justify-content-center fs-20">
+            <i class="ri-shield-user-line"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+    <form method="get" class="row g-2 align-items-end">
+      <div class="col-sm-6 col-lg-3">
+        <label class="form-label small text-muted">Buscar em detalhes ou ação</label>
+        <div class="input-group input-group-sm">
+          <span class="input-group-text"><i class="ri-search-line"></i></span>
+          <input name="q" class="form-control" value="{{ audit_filter.q }}" placeholder="Ex: login, lançamento, senha...">
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <label class="form-label small text-muted">Usuário</label>
+        <select name="user" class="form-select form-select-sm">
+          <option value="">Todos os usuários</option>
+          {% for u in audit_users %}
+          <option value="{{ u }}" {{ 'selected' if audit_filter.user==u }}>{{ u }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-sm-6 col-lg-2">
+        <label class="form-label small text-muted">Tipo de Ação</label>
+        <select name="action" class="form-select form-select-sm">
+          <option value="">Todas as ações</option>
+          {% for act in audit_actions %}
+          <option value="{{ act }}" {{ 'selected' if audit_filter.action==act }}>{{ act }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <label class="form-label small text-muted">Período (De / Até)</label>
+        <div class="input-group input-group-sm">
+          <input type="date" name="start_date" class="form-control" value="{{ audit_filter.start_date }}">
+          <span class="input-group-text">até</span>
+          <input type="date" name="end_date" class="form-control" value="{{ audit_filter.end_date }}">
+        </div>
+      </div>
+      <div class="col-lg-2 d-flex gap-1">
+        <button class="btn btn-sm btn-primary flex-grow-1"><i class="ri-filter-3-line me-1"></i>Filtrar</button>
+        <a href="/admin-logs" class="btn btn-sm btn-light"><i class="ri-close-line"></i></a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Tabela de Logs -->
+  <div class="card border-0 shadow-sm rounded-4 p-4">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0" style="font-size:.82rem">
+        <thead class="table-light">
+          <tr>
+            <th style="width:170px">Data / Hora</th>
+            <th>Usuário</th>
+            <th>Ação</th>
+            <th>Detalhes do Evento</th>
+            <th style="width:130px">Endereço IP</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in audit_logs %}
+          <tr>
+            <td class="text-nowrap text-muted"><i class="ri-time-line me-1"></i>{{ log.timestamp.strftime('%d/%m/%Y %H:%M:%S') }}</td>
+            <td>
+              <div class="fw-bold text-dark">{{ log.user_name }}</div>
+              <small class="text-muted">{{ log.user_email }}</small>
+            </td>
+            <td>
+              <span class="badge {{ 'bg-success-subtle text-success' if 'Login' in log.action else ('bg-danger-subtle text-danger' if 'Logoff' in log.action or 'exclu' in log.action.lower() else 'bg-primary-subtle text-primary') }}">
+                {{ log.action }}
+              </span>
+            </td>
+            <td>{{ log.details or '-' }}</td>
+            <td><code class="text-muted">{{ log.ip_address or 'Local' }}</code></td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="5" class="text-center text-muted py-4">Nenhum log encontrado para os filtros selecionados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock page_content %}

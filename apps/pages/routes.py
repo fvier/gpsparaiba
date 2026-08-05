@@ -1,6 +1,6 @@
 from apps.pages import blueprint
 from apps.pages.models import (User, CarouselImage, CommercialPlan, PlanVersion, LinktreeLink,
-                               LandingCard, FinancialCategory, FinancialEntry)
+                               LandingCard, FinancialCategory, FinancialEntry, AuditLog)
 from apps import db
 from flask import render_template, request, redirect, url_for, session, flash, current_app, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
@@ -20,6 +20,7 @@ PUBLIC_PAGES = [
     'auth-signin', 'auth-signin.html',
     'auth-signup', 'auth-signup.html',
     'auth-password', 'auth-password.html',
+    'auth-logout', 'auth-logout.html',
     'favicon.ico', 'apple-touch-icon.png', 'apple-touch-icon-precomposed.png'
 ]
 
@@ -321,6 +322,7 @@ def login():
                 session['user_id'] = user.id
                 session['user_role'] = role
                 session['must_change_password'] = bool(user.must_change_password)
+                log_activity('Login no ERP', f'Login efetuado por {user.email} (Perfil: {role})')
                 if user.must_change_password:
                     return redirect(url_for('pages_blueprint.change_password'))
                 next_page = request.args.get('next', '/index')
@@ -335,8 +337,9 @@ def login():
 @blueprint.route('/logout')
 def logout():
     """Handle user logout."""
+    log_activity('Logoff no ERP', 'Sessão encerrada com sucesso pelo usuário')
     session.clear()
-    return redirect(url_for('pages_blueprint.home'))
+    return redirect(url_for('pages_blueprint.route_template', template='auth-logout.html'))
 
 
 @blueprint.route('/alterar-senha', methods=['GET', 'POST'])
@@ -373,6 +376,20 @@ def admin_required():
 
 def content_manager_required():
     return bool(session.get('logged_in'))
+
+
+def log_activity(action, details=''):
+    try:
+        email = session.get('user_email', 'Visitante')
+        user = User.query.filter_by(email=email).first() if email else None
+        name = user.full_name if user and user.full_name else (user.username if user else email)
+        ip = request.remote_addr or request.headers.get('X-Forwarded-For', '')
+        log = AuditLog(user_email=email, user_name=name, action=action, details=details, ip_address=ip)
+        db.session.add(log)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error recording audit log: {e}")
 
 
 def parse_money(value):
@@ -715,7 +732,56 @@ def update_financial_entry_category(entry_id):
                 entry.category_id = category.id
                 db.session.commit()
                 flash('Categoria do lançamento atualizada com sucesso.', 'success')
+@blueprint.route('/financeiro/lancamentos/<int:entry_id>/editar', methods=['POST'])
+def edit_financial_entry(entry_id):
+    if not content_manager_required():
+        return redirect('/index')
+    entry = db.session.get(FinancialEntry, entry_id)
+    if entry:
+        due_date_str = request.form.get('due_date', '').strip()
+        description = request.form.get('description', '').strip()
+        amount_str = request.form.get('amount', '').strip()
+        category_id = request.form.get('category_id', '').strip()
+        subcategory_id = request.form.get('subcategory_id', '').strip()
+        status = request.form.get('status', '').strip()
+        notes = request.form.get('notes', '').strip()
+
+        if due_date_str:
+            try:
+                entry.due_date = date.fromisoformat(due_date_str)
+            except ValueError:
+                flash('Data de vencimento inválida.', 'danger')
+                return redirect('/financeiro/lancamentos')
+        if description:
+            entry.description = description[:180]
+        if amount_str:
+            try:
+                entry.amount = parse_money(amount_str)
+            except ValueError as e:
+                flash(str(e), 'danger')
+                return redirect('/financeiro/lancamentos')
+        
+        target_cat = subcategory_id if (subcategory_id and subcategory_id.isdigit()) else category_id
+        if target_cat and target_cat.isdigit():
+            cat = db.session.get(FinancialCategory, int(target_cat))
+            if cat and cat.active:
+                entry.category_id = cat.id
+
+        if status in {'pendente', 'pago', 'cancelado'}:
+            entry.status = status
+        entry.notes = notes
+        db.session.commit()
+        log_activity('Lançamento alterado', f"Lançamento #{entry.id} ({entry.description}) atualizado")
+        flash('Lançamento atualizado com sucesso.', 'success')
     return redirect('/financeiro/lancamentos')
+
+
+@blueprint.route('/admin-logs', methods=['GET'])
+def admin_logs():
+    if not admin_required():
+        flash('Acesso restrito a administradores.', 'danger')
+        return redirect('/index')
+    return route_template('admin-logs')
 
 
 
@@ -1105,6 +1171,40 @@ def route_template(template):
                                      if (not start_date or entry.due_date >= start_date)
                                      and (not end_date or entry.due_date <= end_date)]
 
+        available_years = sorted(list({e.due_date.year for e in FinancialEntry.query.all()} | {date.today().year}), reverse=True) if clean_template in financial_templates else []
+
+        audit_logs = []
+        audit_users = []
+        audit_actions = []
+        audit_filter = {'q': '', 'user': '', 'action': '', 'start_date': '', 'end_date': ''}
+        if clean_template == 'admin-logs':
+            audit_filter = {key: request.args.get(key, '').strip() for key in audit_filter}
+            q_query = AuditLog.query.order_by(AuditLog.timestamp.desc())
+            if audit_filter['user']:
+                q_query = q_query.filter((AuditLog.user_email == audit_filter['user']) | (AuditLog.user_name == audit_filter['user']))
+            if audit_filter['action']:
+                q_query = q_query.filter(AuditLog.action == audit_filter['action'])
+            if audit_filter['start_date']:
+                try:
+                    s_d = datetime.fromisoformat(audit_filter['start_date'])
+                    q_query = q_query.filter(AuditLog.timestamp >= s_d)
+                except ValueError:
+                    pass
+            if audit_filter['end_date']:
+                try:
+                    e_d = datetime.fromisoformat(audit_filter['end_date']) + timedelta(days=1)
+                    q_query = q_query.filter(AuditLog.timestamp < e_d)
+                except ValueError:
+                    pass
+
+            fetched_logs = q_query.limit(500).all()
+            if audit_filter['q']:
+                term = audit_filter['q'].lower()
+                fetched_logs = [l for l in fetched_logs if term in l.details.lower() or term in l.action.lower() or term in l.user_email.lower() or term in l.user_name.lower()]
+            audit_logs = fetched_logs
+            audit_users = sorted(list({l.user_email for l in AuditLog.query.all() if l.user_email}))
+            audit_actions = sorted(list({l.action for l in AuditLog.query.all() if l.action}))
+
         return render_template(
             "pages/" + template,
             segment=segment,
@@ -1127,6 +1227,11 @@ def route_template(template):
             financial_entry_filter=financial_entry_filter,
             financial_latest_entries=financial_latest_entries,
             financial_launch_filter=financial_launch_filter,
+            available_years=available_years,
+            audit_logs=audit_logs,
+            audit_users=audit_users,
+            audit_actions=audit_actions,
+            audit_filter=audit_filter,
             permission_modules=PERMISSION_MODULES if clean_template == 'admin-privilegios' else [],
             max_privilege_emails=MAX_PRIVILEGE_EMAILS
         )
