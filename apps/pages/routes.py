@@ -1197,11 +1197,20 @@ def route_template(template):
                 except ValueError:
                     pass
 
-            fetched_logs = q_query.limit(500).all()
+            fetched_logs = q_query.limit(1000).all()
             if audit_filter['q']:
                 term = audit_filter['q'].lower()
                 fetched_logs = [l for l in fetched_logs if term in l.details.lower() or term in l.action.lower() or term in l.user_email.lower() or term in l.user_name.lower()]
-            audit_logs = fetched_logs
+
+            user_counts = {}
+            per_user_logs = []
+            for log in fetched_logs:
+                u_key = log.user_email or log.user_name
+                if user_counts.get(u_key, 0) < 90:
+                    per_user_logs.append(log)
+                    user_counts[u_key] = user_counts.get(u_key, 0) + 1
+
+            audit_logs = per_user_logs[:100]
             audit_users = sorted(list({l.user_email for l in AuditLog.query.all() if l.user_email}))
             audit_actions = sorted(list({l.action for l in AuditLog.query.all() if l.action}))
 

@@ -110,6 +110,13 @@
 
   <!-- Tabela de Logs -->
   <div class="card border-0 shadow-sm rounded-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h5 class="fw-bold mb-1">Registros de Atividades</h5>
+        <small class="text-muted">Exibindo até 100 registros recentes (máximo de 90 registros por usuário).</small>
+      </div>
+      <span class="badge bg-primary-subtle text-primary rounded-pill">{{ audit_logs|length }} exibidos</span>
+    </div>
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0" style="font-size:.82rem">
         <thead class="table-light">
