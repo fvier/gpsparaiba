@@ -116,6 +116,15 @@ class FinancialCategory(db.Model):
     parent = db.relationship('FinancialCategory', remote_side=[id], backref='subcategories')
 
 
+class FinancialCompany(db.Model):
+    __tablename__ = 'financial_companies'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, unique=True)
+    active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+
 class FinancialEntry(db.Model):
     __tablename__ = 'financial_entries'
 
@@ -123,12 +132,14 @@ class FinancialEntry(db.Model):
     entry_type = db.Column(db.String(16), nullable=False)
     description = db.Column(db.String(180), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('financial_categories.id'), nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey('financial_companies.id'), nullable=True)
     amount = db.Column(db.Numeric(12, 2), nullable=False)
     due_date = db.Column(db.Date, nullable=False)
     status = db.Column(db.String(16), nullable=False, default='pendente')
     notes = db.Column(db.Text, nullable=False, default='')
     created_at = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(timezone.utc))
     category = db.relationship('FinancialCategory')
+    company = db.relationship('FinancialCompany')
 
     @property
     def effective_status(self):

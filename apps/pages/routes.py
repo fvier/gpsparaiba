@@ -1,6 +1,6 @@
 from apps.pages import blueprint
 from apps.pages.models import (User, CarouselImage, CommercialPlan, PlanVersion, LinktreeLink,
-                               LandingCard, FinancialCategory, FinancialEntry, AuditLog)
+                               LandingCard, FinancialCategory, FinancialEntry, AuditLog, FinancialCompany)
 from apps import db
 from flask import render_template, request, redirect, url_for, session, flash, current_app, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
@@ -446,6 +446,22 @@ def ensure_financial_categories():
     db.session.commit()
 
 
+def ensure_financial_companies():
+    default_companies = ['GPS Paraíba', 'Casa']
+    for name in default_companies:
+        comp = FinancialCompany.query.filter_by(name=name).first()
+        if not comp:
+            db.session.add(FinancialCompany(name=name, active=True))
+    db.session.commit()
+
+    gps_comp = FinancialCompany.query.filter_by(name='GPS Paraíba').first()
+    if gps_comp:
+        FinancialEntry.query.filter(FinancialEntry.company_id.is_(None)).update(
+            {FinancialEntry.company_id: gps_comp.id}, synchronize_session=False
+        )
+        db.session.commit()
+
+
 @blueprint.route('/api/planos', methods=['GET', 'POST'])
 def plans_api():
     ensure_commercial_content()
@@ -675,6 +691,45 @@ def delete_financial_category(category_id):
     return redirect('/financeiro/categorias')
 
 
+@blueprint.route('/financeiro/empresas', methods=['POST'])
+def create_financial_company():
+    if not content_manager_required():
+        return redirect('/index')
+    name = request.form.get('name', '').strip()
+    if not name:
+        flash('Informe o nome da empresa/unidade.', 'danger')
+    else:
+        existing = FinancialCompany.query.filter(FinancialCompany.name.ilike(name)).first()
+        if existing:
+            flash(f'Empresa "{name}" já existe.', 'warning')
+        else:
+            db.session.add(FinancialCompany(name=name[:100], active=True))
+            db.session.commit()
+            log_activity('Empresa cadastrada', f"Empresa/Unidade '{name}' criada com sucesso")
+            flash(f'Empresa "{name}" cadastrada com sucesso.', 'success')
+    return redirect('/financeiro/categorias')
+
+
+@blueprint.route('/financeiro/empresas/<int:company_id>', methods=['POST'])
+def update_financial_company(company_id):
+    if not content_manager_required():
+        return redirect('/index')
+    company = db.session.get(FinancialCompany, company_id)
+    if company:
+        action = request.form.get('action', 'edit')
+        if action == 'toggle':
+            company.active = not company.active
+            db.session.commit()
+            flash('Status da empresa atualizado.', 'success')
+        else:
+            name = request.form.get('name', '').strip()
+            if name:
+                company.name = name[:100]
+                db.session.commit()
+                flash('Nome da empresa atualizado com sucesso.', 'success')
+    return redirect('/financeiro/categorias')
+
+
 @blueprint.route('/financeiro/lancamentos', methods=['POST'])
 def create_financial_entry():
     if not content_manager_required():
@@ -683,6 +738,10 @@ def create_financial_entry():
         entry_type = request.form.get('entry_type', '')
         selected_category_id = request.form.get('subcategory_id') or request.form.get('category_id', 0)
         category = db.session.get(FinancialCategory, int(selected_category_id))
+        company_id_str = request.form.get('company_id', '').strip()
+        company = db.session.get(FinancialCompany, int(company_id_str)) if company_id_str.isdigit() else None
+        if not company:
+            company = FinancialCompany.query.filter_by(name='GPS Paraíba').first()
         description = request.form.get('description', '').strip()
         amount = parse_money(request.form.get('amount'))
         due_date = date.fromisoformat(request.form.get('due_date', ''))
@@ -694,13 +753,31 @@ def create_financial_entry():
         if not description:
             raise ValueError('Informe a descrição do lançamento.')
         db.session.add(FinancialEntry(entry_type=entry_type, description=description[:180],
-                                      category_id=category.id, amount=amount, due_date=due_date,
+                                      category_id=category.id, company_id=company.id if company else None,
+                                      amount=amount, due_date=due_date,
                                       status=status, notes=request.form.get('notes', '').strip()))
         db.session.commit()
-        flash('Lançamento financeiro cadastrado.', 'success')
+        log_activity('Lançamento cadastrado', f"Lançamento '{description}' R$ {amount} ({company.name if company else ''})")
+        flash('Lançamento financeiro cadastrado com sucesso.', 'success')
     except (ValueError, TypeError):
         db.session.rollback()
         flash('Revise os dados do lançamento financeiro.', 'danger')
+    return redirect('/financeiro/lancamentos')
+
+
+@blueprint.route('/financeiro/lancamentos/<int:entry_id>/empresa', methods=['POST'])
+def update_financial_entry_company(entry_id):
+    if not content_manager_required():
+        return redirect('/index')
+    entry = db.session.get(FinancialEntry, entry_id)
+    if entry:
+        company_id = request.form.get('company_id', '').strip()
+        if company_id and company_id.isdigit():
+            comp = db.session.get(FinancialCompany, int(company_id))
+            if comp and comp.active:
+                entry.company_id = comp.id
+                db.session.commit()
+                flash('Empresa do lançamento atualizada com sucesso.', 'success')
     return redirect('/financeiro/lancamentos')
 
 
@@ -766,6 +843,12 @@ def edit_financial_entry(entry_id):
             cat = db.session.get(FinancialCategory, int(target_cat))
             if cat and cat.active:
                 entry.category_id = cat.id
+
+        company_id = request.form.get('company_id', '').strip()
+        if company_id and company_id.isdigit():
+            comp = db.session.get(FinancialCompany, int(company_id))
+            if comp and comp.active:
+                entry.company_id = comp.id
 
         if status in {'pendente', 'pago', 'cancelado'}:
             entry.status = status
@@ -1087,12 +1170,14 @@ def route_template(template):
         financial_templates = {'financeiro', 'financeiro-lancamentos', 'financeiro-categorias'}
         if clean_template in financial_templates:
             ensure_financial_categories()
+            ensure_financial_companies()
         financial_categories = FinancialCategory.query.order_by(FinancialCategory.parent_id.asc(), FinancialCategory.name.asc()).all() if clean_template in financial_templates else []
+        financial_companies = FinancialCompany.query.order_by(FinancialCompany.name.asc()).all() if clean_template in financial_templates else []
         financial_entries = FinancialEntry.query.order_by(FinancialEntry.due_date.desc(), FinancialEntry.id.desc()).all() if clean_template in financial_templates else []
         financial_filter = {'period': '', 'start_date': '', 'end_date': '', 'month': '', 'year': ''}
         financial_entry_filter = {'entry_type': '', 'category_id': '', 'subcategory_id': ''}
         financial_launch_filter = {'q': '', 'status': '', 'entry_type': '', 'category_id': '', 'subcategory_id': '',
-                                   'period': '', 'start_date': '', 'end_date': '', 'month': '', 'year': ''}
+                                   'company_id': '', 'period': '', 'start_date': '', 'end_date': '', 'month': '', 'year': ''}
         financial_latest_entries = financial_entries
         if clean_template == 'financeiro':
             financial_filter = {key: request.args.get(key, '').strip() for key in financial_filter}
@@ -1146,6 +1231,9 @@ def route_template(template):
             if financial_launch_filter['subcategory_id'].isdigit():
                 subcategory_id = int(financial_launch_filter['subcategory_id'])
                 financial_entries = [entry for entry in financial_entries if entry.category_id == subcategory_id]
+            if financial_launch_filter['company_id'].isdigit():
+                company_id = int(financial_launch_filter['company_id'])
+                financial_entries = [entry for entry in financial_entries if entry.company_id == company_id]
 
             start_date, end_date = None, None
             try:
@@ -1231,6 +1319,7 @@ def route_template(template):
             landing_plans=landing_plans,
             linktree_links=linktree_links,
             financial_categories=financial_categories,
+            financial_companies=financial_companies,
             financial_entries=financial_entries,
             financial_filter=financial_filter,
             financial_entry_filter=financial_entry_filter,
