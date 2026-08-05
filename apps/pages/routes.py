@@ -452,6 +452,8 @@ def ensure_financial_companies():
         comp = FinancialCompany.query.filter_by(name=name).first()
         if not comp:
             db.session.add(FinancialCompany(name=name, active=True))
+        elif not comp.active and name == 'GPS Paraíba':
+            comp.active = True
     db.session.commit()
 
     gps_comp = FinancialCompany.query.filter_by(name='GPS Paraíba').first()
