@@ -1025,7 +1025,8 @@ def route_template(template):
         financial_entries = FinancialEntry.query.order_by(FinancialEntry.due_date.desc(), FinancialEntry.id.desc()).all() if clean_template in financial_templates else []
         financial_filter = {'period': '', 'start_date': '', 'end_date': '', 'month': '', 'year': ''}
         financial_entry_filter = {'entry_type': '', 'category_id': '', 'subcategory_id': ''}
-        financial_launch_filter = {'q': '', 'status': '', 'entry_type': '', 'category_id': '', 'subcategory_id': ''}
+        financial_launch_filter = {'q': '', 'status': '', 'entry_type': '', 'category_id': '', 'subcategory_id': '',
+                                   'period': '', 'start_date': '', 'end_date': '', 'month': '', 'year': ''}
         financial_latest_entries = financial_entries
         if clean_template == 'financeiro':
             financial_filter = {key: request.args.get(key, '').strip() for key in financial_filter}
@@ -1079,6 +1080,30 @@ def route_template(template):
             if financial_launch_filter['subcategory_id'].isdigit():
                 subcategory_id = int(financial_launch_filter['subcategory_id'])
                 financial_entries = [entry for entry in financial_entries if entry.category_id == subcategory_id]
+
+            start_date, end_date = None, None
+            try:
+                if financial_launch_filter['start_date'] or financial_launch_filter['end_date']:
+                    start_date = date.fromisoformat(financial_launch_filter['start_date']) if financial_launch_filter['start_date'] else None
+                    end_date = date.fromisoformat(financial_launch_filter['end_date']) if financial_launch_filter['end_date'] else None
+                elif financial_launch_filter['month'] and financial_launch_filter['year']:
+                    month, year = int(financial_launch_filter['month']), int(financial_launch_filter['year'])
+                    start_date = date(year, month, 1)
+                    end_date = date(year + (month == 12), 1 if month == 12 else month + 1, 1) - timedelta(days=1)
+                elif financial_launch_filter['year']:
+                    year = int(financial_launch_filter['year'])
+                    start_date = date(year, 1, 1)
+                    end_date = date(year, 12, 31)
+                elif financial_launch_filter['period'] in {'30', '60', '90'}:
+                    end_date = date.today()
+                    start_date = end_date - timedelta(days=int(financial_launch_filter['period']) - 1)
+            except (ValueError, TypeError):
+                start_date, end_date = None, None
+
+            if start_date or end_date:
+                financial_entries = [entry for entry in financial_entries
+                                     if (not start_date or entry.due_date >= start_date)
+                                     and (not end_date or entry.due_date <= end_date)]
 
         return render_template(
             "pages/" + template,
