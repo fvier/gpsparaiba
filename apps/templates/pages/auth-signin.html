@@ -63,8 +63,13 @@
                                 <div class="mb-3">
                                     <a class="float-end text-muted text-decoration-underline ms-1 small" href="/auth-password">Esqueceu a senha?</a>
                                     <label class="form-label fw-semibold" for="user-password">Senha</label>
-                                    <input class="form-control bg-light border-0"
-                                           id="user-password" name="password" placeholder="Digite sua senha" type="password" required autocomplete="current-password"/>
+                                    <div class="input-group">
+                                        <input class="form-control bg-light border-0"
+                                               id="user-password" name="password" placeholder="Digite sua senha" type="password" required autocomplete="current-password"/>
+                                        <button class="btn btn-light border-0 text-muted px-3" type="button" id="toggle-password" title="Mostrar ou ocultar senha">
+                                            <i class="ri-eye-line" id="toggle-password-icon"></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 <div class="mb-3">
                                     <div class="form-check">
@@ -91,4 +96,17 @@
         </div> <!-- end row -->
     </div>
 </div>
+<script>
+    document.getElementById('toggle-password')?.addEventListener('click', function () {
+        const passwordInput = document.getElementById('user-password');
+        const icon = document.getElementById('toggle-password-icon');
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.className = 'ri-eye-off-line';
+        } else {
+            passwordInput.type = 'password';
+            icon.className = 'ri-eye-line';
+        }
+    });
+</script>
 {% endblock content %}

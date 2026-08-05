@@ -4,14 +4,44 @@
 
 {% block page_content %}
 <div class="container-fluid py-5">
-    <div class="card p-4 mx-auto" style="max-width: 480px;">
+    <div class="card p-4 mx-auto shadow-sm rounded-4 border-0" style="max-width: 480px;">
         <div class="text-center mb-4"><i class="ri-lock-password-line text-primary fs-1"></i><h4 class="fw-bold mt-2">Crie sua nova senha</h4><p class="text-muted mb-0">Por segurança, a senha inicial deve ser alterada antes de acessar o painel.</p></div>
         {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
         <form method="POST" action="/alterar-senha">
-            <div class="mb-3"><label class="form-label">Nova senha</label><input type="password" class="form-control" name="password" minlength="8" autocomplete="new-password" required><small class="text-muted">Use pelo menos 8 caracteres.</small></div>
-            <div class="mb-4"><label class="form-label">Confirmar nova senha</label><input type="password" class="form-control" name="password_confirmation" minlength="8" autocomplete="new-password" required></div>
-            <button type="submit" class="btn btn-primary w-100 rounded-pill">Salvar nova senha e continuar</button>
+            <div class="mb-3">
+                <label class="form-label">Nova senha</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="new-password" name="password" minlength="8" autocomplete="new-password" required>
+                    <button class="btn btn-outline-secondary" type="button" onclick="togglePass('new-password', 'icon-new')" title="Mostrar ou ocultar senha">
+                        <i class="ri-eye-line" id="icon-new"></i>
+                    </button>
+                </div>
+                <small class="text-muted">Use pelo menos 8 caracteres.</small>
+            </div>
+            <div class="mb-4">
+                <label class="form-label">Confirmar nova senha</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="confirm-password" name="password_confirmation" minlength="8" autocomplete="new-password" required>
+                    <button class="btn btn-outline-secondary" type="button" onclick="togglePass('confirm-password', 'icon-confirm')" title="Mostrar ou ocultar senha">
+                        <i class="ri-eye-line" id="icon-confirm"></i>
+                    </button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">Salvar nova senha e continuar</button>
         </form>
     </div>
 </div>
+<script>
+    function togglePass(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'ri-eye-off-line';
+        } else {
+            input.type = 'password';
+            icon.className = 'ri-eye-line';
+        }
+    }
+</script>
 {% endblock page_content %}
