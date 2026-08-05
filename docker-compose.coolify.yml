@@ -66,8 +66,10 @@ services:
 volumes:
   postgres_data:
     name: gpsparaiba_postgres_data
+    external: true
   app_images:
     name: gpsparaiba_app_images
+    external: true
 
 networks:
   coolify:
