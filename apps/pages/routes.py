@@ -1174,6 +1174,15 @@ def route_template(template):
         financial_categories = FinancialCategory.query.order_by(FinancialCategory.parent_id.asc(), FinancialCategory.name.asc()).all() if clean_template in financial_templates else []
         financial_companies = FinancialCompany.query.order_by(FinancialCompany.name.asc()).all() if clean_template in financial_templates else []
         financial_entries = FinancialEntry.query.order_by(FinancialEntry.due_date.desc(), FinancialEntry.id.desc()).all() if clean_template in financial_templates else []
+        category_counts = {}
+        company_counts = {}
+        if clean_template in financial_templates:
+            for entry in FinancialEntry.query.all():
+                category_counts[entry.category_id] = category_counts.get(entry.category_id, 0) + 1
+                if entry.category and entry.category.parent_id:
+                    category_counts[entry.category.parent_id] = category_counts.get(entry.category.parent_id, 0) + 1
+                if entry.company_id:
+                    company_counts[entry.company_id] = company_counts.get(entry.company_id, 0) + 1
         financial_filter = {'period': '', 'start_date': '', 'end_date': '', 'month': '', 'year': ''}
         financial_entry_filter = {'entry_type': '', 'category_id': '', 'subcategory_id': ''}
         financial_launch_filter = {'q': '', 'status': '', 'entry_type': '', 'category_id': '', 'subcategory_id': '',
@@ -1320,6 +1329,8 @@ def route_template(template):
             linktree_links=linktree_links,
             financial_categories=financial_categories,
             financial_companies=financial_companies,
+            category_counts=category_counts,
+            company_counts=company_counts,
             financial_entries=financial_entries,
             financial_filter=financial_filter,
             financial_entry_filter=financial_entry_filter,
