@@ -618,8 +618,12 @@ def update_financial_category(category_id):
     category = db.session.get(FinancialCategory, category_id)
     if category:
         action = request.form.get('action', 'edit')
-        if action == 'toggle':
+        if action == 'delete':
+            return delete_financial_category(category_id)
+        elif action == 'toggle':
             category.active = not category.active
+            db.session.commit()
+            flash('Status da categoria atualizado.', 'success')
         else:
             name = request.form.get('name', '').strip()
             entry_type = request.form.get('entry_type', '')
@@ -629,8 +633,28 @@ def update_financial_category(category_id):
                 category.name = name[:100]
                 category.entry_type = entry_type
                 category.parent_id = parent.id if parent else None
-        db.session.commit()
-        flash('Categoria atualizada.', 'success')
+                db.session.commit()
+                flash('Categoria atualizada com sucesso.', 'success')
+    return redirect('/financeiro/categorias')
+
+
+@blueprint.route('/financeiro/categorias/<int:category_id>/excluir', methods=['POST'])
+def delete_financial_category(category_id):
+    if not content_manager_required():
+        return redirect('/index')
+    category = db.session.get(FinancialCategory, category_id)
+    if category:
+        subcat_ids = [sub.id for sub in category.subcategories]
+        all_ids = [category.id] + subcat_ids
+        entries_count = FinancialEntry.query.filter(FinancialEntry.category_id.in_(all_ids)).count()
+        if entries_count > 0:
+            flash(f'Não é possível excluir "{category.name}" pois existem {entries_count} lançamento(s) vinculado(s) a ela. Você pode desativá-la.', 'danger')
+        else:
+            for sub in list(category.subcategories):
+                db.session.delete(sub)
+            db.session.delete(category)
+            db.session.commit()
+            flash(f'Categoria "{category.name}" excluída com sucesso.', 'success')
     return redirect('/financeiro/categorias')
 
 
