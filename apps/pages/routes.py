@@ -994,6 +994,7 @@ def route_template(template):
         landing_carousel_images = active_carousel_images() if clean_template == 'landing' else []
         landing_plans = active_plans() if clean_template == 'landing' else []
         linktree_links = active_linktree_links() if clean_template == 'links' else []
+        financial_templates = {'financeiro', 'financeiro-lancamentos', 'financeiro-categorias'}
         if clean_template in financial_templates:
             ensure_financial_categories()
         financial_categories = FinancialCategory.query.order_by(FinancialCategory.parent_id.asc(), FinancialCategory.name.asc()).all() if clean_template in financial_templates else []
