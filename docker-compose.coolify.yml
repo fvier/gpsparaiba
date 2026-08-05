@@ -65,7 +65,9 @@ services:
 
 volumes:
   postgres_data:
+    name: gpsparaiba_postgres_data
   app_images:
+    name: gpsparaiba_app_images
 
 networks:
   coolify:
