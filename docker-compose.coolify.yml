@@ -3,14 +3,26 @@ services:
     build:
       context: .
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gpsparaiba-http.rule=Host(`gpsparaiba.com.br`)"
+      - "traefik.http.routers.gpsparaiba-http.entrypoints=http"
+      - "traefik.http.routers.gpsparaiba-http.middlewares=gpsparaiba-https"
+      - "traefik.http.middlewares.gpsparaiba-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.gpsparaiba.rule=Host(`gpsparaiba.com.br`)"
+      - "traefik.http.routers.gpsparaiba.entrypoints=https"
+      - "traefik.http.routers.gpsparaiba.tls=true"
+      - "traefik.http.routers.gpsparaiba.tls.certresolver=letsencrypt"
+      - "traefik.http.services.gpsparaiba.loadbalancer.server.port=5000"
+      - "traefik.docker.network=coolify"
     environment:
       DEBUG: "False"
       FLASK_APP: run.py
-      SECRET_KEY: ${SERVICE_HEX_64_RASTREK}
+      SECRET_KEY: ${SERVICE_HEX_64_RASTREK:-gpsparaiba_secret_key_2026}
       ASSETS_ROOT: /static
-      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-gps_paraiba}:${SERVICE_PASSWORD_64_POSTGRES}@postgres:5432/${POSTGRES_DB:-gps_paraiba}
-      INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-}
-      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-gps_paraiba}:${SERVICE_PASSWORD_64_POSTGRES:-gpsparaiba_password}@postgres:5432/${POSTGRES_DB:-gps_paraiba}
+      INITIAL_ADMIN_EMAIL: ${INITIAL_ADMIN_EMAIL:-admin@gpsparaiba.com.br}
+      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-admin123}
     command:
       - /bin/sh
       - -c
@@ -20,14 +32,19 @@ services:
         condition: service_healthy
     expose:
       - "5000"
+    ports:
+      - "127.0.0.1:5000:5000"
     volumes:
       - app_images:/app/apps/static/images
+    networks:
+      - coolify
+      - default
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/health', timeout=3)"]
-      interval: 30s
+      interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 30s
+      start_period: 10s
 
   postgres:
     image: postgres:16-alpine
@@ -35,9 +52,11 @@ services:
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-gps_paraiba}
       POSTGRES_USER: ${POSTGRES_USER:-gps_paraiba}
-      POSTGRES_PASSWORD: ${SERVICE_PASSWORD_64_POSTGRES}
+      POSTGRES_PASSWORD: ${SERVICE_PASSWORD_64_POSTGRES:-gpsparaiba_password}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 10s
@@ -47,3 +66,8 @@ services:
 volumes:
   postgres_data:
   app_images:
+
+networks:
+  coolify:
+    external: true
+  default:
