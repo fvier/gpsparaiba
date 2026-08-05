@@ -762,7 +762,7 @@ def create_financial_entry():
     except (ValueError, TypeError):
         db.session.rollback()
         flash('Revise os dados do lançamento financeiro.', 'danger')
-    return redirect('/financeiro/lancamentos')
+    return redirect(request.referrer or '/financeiro/lancamentos')
 
 
 @blueprint.route('/financeiro/lancamentos/<int:entry_id>/empresa', methods=['POST'])
@@ -777,8 +777,9 @@ def update_financial_entry_company(entry_id):
             if comp and comp.active:
                 entry.company_id = comp.id
                 db.session.commit()
+                log_activity('Empresa de lançamento alterada', f"Lançamento #{entry.id} vinculado à empresa {comp.name}")
                 flash('Empresa do lançamento atualizada com sucesso.', 'success')
-    return redirect('/financeiro/lancamentos')
+    return redirect(request.referrer or '/financeiro/lancamentos')
 
 
 @blueprint.route('/financeiro/lancamentos/<int:entry_id>/status', methods=['POST'])
@@ -791,7 +792,9 @@ def update_financial_entry_status(entry_id):
         if status in {'pendente', 'pago', 'cancelado'}:
             entry.status = status
             db.session.commit()
-    return redirect('/financeiro/lancamentos')
+            log_activity('Status de lançamento alterado', f"Lançamento #{entry.id} ({entry.description}) alterado para {status}")
+            flash('Status do lançamento atualizado.', 'success')
+    return redirect(request.referrer or '/financeiro/lancamentos')
 
 
 @blueprint.route('/financeiro/lancamentos/<int:entry_id>/categoria', methods=['POST'])
@@ -808,7 +811,11 @@ def update_financial_entry_category(entry_id):
             if category and category.active:
                 entry.category_id = category.id
                 db.session.commit()
+                log_activity('Categoria de lançamento alterada', f"Lançamento #{entry.id} alterado para categoria {category.name}")
                 flash('Categoria do lançamento atualizada com sucesso.', 'success')
+    return redirect(request.referrer or '/financeiro/lancamentos')
+
+
 @blueprint.route('/financeiro/lancamentos/<int:entry_id>/editar', methods=['POST'])
 def edit_financial_entry(entry_id):
     if not content_manager_required():
@@ -828,7 +835,7 @@ def edit_financial_entry(entry_id):
                 entry.due_date = date.fromisoformat(due_date_str)
             except ValueError:
                 flash('Data de vencimento inválida.', 'danger')
-                return redirect('/financeiro/lancamentos')
+                return redirect(request.referrer or '/financeiro/lancamentos')
         if description:
             entry.description = description[:180]
         if amount_str:
@@ -836,7 +843,7 @@ def edit_financial_entry(entry_id):
                 entry.amount = parse_money(amount_str)
             except ValueError as e:
                 flash(str(e), 'danger')
-                return redirect('/financeiro/lancamentos')
+                return redirect(request.referrer or '/financeiro/lancamentos')
         
         target_cat = subcategory_id if (subcategory_id and subcategory_id.isdigit()) else category_id
         if target_cat and target_cat.isdigit():
@@ -856,7 +863,7 @@ def edit_financial_entry(entry_id):
         db.session.commit()
         log_activity('Lançamento alterado', f"Lançamento #{entry.id} ({entry.description}) atualizado")
         flash('Lançamento atualizado com sucesso.', 'success')
-    return redirect('/financeiro/lancamentos')
+    return redirect(request.referrer or '/financeiro/lancamentos')
 
 
 @blueprint.route('/admin-logs', methods=['GET'])
