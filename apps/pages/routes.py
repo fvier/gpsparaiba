@@ -79,7 +79,7 @@ PERMISSION_MODULES = [
     {'name': 'Validação de vendas', 'route': '/validacao-vendas', 'icon': 'ri-checkbox-circle-line', 'color': 'warning', 'login': True, 'usuario': 'none', 'gerente': 'total', 'admin': 'total'},
     {'name': 'Planos', 'route': '/planos', 'icon': 'ri-price-tag-3-line', 'color': 'success', 'login': True, 'usuario': 'limited', 'gerente': 'total', 'admin': 'total'},
     {'name': 'Ranking', 'route': '/ranking', 'icon': 'ri-trophy-line', 'color': 'warning', 'login': True, 'usuario': 'total', 'gerente': 'total', 'admin': 'total'},
-    {'name': 'Financeiro', 'route': '/financeiro', 'icon': 'ri-wallet-3-line', 'color': 'success', 'login': True, 'usuario': 'none', 'gerente': 'total', 'admin': 'total'},
+    {'name': 'Financeiro', 'route': '/financeiro', 'icon': 'ri-wallet-3-line', 'color': 'success', 'login': True, 'usuario': 'total', 'gerente': 'total', 'admin': 'total'},
     {'name': 'Usuários e colaboradores', 'route': '/admin-cadastrar', 'icon': 'ri-team-line', 'color': 'danger', 'login': True, 'usuario': 'none', 'gerente': 'none', 'admin': 'total'},
     {'name': 'Privilégios', 'route': '/admin-privilegios', 'icon': 'ri-shield-keyhole-line', 'color': 'danger', 'login': True, 'usuario': 'none', 'gerente': 'none', 'admin': 'total'},
     {'name': 'Gerenciar carrossel', 'route': '/admin-carrossel', 'icon': 'ri-gallery-line', 'color': 'primary', 'login': True, 'usuario': 'none', 'gerente': 'none', 'admin': 'total'},
@@ -372,7 +372,7 @@ def admin_required():
 
 
 def content_manager_required():
-    return session.get('logged_in') and session.get('user_role') in {'admin', 'gerente'}
+    return bool(session.get('logged_in'))
 
 
 def parse_money(value):
@@ -986,10 +986,6 @@ def route_template(template):
         if clean_template == 'validacao-vendas' and not can_validate_sales:
             flash('A validação de vendas é restrita a gerentes e administradores.', 'warning')
             return redirect(url_for('pages_blueprint.route_template', template='vendas'))
-        financial_templates = {'financeiro', 'financeiro-lancamentos', 'financeiro-categorias'}
-        if clean_template in financial_templates and not can_manage_plans:
-            flash('O financeiro é restrito a gerentes e administradores.', 'warning')
-            return redirect('/index')
         sales_users = [
             {'email': user.email, 'username': user.username, 'full_name': user.full_name, 'category': user.category}
             for user in User.query.order_by(User.username.asc()).all()
