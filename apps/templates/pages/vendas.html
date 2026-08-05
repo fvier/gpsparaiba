@@ -156,6 +156,15 @@
                                 <option value="Desistência">Desistência</option>
                             </select>
                         </div>
+                        <div class="col-md-4">
+                            <label class="form-label small text-muted d-block">Instalação</label>
+                            <div class="form-check pt-2">
+                                <input id="sale-instalacao" class="form-check-input" type="checkbox" name="instalacao">
+                                <label class="form-check-label fw-bold text-dark" for="sale-instalacao">
+                                    <i class="ri-tools-line text-primary me-1"></i> Com Instalação
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -348,6 +357,7 @@
                 <div class="col-md-6"><small class="text-muted d-block">Veículo</small>${formatVehicle(sale)}</div>
                 <div class="col-md-3"><small class="text-muted d-block">Data completa</small>${escapeHTML(sale.dataAtivacao)}</div>
                 <div class="col-md-3"><small class="text-muted d-block">Mensalidade</small>${Number(sale.valorMensal || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</div>
+                <div class="col-md-3"><small class="text-muted d-block">Instalação</small>${sale.instalacao ? '<span class="badge bg-success-subtle text-success fw-bold"><i class="ri-tools-line me-1"></i>Com Instalação</span>' : '<span class="badge bg-secondary-subtle text-secondary"><i class="ri-close-line me-1"></i>Sem Instalação</span>'}</div>
                 <div class="col-12 d-flex justify-content-end align-items-center gap-2">${sale.validada ? '<span class="badge bg-success"><i class="ri-lock-line me-1"></i>Venda validada e bloqueada</span>' : `<button type="button" class="btn btn-sm btn-outline-primary rounded-pill edit-sale" data-sale-id="${escapeHTML(sale.id)}"><i class="ri-pencil-line me-1"></i>Editar venda</button>`}</div>
             </div></td></tr>` : ''}
         `).join('');
@@ -356,6 +366,7 @@
     document.getElementById('register-sale-btn').addEventListener('click', function () {
         editingSaleId = null;
         document.getElementById('sale-form').reset();
+        document.getElementById('sale-instalacao').checked = false;
         populateActivePlans();
         resetSellerTransfer();
         document.querySelector('#sale-modal .modal-title').textContent = 'Registrar nova venda';
@@ -405,6 +416,7 @@
             transferida: formData.get('vendedor') !== ACTIVE_SELLER,
             dataAtivacao: formData.get('dataAtivacao'),
             status: formData.get('status'),
+            instalacao: document.getElementById('sale-instalacao').checked,
             validada: false
         };
 
@@ -448,6 +460,7 @@
             ['cliente','numeroContrato','ddd','contato','tipoVeiculo','marca','veiculo','placa','plano','valorMensal','dataAtivacao','status'].forEach(field => {
                 if (form.elements[field]) form.elements[field].value = sale[field] ?? '';
             });
+            document.getElementById('sale-instalacao').checked = Boolean(sale.instalacao);
             if (![...document.getElementById('sale-plan').options].some(option => option.value === sale.plano)) {
                 document.getElementById('sale-plan').add(new Option(sale.plano, sale.plano));
                 document.getElementById('sale-plan').value = sale.plano;
