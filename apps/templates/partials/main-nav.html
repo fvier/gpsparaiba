@@ -9,7 +9,7 @@
     <li class="menu-title">Módulos</li>
     <li class="nav-item">
       <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#menu-sales" role="button" aria-expanded="{{ 'true' if segment in ['vendas','validacao-vendas','planos'] else 'false' }}"><span class="nav-icon"><i class="ri-shopping-cart-2-line text-primary"></i></span><span class="nav-text flex-grow-1">Vendas</span><i class="ri-arrow-down-s-line"></i></a>
-      <div class="collapse {{ 'show' if segment in ['vendas','validacao-vendas','planos'] }}" id="menu-sales"><ul class="nav flex-column ms-3"><li><a class="nav-link" href="/vendas">Vendas</a></li>{% if can_validate_sales %}<li><a class="nav-link" href="/validacao-vendas">Validar vendas</a></li>{% endif %}<li><a class="nav-link" href="/planos">Planos e conteúdo</a></li></ul></div>
+      <div class="collapse {{ 'show' if segment in ['vendas','validacao-vendas','planos'] }}" id="menu-sales"><ul class="nav flex-column ms-3"><li><a class="nav-link" href="/vendas">Vendas</a></li>{% if can_validate_sales %}<li><a class="nav-link" href="/validacao-vendas">Validar vendas</a></li>{% endif %}<li><a class="nav-link" href="/planos">Planos e Linktree</a></li></ul></div>
     </li>
     <li class="nav-item">
       <a class="nav-link d-flex align-items-center" data-bs-toggle="collapse" href="#menu-commission" role="button" aria-expanded="{{ 'true' if segment in ['comissionamento','ranking'] else 'false' }}"><span class="nav-icon"><i class="ri-table-line text-info"></i></span><span class="nav-text flex-grow-1">Comissões</span><i class="ri-arrow-down-s-line"></i></a>
