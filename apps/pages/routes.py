@@ -1083,10 +1083,14 @@ def route_template(template):
         )
 
     except TemplateNotFound:
-        return render_template('pages/error-404.html'), 404
+        return render_template('pages/page-404.html'), 404
 
-    except Exception:
-        return render_template('pages/error-500.html'), 500
+    except Exception as e:
+        current_app.logger.error("Error in route_template (%s): %s", template, e, exc_info=True)
+        try:
+            return render_template('pages/page-500.html'), 500
+        except TemplateNotFound:
+            return f"Internal Server Error: {e}", 500
 
 
 def get_segment(request):
