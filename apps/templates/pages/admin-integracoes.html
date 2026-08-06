@@ -1,0 +1,196 @@
+{% extends 'layouts/vertical.html' %}
+
+{% block title %}Central de Integrações & APIs | GPS Paraíba ERP{% endblock title %}
+
+{% block page_content %}
+<div class="container-fluid py-3">
+    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div>
+            <h4 class="fw-bold text-dark mb-1">
+                <i class="ri-code-s-slash-line text-primary me-2"></i>Central de Integrações & APIs
+            </h4>
+            <p class="text-secondary small mb-0">Endpoints REST para integração automatizada de Vendas e Lançamentos Financeiros.</p>
+        </div>
+        <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold fs-12">
+            <i class="ri-checkbox-circle-line me-1"></i>APIs Ativas & Operacionais
+        </span>
+    </div>
+
+    <!-- Card Autenticação API -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+            <div>
+                <h5 class="fw-bold text-dark mb-1"><i class="ri-key-2-line text-warning me-2"></i>Autenticação da API</h5>
+                <small class="text-muted">Utilize o cabeçalho HTTP <code class="text-primary fw-bold">X-API-Key</code> em suas requisições externas.</small>
+            </div>
+            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1">Versão 1.0</span>
+        </div>
+        <div class="input-group" style="max-width: 580px;">
+            <span class="input-group-text bg-light border-0"><i class="ri-lock-line text-muted"></i></span>
+            <input type="text" id="api-key-input" class="form-control bg-light border-0 fw-bold text-dark" value="gps_live_key_paraiba_2026" readonly>
+            <button class="btn btn-outline-primary rounded-end px-3" type="button" onclick="copyApiKey()" title="Copiar chave de API">
+                <i class="ri-file-copy-line me-1"></i> Copiar Chave
+            </button>
+        </div>
+        <div id="copy-toast" class="small text-success mt-2 d-none"><i class="ri-check-line me-1"></i>Chave copiada para a área de transferência!</div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Endpoint 1: Vendas -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h5 class="fw-bold text-dark mb-0"><i class="ri-shopping-cart-2-line text-success me-2"></i>Endpoint 1: Vendas</h5>
+                    <div>
+                        <span class="badge bg-primary px-2 py-1 me-1">GET</span>
+                        <span class="badge bg-success px-2 py-1">POST</span>
+                    </div>
+                </div>
+                <p class="text-muted small mb-3">Consulte a lista de novos contratos ativados ou envie novas vendas direto do seu CRM/WhatsApp Bot.</p>
+                <div class="bg-light p-3 rounded-3 mb-3 border">
+                    <small class="text-muted d-block fw-semibold mb-1">URL do Endpoint:</small>
+                    <code class="text-dark fw-bold text-break">https://gpsparaiba.com.br/api/v1/integracoes/vendas</code>
+                </div>
+
+                <div class="mb-3">
+                    <small class="text-muted d-block fw-semibold mb-1">Modelo de Payload JSON (POST):</small>
+                    <pre class="bg-dark text-light p-3 rounded-3 fs-12 mb-0" style="max-height: 180px; overflow-y: auto;">{
+  "contract_number": "CTR-8840",
+  "client_name": "Maria Oliveira",
+  "ddd": "83",
+  "contact": "998877665",
+  "vehicle_type": "Carro",
+  "vehicle_brand": "Toyota",
+  "vehicle_model": "Corolla",
+  "plate": "QFB-2026",
+  "plan_name": "GPS Total",
+  "monthly_fee": 79.90,
+  "seller_name": "Vendedor Web",
+  "instalacao": true,
+  "status": "Ativo"
+}</pre>
+                </div>
+
+                <div class="d-flex gap-2 mb-3 flex-wrap">
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="testApi('/api/v1/integracoes/vendas', 'GET', null, 'response-vendas')">
+                        <i class="ri-play-line me-1"></i> Testar GET (Listar)
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm rounded-pill px-3 text-white" onclick="testApi('/api/v1/integracoes/vendas', 'POST', sampleSalePayload, 'response-vendas')">
+                        <i class="ri-add-line me-1"></i> Testar POST (Criar Venda)
+                    </button>
+                </div>
+
+                <div>
+                    <small class="text-muted d-block fw-semibold mb-1">Resposta do Teste (JSON Live):</small>
+                    <pre id="response-vendas" class="bg-dark text-warning p-3 rounded-3 fs-12 mb-0" style="min-height: 120px; max-height: 220px; overflow-y: auto;">// Clique em um dos botões de teste para ver o retorno ao vivo da API...</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Endpoint 2: Lançamentos Financeiros -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h5 class="fw-bold text-dark mb-0"><i class="ri-wallet-3-line text-info me-2"></i>Endpoint 2: Lançamentos</h5>
+                    <div>
+                        <span class="badge bg-primary px-2 py-1 me-1">GET</span>
+                        <span class="badge bg-success px-2 py-1">POST</span>
+                    </div>
+                </div>
+                <p class="text-muted small mb-3">Consulte receitas e despesas ou cadastre novos lançamentos financeiros automaticamente.</p>
+                <div class="bg-light p-3 rounded-3 mb-3 border">
+                    <small class="text-muted d-block fw-semibold mb-1">URL do Endpoint:</small>
+                    <code class="text-dark fw-bold text-break">https://gpsparaiba.com.br/api/v1/integracoes/lancamentos</code>
+                </div>
+
+                <div class="mb-3">
+                    <small class="text-muted d-block fw-semibold mb-1">Modelo de Payload JSON (POST):</small>
+                    <pre class="bg-dark text-light p-3 rounded-3 fs-12 mb-0" style="max-height: 180px; overflow-y: auto;">{
+  "company_id": 1,
+  "entry_type": "receita",
+  "amount": 250.00,
+  "description": "Pagamento Mensalidade Cliente #402",
+  "due_date": "2026-08-10",
+  "status": "pago",
+  "notes": "Recebido via Gateway de Pagamento API"
+}</pre>
+                </div>
+
+                <div class="d-flex gap-2 mb-3 flex-wrap">
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="testApi('/api/v1/integracoes/lancamentos', 'GET', null, 'response-lancamentos')">
+                        <i class="ri-play-line me-1"></i> Testar GET (Listar)
+                    </button>
+                    <button type="button" class="btn btn-success btn-sm rounded-pill px-3 text-white" onclick="testApi('/api/v1/integracoes/lancamentos', 'POST', sampleLancamentoPayload, 'response-lancamentos')">
+                        <i class="ri-add-line me-1"></i> Testar POST (Criar Lançamento)
+                    </button>
+                </div>
+
+                <div>
+                    <small class="text-muted d-block fw-semibold mb-1">Resposta do Teste (JSON Live):</small>
+                    <pre id="response-lancamentos" class="bg-dark text-info p-3 rounded-3 fs-12 mb-0" style="min-height: 120px; max-height: 220px; overflow-y: auto;">// Clique em um dos botões de teste para ver o retorno ao vivo da API...</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyApiKey() {
+    const input = document.getElementById('api-key-input');
+    navigator.clipboard.writeText(input.value);
+    const toast = document.getElementById('copy-toast');
+    toast.classList.remove('d-none');
+    setTimeout(() => toast.classList.add('d-none'), 3000);
+}
+
+const sampleSalePayload = {
+    contract_number: "CTR-" + Math.floor(1000 + Math.random() * 9000),
+    client_name: "Cliente Teste API",
+    ddd: "83",
+    contact: "988776655",
+    vehicle_type: "Moto",
+    vehicle_brand: "Honda",
+    vehicle_model: "CG 160 Fan",
+    plate: "QFA-8899",
+    plan_name: "GPS Moto Segura",
+    monthly_fee: 59.90,
+    seller_name: "Integrador API",
+    instalacao: true,
+    status: "Ativo"
+};
+
+const sampleLancamentoPayload = {
+    company_id: 1,
+    entry_type: "receita",
+    amount: 150.00,
+    description: "Recebimento Mensalidade API #" + Math.floor(100 + Math.random() * 900),
+    due_date: new Date().toISOString().split('T')[0],
+    status: "pago",
+    notes: "Lançamento automatizado via API REST"
+};
+
+async function testApi(url, method, data, targetId) {
+    const output = document.getElementById(targetId);
+    output.textContent = "// Enviando requisição para " + url + "...";
+
+    const options = {
+        method: method,
+        headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': document.getElementById('api-key-input').value
+        }
+    };
+    if (data && method === 'POST') {
+        options.body = JSON.stringify(data);
+    }
+
+    try {
+        const response = await fetch(url, options);
+        const resJson = await response.json();
+        output.textContent = JSON.stringify(resJson, null, 2);
+    } catch (err) {
+        output.textContent = "// Erro na requisição: " + err.message;
+    }
+}
+</script>
+{% endblock page_content %}

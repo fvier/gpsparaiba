@@ -876,6 +876,152 @@ def admin_logs():
     return route_template('admin-logs')
 
 
+@blueprint.route('/admin-integracoes', methods=['GET'])
+def admin_integracoes():
+    if not admin_required():
+        flash('Acesso restrito a administradores.', 'danger')
+        return redirect('/index')
+    return route_template('admin-integracoes')
+
+
+SALES_STORE_PATH = os.path.join(os.path.dirname(__file__), '..', 'static', 'data', 'sales_store.json')
+
+def get_sales_storage():
+    try:
+        if os.path.exists(SALES_STORE_PATH):
+            with open(SALES_STORE_PATH, 'r', encoding='utf-8') as f:
+                return json.load(f)
+    except Exception:
+        pass
+    return []
+
+def save_sales_storage(data):
+    try:
+        os.makedirs(os.path.dirname(SALES_STORE_PATH), exist_ok=True)
+        with open(SALES_STORE_PATH, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+    except Exception:
+        pass
+
+
+@blueprint.route('/api/v1/integracoes/vendas', methods=['GET', 'POST'])
+def api_integracao_vendas():
+    api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+    if not session.get('logged_in') and api_key != 'gps_live_key_paraiba_2026':
+        return jsonify({'status': 'error', 'message': 'Chave de API inválida ou não autenticado'}), 401
+
+    if request.method == 'GET':
+        sales = get_sales_storage()
+        return jsonify({
+            'status': 'success',
+            'endpoint': '/api/v1/integracoes/vendas',
+            'total': len(sales),
+            'vendas': sales
+        }), 200
+
+    payload = request.get_json(silent=True) or request.form.to_dict()
+    if not payload or not payload.get('client_name') or not payload.get('contact'):
+        return jsonify({'status': 'error', 'message': 'Campos obrigatórios ausentes: client_name e contact'}), 400
+
+    new_sale = {
+        'id': int(datetime.utcnow().timestamp() * 1000),
+        'created_at': datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S'),
+        'activation_date': payload.get('activation_date') or datetime.utcnow().strftime('%Y-%m-%d'),
+        'contract_number': payload.get('contract_number') or f"CTR-{uuid4().hex[:6].upper()}",
+        'client_name': payload.get('client_name'),
+        'ddd': payload.get('ddd', '83'),
+        'contact': payload.get('contact'),
+        'vehicle_type': payload.get('vehicle_type', 'Carro'),
+        'vehicle_brand': payload.get('vehicle_brand', 'Honda'),
+        'vehicle_model': payload.get('vehicle_model', 'Civic'),
+        'plate': payload.get('plate', 'QFA-2026'),
+        'plan_name': payload.get('plan_name', 'GPS Total'),
+        'monthly_fee': float(payload.get('monthly_fee', 69.90)),
+        'seller_name': payload.get('seller_name', 'API Integrada'),
+        'seller_email': payload.get('seller_email', 'api@gpsparaiba.com.br'),
+        'instalacao': bool(payload.get('instalacao', False)),
+        'status': payload.get('status', 'Ativo')
+    }
+
+    sales = get_sales_storage()
+    sales.insert(0, new_sale)
+    save_sales_storage(sales)
+    log_activity('Integração Venda API', f"Nova venda #{new_sale['contract_number']} cadastrada via API para {new_sale['client_name']}")
+
+    return jsonify({
+        'status': 'success',
+        'message': 'Venda integrada com sucesso!',
+        'venda': new_sale
+    }), 201
+
+
+@blueprint.route('/api/v1/integracoes/lancamentos', methods=['GET', 'POST'])
+def api_integracao_lancamentos():
+    api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+    if not session.get('logged_in') and api_key != 'gps_live_key_paraiba_2026':
+        return jsonify({'status': 'error', 'message': 'Chave de API inválida ou não autenticado'}), 401
+
+    if request.method == 'GET':
+        entries = FinancialEntry.query.order_by(FinancialEntry.due_date.desc()).all()
+        result = [{
+            'id': e.id,
+            'description': e.description,
+            'amount': e.amount,
+            'entry_type': e.entry_type,
+            'due_date': e.due_date.isoformat(),
+            'status': e.effective_status,
+            'company': e.company.name if e.company else 'GPS Paraíba',
+            'category': e.category.name if e.category else '',
+            'notes': e.notes or ''
+        } for e in entries]
+        return jsonify({
+            'status': 'success',
+            'endpoint': '/api/v1/integracoes/lancamentos',
+            'total': len(result),
+            'lancamentos': result
+        }), 200
+
+    payload = request.get_json(silent=True) or request.form.to_dict()
+    if not payload or not payload.get('description') or not payload.get('amount') or not payload.get('due_date'):
+        return jsonify({'status': 'error', 'message': 'Campos obrigatórios ausentes: description, amount, due_date'}), 400
+
+    try:
+        amount = float(payload.get('amount'))
+        due_date = datetime.strptime(payload.get('due_date'), '%Y-%m-%d').date()
+    except Exception as err:
+        return jsonify({'status': 'error', 'message': f'Formato inválido para valor ou data (YYYY-MM-DD): {str(err)}'}), 400
+
+    first_cat = FinancialCategory.query.filter_by(parent_id=None).first()
+    category_id = int(payload.get('category_id') or (first_cat.id if first_cat else 1))
+
+    new_entry = FinancialEntry(
+        company_id=int(payload.get('company_id', 1)) if payload.get('company_id') else 1,
+        entry_type=payload.get('entry_type', 'receita'),
+        amount=amount,
+        description=payload.get('description'),
+        due_date=due_date,
+        category_id=category_id,
+        status=payload.get('status', 'pendente'),
+        notes=payload.get('notes', 'Cadastrado via API de Integração')
+    )
+    db.session.add(new_entry)
+    db.session.commit()
+    log_activity('Integração Lançamento API', f"Lançamento #{new_entry.id} ({new_entry.description}) cadastrado via API")
+
+    return jsonify({
+        'status': 'success',
+        'message': 'Lançamento financeiro integrado com sucesso!',
+        'lancamento': {
+            'id': new_entry.id,
+            'description': new_entry.description,
+            'amount': new_entry.amount,
+            'due_date': new_entry.due_date.isoformat(),
+            'entry_type': new_entry.entry_type,
+            'status': new_entry.status
+        }
+    }), 201
+
+
 
 @blueprint.route('/perfil/foto', methods=['POST'])
 def upload_profile_photo():
