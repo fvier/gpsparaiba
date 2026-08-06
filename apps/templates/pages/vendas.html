@@ -687,7 +687,7 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
                     `"${s.vehicle_type || ''} ${s.vehicle_model || ''}"`,
                     `"${s.plate || ''}"`,
                     `"${s.plan_name || ''}"`,
-                    parseFloat(s.monthly_fee || 0).toFixed(2),
+                    parseFloat(s.monthly_fee || 0).toFixed(2).replace('.', ','),
                     `"${s.seller_name || ''}"`,
                     s.instalacao ? 'Com Instalação' : 'Sem Instalação',
                     s.status || 'Ativo'
@@ -757,7 +757,7 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
                                     <td style="padding: 6px;">(${s.ddd || ''}) ${s.contact || ''}</td>
                                     <td style="padding: 6px;">${s.vehicle_model || ''} (${s.plate || ''})</td>
                                     <td style="padding: 6px;">${s.plan_name || ''}</td>
-                                    <td style="padding: 6px; text-align: right; font-weight: 700; color: #10b981;">R$ ${parseFloat(s.monthly_fee || 0).toFixed(2).replace('.', ',')}</td>
+                                    <td style="padding: 6px; text-align: right; font-weight: 700; color: #10b981;">R$ ${parseFloat(s.monthly_fee || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                                     <td style="padding: 6px;">${s.seller_name || ''}</td>
                                     <td style="padding: 6px; text-align: center;">${s.instalacao ? '🛠️ Sim' : 'Não'}</td>
                                 </tr>
