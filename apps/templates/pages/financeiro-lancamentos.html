@@ -81,146 +81,164 @@
     </div>
   </div>
 
-  <!-- Painel de Filtros Organizado (Compacto) -->
+  {% set active_count_without_q = (1 if financial_launch_filter.company_id else 0) + (1 if financial_launch_filter.period else 0) + (1 if financial_launch_filter.month else 0) + (1 if financial_launch_filter.year else 0) + (1 if financial_launch_filter.status else 0) + (1 if financial_launch_filter.entry_type else 0) + (1 if financial_launch_filter.category_id else 0) + (1 if financial_launch_filter.subcategory_id else 0) + (1 if financial_launch_filter.start_date else 0) %}
+  {% set is_filter_open = active_count_without_q > 0 %}
+
+  <!-- Formulario Geral de Filtro e Pesquisa -->
   <form method="get" action="/financeiro/lancamentos">
-    <div class="card border-0 shadow-sm rounded-3 mb-3 p-3">
-      
-      <!-- Topo: Orientação Compacta -->
-      <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
-        <div class="fw-bold text-dark fs-12"><i class="ri-filter-3-line text-primary me-1"></i>Filtros de Pesquisa</div>
-        <div class="d-flex align-items-center gap-1.5 text-muted fs-11">
-          <i class="ri-information-fill text-primary fs-14"></i>
-          <span>Selecione os parâmetros abaixo e clique em <strong>Aplicar Filtros</strong>.</span>
-        </div>
-      </div>
 
-      <!-- Grid de Filtros Compactos (g-2) -->
-      <div class="row g-2">
-        <div class="col-sm-6 col-lg-3">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-building-line me-1 text-primary"></i>Empresa</label>
-          <select name="company_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Todas as empresas</option>
-            {% for comp in financial_companies %}
-            <option value="{{ comp.id }}" {{ 'selected' if financial_launch_filter.company_id==comp.id|string }}>{{ comp.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-event-line me-1 text-primary"></i>Período</label>
-          <select name="period" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Todos os períodos</option>
-            <option value="7" {{ 'selected' if financial_launch_filter.period=='7' }}>Últimos 7 dias</option>
-            <option value="15" {{ 'selected' if financial_launch_filter.period=='15' }}>Últimos 15 dias</option>
-            <option value="30" {{ 'selected' if financial_launch_filter.period=='30' }}>Últimos 30 dias</option>
-            <option value="60" {{ 'selected' if financial_launch_filter.period=='60' }}>Últimos 60 dias</option>
-            <option value="90" {{ 'selected' if financial_launch_filter.period=='90' }}>Últimos 90 dias</option>
-            <option value="180" {{ 'selected' if financial_launch_filter.period=='180' }}>Últimos 180 dias</option>
-            <option value="365" {{ 'selected' if financial_launch_filter.period=='365' }}>Último ano (365d)</option>
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-2">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-check-line me-1 text-primary"></i>Mês</label>
-          <select name="month" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Todos os meses</option>
-            {% for m in range(1, 13) %}
-            <option value="{{ m }}" {{ 'selected' if financial_launch_filter.month==m|string }}>{{ ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m-1] }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-2">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-2-line me-1 text-primary"></i>Ano</label>
-          <select name="year" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Todos os anos</option>
-            {% for y in available_years %}
-            <option value="{{ y }}" {{ 'selected' if financial_launch_filter.year==y|string }}>{{ y }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-2">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-checkbox-circle-line me-1 text-primary"></i>Status</label>
-          <select name="status" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Todos os status</option>
-            <option value="pendente" {{ 'selected' if financial_launch_filter.status=='pendente' }}>Pendente</option>
-            <option value="perto_vencer" {{ 'selected' if financial_launch_filter.status=='perto_vencer' }}>Perto de vencer</option>
-            <option value="vencido" {{ 'selected' if financial_launch_filter.status=='vencido' }}>Vencido</option>
-            <option value="pago" {{ 'selected' if financial_launch_filter.status=='pago' }}>Pago/Recebido</option>
-            <option value="cancelado" {{ 'selected' if financial_launch_filter.status=='cancelado' }}>Cancelado</option>
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-exchange-dollar-line me-1 text-primary"></i>Tipo</label>
-          <select name="entry_type" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Receitas e Despesas</option>
-            <option value="despesa" {{ 'selected' if financial_launch_filter.entry_type=='despesa' }}>Despesas</option>
-            <option value="receita" {{ 'selected' if financial_launch_filter.entry_type=='receita' }}>Receitas</option>
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-folder-3-line me-1 text-primary"></i>Categoria</label>
-          <select id="list-category" name="category_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Todas as categorias</option>
-            {% for category in financial_categories if not category.parent_id %}
-            <option value="{{ category.id }}" {{ 'selected' if financial_launch_filter.category_id==category.id|string }}>{{ category.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-folder-sub-line me-1 text-primary"></i>Subcategoria</label>
-          <select id="list-subcategory" name="subcategory_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
-            <option value="">Todas as subcategorias</option>
-            {% for category in financial_categories if category.parent_id %}
-            <option value="{{ category.id }}" data-parent="{{ category.parent_id }}" {{ 'selected' if financial_launch_filter.subcategory_id==category.id|string }}>{{ category.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-3">
-          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-range-line me-1 text-primary"></i>Intervalo De / Até</label>
-          <div class="input-group input-group-sm">
-            <input type="date" name="start_date" class="form-control form-control-sm py-1 fs-12" value="{{ financial_launch_filter.start_date }}" title="Data inicial">
-            <span class="input-group-text px-1 fs-11">até</span>
-            <input type="date" name="end_date" class="form-control form-control-sm py-1 fs-12" value="{{ financial_launch_filter.end_date }}" title="Data final">
+    <!-- Painel de Filtros Avançados Retrátil (Collapsible) -->
+    <div class="collapse {{ 'show' if is_filter_open else '' }}" id="filterPanelCollapse">
+      <div class="card border-0 shadow-sm rounded-3 mb-3 p-3 bg-white">
+        
+        <!-- Topo: Orientação Compacta -->
+        <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+          <div class="fw-bold text-dark fs-12"><i class="ri-filter-3-line text-primary me-1"></i>Filtros Avançados</div>
+          <div class="d-flex align-items-center gap-1.5 text-muted fs-11">
+            <i class="ri-information-fill text-primary fs-14"></i>
+            <span>Selecione os parâmetros abaixo e clique em <strong>Aplicar Filtros</strong>.</span>
           </div>
         </div>
-      </div>
 
-      <!-- Rodapé: Ações Valorizadas Compactas -->
-      <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top flex-wrap gap-2">
-        <div class="text-muted fs-11">
-          {% set active_count = (1 if financial_launch_filter.q else 0) + (1 if financial_launch_filter.company_id else 0) + (1 if financial_launch_filter.period else 0) + (1 if financial_launch_filter.month else 0) + (1 if financial_launch_filter.year else 0) + (1 if financial_launch_filter.status else 0) + (1 if financial_launch_filter.entry_type else 0) + (1 if financial_launch_filter.category_id else 0) + (1 if financial_launch_filter.subcategory_id else 0) + (1 if financial_launch_filter.start_date else 0) %}
-          {% if active_count > 0 %}
-            <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1.5"><i class="ri-filter-fill me-1"></i> {{ active_count }} filtro(s) ativo(s)</span>
-          {% else %}
-            <span class="text-muted"><i class="ri-filter-off-line me-1"></i> Nenhum filtro ativo</span>
-          {% endif %}
-        </div>
-        <div class="d-flex gap-2">
-          <a href="/financeiro/lancamentos" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-semibold"><i class="ri-refresh-line me-1"></i>Limpar Filtros</a>
-          <button type="submit" class="btn btn-sm btn-primary rounded-pill px-4 fw-bold shadow-sm"><i class="ri-filter-3-line me-1 fs-14"></i>Aplicar Filtros</button>
-        </div>
-      </div>
+        <!-- Grid de Filtros Compactos (g-2) -->
+        <div class="row g-2">
+          <div class="col-sm-6 col-lg-3">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-building-line me-1 text-primary"></i>Empresa</label>
+            <select name="company_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Todas as empresas</option>
+              {% for comp in financial_companies %}
+              <option value="{{ comp.id }}" {{ 'selected' if financial_launch_filter.company_id==comp.id|string }}>{{ comp.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
 
+          <div class="col-sm-6 col-lg-3">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-event-line me-1 text-primary"></i>Período</label>
+            <select name="period" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Todos os períodos</option>
+              <option value="7" {{ 'selected' if financial_launch_filter.period=='7' }}>Últimos 7 dias</option>
+              <option value="15" {{ 'selected' if financial_launch_filter.period=='15' }}>Últimos 15 dias</option>
+              <option value="30" {{ 'selected' if financial_launch_filter.period=='30' }}>Últimos 30 dias</option>
+              <option value="60" {{ 'selected' if financial_launch_filter.period=='60' }}>Últimos 60 dias</option>
+              <option value="90" {{ 'selected' if financial_launch_filter.period=='90' }}>Últimos 90 dias</option>
+              <option value="180" {{ 'selected' if financial_launch_filter.period=='180' }}>Últimos 180 dias</option>
+              <option value="365" {{ 'selected' if financial_launch_filter.period=='365' }}>Último ano (365d)</option>
+            </select>
+          </div>
+
+          <div class="col-sm-6 col-lg-2">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-check-line me-1 text-primary"></i>Mês</label>
+            <select name="month" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Todos os meses</option>
+              {% for m in range(1, 13) %}
+              <option value="{{ m }}" {{ 'selected' if financial_launch_filter.month==m|string }}>{{ ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m-1] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-sm-6 col-lg-2">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-2-line me-1 text-primary"></i>Ano</label>
+            <select name="year" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Todos os anos</option>
+              {% for y in available_years %}
+              <option value="{{ y }}" {{ 'selected' if financial_launch_filter.year==y|string }}>{{ y }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-sm-6 col-lg-2">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-checkbox-circle-line me-1 text-primary"></i>Status</label>
+            <select name="status" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Todos os status</option>
+              <option value="pendente" {{ 'selected' if financial_launch_filter.status=='pendente' }}>Pendente</option>
+              <option value="perto_vencer" {{ 'selected' if financial_launch_filter.status=='perto_vencer' }}>Perto de vencer</option>
+              <option value="vencido" {{ 'selected' if financial_launch_filter.status=='vencido' }}>Vencido</option>
+              <option value="pago" {{ 'selected' if financial_launch_filter.status=='pago' }}>Pago/Recebido</option>
+              <option value="cancelado" {{ 'selected' if financial_launch_filter.status=='cancelado' }}>Cancelado</option>
+            </select>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-exchange-dollar-line me-1 text-primary"></i>Tipo</label>
+            <select name="entry_type" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Receitas e Despesas</option>
+              <option value="despesa" {{ 'selected' if financial_launch_filter.entry_type=='despesa' }}>Despesas</option>
+              <option value="receita" {{ 'selected' if financial_launch_filter.entry_type=='receita' }}>Receitas</option>
+            </select>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-folder-3-line me-1 text-primary"></i>Categoria</label>
+            <select id="list-category" name="category_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Todas as categorias</option>
+              {% for category in financial_categories if not category.parent_id %}
+              <option value="{{ category.id }}" {{ 'selected' if financial_launch_filter.category_id==category.id|string }}>{{ category.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-folder-sub-line me-1 text-primary"></i>Subcategoria</label>
+            <select id="list-subcategory" name="subcategory_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
+              <option value="">Todas as subcategorias</option>
+              {% for category in financial_categories if category.parent_id %}
+              <option value="{{ category.id }}" data-parent="{{ category.parent_id }}" {{ 'selected' if financial_launch_filter.subcategory_id==category.id|string }}>{{ category.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-sm-6 col-lg-3">
+            <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-range-line me-1 text-primary"></i>Intervalo De / Até</label>
+            <div class="input-group input-group-sm">
+              <input type="date" name="start_date" class="form-control form-control-sm py-1 fs-12" value="{{ financial_launch_filter.start_date }}" title="Data inicial">
+              <span class="input-group-text px-1 fs-11">até</span>
+              <input type="date" name="end_date" class="form-control form-control-sm py-1 fs-12" value="{{ financial_launch_filter.end_date }}" title="Data final">
+            </div>
+          </div>
+        </div>
+
+        <!-- Rodapé: Ações Valorizadas Compactas -->
+        <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top flex-wrap gap-2">
+          <div class="text-muted fs-11">
+            {% if active_count_without_q > 0 %}
+              <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1.5"><i class="ri-filter-fill me-1"></i> {{ active_count_without_q }} filtro(s) avançado(s) ativo(s)</span>
+            {% else %}
+              <span class="text-muted"><i class="ri-filter-off-line me-1"></i> Nenhum filtro avançado ativo</span>
+            {% endif %}
+          </div>
+          <div class="d-flex gap-2">
+            <a href="/financeiro/lancamentos" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-semibold"><i class="ri-refresh-line me-1"></i>Limpar Filtros</a>
+            <button type="submit" class="btn btn-sm btn-primary rounded-pill px-4 fw-bold shadow-sm"><i class="ri-filter-3-line me-1 fs-14"></i>Aplicar Filtros</button>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <!-- Tabela com Barra de Pesquisa Direta Acima -->
+    <!-- Tabela com Barra de Pesquisa & Botão Mostrar Filtros Acima -->
     <div class="card border-0 shadow-sm rounded-4 p-3">
       <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
         <div class="d-flex align-items-center gap-2">
           <h6 class="fw-bold mb-0 text-dark"><i class="ri-list-check-2 me-1 text-primary"></i>Listagem de Lançamentos</h6>
           <span class="badge bg-light text-muted border rounded-pill px-2.5 py-1 fs-11">{{ ns.count }} registro(s)</span>
         </div>
-        <div style="min-width: 300px; max-width: 460px;" class="flex-grow-1">
-          <div class="input-group input-group-sm">
-            <span class="input-group-text bg-white border-end-0 text-muted ps-2.5"><i class="ri-search-line fs-14"></i></span>
-            <input name="q" class="form-control border-start-0 ps-0 form-control-sm" value="{{ financial_launch_filter.q }}" placeholder="Pesquisar por descrição, observação, empresa ou categoria...">
-            <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold"><i class="ri-search-2-line me-1"></i>Buscar</button>
+
+        <!-- Botão Mostrar/Ocultar Filtros & Barra de Pesquisa Rápida -->
+        <div class="d-flex align-items-center gap-2 flex-grow-1 justify-content-end flex-wrap">
+          <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-semibold" data-bs-toggle="collapse" data-bs-target="#filterPanelCollapse" aria-expanded="{{ 'true' if is_filter_open else 'false' }}">
+            <i class="ri-filter-3-line me-1"></i>
+            <span id="filter-btn-text">{{ 'Ocultar Filtros' if is_filter_open else 'Mostrar Filtros' }}</span>
+            {% if active_count_without_q > 0 %}
+            <span class="badge bg-primary text-white rounded-circle ms-1 px-1.5 py-0.5">{{ active_count_without_q }}</span>
+            {% endif %}
+          </button>
+
+          <div style="min-width: 250px; max-width: 420px;" class="flex-grow-1">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-white border-end-0 text-muted ps-2.5"><i class="ri-search-line fs-14"></i></span>
+              <input name="q" class="form-control border-start-0 ps-0 form-control-sm" value="{{ financial_launch_filter.q }}" placeholder="Pesquisar por descrição, empresa...">
+              <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold"><i class="ri-search-2-line me-1"></i>Buscar</button>
+            </div>
           </div>
         </div>
       </div>
@@ -424,7 +442,17 @@
 
 <script>function dependentSelect(parent,child,filterType=false){function update(){[...child.options].forEach(option=>{if(!option.value)return;const parentMatch=!parent.value||option.dataset.parent===parent.value;const typeMatch=!filterType||!option.dataset.type||[filterType.value,'ambos'].includes(option.dataset.type);option.hidden=!(parentMatch&&typeMatch);});if(child.selectedOptions[0]?.hidden)child.value='';}parent.addEventListener('change',update);if(filterType)filterType.addEventListener('change',update);update();}dependentSelect(document.getElementById('list-category'),document.getElementById('list-subcategory'));const entryType=document.getElementById('entry-type'),entryCategory=document.getElementById('entry-category'),entrySubcategory=document.getElementById('entry-subcategory');function filterEntryCategories(){[...entryCategory.options].forEach(option=>option.hidden=![entryType.value,'ambos'].includes(option.dataset.type));if(entryCategory.selectedOptions[0]?.hidden){const first=[...entryCategory.options].find(option=>!option.hidden);if(first)entryCategory.value=first.value;}entryCategory.dispatchEvent(new Event('change'));}dependentSelect(entryCategory,entrySubcategory,entryType);entryType.addEventListener('change',filterEntryCategories);filterEntryCategories();
 
-const editCat=document.getElementById('edit-category'),editSubcat=document.getElementById('edit-subcategory');dependentSelect(editCat,editSubcat);document.querySelectorAll('[data-edit-entry]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('edit-entry-form').action=`/financeiro/lancamentos/${button.dataset.id}/editar`;document.getElementById('edit-company').value=button.dataset.company||'';document.getElementById('edit-description').value=button.dataset.description;document.getElementById('edit-amount').value=button.dataset.amount;document.getElementById('edit-due-date').value=button.dataset.date;document.getElementById('edit-category').value=button.dataset.cat;document.getElementById('edit-category').dispatchEvent(new Event('change'));document.getElementById('edit-subcategory').value=button.dataset.sub;document.getElementById('edit-status').value=button.dataset.status;document.getElementById('edit-notes').value=button.dataset.notes||'';bootstrap.Modal.getOrCreateInstance(document.getElementById('edit-entry-modal')).show();}));</script>
+const editCat=document.getElementById('edit-category'),editSubcat=document.getElementById('edit-subcategory');dependentSelect(editCat,editSubcat);document.querySelectorAll('[data-edit-entry]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('edit-entry-form').action=`/financeiro/lancamentos/${button.dataset.id}/editar`;document.getElementById('edit-company').value=button.dataset.company||'';document.getElementById('edit-description').value=button.dataset.description;document.getElementById('edit-amount').value=button.dataset.amount;document.getElementById('edit-due-date').value=button.dataset.date;document.getElementById('edit-category').value=button.dataset.cat;document.getElementById('edit-category').dispatchEvent(new Event('change'));document.getElementById('edit-subcategory').value=button.dataset.sub;document.getElementById('edit-status').value=button.dataset.status;document.getElementById('edit-notes').value=button.dataset.notes||'';bootstrap.Modal.getOrCreateInstance(document.getElementById('edit-entry-modal')).show();}));
+
+document.getElementById('filterPanelCollapse')?.addEventListener('shown.bs.collapse', function () {
+    const textEl = document.getElementById('filter-btn-text');
+    if (textEl) textEl.textContent = 'Ocultar Filtros';
+});
+document.getElementById('filterPanelCollapse')?.addEventListener('hidden.bs.collapse', function () {
+    const textEl = document.getElementById('filter-btn-text');
+    if (textEl) textEl.textContent = 'Mostrar Filtros';
+});
+</script>
 <script>document.querySelectorAll('#financial-entries-table th[data-sort]').forEach((header,index)=>header.addEventListener('click',()=>{const tbody=document.querySelector('#financial-entries-table tbody'),ascending=header.dataset.direction!=='asc';document.querySelectorAll('#financial-entries-table th').forEach(item=>delete item.dataset.direction);header.dataset.direction=ascending?'asc':'desc';const rows=[...tbody.querySelectorAll('tr')].filter(row=>row.cells.length>1);rows.sort((a,b)=>{let left=a.cells[index].dataset.value||a.cells[index].textContent.trim(),right=b.cells[index].dataset.value||b.cells[index].textContent.trim();if(header.dataset.sort==='number'){left=Number(left);right=Number(right);return ascending?left-right:right-left;}const result=left.localeCompare(right,'pt-BR',{numeric:true,sensitivity:'base'});return ascending?result:-result;});rows.forEach(row=>tbody.appendChild(row));}));</script>
 <script>
 function setLancDates(type) {
