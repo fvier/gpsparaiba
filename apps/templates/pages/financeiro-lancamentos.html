@@ -25,14 +25,14 @@
   {% endfor %}
   {% set saldo = ns.receitas - ns.despesas %}
 
-  <!-- Cards de Resumo Totais (Ultra Compactos) -->
+  <!-- Cards de Resumo Totais (Ultra Compactos com Separador de Milhares) -->
   <div class="row g-2 mb-3">
     <div class="col-6 col-lg-3">
       <div class="card border-0 shadow-sm rounded-3 p-2 px-3 bg-white">
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Total Receitas</span>
-            <h5 class="fw-bold text-success mb-0 fs-15">R$ {{ '%.2f'|format(ns.receitas)|replace('.',',') }}</h5>
+            <h5 class="fw-bold text-success mb-0 fs-15">R$ {{ "{:,.2f}".format(ns.receitas).replace(',', 'X').replace('.', ',').replace('X', '.') }}</h5>
           </div>
           <div class="rounded-circle bg-success-subtle p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
             <i class="ri-arrow-up-circle-line text-success fs-16"></i>
@@ -45,7 +45,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Total Saídas</span>
-            <h5 class="fw-bold text-danger mb-0 fs-15">R$ {{ '%.2f'|format(ns.despesas)|replace('.',',') }}</h5>
+            <h5 class="fw-bold text-danger mb-0 fs-15">R$ {{ "{:,.2f}".format(ns.despesas).replace(',', 'X').replace('.', ',').replace('X', '.') }}</h5>
           </div>
           <div class="rounded-circle bg-danger-subtle p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
             <i class="ri-arrow-down-circle-line text-danger fs-16"></i>
@@ -58,7 +58,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Saldo Líquido</span>
-            <h5 class="fw-bold {{ 'text-primary' if saldo >= 0 else 'text-danger' }} mb-0 fs-15">R$ {{ '%.2f'|format(saldo)|replace('.',',') }}</h5>
+            <h5 class="fw-bold {{ 'text-primary' if saldo >= 0 else 'text-danger' }} mb-0 fs-15">R$ {{ "{:,.2f}".format(saldo).replace(',', 'X').replace('.', ',').replace('X', '.') }}</h5>
           </div>
           <div class="rounded-circle {{ 'bg-primary-subtle' if saldo >= 0 else 'bg-warning-subtle' }} p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
             <i class="ri-wallet-3-line {{ 'text-primary' if saldo >= 0 else 'text-warning' }} fs-16"></i>
@@ -71,7 +71,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div>
             <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Lançamentos</span>
-            <h5 class="fw-bold text-dark mb-0 fs-15">{{ ns.count }} <small class="text-muted fs-11 fw-normal">registros</small></h5>
+            <h5 class="fw-bold text-dark mb-0 fs-15">{{ "{:,}".format(ns.count).replace(',', '.') }} <small class="text-muted fs-11 fw-normal">registros</small></h5>
           </div>
           <div class="rounded-circle bg-info-subtle p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
             <i class="ri-file-list-3-line text-info fs-16"></i>
@@ -271,7 +271,7 @@
 
               <!-- 2. Valor (com white-space: nowrap e min-width para abranger todo o tamanho do valor) -->
               <td data-value="{{ entry.amount }}" class="fw-bold {{ 'text-success' if entry.entry_type=='receita' else 'text-danger' }}" style="white-space: nowrap; min-width: 130px; font-size: 0.85rem;">
-                R$ {{ '%.2f'|format(entry.amount)|replace('.',',') }}
+                R$ {{ "{:,.2f}".format(entry.amount).replace(',', 'X').replace('.', ',').replace('X', '.') }}
               </td>
 
               <!-- 3. Vencimento -->
