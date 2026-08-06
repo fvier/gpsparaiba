@@ -20,4 +20,4 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 5000
 
 # Start Gunicorn server
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "2", "--access-logfile", "-", "--error-logfile", "-", "--timeout", "60", "run:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "4", "--threads", "2", "--access-logfile", "-", "--error-logfile", "-", "--timeout", "60", "run:app"]
