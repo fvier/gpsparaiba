@@ -216,7 +216,115 @@
   </div>
 
   <div class="card border-0 shadow-sm rounded-4 p-4">
-    <div class="table-responsive"><table id="financial-entries-table" class="table table-hover align-middle financial-entries-table"><thead><tr><th data-sort="date">Vencimento <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Empresa <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Categoria <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Subcategoria <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Tipo <i class="ri-arrow-up-down-line"></i></th><th data-sort="number">Valor <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Status <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Descrição <i class="ri-arrow-up-down-line"></i></th><th class="text-end">Ações</th></tr></thead><tbody>{% for entry in financial_entries %}{% set status=entry.effective_status %}{% set current_main_id=entry.category.parent_id if entry.category.parent_id else entry.category_id %}{% set current_sub_id=entry.category_id if entry.category.parent_id else None %}<tr><td data-value="{{ entry.due_date.isoformat() }}"><span class="fw-bold">{{ entry.due_date.strftime('%d/%m/%Y') }}</span></td><td data-value="{{ entry.company.name if entry.company else 'GPS Paraíba' }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/empresa" class="m-0 p-0"><select name="company_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()">{% for comp in financial_companies if comp.active or comp.id==entry.company_id %}<option value="{{ comp.id }}" {{ 'selected' if comp.id==entry.company_id }}>{{ comp.name }}</option>{% endfor %}</select></form></td><td data-value="{{ entry.category.parent.name if entry.category.parent else entry.category.name }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/categoria" class="m-0 p-0"><select name="category_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()">{% for category in financial_categories if not category.parent_id and category.active %}{% if category.entry_type in [entry.entry_type, 'ambos'] %}<option value="{{ category.id }}" {{ 'selected' if category.id==current_main_id }}>{{ category.name }}</option>{% endif %}{% endfor %}</select></form></td><td data-value="{{ entry.category.name if entry.category.parent else '' }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/categoria" class="m-0 p-0"><input type="hidden" name="category_id" value="{{ current_main_id }}"><select name="subcategory_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()"><option value="">Nenhuma / Principal</option>{% for subcat in financial_categories if subcat.parent_id and subcat.active %}{% if subcat.parent_id==current_main_id %}<option value="{{ subcat.id }}" {{ 'selected' if subcat.id==current_sub_id }}>{{ subcat.name }}</option>{% endif %}{% endfor %}</select></form></td><td data-value="{{ entry.entry_type }}"><span class="badge {{ 'bg-success-subtle text-success' if entry.entry_type=='receita' else 'bg-danger-subtle text-danger' }}">{{ entry.entry_type|capitalize }}</span></td><td data-value="{{ entry.amount }}" class="fw-bold {{ 'text-success' if entry.entry_type=='receita' else 'text-danger' }}">R$ {{ '%.2f'|format(entry.amount)|replace('.',',') }}</td><td data-value="{{ status }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/status"><select name="status" class="form-select form-select-sm entry-status-select {{ 'text-danger' if status=='vencido' else ('text-warning' if status=='perto_vencer' else ('text-success' if status=='pago' else '')) }}" onchange="this.form.submit()"><option value="pendente" {{ 'selected' if entry.status=='pendente' }}>{{ 'Vencido' if status=='vencido' else ('Perto de vencer' if status=='perto_vencer' else 'Pendente') }}</option><option value="pago" {{ 'selected' if entry.status=='pago' }}>Pago/Recebido</option><option value="cancelado" {{ 'selected' if entry.status=='cancelado' }}>Cancelado</option></select></form></td><td data-value="{{ entry.description }}"><strong>{{ entry.description }}</strong>{% if entry.notes %}<small class="d-block text-muted">{{ entry.notes }}</small>{% endif %}</td><td class="text-end"><button class="btn btn-sm btn-light text-primary rounded-circle p-1" data-edit-entry data-id="{{ entry.id }}" data-company="{{ entry.company_id }}" data-date="{{ entry.due_date.isoformat() }}" data-description="{{ entry.description }}" data-amount="{{ '%.2f'|format(entry.amount) }}" data-cat="{{ current_main_id }}" data-sub="{{ current_sub_id or '' }}" data-status="{{ entry.status }}" data-notes="{{ entry.notes }}" title="Editar lançamento"><i class="ri-pencil-line"></i></button></td></tr>{% else %}<tr><td colspan="9" class="text-center text-muted py-4">Nenhum lançamento encontrado.</td></tr>{% endfor %}</tbody></table></div>
+    <div class="table-responsive">
+      <table id="financial-entries-table" class="table table-hover align-middle financial-entries-table">
+        <thead>
+          <tr>
+            <th data-sort="text" style="width: 90px;">Tipo <i class="ri-arrow-up-down-line"></i></th>
+            <th data-sort="number" style="white-space: nowrap; min-width: 130px;">Valor <i class="ri-arrow-up-down-line"></i></th>
+            <th data-sort="date" style="white-space: nowrap;">Vencimento <i class="ri-arrow-up-down-line"></i></th>
+            <th data-sort="text">Empresa <i class="ri-arrow-up-down-line"></i></th>
+            <th data-sort="text">Categoria <i class="ri-arrow-up-down-line"></i></th>
+            <th data-sort="text">Subcategoria <i class="ri-arrow-up-down-line"></i></th>
+            <th data-sort="text">Status <i class="ri-arrow-up-down-line"></i></th>
+            <th data-sort="text" style="font-size: 0.76rem;">Descrição <i class="ri-arrow-up-down-line"></i></th>
+            <th class="text-end" style="width: 60px;">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in financial_entries %}
+            {% set status=entry.effective_status %}
+            {% set current_main_id=entry.category.parent_id if entry.category.parent_id else entry.category_id %}
+            {% set current_sub_id=entry.category_id if entry.category.parent_id else None %}
+            <tr>
+              <!-- 1. Tipo -->
+              <td data-value="{{ entry.entry_type }}">
+                <span class="badge {{ 'bg-success-subtle text-success' if entry.entry_type=='receita' else 'bg-danger-subtle text-danger' }} px-2 py-1 fs-11">{{ entry.entry_type|capitalize }}</span>
+              </td>
+
+              <!-- 2. Valor (com white-space: nowrap e min-width para abranger todo o tamanho do valor) -->
+              <td data-value="{{ entry.amount }}" class="fw-bold {{ 'text-success' if entry.entry_type=='receita' else 'text-danger' }}" style="white-space: nowrap; min-width: 130px; font-size: 0.85rem;">
+                R$ {{ '%.2f'|format(entry.amount)|replace('.',',') }}
+              </td>
+
+              <!-- 3. Vencimento -->
+              <td data-value="{{ entry.due_date.isoformat() }}" style="white-space: nowrap;">
+                <span class="fw-semibold text-secondary">{{ entry.due_date.strftime('%d/%m/%Y') }}</span>
+              </td>
+
+              <!-- 4. Empresa -->
+              <td data-value="{{ entry.company.name if entry.company else 'GPS Paraíba' }}">
+                <form method="post" action="/financeiro/lancamentos/{{ entry.id }}/empresa" class="m-0 p-0">
+                  <select name="company_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()">
+                    {% for comp in financial_companies if comp.active or comp.id==entry.company_id %}
+                    <option value="{{ comp.id }}" {{ 'selected' if comp.id==entry.company_id }}>{{ comp.name }}</option>
+                    {% endfor %}
+                  </select>
+                </form>
+              </td>
+
+              <!-- 5. Categoria -->
+              <td data-value="{{ entry.category.parent.name if entry.category.parent else entry.category.name }}">
+                <form method="post" action="/financeiro/lancamentos/{{ entry.id }}/categoria" class="m-0 p-0">
+                  <select name="category_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()">
+                    {% for category in financial_categories if not category.parent_id and category.active %}
+                    {% if category.entry_type in [entry.entry_type, 'ambos'] %}
+                    <option value="{{ category.id }}" {{ 'selected' if category.id==current_main_id }}>{{ category.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </form>
+              </td>
+
+              <!-- 6. Subcategoria -->
+              <td data-value="{{ entry.category.name if entry.category.parent else '' }}">
+                <form method="post" action="/financeiro/lancamentos/{{ entry.id }}/categoria" class="m-0 p-0">
+                  <input type="hidden" name="category_id" value="{{ current_main_id }}">
+                  <select name="subcategory_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()">
+                    <option value="">Nenhuma / Principal</option>
+                    {% for subcat in financial_categories if subcat.parent_id and subcat.active %}
+                    {% if subcat.parent_id==current_main_id %}
+                    <option value="{{ subcat.id }}" {{ 'selected' if subcat.id==current_sub_id }}>{{ subcat.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+                </form>
+              </td>
+
+              <!-- 7. Status -->
+              <td data-value="{{ status }}">
+                <form method="post" action="/financeiro/lancamentos/{{ entry.id }}/status">
+                  <select name="status" class="form-select form-select-sm entry-status-select {{ 'text-danger fw-bold' if status=='vencido' else ('text-warning fw-bold' if status=='perto_vencer' else ('text-success fw-bold' if status=='pago' else '')) }}" onchange="this.form.submit()">
+                    <option value="pendente" {{ 'selected' if entry.status=='pendente' }}>{{ 'Vencido' if status=='vencido' else ('Perto de vencer' if status=='perto_vencer' else 'Pendente') }}</option>
+                    <option value="pago" {{ 'selected' if entry.status=='pago' }}>Pago/Recebido</option>
+                    <option value="cancelado" {{ 'selected' if entry.status=='cancelado' }}>Cancelado</option>
+                  </select>
+                </form>
+              </td>
+
+              <!-- 8. Descrição (fonte reduzida) -->
+              <td data-value="{{ entry.description }}" style="font-size: 0.76rem; max-width: 220px;">
+                <span class="fw-semibold text-dark">{{ entry.description }}</span>
+                {% if entry.notes %}
+                <small class="d-block text-muted" style="font-size: 0.70rem;">{{ entry.notes }}</small>
+                {% endif %}
+              </td>
+
+              <!-- 9. Ações -->
+              <td class="text-end">
+                <button class="btn btn-sm btn-light text-primary rounded-circle p-1" data-edit-entry data-id="{{ entry.id }}" data-company="{{ entry.company_id }}" data-date="{{ entry.due_date.isoformat() }}" data-description="{{ entry.description }}" data-amount="{{ '%.2f'|format(entry.amount) }}" data-cat="{{ current_main_id }}" data-sub="{{ current_sub_id or '' }}" data-status="{{ entry.status }}" data-notes="{{ entry.notes }}" title="Editar lançamento">
+                  <i class="ri-pencil-line"></i>
+                </button>
+              </td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="9" class="text-center text-muted py-4">Nenhum lançamento encontrado.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -361,16 +469,16 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
     setTimeout(() => {
         const rows = [...document.querySelectorAll('#financial-entries-table tbody tr')].filter(r => r.cells.length > 1);
         const dataList = rows.map(r => {
-            const dateCell = r.cells[0].textContent.replace(/\s+/g, ' ').trim();
-            const companyCell = r.cells[1].querySelector('select')?.selectedOptions[0]?.text || r.cells[1].textContent.trim();
-            const catCell = r.cells[2].querySelector('select')?.selectedOptions[0]?.text || r.cells[2].textContent.trim();
-            const subcatCell = r.cells[3].querySelector('select')?.selectedOptions[0]?.text || r.cells[3].textContent.trim();
-            const typeCell = r.cells[4].textContent.trim();
-            const rawAmountStr = r.cells[5].dataset.value || r.cells[5].textContent;
+            const typeCell = r.cells[0].textContent.trim();
+            const rawAmountStr = r.cells[1].dataset.value || r.cells[1].textContent;
             const cleanAmountStr = rawAmountStr.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
             const numAmount = parseFloat(cleanAmountStr) || 0;
+            const dateCell = r.cells[2].textContent.replace(/\s+/g, ' ').trim();
+            const companyCell = r.cells[3].querySelector('select')?.selectedOptions[0]?.text || r.cells[3].textContent.trim();
+            const catCell = r.cells[4].querySelector('select')?.selectedOptions[0]?.text || r.cells[4].textContent.trim();
+            const subcatCell = r.cells[5].querySelector('select')?.selectedOptions[0]?.text || r.cells[5].textContent.trim();
             const statusCell = r.cells[6].querySelector('select')?.selectedOptions[0]?.text || r.cells[6].textContent.trim();
-            const descCell = r.cells[7].querySelector('strong')?.textContent.trim() || r.cells[7].dataset.value || r.cells[7].textContent.trim();
+            const descCell = r.cells[7].querySelector('span')?.textContent.trim() || r.cells[7].dataset.value || r.cells[7].textContent.trim();
             return { due_date: dateCell, company: companyCell, category: catCell, subcategory: subcatCell, type: typeCell, amount: numAmount, status: statusCell, description: descCell };
         }).filter(item => {
             if (!startDate && !endDate) return true;
