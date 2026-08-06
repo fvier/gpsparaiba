@@ -331,31 +331,32 @@
 
         <!-- ABA 4: AUTENTICAÇÃO BEARER TOKEN -->
         <div class="tab-pane fade" id="tab-auth" role="tabpanel">
-            <h5 class="fw-bold text-dark mb-2"><i class="ri-shield-keyhole-line text-primary me-2"></i>Autenticação por Bearer Token (Padrão RFC 6750)</h5>
-            <p class="text-secondary small mb-4">Recomendamos utilizar o padrão mundial de mercado <code>Authorization: Bearer &lt;token&gt;</code> para integrar seus sistemas com máxima compatibilidade.</p>
+            <h5 class="fw-bold text-dark mb-2"><i class="ri-shield-keyhole-line text-primary me-2"></i>Chaves de Acesso & Bearer Token (Padrão RFC 6750)</h5>
+            <p class="text-secondary small mb-4">Utilize a chave de produção com o padrão <code>Authorization: Bearer &lt;token&gt;</code> em todas as requisições HTTP enviadas para a API.</p>
 
-            <div class="mb-4" style="max-width: 650px;">
-                <label class="form-label fw-semibold text-dark">Chave de Token de Produção Ativa:</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-0"><i class="ri-key-line text-warning"></i></span>
-                    <input type="text" id="api-key-input" class="form-control bg-light border-0 fw-bold text-dark" value="gps_live_key_paraiba_2026" readonly>
-                    <button class="btn btn-primary rounded-end px-3" type="button" onclick="copyApiKey()">
+            <div class="card border-0 bg-light p-4 rounded-4 mb-4" style="max-width: 680px;">
+                <label class="form-label fw-bold text-dark mb-1"><i class="ri-key-2-line text-warning me-1"></i>Bearer Token de Produção Ativo:</label>
+                <div class="input-group mb-2">
+                    <span class="input-group-text bg-white border-0"><i class="ri-lock-2-line text-primary"></i></span>
+                    <input type="text" id="api-key-input" class="form-control bg-white border-0 fw-bold text-dark fs-15" value="gps_live_key_paraiba_2026" readonly>
+                    <button class="btn btn-primary rounded-end px-3 fw-bold" type="button" onclick="copyApiKey()">
                         <i class="ri-file-copy-line me-1"></i> Copiar Token
                     </button>
                 </div>
-                <div id="copy-toast" class="small text-success mt-2 d-none"><i class="ri-check-line me-1"></i>Token de API copiado para a área de transferência!</div>
+                <div id="copy-toast" class="small text-success d-none"><i class="ri-checkbox-circle-line me-1"></i>Bearer Token copiado para a área de transferência!</div>
             </div>
 
-            <div class="bg-light p-3 rounded-3 border mb-4">
-                <h6 class="fw-bold text-dark mb-2"><i class="ri-code-s-slash-line text-primary me-1"></i>Como Enviar o Token nas Requisições:</h6>
-                <p class="small text-muted mb-2">Envie no cabeçalho HTTP (*Header*) de todas as suas chamadas:</p>
-                <code class="d-block bg-dark text-warning p-2 rounded fw-bold fs-13">Authorization: Bearer gps_live_key_paraiba_2026</code>
-                <small class="text-muted d-block mt-2">*(Nota: O sistema também aceita o cabeçalho <code>X-API-Key: gps_live_key_paraiba_2026</code> ou o parâmetro na URL <code>?api_key=...</code> por compatibilidade).*</small>
+            <div class="bg-dark text-light p-4 rounded-4 mb-4" style="max-width: 680px;">
+                <h6 class="fw-bold text-warning mb-2"><i class="ri-code-s-slash-line me-1"></i>Exemplo de Cabeçalho HTTP (Header):</h6>
+                <div class="bg-black p-3 rounded-3 text-success fw-bold font-monospace fs-13 mb-2">
+                    Authorization: Bearer gps_live_key_paraiba_2026
+                </div>
+                <small class="text-muted d-block fs-12">*(Compatibilidade retroativa: O sistema também reconhece o cabeçalho <code>X-API-Key: gps_live_key_paraiba_2026</code> ou <code>?api_key=...</code>).*</small>
             </div>
 
-            <div class="alert alert-warning border-0 rounded-3 mb-0" role="alert">
-                <h6 class="fw-bold mb-1"><i class="ri-alert-line me-1"></i>Recomendação de Segurança:</h6>
-                <small class="mb-0 d-block">Mantenha seu Bearer Token protegido. Nunca compartilhe a chave de produção em código-fonte público ou scripts expostos no navegador.</small>
+            <div class="alert alert-warning border-0 rounded-3 mb-0" style="max-width: 680px;" role="alert">
+                <h6 class="fw-bold mb-1"><i class="ri-shield-cross-line me-1"></i>Segurança & Boas Práticas:</h6>
+                <small class="mb-0 d-block">Nunca exponha seu Bearer Token em repositórios públicos de código (GitHub) ou em scripts executados diretamente no navegador do cliente final. Armazene a chave em variáveis de ambiente seguras no seu servidor backend.</small>
             </div>
         </div>
 
