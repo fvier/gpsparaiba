@@ -3,7 +3,13 @@
 {% block page_content %}
 <style>.financial-entries-table{font-size:.78rem}.financial-entries-table th,.financial-entries-table td{padding:.55rem .45rem}.financial-entries-table th[data-sort]{cursor:pointer;white-space:nowrap}.financial-entries-table th[data-sort]:hover{color:#2563eb}.entry-status-select,.entry-cat-select{min-width:120px;font-size:.72rem;padding:.25rem 1.6rem .25rem .45rem}</style>
 <div class="container-fluid py-3">
-  <div class="d-flex justify-content-between align-items-center mb-4"><div><h4 class="fw-bold mb-1"><i class="ri-file-list-3-line text-primary me-2"></i>Lançamentos</h4><p class="text-muted small mb-0">Receitas e despesas por empresa e categoria.</p></div><button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#entry-modal"><i class="ri-add-line me-1"></i>Novo lançamento</button></div>
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div><h4 class="fw-bold mb-1"><i class="ri-file-list-3-line text-primary me-2"></i>Lançamentos</h4><p class="text-muted small mb-0">Receitas e despesas por empresa e categoria.</p></div>
+    <div class="d-flex gap-2">
+      <button class="btn btn-success rounded-pill fw-bold shadow-sm px-3" data-bs-toggle="modal" data-bs-target="#export-modal-lancamentos"><i class="ri-file-excel-line me-1 fs-15"></i>Exportar Relatório</button>
+      <button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#entry-modal"><i class="ri-add-line me-1"></i>Novo lançamento</button>
+    </div>
+  </div>
   {% with messages=get_flashed_messages(with_categories=true) %}{% for category,message in messages %}<div class="alert alert-{{ category }}">{{ message }}</div>{% endfor %}{% endwith %}
   <div class="card border-0 shadow-sm rounded-4 p-4">
     <form method="get" class="mb-4">
@@ -111,14 +117,177 @@
     <div class="table-responsive"><table id="financial-entries-table" class="table table-hover align-middle financial-entries-table"><thead><tr><th data-sort="date">Vencimento <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Empresa <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Categoria <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Subcategoria <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Tipo <i class="ri-arrow-up-down-line"></i></th><th data-sort="number">Valor <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Status <i class="ri-arrow-up-down-line"></i></th><th data-sort="text">Descrição <i class="ri-arrow-up-down-line"></i></th><th class="text-end">Ações</th></tr></thead><tbody>{% for entry in financial_entries %}{% set status=entry.effective_status %}{% set current_main_id=entry.category.parent_id if entry.category.parent_id else entry.category_id %}{% set current_sub_id=entry.category_id if entry.category.parent_id else None %}<tr><td data-value="{{ entry.due_date.isoformat() }}"><span class="fw-bold">{{ entry.due_date.strftime('%d/%m/%Y') }}</span></td><td data-value="{{ entry.company.name if entry.company else 'GPS Paraíba' }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/empresa" class="m-0 p-0"><select name="company_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()">{% for comp in financial_companies if comp.active or comp.id==entry.company_id %}<option value="{{ comp.id }}" {{ 'selected' if comp.id==entry.company_id }}>{{ comp.name }}</option>{% endfor %}</select></form></td><td data-value="{{ entry.category.parent.name if entry.category.parent else entry.category.name }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/categoria" class="m-0 p-0"><select name="category_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()">{% for category in financial_categories if not category.parent_id and category.active %}{% if category.entry_type in [entry.entry_type, 'ambos'] %}<option value="{{ category.id }}" {{ 'selected' if category.id==current_main_id }}>{{ category.name }}</option>{% endif %}{% endfor %}</select></form></td><td data-value="{{ entry.category.name if entry.category.parent else '' }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/categoria" class="m-0 p-0"><input type="hidden" name="category_id" value="{{ current_main_id }}"><select name="subcategory_id" class="form-select form-select-sm entry-cat-select" onchange="this.form.submit()"><option value="">Nenhuma / Principal</option>{% for subcat in financial_categories if subcat.parent_id and subcat.active %}{% if subcat.parent_id==current_main_id %}<option value="{{ subcat.id }}" {{ 'selected' if subcat.id==current_sub_id }}>{{ subcat.name }}</option>{% endif %}{% endfor %}</select></form></td><td data-value="{{ entry.entry_type }}"><span class="badge {{ 'bg-success-subtle text-success' if entry.entry_type=='receita' else 'bg-danger-subtle text-danger' }}">{{ entry.entry_type|capitalize }}</span></td><td data-value="{{ entry.amount }}" class="fw-bold {{ 'text-success' if entry.entry_type=='receita' else 'text-danger' }}">R$ {{ '%.2f'|format(entry.amount)|replace('.',',') }}</td><td data-value="{{ status }}"><form method="post" action="/financeiro/lancamentos/{{ entry.id }}/status"><select name="status" class="form-select form-select-sm entry-status-select {{ 'text-danger' if status=='vencido' else ('text-warning' if status=='perto_vencer' else ('text-success' if status=='pago' else '')) }}" onchange="this.form.submit()"><option value="pendente" {{ 'selected' if entry.status=='pendente' }}>{{ 'Vencido' if status=='vencido' else ('Perto de vencer' if status=='perto_vencer' else 'Pendente') }}</option><option value="pago" {{ 'selected' if entry.status=='pago' }}>Pago/Recebido</option><option value="cancelado" {{ 'selected' if entry.status=='cancelado' }}>Cancelado</option></select></form></td><td data-value="{{ entry.description }}"><strong>{{ entry.description }}</strong>{% if entry.notes %}<small class="d-block text-muted">{{ entry.notes }}</small>{% endif %}</td><td class="text-end"><button class="btn btn-sm btn-light text-primary rounded-circle p-1" data-edit-entry data-id="{{ entry.id }}" data-company="{{ entry.company_id }}" data-date="{{ entry.due_date.isoformat() }}" data-description="{{ entry.description }}" data-amount="{{ '%.2f'|format(entry.amount) }}" data-cat="{{ current_main_id }}" data-sub="{{ current_sub_id or '' }}" data-status="{{ entry.status }}" data-notes="{{ entry.notes }}" title="Editar lançamento"><i class="ri-pencil-line"></i></button></td></tr>{% else %}<tr><td colspan="9" class="text-center text-muted py-4">Nenhum lançamento encontrado.</td></tr>{% endfor %}</tbody></table></div>
   </div>
 </div>
+
 <!-- Modal Novo Lançamento -->
 <div class="modal fade" id="entry-modal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content border-0 rounded-4"><form method="post" action="/financeiro/lancamentos"><div class="modal-header border-0"><h5 class="fw-bold">Novo lançamento</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3"><div class="col-md-4"><label class="form-label">Empresa / Unidade</label><select name="company_id" class="form-select">{% for comp in financial_companies if comp.active %}<option value="{{ comp.id }}">{{ comp.name }}</option>{% endfor %}</select></div><div class="col-md-4"><label class="form-label">Tipo</label><select id="entry-type" name="entry_type" class="form-select"><option value="despesa">Despesa</option><option value="receita">Receita</option></select></div><div class="col-md-4"><label class="form-label">Valor (R$)</label><input name="amount" type="number" min="0" step="0.01" class="form-control" required></div><div class="col-md-8"><label class="form-label">Descrição</label><input name="description" class="form-control" required></div><div class="col-md-4"><label class="form-label">Vencimento / Data</label><input name="due_date" type="date" class="form-control" required></div><div class="col-md-6"><label class="form-label">Categoria Principal</label><select id="entry-category" name="category_id" class="form-select" required>{% for category in financial_categories if not category.parent_id and category.active %}<option value="{{ category.id }}" data-type="{{ category.entry_type }}">{{ category.name }}</option>{% endfor %}</select></div><div class="col-md-6"><label class="form-label">Subcategoria</label><select id="entry-subcategory" name="subcategory_id" class="form-select"><option value="">Nenhuma</option>{% for category in financial_categories if category.parent_id and category.active %}<option value="{{ category.id }}" data-parent="{{ category.parent_id }}" data-type="{{ category.entry_type }}">{{ category.name }}</option>{% endfor %}</select></div><div class="col-md-4"><label class="form-label">Status</label><select name="status" class="form-select"><option value="pendente">Pendente</option><option value="pago">Pago/Recebido</option></select></div><div class="col-md-8"><label class="form-label">Observações</label><input name="notes" class="form-control"></div></div></div><div class="modal-footer border-0"><button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-success rounded-pill px-4">Salvar</button></div></form></div></div></div>
 
 <!-- Modal Editar Lançamento -->
 <div class="modal fade" id="edit-entry-modal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content border-0 rounded-4"><form id="edit-entry-form" method="post"><div class="modal-header border-0"><h5 class="fw-bold"><i class="ri-edit-line me-1 text-primary"></i>Editar lançamento</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="row g-3"><div class="col-md-4"><label class="form-label">Empresa / Unidade</label><select id="edit-company" name="company_id" class="form-select">{% for comp in financial_companies if comp.active %}<option value="{{ comp.id }}">{{ comp.name }}</option>{% endfor %}</select></div><div class="col-md-5"><label class="form-label">Descrição</label><input id="edit-description" name="description" class="form-control" required></div><div class="col-md-3"><label class="form-label">Valor (R$)</label><input id="edit-amount" name="amount" type="number" min="0" step="0.01" class="form-control" required></div><div class="col-md-4"><label class="form-label">Vencimento / Data</label><input id="edit-due-date" name="due_date" type="date" class="form-control" required></div><div class="col-md-4"><label class="form-label">Categoria Principal</label><select id="edit-category" name="category_id" class="form-select" required>{% for category in financial_categories if not category.parent_id and category.active %}<option value="{{ category.id }}">{{ category.name }}</option>{% endfor %}</select></div><div class="col-md-4"><label class="form-label">Subcategoria</label><select id="edit-subcategory" name="subcategory_id" class="form-select"><option value="">Nenhuma / Principal</option>{% for category in financial_categories if category.parent_id and category.active %}<option value="{{ category.id }}" data-parent="{{ category.parent_id }}">{{ category.name }}</option>{% endfor %}</select></div><div class="col-md-4"><label class="form-label">Status</label><select id="edit-status" name="status" class="form-select"><option value="pendente">Pendente</option><option value="pago">Pago/Recebido</option><option value="cancelado">Cancelado</option></select></div><div class="col-md-8"><label class="form-label">Observações</label><input id="edit-notes" name="notes" class="form-control"></div></div></div><div class="modal-footer border-0"><button type="button" class="btn btn-light rounded-pill" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-primary rounded-pill px-4">Salvar Alterações</button></div></form></div></div></div>
 
+<!-- Modal Exportar Lançamentos -->
+<div class="modal fade" id="export-modal-lancamentos" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow-lg">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="fw-bold text-dark mb-0"><i class="ri-file-excel-line text-success me-2"></i>Exportar Relatório de Lançamentos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="export-form-lancamentos">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">Como deseja exportar o relatório?</label>
+            <div class="row g-2">
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="exportFormat" id="fmt-lanc-xlsx" value="xlsx" checked>
+                <label class="btn btn-outline-success w-100 py-2 rounded-3 fw-bold small" for="fmt-lanc-xlsx"><i class="ri-file-excel-2-line me-1"></i>XLSX</label>
+              </div>
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="exportFormat" id="fmt-lanc-csv" value="csv">
+                <label class="btn btn-outline-primary w-100 py-2 rounded-3 fw-bold small" for="fmt-lanc-csv"><i class="ri-file-text-line me-1"></i>CSV</label>
+              </div>
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="exportFormat" id="fmt-lanc-pdf" value="pdf">
+                <label class="btn btn-outline-danger w-100 py-2 rounded-3 fw-bold small" for="fmt-lanc-pdf"><i class="ri-file-pdf-2-line me-1"></i>PDF</label>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold small text-muted">Data Inicial</label>
+              <input type="date" id="export-lanc-start" class="form-control" name="startDate" value="{{ financial_launch_filter.start_date }}">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold small text-muted">Data Final</label>
+              <input type="date" id="export-lanc-end" class="form-control" name="endDate" value="{{ financial_launch_filter.end_date }}">
+            </div>
+          </div>
+
+          <div id="export-lanc-progress-box" class="d-none my-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small id="export-lanc-status-text" class="fw-semibold text-primary">Preparando registros...</small>
+              <small id="export-lanc-pct-text" class="fw-bold text-primary">0%</small>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div id="export-lanc-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" id="export-lanc-btn" class="btn btn-success rounded-pill px-4 fw-bold"><i class="ri-download-2-line me-1"></i>Gerar e Baixar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>function dependentSelect(parent,child,filterType=false){function update(){[...child.options].forEach(option=>{if(!option.value)return;const parentMatch=!parent.value||option.dataset.parent===parent.value;const typeMatch=!filterType||!option.dataset.type||[filterType.value,'ambos'].includes(option.dataset.type);option.hidden=!(parentMatch&&typeMatch);});if(child.selectedOptions[0]?.hidden)child.value='';}parent.addEventListener('change',update);if(filterType)filterType.addEventListener('change',update);update();}dependentSelect(document.getElementById('list-category'),document.getElementById('list-subcategory'));const entryType=document.getElementById('entry-type'),entryCategory=document.getElementById('entry-category'),entrySubcategory=document.getElementById('entry-subcategory');function filterEntryCategories(){[...entryCategory.options].forEach(option=>option.hidden=![entryType.value,'ambos'].includes(option.dataset.type));if(entryCategory.selectedOptions[0]?.hidden){const first=[...entryCategory.options].find(option=>!option.hidden);if(first)entryCategory.value=first.value;}entryCategory.dispatchEvent(new Event('change'));}dependentSelect(entryCategory,entrySubcategory,entryType);entryType.addEventListener('change',filterEntryCategories);filterEntryCategories();
 
 const editCat=document.getElementById('edit-category'),editSubcat=document.getElementById('edit-subcategory');dependentSelect(editCat,editSubcat);document.querySelectorAll('[data-edit-entry]').forEach(button=>button.addEventListener('click',()=>{document.getElementById('edit-entry-form').action=`/financeiro/lancamentos/${button.dataset.id}/editar`;document.getElementById('edit-company').value=button.dataset.company||'';document.getElementById('edit-description').value=button.dataset.description;document.getElementById('edit-amount').value=button.dataset.amount;document.getElementById('edit-due-date').value=button.dataset.date;document.getElementById('edit-category').value=button.dataset.cat;document.getElementById('edit-category').dispatchEvent(new Event('change'));document.getElementById('edit-subcategory').value=button.dataset.sub;document.getElementById('edit-status').value=button.dataset.status;document.getElementById('edit-notes').value=button.dataset.notes||'';bootstrap.Modal.getOrCreateInstance(document.getElementById('edit-entry-modal')).show();}));</script>
 <script>document.querySelectorAll('#financial-entries-table th[data-sort]').forEach((header,index)=>header.addEventListener('click',()=>{const tbody=document.querySelector('#financial-entries-table tbody'),ascending=header.dataset.direction!=='asc';document.querySelectorAll('#financial-entries-table th').forEach(item=>delete item.dataset.direction);header.dataset.direction=ascending?'asc':'desc';const rows=[...tbody.querySelectorAll('tr')].filter(row=>row.cells.length>1);rows.sort((a,b)=>{let left=a.cells[index].dataset.value||a.cells[index].textContent.trim(),right=b.cells[index].dataset.value||b.cells[index].textContent.trim();if(header.dataset.sort==='number'){left=Number(left);right=Number(right);return ascending?left-right:right-left;}const result=left.localeCompare(right,'pt-BR',{numeric:true,sensitivity:'base'});return ascending?result:-result;});rows.forEach(row=>tbody.appendChild(row));}));</script>
+<script>
+const rawUserName = {{ (user_display_name or user_email or 'Usuario')|tojson }};
+const userName = rawUserName.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') || 'Usuario';
+const guideName = 'Lancamentos';
+
+document.getElementById('export-form-lancamentos')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const format = document.querySelector('input[name="exportFormat"]:checked').value;
+    const startDate = document.getElementById('export-lanc-start').value;
+    const endDate = document.getElementById('export-lanc-end').value;
+
+    const progressBox = document.getElementById('export-lanc-progress-box');
+    const progressBar = document.getElementById('export-lanc-bar');
+    const statusText = document.getElementById('export-lanc-status-text');
+    const pctText = document.getElementById('export-lanc-pct-text');
+    const submitBtn = document.getElementById('export-lanc-btn');
+
+    progressBox.classList.remove('d-none');
+    submitBtn.disabled = true;
+
+    function setProgress(pct, msg) {
+        progressBar.style.width = pct + '%';
+        pctText.textContent = pct + '%';
+        statusText.textContent = msg;
+    }
+
+    setProgress(20, 'Filtrando lançamentos...');
+
+    setTimeout(() => {
+        const rows = [...document.querySelectorAll('#financial-entries-table tbody tr')].filter(r => r.cells.length > 1);
+        const dataList = rows.map(r => {
+            const dateCell = r.cells[0].textContent.trim();
+            const companyCell = r.cells[1].querySelector('select')?.selectedOptions[0]?.text || r.cells[1].textContent.trim();
+            const catCell = r.cells[2].querySelector('select')?.selectedOptions[0]?.text || r.cells[2].textContent.trim();
+            const subcatCell = r.cells[3].querySelector('select')?.selectedOptions[0]?.text || r.cells[3].textContent.trim();
+            const typeCell = r.cells[4].textContent.trim();
+            const amountCell = r.cells[5].textContent.trim();
+            const statusCell = r.cells[6].querySelector('select')?.selectedOptions[0]?.text || r.cells[6].textContent.trim();
+            const descCell = r.cells[7].textContent.trim();
+            return { due_date: dateCell, company: companyCell, category: catCell, subcategory: subcatCell, type: typeCell, amount: amountCell, status: statusCell, description: descCell };
+        }).filter(item => {
+            if (!startDate && !endDate) return true;
+            const parts = item.due_date.split('/');
+            if (parts.length !== 3) return true;
+            const iso = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            if (startDate && iso < startDate) return false;
+            if (endDate && iso > endDate) return false;
+            return true;
+        });
+
+        setProgress(60, 'Gerando arquivo...');
+
+        setTimeout(() => {
+            const today = new Date();
+            const dateSuffix = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+            const fileName = `${userName}.${guideName}_${dateSuffix}.${format}`;
+
+            if (format === 'xlsx' && typeof XLSX !== 'undefined') {
+                const sheetData = [
+                    ["Vencimento", "Empresa", "Categoria", "Subcategoria", "Tipo", "Valor", "Status", "Descrição"],
+                    ...dataList.map(i => [i.due_date, i.company, i.category, i.subcategory, i.type, i.amount, i.status, i.description])
+                ];
+                const ws = XLSX.utils.aoa_to_sheet(sheetData);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, guideName);
+                XLSX.writeFile(wb, fileName);
+            } else if (format === 'csv' || format === 'xlsx') {
+                const csvHeader = ["Vencimento", "Empresa", "Categoria", "Subcategoria", "Tipo", "Valor", "Status", "Descrição"];
+                const csvRows = dataList.map(i => [
+                    i.due_date,
+                    `"${i.company.replace(/"/g, '""')}"`,
+                    `"${i.category.replace(/"/g, '""')}"`,
+                    `"${i.subcategory.replace(/"/g, '""')}"`,
+                    i.type,
+                    `"${i.amount}"`,
+                    i.status,
+                    `"${i.description.replace(/"/g, '""')}"`
+                ]);
+                const csvContent = '\uFEFF' + [csvHeader.join(';'), ...csvRows.map(r => r.join(';'))].join('\r\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+            } else if (format === 'pdf') {
+                const printWin = window.open('', '_blank');
+                printWin.document.write(`<html><head><title>${fileName}</title><style>body{font-family:sans-serif;padding:20px}table{width:100%;border-collapse:collapse;margin-top:15px;font-size:11px}th,td{border:1px solid #ddd;padding:6px;text-align:left}th{background:#f4f4f4}h2{color:#2563eb;margin-bottom:4px}.meta{font-size:11px;color:#666}</style></head><body><h2>GPS Paraíba — Relatório de Lançamentos</h2><div class="meta">Usuário: ${userName} | Data: ${new Date().toLocaleDateString('pt-BR')} | Total: ${dataList.length} registros</div><table><thead><tr><th>Vencimento</th><th>Empresa</th><th>Categoria</th><th>Subcategoria</th><th>Tipo</th><th>Valor</th><th>Status</th><th>Descrição</th></tr></thead><tbody>${dataList.map(i => `<tr><td>${i.due_date}</td><td>${i.company}</td><td>${i.category}</td><td>${i.subcategory}</td><td>${i.type}</td><td>${i.amount}</td><td>${i.status}</td><td>${i.description}</td></tr>`).join('')}</tbody></table><script>window.onload=function(){window.print();};<\/script></body></html>`);
+            }
+
+            setProgress(100, 'Download concluído!');
+
+            setTimeout(() => {
+                const modalEl = document.getElementById('export-modal-lancamentos');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+                progressBox.classList.add('d-none');
+                submitBtn.disabled = false;
+                setProgress(0, '');
+            }, 600);
+        }, 500);
+    }, 400);
+});
+</script>
+{% endblock page_content %}
 {% endblock page_content %}

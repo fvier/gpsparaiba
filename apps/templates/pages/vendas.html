@@ -25,9 +25,14 @@
             <h4 class="fw-bold text-dark mb-1"><i class="ri-shopping-cart-2-line text-primary me-2"></i>Gestão de Vendas & Contratos</h4>
             <p class="text-secondary small mb-0">Acompanhe todos os novos contratos de rastreamento ativados pela GPS Paraíba.</p>
         </div>
-        <button id="register-sale-btn" type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm ms-auto" style="background-color: #25d366; border: none;">
-            <i class="ri-add-circle-line me-1"></i> Registrar Nova Venda
-        </button>
+        <div class="d-flex gap-2 ms-auto">
+            <button type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#export-modal-vendas" style="background-color: #10b981; border: none;">
+                <i class="ri-file-excel-line me-1"></i> Exportar Relatório
+            </button>
+            <button id="register-sale-btn" type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" style="background-color: #25d366; border: none;">
+                <i class="ri-add-circle-line me-1"></i> Registrar Nova Venda
+            </button>
+        </div>
     </div>
 
     <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
@@ -505,5 +510,170 @@
     renderSalesTable();
     populateActivePlans();
     populateSellers();
+</script>
+
+<!-- Modal Exportar Vendas -->
+<div class="modal fade" id="export-modal-vendas" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 rounded-4 shadow-lg">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="fw-bold text-dark mb-0"><i class="ri-file-excel-line text-success me-2"></i>Exportar Relatório de Vendas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form id="export-form-vendas">
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">Como deseja exportar o relatório?</label>
+            <div class="row g-2">
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="exportFormatVendas" id="fmt-vendas-xlsx" value="xlsx" checked>
+                <label class="btn btn-outline-success w-100 py-2 rounded-3 fw-bold small" for="fmt-vendas-xlsx"><i class="ri-file-excel-2-line me-1"></i>XLSX</label>
+              </div>
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="exportFormatVendas" id="fmt-vendas-csv" value="csv">
+                <label class="btn btn-outline-primary w-100 py-2 rounded-3 fw-bold small" for="fmt-vendas-csv"><i class="ri-file-text-line me-1"></i>CSV</label>
+              </div>
+              <div class="col-4">
+                <input type="radio" class="btn-check" name="exportFormatVendas" id="fmt-vendas-pdf" value="pdf">
+                <label class="btn btn-outline-danger w-100 py-2 rounded-3 fw-bold small" for="fmt-vendas-pdf"><i class="ri-file-pdf-2-line me-1"></i>PDF</label>
+              </div>
+            </div>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold small text-muted">Data Inicial</label>
+              <input type="date" id="export-vendas-start" class="form-control" name="startDate">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold small text-muted">Data Final</label>
+              <input type="date" id="export-vendas-end" class="form-control" name="endDate">
+            </div>
+          </div>
+
+          <div id="export-vendas-progress-box" class="d-none my-3">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small id="export-vendas-status-text" class="fw-semibold text-primary">Preparando vendas...</small>
+              <small id="export-vendas-pct-text" class="fw-bold text-primary">0%</small>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div id="export-vendas-bar" class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2 mt-4">
+            <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" id="export-vendas-btn" class="btn btn-success rounded-pill px-4 fw-bold" style="background-color:#10b981; border:none;"><i class="ri-download-2-line me-1"></i>Gerar e Baixar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const rawUserNameVendas = {{ (user_display_name or user_email or 'Usuario')|tojson }};
+const userNameVendas = rawUserNameVendas.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') || 'Usuario';
+const guideNameVendas = 'Vendas';
+
+document.getElementById('export-form-vendas')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const format = document.querySelector('input[name="exportFormatVendas"]:checked').value;
+    const startDate = document.getElementById('export-vendas-start').value;
+    const endDate = document.getElementById('export-vendas-end').value;
+
+    const progressBox = document.getElementById('export-vendas-progress-box');
+    const progressBar = document.getElementById('export-vendas-bar');
+    const statusText = document.getElementById('export-vendas-status-text');
+    const pctText = document.getElementById('export-vendas-pct-text');
+    const submitBtn = document.getElementById('export-vendas-btn');
+
+    progressBox.classList.remove('d-none');
+    submitBtn.disabled = true;
+
+    function setProgress(pct, msg) {
+        progressBar.style.width = pct + '%';
+        pctText.textContent = pct + '%';
+        statusText.textContent = msg;
+    }
+
+    setProgress(20, 'Filtrando relatórios de vendas...');
+
+    setTimeout(() => {
+        const sales = typeof getSalesRecords === 'function' ? getSalesRecords() : [];
+        const dataList = sales.filter(s => {
+            if (!startDate && !endDate) return true;
+            const iso = s.activation_date || s.created_at || '';
+            if (startDate && iso < startDate) return false;
+            if (endDate && iso > endDate) return false;
+            return true;
+        });
+
+        setProgress(60, 'Gerando arquivo de vendas...');
+
+        setTimeout(() => {
+            const today = new Date();
+            const dateSuffix = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+            const fileName = `${userNameVendas}.${guideNameVendas}_${dateSuffix}.${format}`;
+
+            if (format === 'xlsx' && typeof XLSX !== 'undefined') {
+                const sheetData = [
+                    ["Data Ativação", "Contrato", "Cliente", "Contato", "Veículo", "Placa", "Plano", "Mensalidade (R$)", "Vendedor", "Instalação", "Status"],
+                    ...dataList.map(s => [
+                        s.activation_date || '',
+                        s.contract_number || '',
+                        s.client_name || '',
+                        `(${s.ddd || ''}) ${s.contact || ''}`,
+                        `${s.vehicle_type || ''} - ${s.vehicle_brand || ''} ${s.vehicle_model || ''}`,
+                        s.plate || '',
+                        s.plan_name || '',
+                        s.monthly_fee || 0,
+                        s.seller_name || '',
+                        s.instalacao ? 'Com Instalação' : 'Sem Instalação',
+                        s.status || 'Ativo'
+                    ])
+                ];
+                const ws = XLSX.utils.aoa_to_sheet(sheetData);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, guideNameVendas);
+                XLSX.writeFile(wb, fileName);
+            } else if (format === 'csv' || format === 'xlsx') {
+                const csvHeader = ["Data Ativação", "Contrato", "Cliente", "Contato", "Veículo", "Placa", "Plano", "Mensalidade (R$)", "Vendedor", "Instalação", "Status"];
+                const csvRows = dataList.map(s => [
+                    s.activation_date || '',
+                    `"${s.contract_number || ''}"`,
+                    `"${(s.client_name || '').replace(/"/g, '""')}"`,
+                    `"(${s.ddd || ''}) ${s.contact || ''}"`,
+                    `"${s.vehicle_type || ''} ${s.vehicle_model || ''}"`,
+                    `"${s.plate || ''}"`,
+                    `"${s.plan_name || ''}"`,
+                    s.monthly_fee || 0,
+                    `"${s.seller_name || ''}"`,
+                    s.instalacao ? 'Com Instalação' : 'Sem Instalação',
+                    s.status || 'Ativo'
+                ]);
+                const csvContent = '\uFEFF' + [csvHeader.join(';'), ...csvRows.map(r => r.join(';'))].join('\r\n');
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(blob);
+                link.download = fileName;
+                link.click();
+            } else if (format === 'pdf') {
+                const printWin = window.open('', '_blank');
+                printWin.document.write(`<html><head><title>${fileName}</title><style>body{font-family:sans-serif;padding:20px}table{width:100%;border-collapse:collapse;margin-top:15px;font-size:11px}th,td{border:1px solid #ddd;padding:6px;text-align:left}th{background:#f4f4f4}h2{color:#10b981;margin-bottom:4px}.meta{font-size:11px;color:#666}</style></head><body><h2>GPS Paraíba — Relatório de Vendas</h2><div class="meta">Usuário: ${userNameVendas} | Data: ${new Date().toLocaleDateString('pt-BR')} | Total: ${dataList.length} vendas</div><table><thead><tr><th>Ativação</th><th>Contrato</th><th>Cliente</th><th>Contato</th><th>Veículo</th><th>Placa</th><th>Plano</th><th>Mensalidade</th><th>Vendedor</th><th>Instalação</th></tr></thead><tbody>${dataList.map(s => `<tr><td>${s.activation_date||''}</td><td>${s.contract_number||''}</td><td>${s.client_name||''}</td><td>(${s.ddd||''}) ${s.contact||''}</td><td>${s.vehicle_model||''}</td><td>${s.plate||''}</td><td>${s.plan_name||''}</td><td>R$ ${s.monthly_fee||0}</td><td>${s.seller_name||''}</td><td>${s.instalacao?'🛠️ Sim':'Não'}</td></tr>`).join('')}</tbody></table><script>window.onload=function(){window.print();};<\/script></body></html>`);
+            }
+
+            setProgress(100, 'Download concluído!');
+
+            setTimeout(() => {
+                const modalEl = document.getElementById('export-modal-vendas');
+                const modal = bootstrap.Modal.getInstance(modalEl);
+                if (modal) modal.hide();
+                progressBox.classList.add('d-none');
+                submitBtn.disabled = false;
+                setProgress(0, '');
+            }, 600);
+        }, 500);
+    }, 400);
+});
 </script>
 {% endblock page_content %}
