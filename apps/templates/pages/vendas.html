@@ -522,8 +522,18 @@
       </div>
       <div class="modal-body p-4">
         <form id="export-form-vendas">
+          <!-- Texto de Ajuda Informativo -->
+          <div class="alert alert-info border-0 rounded-3 mb-3 p-3 small text-secondary">
+            <div class="fw-bold text-dark mb-1"><i class="ri-information-line me-1 text-primary"></i>Qual formato escolher?</div>
+            <ul class="mb-0 ps-3">
+              <li><strong>XLSX (Excel):</strong> Formato editável para planilhas, com colunas e totais configuráveis.</li>
+              <li><strong>CSV:</strong> Formato universal leve para importação rápida em outros sistemas.</li>
+              <li><strong>PDF:</strong> Documento impresso formatado, ideal para envios diretos a gerentes e WhatsApp.</li>
+            </ul>
+          </div>
+
           <div class="mb-3">
-            <label class="form-label fw-semibold small text-muted">Como deseja exportar o relatório?</label>
+            <label class="form-label fw-semibold small text-muted">Formato do Arquivo</label>
             <div class="row g-2">
               <div class="col-4">
                 <input type="radio" class="btn-check" name="exportFormatVendas" id="fmt-vendas-xlsx" value="xlsx" checked>
@@ -539,13 +549,23 @@
               </div>
             </div>
           </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-1">
+            <label class="form-label fw-semibold small text-muted mb-0">Filtrar por Período de Ativação</label>
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-xs btn-light border text-muted" onclick="setVendasDates('today')">Hoje</button>
+              <button type="button" class="btn btn-xs btn-light border text-muted" onclick="setVendasDates('month')">Este Mês</button>
+              <button type="button" class="btn btn-xs btn-light border text-muted" onclick="setVendasDates('year')">Este Ano</button>
+              <button type="button" class="btn btn-xs btn-light border text-muted" onclick="setVendasDates('clear')">Limpar</button>
+            </div>
+          </div>
           <div class="row g-2 mb-3">
             <div class="col-6">
-              <label class="form-label fw-semibold small text-muted">Data Inicial</label>
+              <label class="form-label small text-muted">Data Inicial</label>
               <input type="date" id="export-vendas-start" class="form-control" name="startDate">
             </div>
             <div class="col-6">
-              <label class="form-label fw-semibold small text-muted">Data Final</label>
+              <label class="form-label small text-muted">Data Final</label>
               <input type="date" id="export-vendas-end" class="form-control" name="endDate">
             </div>
           </div>
@@ -571,6 +591,27 @@
 </div>
 
 <script>
+function setVendasDates(type) {
+    const startInput = document.getElementById('export-vendas-start');
+    const endInput = document.getElementById('export-vendas-end');
+    const today = new Date();
+    if (type === 'today') {
+        const iso = today.toISOString().split('T')[0];
+        startInput.value = iso;
+        endInput.value = iso;
+    } else if (type === 'month') {
+        const firstDay = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().split('T')[0];
+        const lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0).toISOString().split('T')[0];
+        startInput.value = firstDay;
+        endInput.value = lastDay;
+    } else if (type === 'year') {
+        startInput.value = `${today.getFullYear()}-01-01`;
+        endInput.value = `${today.getFullYear()}-12-31`;
+    } else if (type === 'clear') {
+        startInput.value = '';
+        endInput.value = '';
+    }
+}
 const rawUserNameVendas = {{ (user_display_name or user_email or 'Usuario')|tojson }};
 const userNameVendas = rawUserNameVendas.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') || 'Usuario';
 const guideNameVendas = 'Vendas';

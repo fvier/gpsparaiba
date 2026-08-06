@@ -906,9 +906,11 @@ def save_sales_storage(data):
 
 @blueprint.route('/api/v1/integracoes/vendas', methods=['GET', 'POST'])
 def api_integracao_vendas():
-    api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+    auth_header = request.headers.get('Authorization', '')
+    bearer_token = auth_header.split('Bearer ')[-1].strip() if auth_header.startswith('Bearer ') else None
+    api_key = bearer_token or request.headers.get('X-API-Key') or request.args.get('api_key')
     if not session.get('logged_in') and api_key != 'gps_live_key_paraiba_2026':
-        return jsonify({'status': 'error', 'message': 'Chave de API inválida ou não autenticado'}), 401
+        return jsonify({'status': 'error', 'message': 'Chave de API inválida ou não autenticado (Use Bearer token ou X-API-Key)'}), 401
 
     if request.method == 'GET':
         sales = get_sales_storage()
@@ -991,9 +993,11 @@ def api_integracao_vendas():
 
 @blueprint.route('/api/v1/integracoes/lancamentos', methods=['GET', 'POST'])
 def api_integracao_lancamentos():
-    api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+    auth_header = request.headers.get('Authorization', '')
+    bearer_token = auth_header.split('Bearer ')[-1].strip() if auth_header.startswith('Bearer ') else None
+    api_key = bearer_token or request.headers.get('X-API-Key') or request.args.get('api_key')
     if not session.get('logged_in') and api_key != 'gps_live_key_paraiba_2026':
-        return jsonify({'status': 'error', 'message': 'Chave de API inválida ou não autenticado'}), 401
+        return jsonify({'status': 'error', 'message': 'Chave de API inválida ou não autenticado (Use Bearer token ou X-API-Key)'}), 401
 
     if request.method == 'GET':
         query = FinancialEntry.query
