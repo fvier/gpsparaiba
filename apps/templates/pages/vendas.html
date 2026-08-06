@@ -700,7 +700,10 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
                 link.click();
             } else if (format === 'pdf') {
                 const totalMonthly = dataList.reduce((acc, curr) => acc + (parseFloat(curr.monthly_fee) || 0), 0);
-                const formattedMonthly = 'R$ ' + totalMonthly.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                const formattedMonthly = 'R$ ' + totalMonthly.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                
+                const now = new Date();
+                const nowFormatted = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR')}`;
 
                 const pdfContainer = document.createElement('div');
                 pdfContainer.style.padding = '20px';
@@ -711,15 +714,18 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
                 pdfContainer.innerHTML = `
                     <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #10b981; padding-bottom: 12px; margin-bottom: 16px;">
                         <div style="display: flex; align-items: center; gap: 12px;">
-                            <img src="/static/images/logo_fundo_preto.png" style="height: 42px; border-radius: 6px;" alt="GPS Paraíba">
+                            <img src="/static/images/logo_fundo_preto.png" style="height: 46px; border-radius: 6px;" alt="GPS Paraíba">
                             <div>
                                 <h3 style="margin: 0; color: #0f172a; font-size: 18px; font-weight: 800;">GPS PARAÍBA</h3>
-                                <span style="color: #10b981; font-size: 12px; font-weight: 600;">Relatório Geral de Vendas & Ativações</span>
+                                <span style="color: #10b981; font-size: 12px; font-weight: 600; display: block;">Relatório Geral de Vendas & Ativações</span>
+                                <div style="font-size: 10px; color: #475569; margin-top: 2px;">
+                                    <strong>Contato:</strong> (83) 98800-0000 | <strong>E-mail:</strong> contato@gpsparaiba.com.br
+                                </div>
                             </div>
                         </div>
-                        <div style="text-align: right; font-size: 10px; color: #64748b;">
-                            <div><strong>Emissão:</strong> ${new Date().toLocaleDateString('pt-BR')}</div>
+                        <div style="text-align: right; font-size: 10px; color: #334155; background: #f1f5f9; padding: 6px 12px; border-radius: 6px; border: 1px solid #cbd5e1;">
                             <div><strong>Solicitante:</strong> ${userNameVendas}</div>
+                            <div><strong>Carimbo de Emissão:</strong> ${nowFormatted}</div>
                         </div>
                     </div>
 
