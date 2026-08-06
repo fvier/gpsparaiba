@@ -3,7 +3,7 @@
 **Projeto:** Sistema ERP Comercial, Financeiro e Gestão de Vendas  
 **Autor / Engenharia:** Fernando Vier  
 **Organização:** GPS Paraíba  
-**Carga Horária Total Dedicada:** 155 Horas de Engenharia de Software  
+**Carga Horária Total Dedicada:** 220 Horas de Engenharia de Software  
 **Data da Documentação:** Agosto de 2026  
 
 ---
@@ -12,7 +12,7 @@
 
 Este documento apresenta o **estudo técnico detalhado** das horas, arquitetura, módulos e tecnologias utilizadas no desenvolvimento sob medida do **GPS Paraíba ERP**.
 
-Diferente de softwares genéricos de prateleira, o sistema foi construído especificamente para atender à operação de rastreamento veicular da GPS Paraíba. Ele unifica em uma única plataforma web a gestão financeira multiempresa, a operação comercial de vendas e comissionamento, o gerenciamento de conteúdo da marca (*Linktree* e Landing Page) e a auditoria em tempo real das ações dos usuários.
+Diferente de softwares genéricos de prateleira, o sistema foi construído especificamente para atender à operação de rastreamento veicular da GPS Paraíba. Ele unifica em uma única plataforma web a gestão financeira multiempresa, a operação comercial de vendas e comissionamento, o gerenciamento de conteúdo da marca (*Linktree* e Landing Page), a exportação avançada de relatórios institucionais (XLSX, CSV, PDF), o módulo de integrações e APIs REST, e a auditoria em tempo real das ações dos usuários.
 
 ---
 
@@ -56,17 +56,19 @@ Para que qualquer pessoa — mesmo sem conhecimento prévio em programação ou 
 
 ## 3. TABELA DE TEMPO DEDICADO E MÓDULOS DO PROJETO
 
-O desenvolvimento do sistema foi dividido em **6 módulos principais**, totalizando **155 horas** de trabalho especializado:
+O desenvolvimento do sistema foi dividido em **8 módulos principais**, totalizando **220 horas** de trabalho especializado:
 
 | Módulo do Sistema | Carga Horária | Percentual | Descrição Sintética |
 | :--- | :---: | :---: | :--- |
-| **1. Gestão Financeira Multiempresa & Categorização** | 40 h | 25,8% | Estrutura de lançamentos, empresas (*GPS Paraíba*, *Casa*), categorias/subcategorias com contadores e filtros dinâmicos de período, mês e ano. |
-| **2. Gestão de Vendas, Comissões, Instalações & Validação** | 30 h | 19,4% | Registro de vendas, checkbox de instalação, transferência de vendedor, cálculo de comissões, ranking e módulo de validação/bloqueio. |
-| **3. Módulo Comercial, Linktree & Integração Landing Page** | 25 h | 16,1% | Gestão de planos da landing page, motor e página pública do Linktree (`/links`), prévia ao vivo em *iframe* e gerenciador de carrossel. |
-| **4. Arquitetura, Segurança & Logs de Auditoria** | 20 h | 12,9% | Autenticação, controle de permissões por perfil, histórico completo de auditoria (`/admin-logs`), alternador visual de senha e segurança. |
-| **5. Infraestrutura VPS, Docker & Healthcheck 24/7** | 15 h | 9,7% | Configuração de servidor na nuvem, banco PostgreSQL, containers Docker isolados, certificado SSL e monitoramento automático contínuo. |
-| **6. Personalização Sob Medida, Ajustes & Retrabalho** | 25 h | 16,1% | Readequação de layout ao fluxo da empresa, criação de regras exclusivas, melhorias de usabilidade baseadas em feedback real da equipe. |
-| **TOTAL DEDICADO** | **155 h** | **100%** | **Engenharia de Software Completa (Full-Stack + DevOps)** |
+| **1. Gestão Financeira Multiempresa & Categorização** | 40 h | 18,2% | Estrutura de lançamentos, empresas (*GPS Paraíba*, *Casa*), categorias/subcategorias com contadores e filtros dinâmicos de período, mês e ano. |
+| **2. Gestão de Vendas, Comissões, Instalações & Validação** | 30 h | 13,6% | Registro de vendas, checkbox de instalação, transferência de vendedor, cálculo de comissões, ranking e módulo de validação/bloqueio. |
+| **3. Módulo Comercial, Linktree & Integração Landing Page** | 25 h | 11,4% | Gestão de planos da landing page, motor e página pública do Linktree (`/links`), prévia ao vivo em *iframe* e gerenciador de carrossel. |
+| **4. Arquitetura, Segurança & Logs de Auditoria** | 20 h | 9,1% | Autenticação, controle de permissões por perfil, histórico completo de auditoria (`/admin-logs`), alternador visual de senha e segurança. |
+| **5. Infraestrutura VPS, Docker & Healthcheck 24/7** | 20 h | 9,1% | Servidor na nuvem, banco PostgreSQL, containers Docker isolados, Gunicorn otimizado, SSL, monitoramento e robô Auto-heal. |
+| **6. Exportação Avançada (XLSX, CSV & PDF Institucional)** | 30 h | 13,6% | Gerador de documentos Excel, CSV numéricos puros e relatórios PDF institucionais com cabeçalho/rodapé dinâmicos e carimbo de auditoria. |
+| **7. Módulo de API REST, Integrações & Guia para Devs** | 25 h | 11,4% | Painel de integrações com Tema Escuro, endpoints RESTful seguros, autenticação por Bearer Token, guia interativo e suporte ao Postman. |
+| **8. Personalização Sob Medida, Ajustes & Retrabalho** | 30 h | 13,6% | Readequação de layout ao fluxo da empresa, criação de regras exclusivas, melhorias de usabilidade baseadas em feedback real da equipe. |
+| **TOTAL DEDICADO** | **220 h** | **100%** | **Engenharia de Software Completa (Full-Stack + DevOps)** |
 
 ---
 
@@ -107,17 +109,29 @@ O desenvolvimento do sistema foi dividido em **6 módulos principais**, totaliza
   - Botão com ícone de olho (`ri-eye-line` / `ri-eye-off-line`) para alternar a exibição da senha digitada nas telas de login e alteração de senha;
   - Redirecionamento obrigatório de troca de senha no primeiro acesso para senhas temporárias.
 
-### 🔹 Módulo 5: Infraestrutura VPS, Docker & Healthcheck 24/7 (15 Horas)
+### 🔹 Módulo 5: Infraestrutura VPS, Docker, Resiliência & Healthcheck 24/7 (20 Horas)
 * **Containerização na Nuvem:** Construção de ambiente isolado na plataforma VPS utilizando Docker Compose.
 * **Banco PostgreSQL:** Instalação e manutenção do banco de dados relacional com execução de comandos `ALTER TABLE` seguros para evolução de esquema.
-* **Automação Healthcheck & Auto-heal:** Script rodando em plano de fundo a cada 60 segundos na VPS. Se a aplicação não responder com `HTTP 200 OK`, o script executa o reinício imediato do container, garantindo alta disponibilidade.
+* **Gunicorn & Performance:** Ajuste fino e dimensionamento de workers e threads para concorrência de requisições.
+* **Automação Healthcheck & Auto-heal:** Script rodando em plano de fundo a cada 60 segundos na VPS com blindagem de proxy contra quedas para alta disponibilidade.
 
-### 🔹 Módulo 6: Personalização Sob Medida & Retrabalho de Feedback (25 Horas)
+### 🔹 Módulo 6: Exportação Avançada de Relatórios & Documentos (XLSX, CSV, PDF) (30 Horas)
+* **Exportador Excel / CSV:** Geração de relatórios em XLSX e CSV com suporte a vírgula brasileira e números puros para cálculos no Excel.
+* **PDF Institucional jsPDF / autoTable:** Gerador de relatórios PDF com cabeçalho institucional, logo oficial da GPS Paraíba e dados de contato em 100% das páginas.
+* **Rodapé com Auditoria:** Numeração automática de páginas e carimbo de segurança (data, hora, min, seg e usuário solicitante).
+* **Controle de Layout:** Quebra de página sem corte de linhas de tabelas e totalizadores destacados.
+
+### 🔹 Módulo 7: Módulo de API REST, Integrações & Guia para Devs (25 Horas)
+* **Painel de Integrações (/admin-integracoes):** Interface em abas com suporte a Tema Escuro (Dark Mode).
+* **Endpoints RESTful & Token:** APIs REST para Vendas e Lançamentos com autenticação via Bearer Token (RFC 6750) e gerador de token.
+* **Documentação & Postman:** Guia interativo com parâmetros GET, atalhos de data e coleção estruturada para testes no Postman.
+
+### 🔹 Módulo 8: Personalização Sob Medida, Ajustes & Retrabalho (30 Horas)
 * **Desenvolvimento Orientado a Feedback:** Tempo dedicado a ajustar o comportamento do sistema após testes práticos da equipe.
 * **Ajustes Realizados:**
   - Reformatação de seletores de tabela para evitar recarregamento bruto da tela;
   - Adequação visual das tabelas para evitar ocultação acidental de colunas essenciais (como a coluna Empresa);
-  - Refinamento de usabilidade e cores de acento personalizáveis no ERP.
+  - Refinamento de usabilidade, formulários e modos visuais do ERP.
 
 ---
 
