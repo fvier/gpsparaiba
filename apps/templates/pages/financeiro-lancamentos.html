@@ -25,85 +25,87 @@
   {% endfor %}
   {% set saldo = ns.receitas - ns.despesas %}
 
-  <!-- Cards de Resumo Totais -->
-  <div class="row g-3 mb-4">
+  <!-- Cards de Resumo Totais (Ultra Compactos) -->
+  <div class="row g-2 mb-3">
     <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <span class="text-muted small fw-semibold text-uppercase">Total Receitas</span>
-          <div class="rounded-circle bg-success-subtle p-2 d-inline-flex align-items-center justify-content-center" style="width:38px;height:38px;">
-            <i class="ri-arrow-up-circle-line text-success fs-18"></i>
+      <div class="card border-0 shadow-sm rounded-3 p-2 px-3 bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Total Receitas</span>
+            <h5 class="fw-bold text-success mb-0 fs-15">R$ {{ '%.2f'|format(ns.receitas)|replace('.',',') }}</h5>
+          </div>
+          <div class="rounded-circle bg-success-subtle p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
+            <i class="ri-arrow-up-circle-line text-success fs-16"></i>
           </div>
         </div>
-        <h4 class="fw-bold text-success mb-1">R$ {{ '%.2f'|format(ns.receitas)|replace('.',',') }}</h4>
-        <span class="text-muted fs-11">Entradas ativas no filtro</span>
       </div>
     </div>
     <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <span class="text-muted small fw-semibold text-uppercase">Total Saídas</span>
-          <div class="rounded-circle bg-danger-subtle p-2 d-inline-flex align-items-center justify-content-center" style="width:38px;height:38px;">
-            <i class="ri-arrow-down-circle-line text-danger fs-18"></i>
+      <div class="card border-0 shadow-sm rounded-3 p-2 px-3 bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Total Saídas</span>
+            <h5 class="fw-bold text-danger mb-0 fs-15">R$ {{ '%.2f'|format(ns.despesas)|replace('.',',') }}</h5>
+          </div>
+          <div class="rounded-circle bg-danger-subtle p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
+            <i class="ri-arrow-down-circle-line text-danger fs-16"></i>
           </div>
         </div>
-        <h4 class="fw-bold text-danger mb-1">R$ {{ '%.2f'|format(ns.despesas)|replace('.',',') }}</h4>
-        <span class="text-muted fs-11">Despesas ativas no filtro</span>
       </div>
     </div>
     <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <span class="text-muted small fw-semibold text-uppercase">Saldo Líquido</span>
-          <div class="rounded-circle {{ 'bg-primary-subtle' if saldo >= 0 else 'bg-warning-subtle' }} p-2 d-inline-flex align-items-center justify-content-center" style="width:38px;height:38px;">
-            <i class="ri-wallet-3-line {{ 'text-primary' if saldo >= 0 else 'text-warning' }} fs-18"></i>
+      <div class="card border-0 shadow-sm rounded-3 p-2 px-3 bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Saldo Líquido</span>
+            <h5 class="fw-bold {{ 'text-primary' if saldo >= 0 else 'text-danger' }} mb-0 fs-15">R$ {{ '%.2f'|format(saldo)|replace('.',',') }}</h5>
+          </div>
+          <div class="rounded-circle {{ 'bg-primary-subtle' if saldo >= 0 else 'bg-warning-subtle' }} p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
+            <i class="ri-wallet-3-line {{ 'text-primary' if saldo >= 0 else 'text-warning' }} fs-16"></i>
           </div>
         </div>
-        <h4 class="fw-bold {{ 'text-primary' if saldo >= 0 else 'text-danger' }} mb-1">R$ {{ '%.2f'|format(saldo)|replace('.',',') }}</h4>
-        <span class="text-muted fs-11">Resultado acumulado</span>
       </div>
     </div>
     <div class="col-6 col-lg-3">
-      <div class="card border-0 shadow-sm rounded-4 p-3 h-100 bg-white">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <span class="text-muted small fw-semibold text-uppercase">Lançamentos</span>
-          <div class="rounded-circle bg-info-subtle p-2 d-inline-flex align-items-center justify-content-center" style="width:38px;height:38px;">
-            <i class="ri-file-list-3-line text-info fs-18"></i>
+      <div class="card border-0 shadow-sm rounded-3 p-2 px-3 bg-white">
+        <div class="d-flex align-items-center justify-content-between">
+          <div>
+            <span class="text-muted fs-11 fw-semibold text-uppercase d-block">Lançamentos</span>
+            <h5 class="fw-bold text-dark mb-0 fs-15">{{ ns.count }} <small class="text-muted fs-11 fw-normal">registros</small></h5>
+          </div>
+          <div class="rounded-circle bg-info-subtle p-1 d-inline-flex align-items-center justify-content-center" style="width:34px;height:34px;">
+            <i class="ri-file-list-3-line text-info fs-16"></i>
           </div>
         </div>
-        <h4 class="fw-bold text-dark mb-1">{{ ns.count }}</h4>
-        <span class="text-muted fs-11">Registros na listagem</span>
       </div>
     </div>
   </div>
 
-  <!-- Painel de Filtros Organizado -->
-  <div class="card border-0 shadow-sm rounded-4 mb-4 p-4">
+  <!-- Painel de Filtros Organizado (Compacto) -->
+  <div class="card border-0 shadow-sm rounded-3 mb-3 p-3">
     <form method="get" action="/financeiro/lancamentos">
       
-      <!-- Topo: Barra de Pesquisa Rápida & Orientação -->
-      <div class="row g-3 align-items-center mb-3">
+      <!-- Topo: Pesquisa & Orientação Compactas -->
+      <div class="row g-2 align-items-center mb-2">
         <div class="col-lg-7 col-md-6">
-          <div class="input-group">
-            <span class="input-group-text bg-white border-end-0 text-muted ps-3"><i class="ri-search-line fs-16"></i></span>
-            <input name="q" class="form-control border-start-0 ps-0" value="{{ financial_launch_filter.q }}" placeholder="Pesquisar por descrição, observação, empresa ou categoria...">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-end-0 text-muted ps-2.5"><i class="ri-search-line fs-14"></i></span>
+            <input name="q" class="form-control border-start-0 ps-0 form-control-sm" value="{{ financial_launch_filter.q }}" placeholder="Pesquisar por descrição, observação, empresa ou categoria...">
           </div>
         </div>
         <div class="col-lg-5 col-md-6">
-          <div class="d-flex align-items-center gap-2 p-2 px-3 rounded-3 bg-light text-muted small">
-            <i class="ri-information-fill text-primary fs-18 flex-shrink-0"></i>
-            <span>Selecione os filtros e clique em <strong>Aplicar Filtros</strong> para atualizar os dados.</span>
+          <div class="d-flex align-items-center gap-1.5 p-1.5 px-2.5 rounded-2 bg-light text-muted fs-11">
+            <i class="ri-information-fill text-primary fs-15 flex-shrink-0"></i>
+            <span>Selecione os filtros e clique em <strong>Aplicar Filtros</strong>.</span>
           </div>
         </div>
       </div>
 
-      <hr class="my-3 text-muted opacity-25">
-
-      <!-- Grid de Filtros Categorizados -->
-      <div class="row g-3">
+      <!-- Grid de Filtros Compactos (g-2) -->
+      <div class="row g-2">
         <div class="col-sm-6 col-lg-3">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-building-line me-1 text-primary"></i>Empresa / Unidade</label>
-          <select name="company_id" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-building-line me-1 text-primary"></i>Empresa</label>
+          <select name="company_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Todas as empresas</option>
             {% for comp in financial_companies %}
             <option value="{{ comp.id }}" {{ 'selected' if financial_launch_filter.company_id==comp.id|string }}>{{ comp.name }}</option>
@@ -112,8 +114,8 @@
         </div>
 
         <div class="col-sm-6 col-lg-3">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-calendar-event-line me-1 text-primary"></i>Período (Dias Corridos)</label>
-          <select name="period" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-event-line me-1 text-primary"></i>Período</label>
+          <select name="period" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Todos os períodos</option>
             <option value="7" {{ 'selected' if financial_launch_filter.period=='7' }}>Últimos 7 dias</option>
             <option value="15" {{ 'selected' if financial_launch_filter.period=='15' }}>Últimos 15 dias</option>
@@ -126,8 +128,8 @@
         </div>
 
         <div class="col-sm-6 col-lg-2">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-calendar-check-line me-1 text-primary"></i>Mês</label>
-          <select name="month" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-check-line me-1 text-primary"></i>Mês</label>
+          <select name="month" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Todos os meses</option>
             {% for m in range(1, 13) %}
             <option value="{{ m }}" {{ 'selected' if financial_launch_filter.month==m|string }}>{{ ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'][m-1] }}</option>
@@ -136,8 +138,8 @@
         </div>
 
         <div class="col-sm-6 col-lg-2">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-calendar-2-line me-1 text-primary"></i>Ano</label>
-          <select name="year" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-2-line me-1 text-primary"></i>Ano</label>
+          <select name="year" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Todos os anos</option>
             {% for y in available_years %}
             <option value="{{ y }}" {{ 'selected' if financial_launch_filter.year==y|string }}>{{ y }}</option>
@@ -146,8 +148,8 @@
         </div>
 
         <div class="col-sm-6 col-lg-2">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-checkbox-circle-line me-1 text-primary"></i>Status</label>
-          <select name="status" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-checkbox-circle-line me-1 text-primary"></i>Status</label>
+          <select name="status" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Todos os status</option>
             <option value="pendente" {{ 'selected' if financial_launch_filter.status=='pendente' }}>Pendente</option>
             <option value="perto_vencer" {{ 'selected' if financial_launch_filter.status=='perto_vencer' }}>Perto de vencer</option>
@@ -158,8 +160,8 @@
         </div>
 
         <div class="col-sm-6 col-lg-3">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-exchange-dollar-line me-1 text-primary"></i>Tipo de Lançamento</label>
-          <select name="entry_type" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-exchange-dollar-line me-1 text-primary"></i>Tipo</label>
+          <select name="entry_type" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Receitas e Despesas</option>
             <option value="despesa" {{ 'selected' if financial_launch_filter.entry_type=='despesa' }}>Despesas</option>
             <option value="receita" {{ 'selected' if financial_launch_filter.entry_type=='receita' }}>Receitas</option>
@@ -167,8 +169,8 @@
         </div>
 
         <div class="col-sm-6 col-lg-3">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-folder-3-line me-1 text-primary"></i>Categoria Principal</label>
-          <select id="list-category" name="category_id" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-folder-3-line me-1 text-primary"></i>Categoria</label>
+          <select id="list-category" name="category_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Todas as categorias</option>
             {% for category in financial_categories if not category.parent_id %}
             <option value="{{ category.id }}" {{ 'selected' if financial_launch_filter.category_id==category.id|string }}>{{ category.name }}</option>
@@ -177,8 +179,8 @@
         </div>
 
         <div class="col-sm-6 col-lg-3">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-folder-sub-line me-1 text-primary"></i>Subcategoria</label>
-          <select id="list-subcategory" name="subcategory_id" class="form-select form-select-sm rounded-3">
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-folder-sub-line me-1 text-primary"></i>Subcategoria</label>
+          <select id="list-subcategory" name="subcategory_id" class="form-select form-select-sm rounded-2 fs-12 py-1">
             <option value="">Todas as subcategorias</option>
             {% for category in financial_categories if category.parent_id %}
             <option value="{{ category.id }}" data-parent="{{ category.parent_id }}" {{ 'selected' if financial_launch_filter.subcategory_id==category.id|string }}>{{ category.name }}</option>
@@ -187,38 +189,38 @@
         </div>
 
         <div class="col-sm-6 col-lg-3">
-          <label class="form-label small fw-semibold text-muted mb-1"><i class="ri-calendar-range-line me-1 text-primary"></i>Intervalo De / Até</label>
+          <label class="form-label fs-11 fw-semibold text-muted mb-0"><i class="ri-calendar-range-line me-1 text-primary"></i>Intervalo De / Até</label>
           <div class="input-group input-group-sm">
-            <input type="date" name="start_date" class="form-control" value="{{ financial_launch_filter.start_date }}" title="Data inicial">
-            <span class="input-group-text px-1">até</span>
-            <input type="date" name="end_date" class="form-control" value="{{ financial_launch_filter.end_date }}" title="Data final">
+            <input type="date" name="start_date" class="form-control form-control-sm py-1 fs-12" value="{{ financial_launch_filter.start_date }}" title="Data inicial">
+            <span class="input-group-text px-1 fs-11">até</span>
+            <input type="date" name="end_date" class="form-control form-control-sm py-1 fs-12" value="{{ financial_launch_filter.end_date }}" title="Data final">
           </div>
         </div>
       </div>
 
-      <!-- Rodapé: Ações Valorizadas -->
-      <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top flex-wrap gap-2">
-        <div class="text-muted small">
+      <!-- Rodapé: Ações Valorizadas Compactas -->
+      <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top flex-wrap gap-2">
+        <div class="text-muted fs-11">
           {% set active_count = (1 if financial_launch_filter.q else 0) + (1 if financial_launch_filter.company_id else 0) + (1 if financial_launch_filter.period else 0) + (1 if financial_launch_filter.month else 0) + (1 if financial_launch_filter.year else 0) + (1 if financial_launch_filter.status else 0) + (1 if financial_launch_filter.entry_type else 0) + (1 if financial_launch_filter.category_id else 0) + (1 if financial_launch_filter.subcategory_id else 0) + (1 if financial_launch_filter.start_date else 0) %}
           {% if active_count > 0 %}
-            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-2"><i class="ri-filter-fill me-1"></i> {{ active_count }} filtro(s) ativo(s)</span>
+            <span class="badge bg-primary-subtle text-primary rounded-pill px-2.5 py-1.5"><i class="ri-filter-fill me-1"></i> {{ active_count }} filtro(s) ativo(s)</span>
           {% else %}
             <span class="text-muted"><i class="ri-filter-off-line me-1"></i> Nenhum filtro ativo</span>
           {% endif %}
         </div>
         <div class="d-flex gap-2">
-          <a href="/financeiro/lancamentos" class="btn btn-outline-secondary rounded-pill px-3 fw-semibold"><i class="ri-refresh-line me-1"></i>Limpar Filtros</a>
-          <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm"><i class="ri-filter-3-line me-1 fs-15"></i>Aplicar Filtros</button>
+          <a href="/financeiro/lancamentos" class="btn btn-sm btn-outline-secondary rounded-pill px-3 fw-semibold"><i class="ri-refresh-line me-1"></i>Limpar Filtros</a>
+          <button type="submit" class="btn btn-sm btn-primary rounded-pill px-4 fw-bold shadow-sm"><i class="ri-filter-3-line me-1 fs-14"></i>Aplicar Filtros</button>
         </div>
       </div>
 
     </form>
   </div>
 
-  <div class="card border-0 shadow-sm rounded-4 p-4">
-    <div class="table-responsive">
-      <table id="financial-entries-table" class="table table-hover align-middle financial-entries-table">
-        <thead>
+  <div class="card border-0 shadow-sm rounded-4 p-3">
+    <div class="table-responsive rounded-3" style="max-height: 520px; overflow-y: auto;">
+      <table id="financial-entries-table" class="table table-hover align-middle financial-entries-table mb-0">
+        <thead style="position: sticky; top: 0; z-index: 10; background-color: #f8fafc; box-shadow: inset 0 -2px 0 #e2e8f0;">
           <tr>
             <th data-sort="text" style="width: 90px;">Tipo <i class="ri-arrow-up-down-line"></i></th>
             <th data-sort="number" style="white-space: nowrap; min-width: 130px;">Valor <i class="ri-arrow-up-down-line"></i></th>
