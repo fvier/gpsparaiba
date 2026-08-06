@@ -321,91 +321,190 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
                 const now = new Date();
                 const nowFormatted = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR')}`;
 
-                const jsPDF = window.jspdf ? window.jspdf.jsPDF : (window.jsPDF || null);
-                
-                if (jsPDF) {
-                    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-                    
-                    const head = [["Vencimento", "Empresa", "Categoria", "Tipo", "Valor", "Status", "Descrição"]];
-                    const body = dataList.map(item => [
-                        item.due_date,
-                        item.company,
-                        item.category,
-                        item.type ? item.type.toUpperCase() : '',
-                        'R$ ' + (typeof item.amount === 'number' ? item.amount : parseFloat(item.amount)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
-                        item.status,
-                        item.description
-                    ]);
+                // 1. Gerar representação do documento em Markdown (.md)
+                let mdContent = `# GPS PARAÍBA — RELATÓRIO DE LANÇAMENTOS FINANCEIROS\n\n`;
+                mdContent += `**Contato:** (83) 98800-0000 | **E-mail:** contato@gpsparaiba.com.br\n`;
+                mdContent += `**Solicitante:** ${userName} | **Carimbo de Emissão:** ${nowFormatted}\n\n`;
+                mdContent += `### Resumo da Consulta\n`;
+                mdContent += `- **Total de Registros:** ${dataList.length}\n`;
+                mdContent += `- **Valor Somado:** ${formattedTotal}\n\n`;
+                mdContent += `| Vencimento | Empresa | Categoria | Tipo | Valor | Status | Descrição |\n`;
+                mdContent += `| :--- | :--- | :--- | :---: | :---: | :---: | :--- |\n`;
+                dataList.forEach(item => {
+                    const amtStr = 'R$ ' + (typeof item.amount === 'number' ? item.amount : parseFloat(item.amount)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    mdContent += `| ${item.due_date} | ${item.company} | ${item.category} | ${item.type ? item.type.toUpperCase() : ''} | ${amtStr} | ${item.status} | ${item.description} |\n`;
+                });
 
-                    doc.autoTable({
-                        head: head,
-                        body: body,
-                        startY: 28,
-                        margin: { top: 28, bottom: 14, left: 8, right: 8 },
-                        styles: { fontSize: 8, cellPadding: 2.5, font: 'helvetica', textColor: [30, 41, 59] },
-                        headStyles: { fillColor: [37, 99, 235], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'left' },
-                        columnStyles: {
-                            0: { fontStyle: 'bold', cellWidth: 26 },
-                            1: { cellWidth: 35 },
-                            2: { cellWidth: 35 },
-                            3: { fontStyle: 'bold', cellWidth: 22 },
-                            4: { fontStyle: 'bold', halign: 'right', cellWidth: 30 },
-                            5: { halign: 'center', cellWidth: 28 },
-                            6: { cellWidth: 'auto' }
-                        },
-                        alternateRowStyles: { fillColor: [248, 250, 252] },
-                        didDrawPage: function (data) {
-                            const totalPages = doc.internal.getNumberOfPages();
-                            const pageNum = data.pageNumber;
-                            
-                            // --- CABEÇALHO DA EMPRESA EM TODAS AS PÁGINAS ---
-                            doc.setFont("helvetica", "bold");
-                            doc.setFontSize(14);
-                            doc.setTextColor(15, 23, 42);
-                            doc.text('GPS PARAÍBA', 8, 11);
+                console.log("Markdown gerado com sucesso:\n", mdContent);
 
-                            doc.setFont("helvetica", "bold");
-                            doc.setFontSize(9);
-                            doc.setTextColor(37, 99, 235);
-                            doc.text('Relatório de Lançamentos Financeiros (' + dataList.length + ' registros | Total: ' + formattedTotal + ')', 8, 16);
+                // 2. Renderizar documento limpo via janela com motor PDF nativo
+                const printWin = window.open('', '_blank', 'width=1100,height=850');
+                if (printWin) {
+                    printWin.document.write(`
+                        <!DOCTYPE html>
+                        <html lang="pt-BR">
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>${fileName}</title>
+                            <style>
+                                @page {
+                                    size: A4 landscape;
+                                    margin: 12mm 10mm 15mm 10mm;
+                                }
+                                body {
+                                    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+                                    color: #0f172a;
+                                    margin: 0;
+                                    padding: 10px;
+                                    background: #ffffff;
+                                    -webkit-print-color-adjust: exact !important;
+                                    print-color-adjust: exact !important;
+                                }
+                                .header-banner {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: space-between;
+                                    border-bottom: 3px solid #2563eb;
+                                    padding-bottom: 10px;
+                                    margin-bottom: 12px;
+                                }
+                                .header-title {
+                                    font-size: 20px;
+                                    font-weight: 800;
+                                    margin: 0;
+                                    color: #0f172a;
+                                }
+                                .header-sub {
+                                    font-size: 12px;
+                                    font-weight: 600;
+                                    color: #2563eb;
+                                }
+                                .header-contact {
+                                    font-size: 10px;
+                                    color: #475569;
+                                    margin-top: 2px;
+                                }
+                                .stamp-card {
+                                    background: #f1f5f9;
+                                    border: 1px solid #cbd5e1;
+                                    border-radius: 6px;
+                                    padding: 6px 12px;
+                                    text-align: right;
+                                    font-size: 9.5px;
+                                    color: #334155;
+                                }
+                                .summary-bar {
+                                    display: flex;
+                                    gap: 12px;
+                                    margin-bottom: 14px;
+                                }
+                                .summary-card {
+                                    flex: 1;
+                                    background: #f8fafc;
+                                    border: 1px solid #e2e8f0;
+                                    border-radius: 6px;
+                                    padding: 8px;
+                                    text-align: center;
+                                }
+                                .summary-title {
+                                    font-size: 9px;
+                                    font-weight: 700;
+                                    color: #64748b;
+                                    text-transform: uppercase;
+                                }
+                                .summary-value {
+                                    font-size: 15px;
+                                    font-weight: 800;
+                                    color: #2563eb;
+                                    margin-top: 2px;
+                                }
+                                table {
+                                    width: 100%;
+                                    border-collapse: collapse;
+                                    font-size: 9.5px;
+                                    margin-top: 6px;
+                                }
+                                thead {
+                                    display: table-header-group !important;
+                                }
+                                tr {
+                                    page-break-inside: avoid !important;
+                                    break-inside: avoid !important;
+                                }
+                                th {
+                                    background-color: #2563eb !important;
+                                    color: #ffffff !important;
+                                    padding: 7px 8px;
+                                    text-align: left;
+                                    font-weight: 700;
+                                }
+                                td {
+                                    padding: 6px 8px;
+                                    border-bottom: 1px solid #e2e8f0;
+                                }
+                                tbody tr:nth-child(even) {
+                                    background-color: #f8fafc !important;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="header-banner">
+                                <div>
+                                    <h1 class="header-title">GPS PARAÍBA</h1>
+                                    <div class="header-sub">Relatório de Lançamentos Financeiros (Documento Markdown / PDF)</div>
+                                    <div class="header-contact"><strong>Contato:</strong> (83) 98800-0000 | <strong>E-mail:</strong> contato@gpsparaiba.com.br</div>
+                                </div>
+                                <div class="stamp-card">
+                                    <div><strong>Solicitante:</strong> ${userName}</div>
+                                    <div><strong>Carimbo de Emissão:</strong> ${nowFormatted}</div>
+                                </div>
+                            </div>
 
-                            doc.setFont("helvetica", "normal");
-                            doc.setFontSize(8);
-                            doc.setTextColor(71, 85, 105);
-                            doc.text('Contato: (83) 98800-0000 | E-mail: contato@gpsparaiba.com.br', 8, 21);
+                            <div class="summary-bar">
+                                <div class="summary-card">
+                                    <div class="summary-title">Total Registros</div>
+                                    <div class="summary-value">${dataList.length}</div>
+                                </div>
+                                <div class="summary-card">
+                                    <div class="summary-title">Valor Somado</div>
+                                    <div class="summary-value">${formattedTotal}</div>
+                                </div>
+                            </div>
 
-                            // Carimbo no Canto Superior Direito
-                            doc.setFillColor(241, 245, 249);
-                            doc.rect(210, 5, 79, 17, 'F');
-                            doc.setLineWidth(0.2);
-                            doc.setDrawColor(203, 213, 225);
-                            doc.rect(210, 5, 79, 17, 'S');
-
-                            doc.setFont("helvetica", "bold");
-                            doc.setFontSize(7.5);
-                            doc.setTextColor(51, 65, 85);
-                            doc.text('Solicitante: ' + userName, 213, 10);
-                            doc.text('Carimbo: ' + nowFormatted, 213, 16);
-
-                            // Linha azul horizontal do cabeçalho
-                            doc.setLineWidth(0.6);
-                            doc.setDrawColor(37, 99, 235);
-                            doc.line(8, 24, 289, 24);
-
-                            // --- RODAPÉ EM TODAS AS PÁGINAS ---
-                            doc.setLineWidth(0.2);
-                            doc.setDrawColor(203, 213, 225);
-                            doc.line(8, 198, 289, 198);
-
-                            doc.setFont("helvetica", "normal");
-                            doc.setFontSize(7.5);
-                            doc.setTextColor(100, 116, 139);
-                            doc.text('GPS Paraíba — Telemetria & Rastreamento Veicular 24h | contato@gpsparaiba.com.br', 8, 203);
-                            doc.text(`Página ${pageNum} de ${totalPages}`, 260, 203);
-                        }
-                    });
-
-                    doc.save(fileName);
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Vencimento</th>
+                                        <th>Empresa</th>
+                                        <th>Categoria</th>
+                                        <th>Tipo</th>
+                                        <th style="text-align: right;">Valor</th>
+                                        <th style="text-align: center;">Status</th>
+                                        <th>Descrição</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${dataList.map(item => `
+                                        <tr>
+                                            <td><strong>${item.due_date}</strong></td>
+                                            <td>${item.company}</td>
+                                            <td>${item.category}</td>
+                                            <td><strong style="color: ${item.type === 'receita' ? '#16a34a' : '#dc2626'}">${item.type ? item.type.toUpperCase() : ''}</strong></td>
+                                            <td style="text-align: right;"><strong>R$ ${(typeof item.amount === 'number' ? item.amount : parseFloat(item.amount)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong></td>
+                                            <td style="text-align: center;">${item.status}</td>
+                                            <td>${item.description}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </body>
+                        </html>
+                    `);
+                    printWin.document.close();
+                    printWin.focus();
+                    setTimeout(() => {
+                        printWin.print();
+                    }, 400);
                 }
             }
             }
