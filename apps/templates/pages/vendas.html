@@ -705,116 +705,96 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
                 const now = new Date();
                 const nowFormatted = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR')}`;
 
-                const pdfContainer = document.createElement('div');
-                pdfContainer.style.padding = '0';
-                pdfContainer.style.fontFamily = "'Inter', Arial, sans-serif";
-                pdfContainer.style.color = '#1e293b';
-                pdfContainer.style.backgroundColor = '#ffffff';
+                const jsPDF = window.jspdf ? window.jspdf.jsPDF : (window.jsPDF || null);
+                
+                if (jsPDF) {
+                    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+                    
+                    const head = [["Ativação", "Contrato", "Cliente", "Contato", "Veículo / Placa", "Plano", "Mensalidade", "Vendedor", "Instalação"]];
+                    const body = dataList.map(s => [
+                        s.activation_date || '',
+                        s.contract_number || '',
+                        s.client_name || '',
+                        `(${s.ddd || ''}) ${s.contact || ''}`,
+                        `${s.vehicle_model || ''} (${s.plate || ''})`,
+                        s.plan_name || '',
+                        'R$ ' + parseFloat(s.monthly_fee || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }),
+                        s.seller_name || '',
+                        s.instalacao ? 'Sim' : 'Não'
+                    ]);
 
-                pdfContainer.innerHTML = `
-                    <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-                        <div style="flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center;">
-                            <div style="font-size: 9px; color: #64748b; font-weight: 600; text-transform: uppercase;">Total de Vendas</div>
-                            <div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">${dataList.length}</div>
-                        </div>
-                        <div style="flex: 1; background: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 6px; padding: 8px; text-align: center;">
-                            <div style="font-size: 9px; color: #047857; font-weight: 600; text-transform: uppercase;">Receita Mensalidade Recorrente</div>
-                            <div style="font-size: 14px; font-weight: 800; color: #10b981; margin-top: 2px;">${formattedMonthly}</div>
-                        </div>
-                    </div>
+                    doc.autoTable({
+                        head: head,
+                        body: body,
+                        startY: 28,
+                        margin: { top: 28, bottom: 14, left: 8, right: 8 },
+                        styles: { fontSize: 8, cellPadding: 2.5, font: 'helvetica', textColor: [30, 41, 59] },
+                        headStyles: { fillColor: [16, 185, 129], textColor: [255, 255, 255], fontStyle: 'bold', halign: 'left' },
+                        columnStyles: {
+                            0: { fontStyle: 'bold', cellWidth: 24 },
+                            1: { fontStyle: 'bold', cellWidth: 26 },
+                            2: { fontStyle: 'bold', cellWidth: 42 },
+                            3: { cellWidth: 32 },
+                            4: { cellWidth: 40 },
+                            5: { cellWidth: 26 },
+                            6: { fontStyle: 'bold', halign: 'right', cellWidth: 28 },
+                            7: { cellWidth: 30 },
+                            8: { halign: 'center', cellWidth: 22 }
+                        },
+                        alternateRowStyles: { fillColor: [248, 250, 252] },
+                        didDrawPage: function (data) {
+                            const totalPages = doc.internal.getNumberOfPages();
+                            const pageNum = data.pageNumber;
+                            
+                            // --- CABEÇALHO DA EMPRESA EM TODAS AS PÁGINAS ---
+                            doc.setFont("helvetica", "bold");
+                            doc.setFontSize(14);
+                            doc.setTextColor(15, 23, 42);
+                            doc.text('GPS PARAÍBA', 8, 11);
 
-                    <table style="width: 100%; border-collapse: collapse; font-size: 9.5px;">
-                        <thead>
-                            <tr style="background-color: #10b981; color: #ffffff;">
-                                <th style="padding: 6px; text-align: left;">Ativação</th>
-                                <th style="padding: 6px; text-align: left;">Contrato</th>
-                                <th style="padding: 6px; text-align: left;">Cliente</th>
-                                <th style="padding: 6px; text-align: left;">Contato</th>
-                                <th style="padding: 6px; text-align: left;">Veículo / Placa</th>
-                                <th style="padding: 6px; text-align: left;">Plano</th>
-                                <th style="padding: 6px; text-align: right;">Mensalidade</th>
-                                <th style="padding: 6px; text-align: left;">Vendedor</th>
-                                <th style="padding: 6px; text-align: center;">Instalação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${dataList.map((s, idx) => `
-                                <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0; page-break-inside: avoid; break-inside: avoid;">
-                                    <td style="padding: 5px 6px; font-weight: 600;">${s.activation_date || ''}</td>
-                                    <td style="padding: 5px 6px; font-weight: 700;">${s.contract_number || ''}</td>
-                                    <td style="padding: 5px 6px; font-weight: 600;">${s.client_name || ''}</td>
-                                    <td style="padding: 5px 6px;">(${s.ddd || ''}) ${s.contact || ''}</td>
-                                    <td style="padding: 5px 6px;">${s.vehicle_model || ''} (${s.plate || ''})</td>
-                                    <td style="padding: 5px 6px;">${s.plan_name || ''}</td>
-                                    <td style="padding: 5px 6px; text-align: right; font-weight: 700; color: #10b981;">R$ ${parseFloat(s.monthly_fee || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                                    <td style="padding: 5px 6px;">${s.seller_name || ''}</td>
-                                    <td style="padding: 5px 6px; text-align: center;">${s.instalacao ? '🛠️ Sim' : 'Não'}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
+                            doc.setFont("helvetica", "bold");
+                            doc.setFontSize(9);
+                            doc.setTextColor(16, 185, 129);
+                            doc.text('Relatório Geral de Vendas & Ativações (' + dataList.length + ' vendas | Mensalidades: ' + formattedMonthly + ')', 8, 16);
 
-                const opt = {
-                    margin:       [30, 8, 16, 8],
-                    filename:     fileName,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true },
-                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
-                    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-                };
+                            doc.setFont("helvetica", "normal");
+                            doc.setFontSize(8);
+                            doc.setTextColor(71, 85, 105);
+                            doc.text('Contato: (83) 98800-0000 | E-mail: contato@gpsparaiba.com.br', 8, 21);
 
-                html2pdf().set(opt).from(pdfContainer).toPdf().get('pdf').then(function(pdf) {
-                    const totalPages = pdf.internal.getNumberOfPages();
-                    for (let i = 1; i <= totalPages; i++) {
-                        pdf.setPage(i);
-                        
-                        // --- CABEÇALHO OBRIGATÓRIO EM TODAS AS PÁGINAS ---
-                        pdf.setFont("helvetica", "bold");
-                        pdf.setFontSize(14);
-                        pdf.setTextColor(15, 23, 42); // #0f172a
-                        pdf.text('GPS PARAÍBA', 8, 11);
+                            // Carimbo no Canto Superior Direito
+                            doc.setFillColor(241, 245, 249);
+                            doc.rect(210, 5, 79, 17, 'F');
+                            doc.setLineWidth(0.2);
+                            doc.setDrawColor(203, 213, 225);
+                            doc.rect(210, 5, 79, 17, 'S');
 
-                        pdf.setFont("helvetica", "bold");
-                        pdf.setFontSize(9);
-                        pdf.setTextColor(16, 185, 129); // #10b981
-                        pdf.text('Relatório Geral de Vendas & Ativações', 8, 16);
+                            doc.setFont("helvetica", "bold");
+                            doc.setFontSize(7.5);
+                            doc.setTextColor(51, 65, 85);
+                            doc.text('Solicitante: ' + userNameVendas, 213, 10);
+                            doc.text('Carimbo: ' + nowFormatted, 213, 16);
 
-                        pdf.setFont("helvetica", "normal");
-                        pdf.setFontSize(8);
-                        pdf.setTextColor(71, 85, 105); // #475569
-                        pdf.text('Contato: (83) 98800-0000 | E-mail: contato@gpsparaiba.com.br', 8, 21);
+                            // Linha verde horizontal do cabeçalho
+                            doc.setLineWidth(0.6);
+                            doc.setDrawColor(16, 185, 129);
+                            doc.line(8, 24, 289, 24);
 
-                        // Carimbo no Canto Superior Direito
-                        pdf.setFillColor(241, 245, 249); // #f1f5f9
-                        pdf.rect(210, 5, 79, 17, 'F');
-                        pdf.setLineWidth(0.2);
-                        pdf.setDrawColor(203, 213, 225); // #cbd5e1
-                        pdf.rect(210, 5, 79, 17, 'S');
+                            // --- RODAPÉ EM TODAS AS PÁGINAS ---
+                            doc.setLineWidth(0.2);
+                            doc.setDrawColor(203, 213, 225);
+                            doc.line(8, 198, 289, 198);
 
-                        pdf.setFont("helvetica", "bold");
-                        pdf.setFontSize(7.5);
-                        pdf.setTextColor(51, 65, 85);
-                        pdf.text('Solicitante: ' + userNameVendas, 213, 10);
-                        pdf.text('Carimbo: ' + nowFormatted, 213, 16);
+                            doc.setFont("helvetica", "normal");
+                            doc.setFontSize(7.5);
+                            doc.setTextColor(100, 116, 139);
+                            doc.text('GPS Paraíba — Telemetria & Rastreamento Veicular 24h | contato@gpsparaiba.com.br', 8, 203);
+                            doc.text(`Página ${pageNum} de ${totalPages}`, 260, 203);
+                        }
+                    });
 
-                        // Linha verde horizontal do cabeçalho
-                        pdf.setLineWidth(0.6);
-                        pdf.setDrawColor(16, 185, 129);
-                        pdf.line(8, 25, 289, 25);
-
-                        // --- RODAPÉ OBRIGATÓRIO EM TODAS AS PÁGINAS ---
-                        pdf.setLineWidth(0.2);
-                        pdf.setDrawColor(203, 213, 225);
-                        pdf.line(8, 196, 289, 196);
-
-                        pdf.setFont("helvetica", "normal");
-                        pdf.setFontSize(7.5);
-                        pdf.setTextColor(100, 116, 139);
-                        pdf.text('GPS Paraíba — Telemetria & Rastreamento Veicular 24h | contato@gpsparaiba.com.br', 8, 202);
-                        pdf.text(`Página ${i} de ${totalPages}`, 262, 202);
-                    }
-                }).save();
+                    doc.save(fileName);
+                }
             }
 
             setProgress(100, 'Download concluído!');
