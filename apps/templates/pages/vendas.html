@@ -667,7 +667,7 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
                         `${s.vehicle_type || ''} - ${s.vehicle_brand || ''} ${s.vehicle_model || ''}`,
                         s.plate || '',
                         s.plan_name || '',
-                        s.monthly_fee || 0,
+                        parseFloat(s.monthly_fee || 0),
                         s.seller_name || '',
                         s.instalacao ? 'Com Instalação' : 'Sem Instalação',
                         s.status || 'Ativo'
@@ -687,7 +687,7 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
                     `"${s.vehicle_type || ''} ${s.vehicle_model || ''}"`,
                     `"${s.plate || ''}"`,
                     `"${s.plan_name || ''}"`,
-                    s.monthly_fee || 0,
+                    parseFloat(s.monthly_fee || 0).toFixed(2),
                     `"${s.seller_name || ''}"`,
                     s.instalacao ? 'Com Instalação' : 'Sem Instalação',
                     s.status || 'Ativo'

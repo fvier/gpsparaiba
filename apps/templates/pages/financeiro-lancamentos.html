@@ -264,12 +264,14 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
             const catCell = r.cells[2].querySelector('select')?.selectedOptions[0]?.text || r.cells[2].textContent.trim();
             const subcatCell = r.cells[3].querySelector('select')?.selectedOptions[0]?.text || r.cells[3].textContent.trim();
             const typeCell = r.cells[4].textContent.trim();
-            const amountCell = r.cells[5].textContent.trim();
+            const rawAmountStr = r.cells[5].dataset.value || r.cells[5].textContent;
+            const cleanAmountStr = rawAmountStr.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
+            const numAmount = parseFloat(cleanAmountStr) || 0;
             const statusCell = r.cells[6].querySelector('select')?.selectedOptions[0]?.text || r.cells[6].textContent.trim();
             const descStrong = r.cells[7].querySelector('strong')?.textContent.trim() || r.cells[7].dataset.value || r.cells[7].textContent.trim();
             const notesText = r.cells[7].querySelector('small')?.textContent.trim();
             const descCell = notesText ? `${descStrong} (Obs: ${notesText})` : descStrong;
-            return { due_date: dateCell, company: companyCell, category: catCell, subcategory: subcatCell, type: typeCell, amount: amountCell, status: statusCell, description: descCell };
+            return { due_date: dateCell, company: companyCell, category: catCell, subcategory: subcatCell, type: typeCell, amount: numAmount, status: statusCell, description: descCell };
         }).filter(item => {
             if (!startDate && !endDate) return true;
             const parts = item.due_date.split('/');
@@ -304,7 +306,7 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
                     `"${i.category.replace(/"/g, '""')}"`,
                     `"${i.subcategory.replace(/"/g, '""')}"`,
                     i.type,
-                    `"${i.amount}"`,
+                    i.amount.toFixed(2),
                     i.status,
                     `"${i.description.replace(/"/g, '""')}"`
                 ]);
@@ -315,10 +317,7 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
                 link.download = fileName;
                 link.click();
             } else if (format === 'pdf') {
-                const totalAmount = dataList.reduce((acc, curr) => {
-                    const val = parseFloat(curr.amount.replace('R$', '').replace('.', '').replace(',', '.').trim()) || 0;
-                    return acc + val;
-                }, 0);
+                const totalAmount = dataList.reduce((acc, curr) => acc + (typeof curr.amount === 'number' ? curr.amount : (parseFloat(curr.amount) || 0)), 0);
                 const formattedTotal = 'R$ ' + totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 
                 const pdfContainer = document.createElement('div');
@@ -372,7 +371,7 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
                                     <td style="padding: 6px;">${item.company}</td>
                                     <td style="padding: 6px;">${item.category}</td>
                                     <td style="padding: 6px; font-weight: 600; color: ${item.type === 'receita' ? '#16a34a' : '#dc2626'};">${item.type}</td>
-                                    <td style="padding: 6px; text-align: right; font-weight: 700;">${item.amount}</td>
+                                    <td style="padding: 6px; text-align: right; font-weight: 700;">${typeof item.amount === 'number' ? item.amount.toFixed(2) : item.amount}</td>
                                     <td style="padding: 6px; text-align: center;">${item.status}</td>
                                     <td style="padding: 6px;">${item.description}</td>
                                 </tr>
