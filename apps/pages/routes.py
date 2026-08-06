@@ -912,11 +912,45 @@ def api_integracao_vendas():
 
     if request.method == 'GET':
         sales = get_sales_storage()
+        status_filter = request.args.get('status')
+        q_filter = request.args.get('q', '').lower()
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        seller_filter = request.args.get('seller_name', '').lower()
+        limit = request.args.get('limit', type=int)
+
+        filtered = []
+        for s in sales:
+            if status_filter and s.get('status', '').lower() != status_filter.lower():
+                continue
+            if seller_filter and seller_filter not in s.get('seller_name', '').lower():
+                continue
+            if q_filter and not any(q_filter in str(s.get(k, '')).lower() for k in ['client_name', 'contract_number', 'plate', 'contact']):
+                continue
+            act_date = s.get('activation_date', '')
+            if start_date and act_date < start_date:
+                continue
+            if end_date and act_date > end_date:
+                continue
+            filtered.append(s)
+
+        if limit and limit > 0:
+            filtered = filtered[:limit]
+
         return jsonify({
             'status': 'success',
             'endpoint': '/api/v1/integracoes/vendas',
-            'total': len(sales),
-            'vendas': sales
+            'total_disponivel': len(sales),
+            'total_retornado': len(filtered),
+            'filtros_aplicados': {
+                'status': status_filter,
+                'q': q_filter or None,
+                'start_date': start_date,
+                'end_date': end_date,
+                'seller_name': seller_filter or None,
+                'limit': limit
+            },
+            'vendas': filtered
         }), 200
 
     payload = request.get_json(silent=True) or request.form.to_dict()
@@ -962,22 +996,71 @@ def api_integracao_lancamentos():
         return jsonify({'status': 'error', 'message': 'Chave de API inválida ou não autenticado'}), 401
 
     if request.method == 'GET':
-        entries = FinancialEntry.query.order_by(FinancialEntry.due_date.desc()).all()
-        result = [{
-            'id': e.id,
-            'description': e.description,
-            'amount': e.amount,
-            'entry_type': e.entry_type,
-            'due_date': e.due_date.isoformat(),
-            'status': e.effective_status,
-            'company': e.company.name if e.company else 'GPS Paraíba',
-            'category': e.category.name if e.category else '',
-            'notes': e.notes or ''
-        } for e in entries]
+        query = FinancialEntry.query
+        status_filter = request.args.get('status')
+        entry_type_filter = request.args.get('entry_type')
+        company_id_filter = request.args.get('company_id', type=int)
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        q_filter = request.args.get('q', '').strip()
+        limit = request.args.get('limit', type=int)
+
+        if entry_type_filter:
+            query = query.filter_by(entry_type=entry_type_filter)
+        if company_id_filter:
+            query = query.filter_by(company_id=company_id_filter)
+        if q_filter:
+            query = query.filter(db.or_(
+                FinancialEntry.description.ilike(f"%{q_filter}%"),
+                FinancialEntry.notes.ilike(f"%{q_filter}%")
+            ))
+        if start_date:
+            try:
+                d1 = datetime.strptime(start_date, '%Y-%m-%d').date()
+                query = query.filter(FinancialEntry.due_date >= d1)
+            except Exception:
+                pass
+        if end_date:
+            try:
+                d2 = datetime.strptime(end_date, '%Y-%m-%d').date()
+                query = query.filter(FinancialEntry.due_date <= d2)
+            except Exception:
+                pass
+
+        entries = query.order_by(FinancialEntry.due_date.desc()).all()
+        result = []
+        for e in entries:
+            eff_status = e.effective_status
+            if status_filter and eff_status != status_filter:
+                continue
+            result.append({
+                'id': e.id,
+                'description': e.description,
+                'amount': e.amount,
+                'entry_type': e.entry_type,
+                'due_date': e.due_date.isoformat(),
+                'status': eff_status,
+                'company': e.company.name if e.company else 'GPS Paraíba',
+                'category': e.category.name if e.category else '',
+                'notes': e.notes or ''
+            })
+
+        if limit and limit > 0:
+            result = result[:limit]
+
         return jsonify({
             'status': 'success',
             'endpoint': '/api/v1/integracoes/lancamentos',
-            'total': len(result),
+            'total_retornado': len(result),
+            'filtros_aplicados': {
+                'status': status_filter,
+                'entry_type': entry_type_filter,
+                'company_id': company_id_filter,
+                'start_date': start_date,
+                'end_date': end_date,
+                'q': q_filter or None,
+                'limit': limit
+            },
             'lancamentos': result
         }), 200
 

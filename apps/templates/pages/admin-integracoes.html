@@ -7,54 +7,129 @@
     <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div>
             <h4 class="fw-bold text-dark mb-1">
-                <i class="ri-code-s-slash-line text-primary me-2"></i>Central de Integrações & APIs
+                <i class="ri-code-s-slash-line text-primary me-2"></i>Central de Integrações & APIs REST
             </h4>
-            <p class="text-secondary small mb-0">Endpoints REST para integração automatizada de Vendas e Lançamentos Financeiros.</p>
+            <p class="text-secondary small mb-0">Documentação completa, guia educativo, parâmetros de busca e testadores ao vivo de API.</p>
         </div>
         <span class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold fs-12">
             <i class="ri-checkbox-circle-line me-1"></i>APIs Ativas & Operacionais
         </span>
     </div>
 
-    <!-- Card Autenticação API -->
-    <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-            <div>
-                <h5 class="fw-bold text-dark mb-1"><i class="ri-key-2-line text-warning me-2"></i>Autenticação da API</h5>
-                <small class="text-muted">Utilize o cabeçalho HTTP <code class="text-primary fw-bold">X-API-Key</code> em suas requisições externas.</small>
-            </div>
-            <span class="badge bg-primary-subtle text-primary rounded-pill px-3 py-1">Versão 1.0</span>
-        </div>
-        <div class="input-group" style="max-width: 580px;">
-            <span class="input-group-text bg-light border-0"><i class="ri-lock-line text-muted"></i></span>
-            <input type="text" id="api-key-input" class="form-control bg-light border-0 fw-bold text-dark" value="gps_live_key_paraiba_2026" readonly>
-            <button class="btn btn-outline-primary rounded-end px-3" type="button" onclick="copyApiKey()" title="Copiar chave de API">
-                <i class="ri-file-copy-line me-1"></i> Copiar Chave
+    <!-- Navegação em Abas (Tabs) -->
+    <ul class="nav nav-pills gap-2 mb-4" id="api-tabs" role="tablist">
+        <li class="nav-item">
+            <button class="nav-link active rounded-pill fw-bold" id="tab-guide-btn" data-bs-toggle="pill" data-bs-target="#tab-guide" type="button">
+                <i class="ri-lightbulb-line me-1 text-warning"></i>1. Como Funciona a API (Guia)
             </button>
-        </div>
-        <div id="copy-toast" class="small text-success mt-2 d-none"><i class="ri-check-line me-1"></i>Chave copiada para a área de transferência!</div>
-    </div>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link rounded-pill fw-bold" id="tab-vendas-btn" data-bs-toggle="pill" data-bs-target="#tab-vendas" type="button">
+                <i class="ri-shopping-cart-2-line me-1 text-success"></i>2. Endpoint: Vendas
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link rounded-pill fw-bold" id="tab-lancamentos-btn" data-bs-toggle="pill" data-bs-target="#tab-lancamentos" type="button">
+                <i class="ri-wallet-3-line me-1 text-info"></i>3. Endpoint: Lançamentos
+            </button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link rounded-pill fw-bold" id="tab-auth-btn" data-bs-toggle="pill" data-bs-target="#tab-auth" type="button">
+                <i class="ri-key-2-line me-1 text-primary"></i>4. Chaves de Acesso
+            </button>
+        </li>
+    </ul>
 
-    <div class="row g-4">
-        <!-- Endpoint 1: Vendas -->
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
-                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                    <h5 class="fw-bold text-dark mb-0"><i class="ri-shopping-cart-2-line text-success me-2"></i>Endpoint 1: Vendas</h5>
-                    <div>
-                        <span class="badge bg-primary px-2 py-1 me-1">GET</span>
-                        <span class="badge bg-success px-2 py-1">POST</span>
+    <div class="tab-content" id="api-tabs-content">
+
+        <!-- ABA 1: GUIA E CONCEITOS -->
+        <div class="tab-pane fade show active" id="tab-guide" role="tabpanel">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                <h5 class="fw-bold text-dark mb-3"><i class="ri-book-open-line text-primary me-2"></i>O que é e Por Que Usar a API do GPS Paraíba?</h5>
+                <p class="text-secondary fs-15">
+                    Uma **API (Interface de Programação de Aplicações)** é uma ponte digital que permite que outros sistemas (como o seu site de vendas, formulários de WhatsApp, gateways de pagamento ou CRMs externos) conversem diretamente com o ERP da GPS Paraíba sem precisar de intervenção manual.
+                </p>
+                <div class="row g-4 my-2">
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <h6 class="fw-bold text-primary mb-2"><i class="ri-download-2-line me-1"></i>Verbo GET (Consultar Dados)</h6>
+                            <p class="small text-muted mb-0">Usado para <strong>buscar/ler informações</strong> salvas no ERP. Exemplo: Seu CRM externo consulta quantas vendas foram realizadas hoje ou quais mensalidades estão pendentes.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="p-3 bg-light rounded-3 border h-100">
+                            <h6 class="fw-bold text-success mb-2"><i class="ri-send-plane-line me-1"></i>Verbo POST (Cadastrar Dados)</h6>
+                            <p class="small text-muted mb-0">Usado para <strong>enviar e salvar novos dados</strong> no ERP. Exemplo: Quando um cliente preenche um formulário de contratação no site, o site dispara um `POST` e o contrato já aparece pronto no painel.</p>
+                        </div>
                     </div>
                 </div>
-                <p class="text-muted small mb-3">Consulte a lista de novos contratos ativados ou envie novas vendas direto do seu CRM/WhatsApp Bot.</p>
-                <div class="bg-light p-3 rounded-3 mb-3 border">
-                    <small class="text-muted d-block fw-semibold mb-1">URL do Endpoint:</small>
-                    <code class="text-dark fw-bold text-break">https://gpsparaiba.com.br/api/v1/integracoes/vendas</code>
+
+                <hr class="my-4">
+
+                <h6 class="fw-bold text-dark mb-3"><i class="ri-shield-check-line text-success me-2"></i>Padrão de Resposta & Autenticação</h6>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 text-center">
+                            <i class="ri-lock-password-line fs-24 text-warning"></i>
+                            <h6 class="fw-bold mt-2 mb-1">1. Autenticação Segura</h6>
+                            <small class="text-muted d-block">Envie o cabeçalho <code>X-API-Key</code> em cada requisição para garantir o acesso exclusivo.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 text-center">
+                            <i class="ri-file-code-line fs-24 text-info"></i>
+                            <h6 class="fw-bold mt-2 mb-1">2. Formato Padrão JSON</h6>
+                            <small class="text-muted d-block">Todas as respostas da API usam a estrutura leve e universal JSON UTF-8.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 border rounded-3 text-center">
+                            <i class="ri-checkbox-circle-line fs-24 text-success"></i>
+                            <h6 class="fw-bold mt-2 mb-1">3. Códigos HTTP</h6>
+                            <small class="text-muted d-block"><code>200 OK</code> (sucesso), <code>201 Created</code> (criado), <code>400</code> (dados inválidos) e <code>401</code> (sem permissão).</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABA 2: ENDPOINT VENDAS -->
+        <div class="tab-pane fade" id="tab-vendas" role="tabpanel">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+                    <h5 class="fw-bold text-dark mb-0"><i class="ri-shopping-cart-2-line text-success me-2"></i>Endpoint 1: Gestão de Vendas & Contratos</h5>
+                    <div>
+                        <span class="badge bg-primary px-3 py-1 me-1">GET</span>
+                        <span class="badge bg-success px-3 py-1">POST</span>
+                    </div>
+                </div>
+                <div class="bg-light p-3 rounded-3 mb-4 border">
+                    <small class="text-muted d-block fw-semibold mb-1">URL Completa do Endpoint:</small>
+                    <code class="text-dark fw-bold fs-15 text-break">https://gpsparaiba.com.br/api/v1/integracoes/vendas</code>
                 </div>
 
-                <div class="mb-3">
-                    <small class="text-muted d-block fw-semibold mb-1">Modelo de Payload JSON (POST):</small>
-                    <pre class="bg-dark text-light p-3 rounded-3 fs-12 mb-0" style="max-height: 180px; overflow-y: auto;">{
+                <!-- Tabela Parâmetros GET -->
+                <h6 class="fw-bold text-dark mb-2"><i class="ri-filter-3-line me-1 text-primary"></i>Parâmetros de Consulta (Query Parameters para GET):</h6>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered align-middle small">
+                        <thead class="table-light">
+                            <tr><th>Parâmetro</th><th>Tipo</th><th>Exemplo</th><th>Descrição</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>limit</code></td><td>Integer</td><td><code>?limit=10</code></td><td>Limita a quantidade de vendas retornadas (ex: 10 mais recentes).</td></tr>
+                            <tr><td><code>status</code></td><td>String</td><td><code>?status=Ativo</code></td><td>Filtra por status da venda (ex: <code>Ativo</code>, <code>Pendente</code>, <code>Cancelado</code>).</td></tr>
+                            <tr><td><code>q</code></td><td>String</td><td><code>?q=Maria</code></td><td>Busca por nome do cliente, placa do veículo ou número do contrato.</td></tr>
+                            <tr><td><code>start_date</code></td><td>Data (YYYY-MM-DD)</td><td><code>?start_date=2026-08-01</code></td><td>Data inicial de ativação do contrato.</td></tr>
+                            <tr><td><code>end_date</code></td><td>Data (YYYY-MM-DD)</td><td><code>?end_date=2026-08-31</code></td><td>Data final de ativação do contrato.</td></tr>
+                            <tr><td><code>seller_name</code></td><td>String</td><td><code>?seller_name=Fernando</code></td><td>Filtra vendas associadas a um vendedor específico.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <small class="text-muted d-block fw-semibold mb-1">Modelo do Payload de Envio (POST JSON):</small>
+                        <pre class="bg-dark text-light p-3 rounded-3 fs-12 mb-0" style="max-height: 220px; overflow-y: auto;">{
   "contract_number": "CTR-8840",
   "client_name": "Maria Oliveira",
   "ddd": "83",
@@ -69,43 +144,92 @@
   "instalacao": true,
   "status": "Ativo"
 }</pre>
+                    </div>
+                    <div class="col-lg-6">
+                        <small class="text-muted d-block fw-semibold mb-1">Exemplo em cURL (Terminal / Backend):</small>
+                        <pre class="bg-dark text-success p-3 rounded-3 fs-12 mb-0" style="max-height: 220px; overflow-y: auto;">curl -X POST https://gpsparaiba.com.br/api/v1/integracoes/vendas \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: gps_live_key_paraiba_2026" \
+  -d '{
+    "client_name": "Maria Oliveira",
+    "contact": "998877665",
+    "monthly_fee": 79.90
+  }'</pre>
+                    </div>
                 </div>
 
-                <div class="d-flex gap-2 mb-3 flex-wrap">
-                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="testApi('/api/v1/integracoes/vendas', 'GET', null, 'response-vendas')">
-                        <i class="ri-play-line me-1"></i> Testar GET (Listar)
-                    </button>
-                    <button type="button" class="btn btn-success btn-sm rounded-pill px-3 text-white" onclick="testApi('/api/v1/integracoes/vendas', 'POST', sampleSalePayload, 'response-vendas')">
-                        <i class="ri-add-line me-1"></i> Testar POST (Criar Venda)
-                    </button>
+                <hr class="my-4">
+
+                <!-- Testador Interativo Vendas -->
+                <h6 class="fw-bold text-dark mb-3"><i class="ri-terminal-box-line me-1 text-success"></i>Testador de Requisição ao Vivo (Sandbox Vendas)</h6>
+                <div class="row g-3 mb-3 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">Status</label>
+                        <select id="test-vendas-status" class="form-select form-select-sm"><option value="">Todos</option><option value="Ativo">Ativo</option><option value="Pendente">Pendente</option></select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">Busca (Nome/Placa)</label>
+                        <input type="text" id="test-vendas-q" class="form-control form-control-sm" placeholder="Ex: Honda ou Maria">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small text-muted">Limite</label>
+                        <input type="number" id="test-vendas-limit" class="form-control form-control-sm" value="5">
+                    </div>
+                    <div class="col-md-4 d-flex gap-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-pill flex-fill" onclick="runVendasTestGET()">
+                            <i class="ri-play-line me-1"></i> Executar GET (Com Filtros)
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm rounded-pill flex-fill text-white" onclick="testApi('/api/v1/integracoes/vendas', 'POST', sampleSalePayload, 'response-vendas')">
+                            <i class="ri-add-line me-1"></i> Executar POST (Cadastrar)
+                        </button>
+                    </div>
                 </div>
 
                 <div>
-                    <small class="text-muted d-block fw-semibold mb-1">Resposta do Teste (JSON Live):</small>
-                    <pre id="response-vendas" class="bg-dark text-warning p-3 rounded-3 fs-12 mb-0" style="min-height: 120px; max-height: 220px; overflow-y: auto;">// Clique em um dos botões de teste para ver o retorno ao vivo da API...</pre>
+                    <small class="text-muted d-block fw-semibold mb-1">Resposta do Servidor (JSON Output):</small>
+                    <pre id="response-vendas" class="bg-dark text-warning p-3 rounded-3 fs-12 mb-0" style="min-height: 140px; max-height: 260px; overflow-y: auto;">// Clique em "Executar GET" ou "Executar POST" para testar o endpoint...</pre>
                 </div>
             </div>
         </div>
 
-        <!-- Endpoint 2: Lançamentos Financeiros -->
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+        <!-- ABA 3: ENDPOINT LANÇAMENTOS -->
+        <div class="tab-pane fade" id="tab-lancamentos" role="tabpanel">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
                 <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                    <h5 class="fw-bold text-dark mb-0"><i class="ri-wallet-3-line text-info me-2"></i>Endpoint 2: Lançamentos</h5>
+                    <h5 class="fw-bold text-dark mb-0"><i class="ri-wallet-3-line text-info me-2"></i>Endpoint 2: Gestão de Lançamentos Financeiros</h5>
                     <div>
-                        <span class="badge bg-primary px-2 py-1 me-1">GET</span>
-                        <span class="badge bg-success px-2 py-1">POST</span>
+                        <span class="badge bg-primary px-3 py-1 me-1">GET</span>
+                        <span class="badge bg-success px-3 py-1">POST</span>
                     </div>
                 </div>
-                <p class="text-muted small mb-3">Consulte receitas e despesas ou cadastre novos lançamentos financeiros automaticamente.</p>
-                <div class="bg-light p-3 rounded-3 mb-3 border">
-                    <small class="text-muted d-block fw-semibold mb-1">URL do Endpoint:</small>
-                    <code class="text-dark fw-bold text-break">https://gpsparaiba.com.br/api/v1/integracoes/lancamentos</code>
+                <div class="bg-light p-3 rounded-3 mb-4 border">
+                    <small class="text-muted d-block fw-semibold mb-1">URL Completa do Endpoint:</small>
+                    <code class="text-dark fw-bold fs-15 text-break">https://gpsparaiba.com.br/api/v1/integracoes/lancamentos</code>
                 </div>
 
-                <div class="mb-3">
-                    <small class="text-muted d-block fw-semibold mb-1">Modelo de Payload JSON (POST):</small>
-                    <pre class="bg-dark text-light p-3 rounded-3 fs-12 mb-0" style="max-height: 180px; overflow-y: auto;">{
+                <!-- Tabela Parâmetros GET -->
+                <h6 class="fw-bold text-dark mb-2"><i class="ri-filter-3-line me-1 text-primary"></i>Parâmetros de Consulta (Query Parameters para GET):</h6>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered align-middle small">
+                        <thead class="table-light">
+                            <tr><th>Parâmetro</th><th>Tipo</th><th>Exemplo</th><th>Descrição</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><code>limit</code></td><td>Integer</td><td><code>?limit=15</code></td><td>Limita a quantidade de lançamentos retornados.</td></tr>
+                            <tr><td><code>entry_type</code></td><td>String</td><td><code>?entry_type=receita</code></td><td>Filtra por tipo de lançamento (<code>receita</code> ou <code>despesa</code>).</td></tr>
+                            <tr><td><code>status</code></td><td>String</td><td><code>?status=pago</code></td><td>Filtra por status (<code>pago</code>, <code>pendente</code>, <code>vencido</code>, <code>perto_vencer</code>).</td></tr>
+                            <tr><td><code>company_id</code></td><td>Integer</td><td><code>?company_id=1</code></td><td>Filtra por empresa/unidade (<code>1</code>: GPS Paraíba, <code>2</code>: Casa).</td></tr>
+                            <tr><td><code>q</code></td><td>String</td><td><code>?q=Mensalidade</code></td><td>Busca textual na descrição ou observações do lançamento.</td></tr>
+                            <tr><td><code>start_date</code></td><td>Data (YYYY-MM-DD)</td><td><code>?start_date=2026-08-01</code></td><td>Data inicial de vencimento.</td></tr>
+                            <tr><td><code>end_date</code></td><td>Data (YYYY-MM-DD)</td><td><code>?end_date=2026-08-31</code></td><td>Data final de vencimento.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <small class="text-muted d-block fw-semibold mb-1">Modelo do Payload de Envio (POST JSON):</small>
+                        <pre class="bg-dark text-light p-3 rounded-3 fs-12 mb-0" style="max-height: 220px; overflow-y: auto;">{
   "company_id": 1,
   "entry_type": "receita",
   "amount": 250.00,
@@ -114,23 +238,79 @@
   "status": "pago",
   "notes": "Recebido via Gateway de Pagamento API"
 }</pre>
+                    </div>
+                    <div class="col-lg-6">
+                        <small class="text-muted d-block fw-semibold mb-1">Exemplo em cURL (Terminal / Backend):</small>
+                        <pre class="bg-dark text-info p-3 rounded-3 fs-12 mb-0" style="max-height: 220px; overflow-y: auto;">curl -X POST https://gpsparaiba.com.br/api/v1/integracoes/lancamentos \
+  -H "Content-Type: application/json" \
+  -H "X-API-Key: gps_live_key_paraiba_2026" \
+  -d '{
+    "description": "Recebimento Mensalidade",
+    "amount": 150.00,
+    "due_date": "2026-08-15"
+  }'</pre>
+                    </div>
                 </div>
 
-                <div class="d-flex gap-2 mb-3 flex-wrap">
-                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="testApi('/api/v1/integracoes/lancamentos', 'GET', null, 'response-lancamentos')">
-                        <i class="ri-play-line me-1"></i> Testar GET (Listar)
-                    </button>
-                    <button type="button" class="btn btn-success btn-sm rounded-pill px-3 text-white" onclick="testApi('/api/v1/integracoes/lancamentos', 'POST', sampleLancamentoPayload, 'response-lancamentos')">
-                        <i class="ri-add-line me-1"></i> Testar POST (Criar Lançamento)
-                    </button>
+                <hr class="my-4">
+
+                <!-- Testador Interativo Lançamentos -->
+                <h6 class="fw-bold text-dark mb-3"><i class="ri-terminal-box-line me-1 text-info"></i>Testador de Requisição ao Vivo (Sandbox Lançamentos)</h6>
+                <div class="row g-3 mb-3 align-items-end">
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">Tipo</label>
+                        <select id="test-lanc-type" class="form-select form-select-sm"><option value="">Todos</option><option value="receita">Receitas</option><option value="despesa">Despesas</option></select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label small text-muted">Busca (Descrição)</label>
+                        <input type="text" id="test-lanc-q" class="form-control form-control-sm" placeholder="Ex: Mensalidade">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label small text-muted">Limite</label>
+                        <input type="number" id="test-lanc-limit" class="form-control form-control-sm" value="5">
+                    </div>
+                    <div class="col-md-4 d-flex gap-2">
+                        <button type="button" class="btn btn-outline-primary btn-sm rounded-pill flex-fill" onclick="runLancamentosTestGET()">
+                            <i class="ri-play-line me-1"></i> Executar GET (Com Filtros)
+                        </button>
+                        <button type="button" class="btn btn-success btn-sm rounded-pill flex-fill text-white" onclick="testApi('/api/v1/integracoes/lancamentos', 'POST', sampleLancamentoPayload, 'response-lancamentos')">
+                            <i class="ri-add-line me-1"></i> Executar POST (Cadastrar)
+                        </button>
+                    </div>
                 </div>
 
                 <div>
-                    <small class="text-muted d-block fw-semibold mb-1">Resposta do Teste (JSON Live):</small>
-                    <pre id="response-lancamentos" class="bg-dark text-info p-3 rounded-3 fs-12 mb-0" style="min-height: 120px; max-height: 220px; overflow-y: auto;">// Clique em um dos botões de teste para ver o retorno ao vivo da API...</pre>
+                    <small class="text-muted d-block fw-semibold mb-1">Resposta do Servidor (JSON Output):</small>
+                    <pre id="response-lancamentos" class="bg-dark text-info p-3 rounded-3 fs-12 mb-0" style="min-height: 140px; max-height: 260px; overflow-y: auto;">// Clique em "Executar GET" ou "Executar POST" para testar o endpoint...</pre>
                 </div>
             </div>
         </div>
+
+        <!-- ABA 4: AUTENTICAÇÃO -->
+        <div class="tab-pane fade" id="tab-auth" role="tabpanel">
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                <h5 class="fw-bold text-dark mb-2"><i class="ri-key-2-line text-warning me-2"></i>Gerenciamento de Chaves de Acesso da API</h5>
+                <p class="text-secondary small mb-4">A chave de API permite que softwares externos se comuniquem com o seu ERP com total autorização.</p>
+
+                <div class="mb-4" style="max-width: 600px;">
+                    <label class="form-label fw-semibold text-dark">Chave de Produção Ativa:</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-0"><i class="ri-key-line text-warning"></i></span>
+                        <input type="text" id="api-key-input" class="form-control bg-light border-0 fw-bold text-dark" value="gps_live_key_paraiba_2026" readonly>
+                        <button class="btn btn-primary rounded-end px-3" type="button" onclick="copyApiKey()">
+                            <i class="ri-file-copy-line me-1"></i> Copiar Chave
+                        </button>
+                    </div>
+                    <div id="copy-toast" class="small text-success mt-2 d-none"><i class="ri-check-line me-1"></i>Chave de API copiada para a área de transferência!</div>
+                </div>
+
+                <div class="alert alert-warning border-0 rounded-3 mb-0" role="alert">
+                    <h6 class="fw-bold mb-1"><i class="ri-alert-line me-1"></i>Recomendação de Segurança:</h6>
+                    <small class="mb-0 d-block">Mantenha sua chave de API protegida. Nunca compartilhe a chave de produção em código-fonte público ou scripts expostos no navegador.</small>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -169,9 +349,33 @@ const sampleLancamentoPayload = {
     notes: "Lançamento automatizado via API REST"
 };
 
+function runVendasTestGET() {
+    const status = document.getElementById('test-vendas-status').value;
+    const q = document.getElementById('test-vendas-q').value;
+    const limit = document.getElementById('test-vendas-limit').value;
+    let url = '/api/v1/integracoes/vendas?';
+    const params = new URLSearchParams();
+    if (status) params.append('status', status);
+    if (q) params.append('q', q);
+    if (limit) params.append('limit', limit);
+    testApi(url + params.toString(), 'GET', null, 'response-vendas');
+}
+
+function runLancamentosTestGET() {
+    const type = document.getElementById('test-lanc-type').value;
+    const q = document.getElementById('test-lanc-q').value;
+    const limit = document.getElementById('test-lanc-limit').value;
+    let url = '/api/v1/integracoes/lancamentos?';
+    const params = new URLSearchParams();
+    if (type) params.append('entry_type', type);
+    if (q) params.append('q', q);
+    if (limit) params.append('limit', limit);
+    testApi(url + params.toString(), 'GET', null, 'response-lancamentos');
+}
+
 async function testApi(url, method, data, targetId) {
     const output = document.getElementById(targetId);
-    output.textContent = "// Enviando requisição para " + url + "...";
+    output.textContent = "// Enviando requisição [" + method + "] para " + url + "...";
 
     const options = {
         method: method,
