@@ -259,7 +259,7 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
     setTimeout(() => {
         const rows = [...document.querySelectorAll('#financial-entries-table tbody tr')].filter(r => r.cells.length > 1);
         const dataList = rows.map(r => {
-            const dateCell = r.cells[0].textContent.trim();
+            const dateCell = r.cells[0].textContent.replace(/\s+/g, ' ').trim();
             const companyCell = r.cells[1].querySelector('select')?.selectedOptions[0]?.text || r.cells[1].textContent.trim();
             const catCell = r.cells[2].querySelector('select')?.selectedOptions[0]?.text || r.cells[2].textContent.trim();
             const subcatCell = r.cells[3].querySelector('select')?.selectedOptions[0]?.text || r.cells[3].textContent.trim();
@@ -274,13 +274,13 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
             if (!startDate && !endDate) return true;
             const parts = item.due_date.split('/');
             if (parts.length !== 3) return true;
-            const iso = `${parts[2]}-${parts[1]}-${parts[0]}`;
+            const iso = `${parts[2].trim()}-${parts[1].trim().padStart(2, '0')}-${parts[0].trim().padStart(2, '0')}`;
             if (startDate && iso < startDate) return false;
             if (endDate && iso > endDate) return false;
             return true;
         });
 
-        setProgress(55, 'Montando estrutura do relatório...');
+        setProgress(55, 'Montando estrutura do relatório com dados e logo...');
 
         setTimeout(() => {
             setProgress(85, 'Gerando arquivo de download...');
@@ -340,20 +340,26 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
 
                     console.log("Markdown de Lançamentos gerado com sucesso:\n", mdContent);
 
-                    // 2. Renderizar documento limpo em memória e realizar o download automático do arquivo PDF
+                    // 2. Renderizar documento limpo no DOM temporário
                     const pdfContainer = document.createElement('div');
-                    pdfContainer.style.width = '100%';
-                    pdfContainer.style.padding = '0';
+                    pdfContainer.style.position = 'absolute';
+                    pdfContainer.style.left = '-9999px';
+                    pdfContainer.style.top = '0px';
+                    pdfContainer.style.width = '1000px';
+                    pdfContainer.style.padding = '15px';
                     pdfContainer.style.fontFamily = "'Inter', Arial, sans-serif";
                     pdfContainer.style.color = '#0f172a';
                     pdfContainer.style.backgroundColor = '#ffffff';
 
                     pdfContainer.innerHTML = `
                         <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 8px; margin-bottom: 12px;">
-                            <div>
-                                <h1 style="font-size: 18px; font-weight: 800; margin: 0; color: #0f172a;">GPS PARAÍBA</h1>
-                                <div style="font-size: 11px; font-weight: 700; color: #2563eb;">Relatório de Lançamentos Financeiros</div>
-                                <div style="font-size: 9px; color: #475569; margin-top: 2px;"><strong>Contato:</strong> (83) 98800-0000 | <strong>E-mail:</strong> contato@gpsparaiba.com.br</div>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="/static/images/logo_fundo_preto.png" style="height: 38px; width: auto; border-radius: 6px;" alt="GPS Paraíba">
+                                <div>
+                                    <h1 style="font-size: 18px; font-weight: 800; margin: 0; color: #0f172a;">GPS PARAÍBA</h1>
+                                    <div style="font-size: 11px; font-weight: 700; color: #2563eb;">Relatório de Lançamentos Financeiros</div>
+                                    <div style="font-size: 9px; color: #475569; margin-top: 2px;"><strong>Contato:</strong> (83) 98800-0000 | <strong>E-mail:</strong> contato@gpsparaiba.com.br</div>
+                                </div>
                             </div>
                             <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; text-align: right; font-size: 9px; color: #334155;">
                                 <div><strong>Solicitante:</strong> ${userName}</div>
@@ -400,6 +406,8 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
                         </table>
                     `;
 
+                    document.body.appendChild(pdfContainer);
+
                     const opt = {
                         margin:       [10, 8, 12, 8],
                         filename:     fileName,
@@ -409,7 +417,11 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
                         pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
                     };
 
-                    html2pdf().set(opt).from(pdfContainer).save();
+                    html2pdf().set(opt).from(pdfContainer).save().then(() => {
+                        if (pdfContainer.parentNode) pdfContainer.parentNode.removeChild(pdfContainer);
+                    }).catch(() => {
+                        if (pdfContainer.parentNode) pdfContainer.parentNode.removeChild(pdfContainer);
+                    });
                 }
 
                 setProgress(100, 'Download concluído com sucesso!');
