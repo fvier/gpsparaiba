@@ -21,10 +21,8 @@
     <link rel="icon" href="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png" type="image/png">
     <link rel="apple-touch-icon" href="{{ config.ASSETS_ROOT }}/images/logo_fundo_preto.png">
 
-    {% block css %}
-    {% block extra_css %} {% endblock extra_css %}
+    {% block extra_css %}{% endblock extra_css %}
     {% include 'partials/head-css.html' %}
-    {% endblock css %}
 </head>
 <body {% block body_attribute %}{% endblock body_attribute %}>
 
@@ -32,10 +30,8 @@
 
 {% block content %}{% endblock content %}
 
-{% block javascript %}
 {% include 'partials/vendor-scripts.html' %}
-{% block extra_javascript %} {% endblock extra_javascript %}
-{% endblock javascript %}
+{% block extra_javascript %}{% endblock extra_javascript %}
 
 </body>
 </html>
