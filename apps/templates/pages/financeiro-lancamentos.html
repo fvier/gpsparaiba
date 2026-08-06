@@ -82,22 +82,15 @@
   </div>
 
   <!-- Painel de Filtros Organizado (Compacto) -->
-  <div class="card border-0 shadow-sm rounded-3 mb-3 p-3">
-    <form method="get" action="/financeiro/lancamentos">
+  <form method="get" action="/financeiro/lancamentos">
+    <div class="card border-0 shadow-sm rounded-3 mb-3 p-3">
       
-      <!-- Topo: Pesquisa & Orientação Compactas -->
-      <div class="row g-2 align-items-center mb-2">
-        <div class="col-lg-7 col-md-6">
-          <div class="input-group input-group-sm">
-            <span class="input-group-text bg-white border-end-0 text-muted ps-2.5"><i class="ri-search-line fs-14"></i></span>
-            <input name="q" class="form-control border-start-0 ps-0 form-control-sm" value="{{ financial_launch_filter.q }}" placeholder="Pesquisar por descrição, observação, empresa ou categoria...">
-          </div>
-        </div>
-        <div class="col-lg-5 col-md-6">
-          <div class="d-flex align-items-center gap-1.5 p-1.5 px-2.5 rounded-2 bg-light text-muted fs-11">
-            <i class="ri-information-fill text-primary fs-15 flex-shrink-0"></i>
-            <span>Selecione os filtros e clique em <strong>Aplicar Filtros</strong>.</span>
-          </div>
+      <!-- Topo: Orientação Compacta -->
+      <div class="d-flex align-items-center justify-content-between mb-2 pb-2 border-bottom">
+        <div class="fw-bold text-dark fs-12"><i class="ri-filter-3-line text-primary me-1"></i>Filtros de Pesquisa</div>
+        <div class="d-flex align-items-center gap-1.5 text-muted fs-11">
+          <i class="ri-information-fill text-primary fs-14"></i>
+          <span>Selecione os parâmetros abaixo e clique em <strong>Aplicar Filtros</strong>.</span>
         </div>
       </div>
 
@@ -214,13 +207,27 @@
         </div>
       </div>
 
-    </form>
-  </div>
+    </div>
 
-  <div class="card border-0 shadow-sm rounded-4 p-3">
-    <div class="table-responsive rounded-3" style="max-height: 520px; overflow-y: auto;">
-      <table id="financial-entries-table" class="table table-hover align-middle financial-entries-table mb-0">
-        <thead style="position: sticky; top: 0; z-index: 10; background-color: #f8fafc; box-shadow: inset 0 -2px 0 #e2e8f0;">
+    <!-- Tabela com Barra de Pesquisa Direta Acima -->
+    <div class="card border-0 shadow-sm rounded-4 p-3">
+      <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+          <h6 class="fw-bold mb-0 text-dark"><i class="ri-list-check-2 me-1 text-primary"></i>Listagem de Lançamentos</h6>
+          <span class="badge bg-light text-muted border rounded-pill px-2.5 py-1 fs-11">{{ ns.count }} registro(s)</span>
+        </div>
+        <div style="min-width: 300px; max-width: 460px;" class="flex-grow-1">
+          <div class="input-group input-group-sm">
+            <span class="input-group-text bg-white border-end-0 text-muted ps-2.5"><i class="ri-search-line fs-14"></i></span>
+            <input name="q" class="form-control border-start-0 ps-0 form-control-sm" value="{{ financial_launch_filter.q }}" placeholder="Pesquisar por descrição, observação, empresa ou categoria...">
+            <button type="submit" class="btn btn-primary btn-sm px-3 fw-semibold"><i class="ri-search-2-line me-1"></i>Buscar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive rounded-3" style="max-height: 520px; overflow-y: auto;">
+        <table id="financial-entries-table" class="table table-hover align-middle financial-entries-table mb-0">
+          <thead style="position: sticky; top: 0; z-index: 10; background-color: #f8fafc; box-shadow: inset 0 -2px 0 #e2e8f0;">
           <tr>
             <th data-sort="text" style="width: 90px;">Tipo <i class="ri-arrow-up-down-line"></i></th>
             <th data-sort="number" style="white-space: nowrap; min-width: 130px;">Valor <i class="ri-arrow-up-down-line"></i></th>
@@ -328,6 +335,7 @@
       </table>
     </div>
   </div>
+  </form>
 </div>
 
 <!-- Modal Novo Lançamento -->
