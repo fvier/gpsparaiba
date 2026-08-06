@@ -329,13 +329,19 @@
             </div>
         </div>
 
-        <!-- ABA 4: AUTENTICAÇÃO BEARER TOKEN -->
+        <!-- ABA 4: AUTENTICAÇÃO, GERADOR DE TOKEN & GUIA POSTMAN PARA DEV JR -->
         <div class="tab-pane fade" id="tab-auth" role="tabpanel">
-            <h5 class="fw-bold text-dark mb-2"><i class="ri-shield-keyhole-line text-primary me-2"></i>Chaves de Acesso & Bearer Token (Padrão RFC 6750)</h5>
-            <p class="text-secondary small mb-4">Utilize a chave de produção com o padrão <code>Authorization: Bearer &lt;token&gt;</code> em todas as requisições HTTP enviadas para a API.</p>
+            <h5 class="fw-bold text-dark mb-2"><i class="ri-shield-keyhole-line text-primary me-2"></i>Gerenciador de Chaves de Acesso & Guia para Desenvolvedores</h5>
+            <p class="text-secondary small mb-4">Aprenda a autenticar suas chamadas HTTP e teste os endpoints usando o Postman ou Insomnia de forma simples e rápida.</p>
 
-            <div class="card border-0 bg-light p-4 rounded-4 mb-4" style="max-width: 680px;">
-                <label class="form-label fw-bold text-dark mb-1"><i class="ri-key-2-line text-warning me-1"></i>Bearer Token de Produção Ativo:</label>
+            <!-- Card Gerenciador de Token -->
+            <div class="card border-0 bg-light p-4 rounded-4 mb-4">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                    <label class="form-label fw-bold text-dark mb-0 fs-15"><i class="ri-key-2-line text-warning me-1"></i>Bearer Token de Produção Ativo:</label>
+                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold" type="button" onclick="generateNewToken()">
+                        <i class="ri-refresh-line me-1"></i> Gerar Novo Token (Rotacionar Chave)
+                    </button>
+                </div>
                 <div class="input-group mb-2">
                     <span class="input-group-text bg-white border-0"><i class="ri-lock-2-line text-primary"></i></span>
                     <input type="text" id="api-key-input" class="form-control bg-white border-0 fw-bold text-dark fs-15" value="gps_live_key_paraiba_2026" readonly>
@@ -343,20 +349,93 @@
                         <i class="ri-file-copy-line me-1"></i> Copiar Token
                     </button>
                 </div>
-                <div id="copy-toast" class="small text-success d-none"><i class="ri-checkbox-circle-line me-1"></i>Bearer Token copiado para a área de transferência!</div>
+                <div id="copy-toast" class="small text-success d-none"><i class="ri-checkbox-circle-line me-1"></i>Bearer Token copiado com sucesso!</div>
+                <div id="gen-toast" class="small text-danger d-none"><i class="ri-refresh-line me-1"></i>Novo Bearer Token gerado e ativado! Lembre-se de atualizar nos seus clientes de API.</div>
             </div>
 
-            <div class="bg-dark text-light p-4 rounded-4 mb-4" style="max-width: 680px;">
-                <h6 class="fw-bold text-warning mb-2"><i class="ri-code-s-slash-line me-1"></i>Exemplo de Cabeçalho HTTP (Header):</h6>
-                <div class="bg-black p-3 rounded-3 text-success fw-bold font-monospace fs-13 mb-2">
-                    Authorization: Bearer gps_live_key_paraiba_2026
+            <!-- Guia Passo a Passo Postman para Desenvolvedores Júnior -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                <h6 class="fw-bold text-primary mb-3"><i class="ri-rocket-line me-2"></i>Guia Passo a Passo: Como Testar a API no Postman (Para Devs Júnior)</h6>
+
+                <div class="alert alert-info border-0 rounded-3 small mb-4">
+                    <i class="ri-information-line me-1 text-primary"></i> <strong>O que é um Bearer Token?</strong> Pense no Bearer Token como o seu crachá VIP digital. A palavra <em>"Bearer"</em> significa <em>"Portador"</em>. Quando você faz uma requisição HTTP enviando esse código no cabeçalho (*Header*), a API do GPS Paraíba sabe que é o seu sistema autorizado fazendo a operação.
                 </div>
-                <small class="text-muted d-block fs-12">*(Compatibilidade retroativa: O sistema também reconhece o cabeçalho <code>X-API-Key: gps_live_key_paraiba_2026</code> ou <code>?api_key=...</code>).*</small>
+
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="border rounded-4 p-3 h-100 bg-light">
+                            <span class="badge bg-primary rounded-circle mb-2" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;">1</span>
+                            <h6 class="fw-bold text-dark fs-14">Definir o Método e URL</h6>
+                            <p class="small text-muted mb-0">No Postman, crie uma nova aba, escolha o método <code>POST</code> e cole a URL:<br><code class="text-primary text-break fw-bold">https://gpsparaiba.com.br/api/v1/integracoes/vendas</code></p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="border rounded-4 p-3 h-100 bg-light">
+                            <span class="badge bg-primary rounded-circle mb-2" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;">2</span>
+                            <h6 class="fw-bold text-dark fs-14">Configurar Autenticação</h6>
+                            <p class="small text-muted mb-0">Clique na aba <strong>Auth</strong> -> Selecione <strong>Type: Bearer Token</strong> -> Cole no campo <em>Token</em> a chave:<br><code class="text-warning text-break fw-bold" id="postman-token-preview">gps_live_key_paraiba_2026</code></p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="border rounded-4 p-3 h-100 bg-light">
+                            <span class="badge bg-primary rounded-circle mb-2" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;">3</span>
+                            <h6 class="fw-bold text-dark fs-14">Preencher o Corpo (Body)</h6>
+                            <p class="small text-muted mb-0">Clique na aba <strong>Body</strong> -> Marque a opção <strong>raw</strong> -> Mude a chave à direita de <em>Text</em> para <strong>JSON</strong> e cole o payload de envio.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="border rounded-4 p-3 h-100 bg-light">
+                            <span class="badge bg-success rounded-circle mb-2" style="width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center;">4</span>
+                            <h6 class="fw-bold text-dark fs-14">Enviar e Receber 201</h6>
+                            <p class="small text-muted mb-0">Clique no botão azul <strong>Send</strong>. Você receberá o retorno <code>201 Created</code> confirmando que o cadastro foi realizado com sucesso no ERP!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-3 bg-dark text-light rounded-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <small class="fw-semibold text-warning"><i class="ri-code-s-slash-line me-1"></i>Modelo de JSON Copiável para o Body no Postman:</small>
+                        <button type="button" class="btn btn-outline-warning btn-xs rounded-pill" onclick="copyPostmanJson()">
+                            <i class="ri-file-copy-line me-1"></i> Copiar JSON do Body
+                        </button>
+                    </div>
+                    <pre id="postman-json-code" class="text-success font-monospace mb-0 fs-12" style="max-height: 160px; overflow-y: auto;">{
+  "contract_number": "CTR-9900",
+  "client_name": "Cliente Exemplo Postman",
+  "ddd": "83",
+  "contact": "999887766",
+  "vehicle_type": "Carro",
+  "vehicle_brand": "Fiat",
+  "vehicle_model": "Argo",
+  "plate": "QFC-2026",
+  "plan_name": "GPS Frota Segura",
+  "monthly_fee": 69.90,
+  "seller_name": "Vendedor Postman",
+  "instalacao": true,
+  "status": "Ativo"
+}</pre>
+                </div>
             </div>
 
-            <div class="alert alert-warning border-0 rounded-3 mb-0" style="max-width: 680px;" role="alert">
-                <h6 class="fw-bold mb-1"><i class="ri-shield-cross-line me-1"></i>Segurança & Boas Práticas:</h6>
-                <small class="mb-0 d-block">Nunca exponha seu Bearer Token em repositórios públicos de código (GitHub) ou em scripts executados diretamente no navegador do cliente final. Armazene a chave em variáveis de ambiente seguras no seu servidor backend.</small>
+            <!-- Tabela de Respostas HTTP para Devs JR -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-0 bg-white">
+                <h6 class="fw-bold text-dark mb-3"><i class="ri-questionnaire-line me-1 text-info"></i>Dicionário de Respostas HTTP (Para Entender os Retornos)</h6>
+                <div class="table-responsive">
+                    <table class="table table-bordered align-middle small mb-0">
+                        <thead class="table-light">
+                            <tr><th>Código HTTP</th><th>Significado</th><th>Quando Acontece?</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><span class="badge bg-success">200 OK</span></td><td>Sucesso na Consulta</td><td>Sua requisição <code>GET</code> foi processada e os dados foram retornados em JSON.</td></tr>
+                            <tr><td><span class="badge bg-success">201 Created</span></td><td>Registro Criado</td><td>Sua requisição <code>POST</code> cadastrou uma nova venda ou lançamento financeiro com sucesso.</td></tr>
+                            <tr><td><span class="badge bg-warning text-dark">400 Bad Request</span></td><td>Dados Incompletos</td><td>Faltou algum campo obrigatório no JSON (ex: <code>client_name</code> ou <code>contact</code>).</td></tr>
+                            <tr><td><span class="badge bg-danger">401 Unauthorized</span></td><td>Não Autorizado</td><td>O Bearer Token não foi enviado no cabeçalho ou a chave digitada está incorreta.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -370,6 +449,25 @@ function copyApiKey() {
     const toast = document.getElementById('copy-toast');
     toast.classList.remove('d-none');
     setTimeout(() => toast.classList.add('d-none'), 3000);
+}
+
+function generateNewToken() {
+    if (!confirm('Deseja realmente rotacionar e gerar um novo Bearer Token de API?')) return;
+    const randomHex = Array.from(crypto.getRandomValues(new Uint8Array(10))).map(b => b.toString(16).padStart(2, '0')).join('');
+    const newToken = 'gps_live_key_' + randomHex;
+    document.getElementById('api-key-input').value = newToken;
+    const preview = document.getElementById('postman-token-preview');
+    if (preview) preview.textContent = newToken;
+
+    const toast = document.getElementById('gen-toast');
+    toast.classList.remove('d-none');
+    setTimeout(() => toast.classList.add('d-none'), 5000);
+}
+
+function copyPostmanJson() {
+    const code = document.getElementById('postman-json-code').textContent;
+    navigator.clipboard.writeText(code);
+    alert('JSON do Body copiado! Cole diretamente na aba Body -> raw (JSON) do Postman.');
 }
 
 const sampleSalePayload = {

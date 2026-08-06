@@ -266,7 +266,9 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
             const typeCell = r.cells[4].textContent.trim();
             const amountCell = r.cells[5].textContent.trim();
             const statusCell = r.cells[6].querySelector('select')?.selectedOptions[0]?.text || r.cells[6].textContent.trim();
-            const descCell = r.cells[7].textContent.trim();
+            const descStrong = r.cells[7].querySelector('strong')?.textContent.trim() || r.cells[7].dataset.value || r.cells[7].textContent.trim();
+            const notesText = r.cells[7].querySelector('small')?.textContent.trim();
+            const descCell = notesText ? `${descStrong} (Obs: ${notesText})` : descStrong;
             return { due_date: dateCell, company: companyCell, category: catCell, subcategory: subcatCell, type: typeCell, amount: amountCell, status: statusCell, description: descCell };
         }).filter(item => {
             if (!startDate && !endDate) return true;
