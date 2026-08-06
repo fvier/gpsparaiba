@@ -1437,13 +1437,19 @@ def route_template(template):
                 if financial_filter['start_date'] or financial_filter['end_date']:
                     start_date = date.fromisoformat(financial_filter['start_date']) if financial_filter['start_date'] else None
                     end_date = date.fromisoformat(financial_filter['end_date']) if financial_filter['end_date'] else None
-                elif financial_filter['month'] and financial_filter['year']:
-                    month, year = int(financial_filter['month']), int(financial_filter['year'])
-                    start_date = date(year, month, 1)
-                    end_date = date(year + (month == 12), 1 if month == 12 else month + 1, 1) - timedelta(days=1)
-                elif financial_filter['period'] in {'30', '60', '90'}:
+                elif financial_filter['month'] or financial_filter['year']:
+                    year = int(financial_filter['year']) if financial_filter['year'].isdigit() else date.today().year
+                    if financial_filter['month'].isdigit():
+                        month = int(financial_filter['month'])
+                        start_date = date(year, month, 1)
+                        end_date = date(year + (month == 12), 1 if month == 12 else month + 1, 1) - timedelta(days=1)
+                    else:
+                        start_date = date(year, 1, 1)
+                        end_date = date(year, 12, 31)
+                elif financial_filter['period'].isdigit():
+                    days = int(financial_filter['period'])
                     end_date = date.today()
-                    start_date = end_date - timedelta(days=int(financial_filter['period']) - 1)
+                    start_date = end_date - timedelta(days=days - 1)
             except (ValueError, TypeError):
                 start_date, end_date = None, None
             financial_entries = [entry for entry in financial_entries
@@ -1454,14 +1460,14 @@ def route_template(template):
             if financial_entry_filter['entry_type'] in {'receita', 'despesa'}:
                 financial_latest_entries = [entry for entry in financial_latest_entries
                                             if entry.entry_type == financial_entry_filter['entry_type']]
-            if financial_entry_filter['category_id'].isdigit():
-                category_id = int(financial_entry_filter['category_id'])
-                financial_latest_entries = [entry for entry in financial_latest_entries
-                                            if entry.category_id == category_id or entry.category.parent_id == category_id]
             if financial_entry_filter['subcategory_id'].isdigit():
                 subcategory_id = int(financial_entry_filter['subcategory_id'])
                 financial_latest_entries = [entry for entry in financial_latest_entries
                                             if entry.category_id == subcategory_id]
+            elif financial_entry_filter['category_id'].isdigit():
+                category_id = int(financial_entry_filter['category_id'])
+                financial_latest_entries = [entry for entry in financial_latest_entries
+                                            if entry.category_id == category_id or (entry.category and entry.category.parent_id == category_id)]
         if clean_template == 'financeiro-lancamentos':
             financial_launch_filter = {key: request.args.get(key, '').strip() for key in financial_launch_filter}
             query = financial_launch_filter['q'].lower()
@@ -1469,19 +1475,21 @@ def route_template(template):
                 financial_entries = [entry for entry in financial_entries
                                      if query in entry.description.lower()
                                      or query in (entry.notes or '').lower()
-                                     or query in entry.category.name.lower()]
+                                     or (entry.company and query in entry.company.name.lower())
+                                     or (entry.category and query in entry.category.name.lower())
+                                     or (entry.category and entry.category.parent and query in entry.category.parent.name.lower())]
             if financial_launch_filter['status'] in {'pago', 'pendente', 'cancelado', 'vencido', 'perto_vencer'}:
                 financial_entries = [entry for entry in financial_entries
                                      if entry.effective_status == financial_launch_filter['status']]
             if financial_launch_filter['entry_type'] in {'receita', 'despesa'}:
                 financial_entries = [entry for entry in financial_entries if entry.entry_type == financial_launch_filter['entry_type']]
-            if financial_launch_filter['category_id'].isdigit():
-                category_id = int(financial_launch_filter['category_id'])
-                financial_entries = [entry for entry in financial_entries
-                                     if entry.category_id == category_id or entry.category.parent_id == category_id]
             if financial_launch_filter['subcategory_id'].isdigit():
                 subcategory_id = int(financial_launch_filter['subcategory_id'])
                 financial_entries = [entry for entry in financial_entries if entry.category_id == subcategory_id]
+            elif financial_launch_filter['category_id'].isdigit():
+                category_id = int(financial_launch_filter['category_id'])
+                financial_entries = [entry for entry in financial_entries
+                                     if entry.category_id == category_id or (entry.category and entry.category.parent_id == category_id)]
             if financial_launch_filter['company_id'].isdigit():
                 company_id = int(financial_launch_filter['company_id'])
                 financial_entries = [entry for entry in financial_entries if entry.company_id == company_id]
@@ -1491,17 +1499,19 @@ def route_template(template):
                 if financial_launch_filter['start_date'] or financial_launch_filter['end_date']:
                     start_date = date.fromisoformat(financial_launch_filter['start_date']) if financial_launch_filter['start_date'] else None
                     end_date = date.fromisoformat(financial_launch_filter['end_date']) if financial_launch_filter['end_date'] else None
-                elif financial_launch_filter['month'] and financial_launch_filter['year']:
-                    month, year = int(financial_launch_filter['month']), int(financial_launch_filter['year'])
-                    start_date = date(year, month, 1)
-                    end_date = date(year + (month == 12), 1 if month == 12 else month + 1, 1) - timedelta(days=1)
-                elif financial_launch_filter['year']:
-                    year = int(financial_launch_filter['year'])
-                    start_date = date(year, 1, 1)
-                    end_date = date(year, 12, 31)
-                elif financial_launch_filter['period'] in {'30', '60', '90'}:
+                elif financial_launch_filter['month'] or financial_launch_filter['year']:
+                    year = int(financial_launch_filter['year']) if financial_launch_filter['year'].isdigit() else date.today().year
+                    if financial_launch_filter['month'].isdigit():
+                        month = int(financial_launch_filter['month'])
+                        start_date = date(year, month, 1)
+                        end_date = date(year + (month == 12), 1 if month == 12 else month + 1, 1) - timedelta(days=1)
+                    else:
+                        start_date = date(year, 1, 1)
+                        end_date = date(year, 12, 31)
+                elif financial_launch_filter['period'].isdigit():
+                    days = int(financial_launch_filter['period'])
                     end_date = date.today()
-                    start_date = end_date - timedelta(days=int(financial_launch_filter['period']) - 1)
+                    start_date = end_date - timedelta(days=days - 1)
             except (ValueError, TypeError):
                 start_date, end_date = None, None
 
