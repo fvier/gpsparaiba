@@ -254,7 +254,7 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
         statusText.textContent = msg;
     }
 
-    setProgress(20, 'Filtrando lançamentos...');
+    setProgress(25, 'Filtrando lançamentos...');
 
     setTimeout(() => {
         const rows = [...document.querySelectorAll('#financial-entries-table tbody tr')].filter(r => r.cells.length > 1);
@@ -280,145 +280,151 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
             return true;
         });
 
-        setProgress(60, 'Gerando arquivo...');
+        setProgress(55, 'Montando estrutura do relatório...');
 
         setTimeout(() => {
-            const today = new Date();
-            const dateSuffix = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
-            const fileName = `${userName}.${guideName}_${dateSuffix}.${format}`;
-
-            if (format === 'xlsx' && typeof XLSX !== 'undefined') {
-                const sheetData = [
-                    ["Vencimento", "Empresa", "Categoria", "Subcategoria", "Tipo", "Valor", "Status", "Descrição"],
-                    ...dataList.map(i => [i.due_date, i.company, i.category, i.subcategory, i.type, i.amount, i.status, i.description])
-                ];
-                const ws = XLSX.utils.aoa_to_sheet(sheetData);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, guideName);
-                XLSX.writeFile(wb, fileName);
-            } else if (format === 'csv' || format === 'xlsx') {
-                const csvHeader = ["Vencimento", "Empresa", "Categoria", "Subcategoria", "Tipo", "Valor", "Status", "Descrição"];
-                const csvRows = dataList.map(i => [
-                    i.due_date,
-                    `"${i.company.replace(/"/g, '""')}"`,
-                    `"${i.category.replace(/"/g, '""')}"`,
-                    `"${i.subcategory.replace(/"/g, '""')}"`,
-                    i.type,
-                    i.amount.toFixed(2).replace('.', ','),
-                    i.status,
-                    `"${i.description.replace(/"/g, '""')}"`
-                ]);
-                const csvContent = '\uFEFF' + [csvHeader.join(';'), ...csvRows.map(r => r.join(';'))].join('\r\n');
-                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = fileName;
-                link.click();
-            } else if (format === 'pdf') {
-                const totalAmount = dataList.reduce((acc, curr) => acc + (typeof curr.amount === 'number' ? curr.amount : (parseFloat(curr.amount) || 0)), 0);
-                const formattedTotal = 'R$ ' + totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                
-                const now = new Date();
-                const nowFormatted = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR')}`;
-
-                // 1. Gerar representação do documento em Markdown (.md)
-                let mdContent = `# GPS PARAÍBA — RELATÓRIO DE LANÇAMENTOS FINANCEIROS\n\n`;
-                mdContent += `**Contato:** (83) 98800-0000 | **E-mail:** contato@gpsparaiba.com.br\n`;
-                mdContent += `**Solicitante:** ${userName} | **Carimbo de Emissão:** ${nowFormatted}\n\n`;
-                mdContent += `### Resumo da Consulta\n`;
-                mdContent += `- **Total de Registros:** ${dataList.length}\n`;
-                mdContent += `- **Valor Somado:** ${formattedTotal}\n\n`;
-                mdContent += `| Vencimento | Empresa | Categoria | Tipo | Valor | Status | Descrição |\n`;
-                mdContent += `| :--- | :--- | :--- | :---: | :---: | :---: | :--- |\n`;
-                dataList.forEach(item => {
-                    const amtStr = 'R$ ' + (typeof item.amount === 'number' ? item.amount : parseFloat(item.amount)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                    mdContent += `| ${item.due_date} | ${item.company} | ${item.category} | ${item.type ? item.type.toUpperCase() : ''} | ${amtStr} | ${item.status} | ${item.description} |\n`;
-                });
-
-                console.log("Markdown de Lançamentos gerado com sucesso:\n", mdContent);
-
-                // 2. Renderizar documento limpo em memória e realizar o download automático do arquivo PDF
-                const pdfContainer = document.createElement('div');
-                pdfContainer.style.width = '100%';
-                pdfContainer.style.padding = '0';
-                pdfContainer.style.fontFamily = "'Inter', Arial, sans-serif";
-                pdfContainer.style.color = '#0f172a';
-                pdfContainer.style.backgroundColor = '#ffffff';
-
-                pdfContainer.innerHTML = `
-                    <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 8px; margin-bottom: 12px;">
-                        <div>
-                            <h1 style="font-size: 18px; font-weight: 800; margin: 0; color: #0f172a;">GPS PARAÍBA</h1>
-                            <div style="font-size: 11px; font-weight: 700; color: #2563eb;">Relatório de Lançamentos Financeiros</div>
-                            <div style="font-size: 9px; color: #475569; margin-top: 2px;"><strong>Contato:</strong> (83) 98800-0000 | <strong>E-mail:</strong> contato@gpsparaiba.com.br</div>
-                        </div>
-                        <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; text-align: right; font-size: 9px; color: #334155;">
-                            <div><strong>Solicitante:</strong> ${userName}</div>
-                            <div><strong>Carimbo de Emissão:</strong> ${nowFormatted}</div>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 12px; margin-bottom: 12px;">
-                        <div style="flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center;">
-                            <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase;">Total Registros</div>
-                            <div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">${dataList.length}</div>
-                        </div>
-                        <div style="flex: 1; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px; text-align: center;">
-                            <div style="font-size: 9px; color: #1d4ed8; font-weight: 700; text-transform: uppercase;">Valor Somado</div>
-                            <div style="font-size: 14px; font-weight: 800; color: #2563eb; margin-top: 2px;">${formattedTotal}</div>
-                        </div>
-                    </div>
-
-                    <table style="width: 100%; border-collapse: collapse; font-size: 9px;">
-                        <thead>
-                            <tr style="background-color: #2563eb; color: #ffffff;">
-                                <th style="padding: 6px; text-align: left;">Vencimento</th>
-                                <th style="padding: 6px; text-align: left;">Empresa</th>
-                                <th style="padding: 6px; text-align: left;">Categoria</th>
-                                <th style="padding: 6px; text-align: left;">Tipo</th>
-                                <th style="padding: 6px; text-align: right;">Valor</th>
-                                <th style="padding: 6px; text-align: center;">Status</th>
-                                <th style="padding: 6px; text-align: left;">Descrição</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${dataList.map((item, idx) => `
-                                <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0; page-break-inside: avoid; break-inside: avoid;">
-                                    <td style="padding: 5px 6px; font-weight: 600;">${item.due_date}</td>
-                                    <td style="padding: 5px 6px;">${item.company}</td>
-                                    <td style="padding: 5px 6px;">${item.category}</td>
-                                    <td style="padding: 5px 6px; font-weight: 600; color: ${item.type === 'receita' ? '#16a34a' : '#dc2626'};">${item.type ? item.type.toUpperCase() : ''}</td>
-                                    <td style="padding: 5px 6px; text-align: right; font-weight: 700;">R$ ${(typeof item.amount === 'number' ? item.amount : parseFloat(item.amount)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
-                                    <td style="padding: 5px 6px; text-align: center;">${item.status}</td>
-                                    <td style="padding: 5px 6px;">${item.description}</td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
-
-                const opt = {
-                    margin:       [10, 8, 12, 8],
-                    filename:     fileName,
-                    image:        { type: 'jpeg', quality: 0.98 },
-                    html2canvas:  { scale: 2, useCORS: true, logging: false },
-                    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
-                    pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
-                };
-
-                html2pdf().set(opt).from(pdfContainer).save();
-            }
-
-            setProgress(100, 'Download concluído!');
+            setProgress(85, 'Gerando arquivo de download...');
 
             setTimeout(() => {
-                const modalEl = document.getElementById('export-modal-lancamentos');
-                const modal = bootstrap.Modal.getInstance(modalEl);
-                if (modal) modal.hide();
-                progressBox.classList.add('d-none');
-                submitBtn.disabled = false;
-                setProgress(0, '');
-            }, 600);
+                const today = new Date();
+                const dateSuffix = today.getFullYear() + String(today.getMonth() + 1).padStart(2, '0') + String(today.getDate()).padStart(2, '0');
+                const fileName = `${userName}.${guideName}_${dateSuffix}.${format}`;
+
+                if (format === 'xlsx' && typeof XLSX !== 'undefined') {
+                    const sheetData = [
+                        ["Vencimento", "Empresa", "Categoria", "Subcategoria", "Tipo", "Valor", "Status", "Descrição"],
+                        ...dataList.map(i => [i.due_date, i.company, i.category, i.subcategory, i.type, i.amount, i.status, i.description])
+                    ];
+                    const ws = XLSX.utils.aoa_to_sheet(sheetData);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, guideName);
+                    XLSX.writeFile(wb, fileName);
+                } else if (format === 'csv' || format === 'xlsx') {
+                    const csvHeader = ["Vencimento", "Empresa", "Categoria", "Subcategoria", "Tipo", "Valor", "Status", "Descrição"];
+                    const csvRows = dataList.map(i => [
+                        i.due_date,
+                        `"${i.company.replace(/"/g, '""')}"`,
+                        `"${i.category.replace(/"/g, '""')}"`,
+                        `"${i.subcategory.replace(/"/g, '""')}"`,
+                        i.type,
+                        i.amount.toFixed(2).replace('.', ','),
+                        i.status,
+                        `"${i.description.replace(/"/g, '""')}"`
+                    ]);
+                    const csvContent = '\uFEFF' + [csvHeader.join(';'), ...csvRows.map(r => r.join(';'))].join('\r\n');
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = fileName;
+                    link.click();
+                } else if (format === 'pdf') {
+                    const totalAmount = dataList.reduce((acc, curr) => acc + (typeof curr.amount === 'number' ? curr.amount : (parseFloat(curr.amount) || 0)), 0);
+                    const formattedTotal = 'R$ ' + totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    
+                    const now = new Date();
+                    const nowFormatted = `${now.toLocaleDateString('pt-BR')} ${now.toLocaleTimeString('pt-BR')}`;
+
+                    // 1. Gerar representação do documento em Markdown (.md)
+                    let mdContent = `# GPS PARAÍBA — RELATÓRIO DE LANÇAMENTOS FINANCEIROS\n\n`;
+                    mdContent += `**Contato:** (83) 98800-0000 | **E-mail:** contato@gpsparaiba.com.br\n`;
+                    mdContent += `**Solicitante:** ${userName} | **Carimbo de Emissão:** ${nowFormatted}\n\n`;
+                    mdContent += `### Resumo da Consulta\n`;
+                    mdContent += `- **Total de Registros:** ${dataList.length}\n`;
+                    mdContent += `- **Valor Somado:** ${formattedTotal}\n\n`;
+                    mdContent += `| Vencimento | Empresa | Categoria | Tipo | Valor | Status | Descrição |\n`;
+                    mdContent += `| :--- | :--- | :--- | :---: | :---: | :---: | :--- |\n`;
+                    dataList.forEach(item => {
+                        const amtStr = 'R$ ' + (typeof item.amount === 'number' ? item.amount : parseFloat(item.amount)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        mdContent += `| ${item.due_date} | ${item.company} | ${item.category} | ${item.type ? item.type.toUpperCase() : ''} | ${amtStr} | ${item.status} | ${item.description} |\n`;
+                    });
+
+                    console.log("Markdown de Lançamentos gerado com sucesso:\n", mdContent);
+
+                    // 2. Renderizar documento limpo em memória e realizar o download automático do arquivo PDF
+                    const pdfContainer = document.createElement('div');
+                    pdfContainer.style.width = '100%';
+                    pdfContainer.style.padding = '0';
+                    pdfContainer.style.fontFamily = "'Inter', Arial, sans-serif";
+                    pdfContainer.style.color = '#0f172a';
+                    pdfContainer.style.backgroundColor = '#ffffff';
+
+                    pdfContainer.innerHTML = `
+                        <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 3px solid #2563eb; padding-bottom: 8px; margin-bottom: 12px;">
+                            <div>
+                                <h1 style="font-size: 18px; font-weight: 800; margin: 0; color: #0f172a;">GPS PARAÍBA</h1>
+                                <div style="font-size: 11px; font-weight: 700; color: #2563eb;">Relatório de Lançamentos Financeiros</div>
+                                <div style="font-size: 9px; color: #475569; margin-top: 2px;"><strong>Contato:</strong> (83) 98800-0000 | <strong>E-mail:</strong> contato@gpsparaiba.com.br</div>
+                            </div>
+                            <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 6px; padding: 6px 12px; text-align: right; font-size: 9px; color: #334155;">
+                                <div><strong>Solicitante:</strong> ${userName}</div>
+                                <div><strong>Carimbo de Emissão:</strong> ${nowFormatted}</div>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; margin-bottom: 12px;">
+                            <div style="flex: 1; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center;">
+                                <div style="font-size: 9px; color: #64748b; font-weight: 700; text-transform: uppercase;">Total Registros</div>
+                                <div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-top: 2px;">${dataList.length}</div>
+                            </div>
+                            <div style="flex: 1; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 8px; text-align: center;">
+                                <div style="font-size: 9px; color: #1d4ed8; font-weight: 700; text-transform: uppercase;">Valor Somado</div>
+                                <div style="font-size: 14px; font-weight: 800; color: #2563eb; margin-top: 2px;">${formattedTotal}</div>
+                            </div>
+                        </div>
+
+                        <table style="width: 100%; border-collapse: collapse; font-size: 9px;">
+                            <thead>
+                                <tr style="background-color: #2563eb; color: #ffffff;">
+                                    <th style="padding: 6px; text-align: left;">Vencimento</th>
+                                    <th style="padding: 6px; text-align: left;">Empresa</th>
+                                    <th style="padding: 6px; text-align: left;">Categoria</th>
+                                    <th style="padding: 6px; text-align: left;">Tipo</th>
+                                    <th style="padding: 6px; text-align: right;">Valor</th>
+                                    <th style="padding: 6px; text-align: center;">Status</th>
+                                    <th style="padding: 6px; text-align: left;">Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${dataList.map((item, idx) => `
+                                    <tr style="background-color: ${idx % 2 === 0 ? '#ffffff' : '#f8fafc'}; border-bottom: 1px solid #e2e8f0; page-break-inside: avoid; break-inside: avoid;">
+                                        <td style="padding: 5px 6px; font-weight: 600;">${item.due_date}</td>
+                                        <td style="padding: 5px 6px;">${item.company}</td>
+                                        <td style="padding: 5px 6px;">${item.category}</td>
+                                        <td style="padding: 5px 6px; font-weight: 600; color: ${item.type === 'receita' ? '#16a34a' : '#dc2626'};">${item.type ? item.type.toUpperCase() : ''}</td>
+                                        <td style="padding: 5px 6px; text-align: right; font-weight: 700;">R$ ${(typeof item.amount === 'number' ? item.amount : parseFloat(item.amount)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                        <td style="padding: 5px 6px; text-align: center;">${item.status}</td>
+                                        <td style="padding: 5px 6px;">${item.description}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    `;
+
+                    const opt = {
+                        margin:       [10, 8, 12, 8],
+                        filename:     fileName,
+                        image:        { type: 'jpeg', quality: 0.98 },
+                        html2canvas:  { scale: 2, useCORS: true, logging: false },
+                        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'landscape' },
+                        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+                    };
+
+                    html2pdf().set(opt).from(pdfContainer).save();
+                }
+
+                setProgress(100, 'Download concluído com sucesso!');
+
+                setTimeout(() => {
+                    const modalEl = document.getElementById('export-modal-lancamentos');
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    if (modal) modal.hide();
+                    setTimeout(() => {
+                        progressBox.classList.add('d-none');
+                        submitBtn.disabled = false;
+                        setProgress(0, '');
+                    }, 400);
+                }, 1800);
+            }, 500);
         }, 500);
     }, 400);
 });
