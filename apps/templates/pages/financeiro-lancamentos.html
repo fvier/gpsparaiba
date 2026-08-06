@@ -508,25 +508,53 @@ document.getElementById('export-form-lancamentos')?.addEventListener('submit', f
         const rows = [...document.querySelectorAll('#financial-entries-table tbody tr')].filter(r => r.cells.length > 1);
         const dataList = rows.map(r => {
             const typeCell = r.cells[0].textContent.trim();
-            const rawAmountStr = r.cells[1].dataset.value || r.cells[1].textContent;
-            const cleanAmountStr = rawAmountStr.replace('R$', '').replace(/\./g, '').replace(',', '.').trim();
-            const numAmount = parseFloat(cleanAmountStr) || 0;
-            const dateCell = r.cells[2].textContent.replace(/\s+/g, ' ').trim();
+            
+            // Extração robusta do valor numérico:
+            let numAmount = 0;
+            const rawVal = r.cells[1].dataset.value;
+            if (rawVal && !isNaN(parseFloat(rawVal))) {
+                numAmount = parseFloat(rawVal);
+            } else {
+                const txt = r.cells[1].textContent.replace('R$', '').replace(/\s+/g, '').replace(/\./g, '').replace(',', '.');
+                numAmount = parseFloat(txt) || 0;
+            }
+
+            // Extração robusta da data:
+            let dateStr = r.cells[2].textContent.replace(/\s+/g, ' ').trim();
+            let isoDate = '';
+            const rawIso = r.cells[2].dataset.value;
+            if (rawIso && rawIso.includes('-')) {
+                isoDate = rawIso.split('T')[0].trim();
+                if (!dateStr.includes('/')) {
+                    const dp = isoDate.split('-');
+                    if (dp.length === 3) dateStr = `${dp[2]}/${dp[1]}/${dp[0]}`;
+                }
+            } else if (dateStr.includes('/')) {
+                const dp = dateStr.split('/');
+                if (dp.length === 3) isoDate = `${dp[2].trim()}-${dp[1].trim().padStart(2, '0')}-${dp[0].trim().padStart(2, '0')}`;
+            }
+
             const companyCell = r.cells[3].querySelector('select')?.selectedOptions[0]?.text || r.cells[3].textContent.trim();
             const catCell = r.cells[4].querySelector('select')?.selectedOptions[0]?.text || r.cells[4].textContent.trim();
             const subcatCell = r.cells[5].querySelector('select')?.selectedOptions[0]?.text || r.cells[5].textContent.trim();
             const statusCell = r.cells[6].querySelector('select')?.selectedOptions[0]?.text || r.cells[6].textContent.trim();
             const descCell = r.cells[7].querySelector('span')?.textContent.trim() || r.cells[7].dataset.value || r.cells[7].textContent.trim();
-            return { due_date: dateCell, company: companyCell, category: catCell, subcategory: subcatCell, type: typeCell, amount: numAmount, status: statusCell, description: descCell };
+
+            return { due_date: dateStr, iso_date: isoDate, company: companyCell, category: catCell, subcategory: subcatCell, type: typeCell, amount: numAmount, status: statusCell, description: descCell };
         }).filter(item => {
             if (!startDate && !endDate) return true;
-            const parts = item.due_date.split('/');
-            if (parts.length !== 3) return true;
-            const iso = `${parts[2].trim()}-${parts[1].trim().padStart(2, '0')}-${parts[0].trim().padStart(2, '0')}`;
-            if (startDate && iso < startDate) return false;
-            if (endDate && iso > endDate) return false;
+            if (startDate && item.iso_date && item.iso_date < startDate) return false;
+            if (endDate && item.iso_date && item.iso_date > endDate) return false;
             return true;
         });
+
+        if (dataList.length === 0) {
+            setProgress(100, 'Nenhum lançamento encontrado no período selecionado.');
+            statusText.className = 'fw-bold text-danger';
+            progressBar.className = 'progress-bar bg-danger';
+            submitBtn.disabled = false;
+            return;
+        }
 
         setProgress(55, 'Montando estrutura do relatório com dados e logo...');
 

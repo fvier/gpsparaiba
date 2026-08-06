@@ -649,6 +649,14 @@ document.getElementById('export-form-vendas')?.addEventListener('submit', functi
             return true;
         });
 
+        if (dataList.length === 0) {
+            setProgress(100, 'Nenhuma venda encontrada no período selecionado.');
+            statusText.className = 'fw-bold text-danger';
+            progressBar.className = 'progress-bar bg-danger';
+            submitBtn.disabled = false;
+            return;
+        }
+
         setProgress(55, 'Montando estrutura do relatório...');
 
         setTimeout(() => {
